@@ -1,0 +1,12 @@
+include README.md LICENSE AGENTS.md CLA.md CCLA.md CONTRIBUTING.md TRADEMARKS.md
+include PROVENANCE.md THIRD_PARTY_NOTICES.md
+recursive-include docs *.md
+recursive-include tests *.py
+recursive-include src/anchor_desktop/worlds *.json
+global-exclude *.py[cod]
+prune build
+prune dist
+prune saves
+prune .pytest_tmp
+prune .pytest_cache
+prune .migration_backups

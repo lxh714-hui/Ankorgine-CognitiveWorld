@@ -1,0 +1,8 @@
+{
+  "world_id": "clockwork-library",
+  "title": "钟楼藏书馆",
+  "summary": "一座带有门和相邻阅览室的藏书馆。",
+  "notice": "角色的行动由世界规则裁定；未确认的叙事不代表事实。",
+  "scenario_template_id": "library-visit",
+  "player_character_key": "visitor"
+}

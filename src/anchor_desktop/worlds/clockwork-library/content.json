@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "content_type": "generation_proposal",
+  "characters": [
+    {"template_id":"visitor","description":"到访者","goal_descriptions":["探索藏书馆"],"sensory_capabilities":["sight","hearing"],"physical_capabilities":["manual_manipulation","locomotion"]},
+    {"template_id":"keeper","description":"藏书馆管理员","goal_descriptions":["照看馆藏"],"sensory_capabilities":["sight","hearing"],"physical_capabilities":["manual_manipulation","locomotion"]}
+  ],
+  "locations": [
+    {"template_id":"atrium","description":"钟楼藏书馆前厅","mechanisms":[{"local_id":"reading-door","kind":"door","destination_key":null,"initially_open":false,"initially_locked":false,"operable":true},{"local_id":"reading-passage","kind":"passage","destination_key":"reading-room","initially_open":false,"initially_locked":false,"operable":true}]},
+    {"template_id":"reading-room","description":"钟楼阅览室","mechanisms":[]}
+  ],
+  "scenarios": [
+    {"template_id":"library-visit","description":"到访藏书馆","locations":[["atrium","atrium"],["reading-room","reading-room"]],"characters":[["visitor","visitor","atrium"],["keeper","keeper","atrium"]],"entry_key":"atrium","exit_keys":["reading-room"],"event_seeds":[],"side_branch":false,"value_refs":[]}
+  ]
+}

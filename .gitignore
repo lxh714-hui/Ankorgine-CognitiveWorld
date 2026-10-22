@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.pytest_tmp/
+.migration_backups/
+.mypy_cache/
+.ruff_cache/
+
+.vscode/
+.idea/
+
+*.log
+
+saves/
+src/cognitive_world.egg-info/

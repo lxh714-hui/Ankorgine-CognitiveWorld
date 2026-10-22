@@ -1,0 +1,8 @@
+{
+  "world_id": "rain-harbor",
+  "title": "雨港观测站",
+  "summary": "两处相邻空间构成的小型港口观测站。",
+  "notice": "角色的行动由世界规则裁定；未确认的叙事不代表事实。",
+  "scenario_template_id": "harbor-visit",
+  "player_character_key": "traveler"
+}

@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cognitive-world"
+version = "0.1.0"
+description = "CognitiveWorld core package"
+requires-python = ">=3.10"
+license = "AGPL-3.0-only"
+license-files = ["LICENSE"]
+
+[project.optional-dependencies]
+desktop = ["PySide6>=6.7"]
+
+[project.scripts]
+anchor-desktop = "anchor_desktop.app:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["cognitive_world*", "anchor_desktop*"]
+
+[tool.setuptools.package-data]
+anchor_desktop = ["worlds/*/*.json"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+addopts = "--basetemp=.pytest_tmp"
