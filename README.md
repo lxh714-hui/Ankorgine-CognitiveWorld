@@ -1,122 +1,272 @@
-# CognitiveWorld · Anchor
+# Ankorgine-CognitiveWorld
 
-自然语言驱动、以授权认知与可验证因果事件为基础的多智能体沙盒引擎。Anchor 是随仓库提供的实验性 Windows 桌面客户端。
+中文 · [English](#english)
 
-## 目标与设计
+## 概览
 
-让角色根据自己实际获得的信息行动，让世界根据规则演化，并让结果能够追溯和恢复。项目目前是开发者预览，**尚未完成完整可见桌面 MVP 验收**。
+Ankorgine-CognitiveWorld 是一个积极开发中的本地认知多智能体世界模拟引擎。项目研究如何将独立的智能体认知、世界状态、行动裁定、事件因果与时间线恢复组织成可扩展、可追溯的模拟系统。随仓库提供的 Anchor 桌面宿主可加载两套示例世界；整个 MVP 的普通可见桌面操作尚未完成验收。
 
-与普通 LLM 聊天应用不同，模型负责理解输入和提出候选，不能直接声明世界事实。CPU 层核验授权、目标与约束，正式事件链负责提交变化。角色记忆是带来源的主观认知，不自动证明内容为真；叙事文字也不是世界状态。
+系统将叙述与世界事实分开：语言模型可以理解输入或提出候选，但不能直接改写世界。NPC 的目标、记忆和判断属于各自的认知范围；行动是否产生效果由正式裁定与事件提交链决定。对尚未安装的机制，系统保留不确定性，不把语言上的合理性当作物理结果。
 
-```mermaid
-flowchart TD
-    UI[Anchor 客户端 / 宿主] --> TASK[后台输入协调器：请求身份与原 Runtime 绑定]
-    TASK --> GOV[信息治理：授权 Observation / 有界目标句柄]
-    NPC[认知主体：Perception / Memory / Goal / Decision] --> GOV
-    GOV --> LLM[可替换 LLM：理解与候选，无写入权限]
-    LLM --> CPU[CPU：结构、目标、参数、权限与代次核验]
-    CPU --> VIEW[只读查看 / 澄清 / 无结果]
-    CPU --> RES[Attempt / Resolution：裁定]
-    RES --> COMMIT[EventFactory / EventProcessor：受写入栅栏保护的提交]
-    COMMIT --> WORLD[WorldState / EventHistory]
-    COMMIT --> OBS[受授权 Observation]
-    OBS --> NPC
-    OBS --> PRESENT[独立 Presentation 安全边界 / 薄 DTO]
-    VIEW --> PRESENT
-    PRESENT --> UI
-    WORLD <--> RT[Runtime / Timeline / 签名 Bundle / 隔离恢复与发布]
-```
+## 研究问题与设计原则
 
-这是职责图，不表示每次输入都会执行全部认知过程。Core 不依赖 Qt；安全、世界规范、认知决策、裁定和展示保持独立。进程内凭据不是抵御恶意同进程 Python 代码的安全沙箱。
+- **责任分离。** WorldState 保存规范世界状态；Cognition 管理角色自己的认知；AgentDecision 选择候选；Resolution 裁定因果效果；EventProcessor 提交已确认变化；Presentation 负责面向玩家的安全展示。
+- **信息有来源和权限。** 玩家与 NPC 只依据各自获准的 Observation 和认知投影行动。记忆保留来源，但主观记忆或语义相似度都不证明世界事实。
+- **候选不等于结果。** 输入理解、目标解析、只读查看、澄清、未覆盖机制与正式行动具有不同结果边界。信息不足、尚未支持的机制和已经核实的不可能效果应当区分。
+- **恢复与隔离。** 签名存档、事件历史、Timeline 与 Runtime session/generation 的验证共同约束恢复及迟到任务。分支和恢复不能凭借模型输出获得新的事实权限。
+- **有界探索。** 现有 Event Tree 与证据查询提供有限的候选诊断；通用未知机制探索和未来分支模拟仍是研究方向。
 
-## 当前能力与限制
+## 架构概览
 
-| 范围 | 已实现 | 边界 |
-|---|---|---|
-| 世界加载 | 两套独立 JSON 世界包，校验、安装与 Runtime 装配 | 不是通用 ECS 或任意机制运行器 |
-| 玩家交互 | 本地 Ollama 可选接入、授权目标句柄、澄清生命周期、只读查看 | 自然语言稳健性仍需验证；有效 JSON 不等于合法行动 |
-| 正式行动 | 已安装门/通道机制、Resolution、事件提交与状态感知反馈 | 不是通用物理；未知机制不能确认效果 |
-| 异步展示 | 单协调器后台串行、请求幂等、原 session/generation/permit 绑定，执行与展示状态分离 | 无跨协调器全局 FIFO、持久化 Outbox 或跨进程任务恢复；阻塞 Provider 不保证物理中止 |
-| 认知检索 | owner/Character 范围词汇检索、可信 Event—Memory 索引、可选语义通道与本地 Ollama embedding；有界自主决策 | 相似度不是事实证明；真实 embedding 小语料未证明质量提升；不是完整联想网络 |
-| 保存恢复 | ScenarioRuntimeState 显式编解码、签名 Bundle、原 Timeline 冷启动恢复与隔离发布 | Windows DPAPI 不承诺跨用户/设备迁移；自动化不代替桌面实操 |
-| 桌面 | 世界选择、历史交互流、独立世界状态页、真实存档列表与恢复 | 完整 NPC 对话产品流程、授权过去历史浏览尚未完成；可见桌面全流程未验收 |
+下图表示当前主要调用路径；分支不意味着每次玩家输入都会触发 NPC 回合或存档。
 
-正式 D3 Memory 写入要求宿主显式注入策略和授权依赖；接口存在不意味着默认策略已实现。SelfModel 仅有 opt-in、owner-scoped 的 tentative evolution；Personality 没有正式治理演化路径。兼容记录可读取不等于具有当前新写入权限，见 [Memory 版本契约](docs/DATA_CONTRACTS.md#memory-record-provenance-and-snapshot-compatibility-source-checked)。
+~~~mermaid
+flowchart LR
+    UI[Anchor 桌面界面] --> HOST[产品网关 / 宿主装配]
+    HOST --> TASK[后台输入协调器]
+    HOST --> RUN[Runtime 调度]
+    TASK --> SERVICE[PlayerActionService]
+    SERVICE --> UNDERSTAND[输入理解与授权目标候选]
+    UNDERSTAND --> READ[只读查看 / 澄清 / 无结果]
+    UNDERSTAND --> ATTEMPT[行动候选与 Attempt]
+    ATTEMPT --> RES[Resolution]
+    RES --> EVENT[EventFactory / EventProcessor]
+    EVENT --> WORLD[WorldState / EventHistory]
+    EVENT --> OBS[授权 Observation]
+    READ --> PRES[Presentation 安全投影]
+    OBS --> PRES
+    PRES --> HOST
+    HOST --> UI
+    RUN --> TURN[AgentTurn / AgentDecision]
+    OBS --> TURN
+    TURN --> COG[Cognition / Memory]
+    COG --> TURN
+    TURN --> ATTEMPT
+    SAVE[SaveManager / 验证恢复] <--> RUN
+    SAVE <--> WORLD
+~~~
 
-## Windows 安装与启动
+Core 不依赖 PySide6。桌面端通过产品网关和薄 DTO 接收受限结果；它不直接拥有 WorldState、记忆 Store 或写入许可。只读查看不为展示而制造 World Event；世界变化仍须经过 Resolution、EventFactory、EventProcessor 和 Runtime 写入边界。
 
-独立验收使用 Python **3.14.7**、PySide6/Qt **6.12.0**。项目最低要求为 Python **3.10**（源码使用运行时联合类型注解及 `zip(strict=True)`）；3.10 的完整运行兼容性尚未验证，其他版本与桌面依赖组合也尚无完整兼容矩阵。桌面依赖为可选 `PySide6>=6.7`，Core 可以单独安装。
+## 当前实现
 
-在仓库根目录使用普通 Windows PowerShell：
+| 范围 | 已实现的有限路径 |
+|---|---|
+| 世界与机制 | 规范 Entity/WorldState、内容校验与安装，以及两套世界包中使用的门和通道机制；尚非通用 ECS 或物理引擎。 |
+| 玩家输入 | 可选的本地 Ollama 输入理解、基于当前授权 Observation 的请求内目标句柄、服务层澄清接续、只读观察和正式行动适配。模型不可用时提供独立故障状态。 |
+| 行动与展示 | Resolution 裁定、正式 Event 提交、授权 Observation、类型化行动反馈与 Presentation 安全投影。已满足的目标与确认的状态变化有不同反馈。 |
+| 智能体认知 | owner 范围内的 Goal、Belief、Memory 与有限 AgentDecision；受治理的 Memory 写入、规范 Store 复核，以及词汇、可信 Event 锚点和可选语义检索。部分自主调度与冲突／机会发现有窄范围实现。 |
+| 运行与恢复 | 后台串行输入协调、请求幂等及原 Runtime 代次约束；显式场景状态编解码、签名 Bundle、隔离验证与原 Timeline 的冷启动恢复。 |
+| 桌面宿主 | PySide6 世界选择、交互流、世界状态页、真实存档列表及保存／恢复入口，使用两套随包世界。 |
 
-```powershell
+上述是源码与自动化测试覆盖的范围，不代表所有自然语言、社交或世界机制已得到产品级验证。Memory 的正式 D3 决策依赖宿主显式注入策略与授权组件；可用的接口不等于默认策略或完整自主记忆治理。SelfModel 只有可选、带来源的 tentative 更新；Personality 尚无对应的正式演化路径。
+
+## 开发状态与局限
+
+**项目仍在积极开发中，MVP 尚未完全打通和验收。**
+
+- 普通 Windows 可见桌面的完整进入、行动、保存、退出、重启、恢复及继续行动流程仍待实际验收；离屏 Qt 与独立进程测试不能代替该操作。
+- 项目声明 Python 3.10 起；现有独立验收使用 Python 3.14.7，尚未在 3.10 上动态验证。
+- 真实 Ollama 测试需显式启用或配置模型。本候选的全量测试中有 9 项因此跳过，不能据此推断所有模型路径的质量。
+- 自然语言指代、复杂澄清、机制发现和未知行动的通用性仍有限。桌面 NPC 对话产品闭环及独立的授权历史浏览尚未完成。
+- Timeline 祖先校验债务仍开放，D3.2.4 保持冻结。通用 ECS／复合实体、广义物理机制、三轴自适应 LOD、持续自主世界驱动和假设分支模拟仍属规划，不是现有功能。
+
+## 环境与启动
+
+[pyproject.toml](pyproject.toml) 要求 Python **>=3.10**；桌面依赖组为 **desktop**（PySide6 >=6.7）。以下命令在仓库根目录的 Windows PowerShell 中执行。核心库不需要 Qt；桌面入口来自 anchor_desktop.app:main。
+
+~~~powershell
 py -3.14 -m venv .venv
 $python = Join-Path $PWD '.venv\Scripts\python.exe'
+& $python -m pip install -e .
+# 使用桌面端时，在同一环境中安装可选依赖：
 & $python -m pip install -e '.[desktop]'
-
-ollama --version
-ollama list
-# 本地服务未运行时，在另一终端执行 ollama serve。
-# 用 list 中已安装的对话模型替换占位符；以下步骤不会下载模型。
-$env:COGNITIVEWORLD_INPUT_UNDERSTANDING_PROVIDER = 'ollama'
-$env:COGNITIVEWORLD_OLLAMA_MODEL = '<已安装的对话模型名称>'
-$env:COGNITIVEWORLD_OLLAMA_BASE_URL = 'http://127.0.0.1:11434/v1'
-$env:COGNITIVEWORLD_INPUT_UNDERSTANDING_TIMEOUT = '10.0'
 & $python -m anchor_desktop
-```
+# 或运行 .\.venv\Scripts\anchor-desktop.exe
+~~~
 
-安装不会安装 Ollama 或下载模型。变量由桌面进程继承；当前理解适配器仅允许本机 loopback HTTP，超时上限为 10 秒。未配置 Provider 时仍可启动，但自由输入会返回可恢复的服务不可用反馈。
+命令中的 3.14 与已有验收环境一致；它不改变项目的 >=3.10 元数据要求。启动后可以选择“钟楼藏书馆”或“雨港观测站”。两套世界的 manifest.json 和 content.json 位于 [src/anchor_desktop/worlds/](src/anchor_desktop/worlds/)；内容仍需经过正式校验与裁定。可尝试输入“观察周围”，再依据界面实际显示的对象提出行动；示例句子并非保证成功的脚本。
 
-等效入口为 `.\.venv\Scripts\anchor-desktop.exe`，对应 `anchor_desktop.app:main`。仅安装 Core 使用 `& $python -m pip install -e .`。不要从未跟踪的 `build/` 运行产品。
+自由输入的本地 Ollama 解释器为可选功能。先自行安装并启动 Ollama，使用 ollama list 查看**已有**对话模型；项目安装不会下载模型。在启动桌面的同一 PowerShell 会话中可配置：
 
-默认存档位于 `%LOCALAPPDATA%\AnchorCognitiveWorld\saves`。保留用户信任根，不要编辑签名存档；验证失败必须拒绝恢复。结束会话会丢弃最后一次保存之后的未保存变化。
+~~~powershell
+ollama list
+$env:COGNITIVEWORLD_INPUT_UNDERSTANDING_PROVIDER = 'ollama'
+$env:COGNITIVEWORLD_OLLAMA_MODEL = '<ollama list 中已有的对话模型名>'
+$env:COGNITIVEWORLD_OLLAMA_BASE_URL = 'http://127.0.0.1:11434/v1'
+$env:COGNITIVEWORLD_INPUT_UNDERSTANDING_TIMEOUT = '8.0'
+& $python -m anchor_desktop
+~~~
 
-### 世界包与交互示例
+输入理解适配器仅接受本机 loopback 地址，并限制超时。未配置服务时，桌面仍可启动，依赖该服务的输入会给出服务不可用反馈。Ollama embedding 是另一项可选、由宿主注入的认知检索适配器；上述变量不会自动启用它。
 
-资源在 [src/anchor_desktop/worlds/](src/anchor_desktop/worlds/)，包括“钟楼藏书馆”和“雨港观测站”，各有 `manifest.json` 和 `content.json`。世界专属内容留在包中；新内容仍须经过模板、引用、能力和 P0 校验，不代表任意 JSON 行为都受支持。
+## 验证与测试
 
-进入世界后可尝试“观察周围”，依据实际可见对象提出行动，或按正式澄清选项补充信息。这是输入示例，不是保证成功的命令或固定剧情。只读查看使用当前授权 Observation，不创建虚假 World Event。重新提交已满足的行动可以记录无状态效果的正式裁定 Event；这与同请求 ID 的幂等重放不同。
+**2026-10-22 的独立候选验收**在提交 5781feaa5ee21d75dc842688832dca1d405f7850 的干净源码导出上执行：Python 3.14.7、PySide6/Qt 6.12.0，完整 pytest 为 **1267 passed、9 skipped、0 failed（98.48 s，退出码 0）**。编译、wheel 与 sdist 构建、发行包内容检查、无 Qt 的隔离 Core 导入及离屏桌面入口／两套世界发现均通过。签名存档的独立进程冷启动与继续行动用例包含在全量测试中。
 
-## 测试与验收状态
+当前 HEAD 0420f97839d0c027a6f7b04ec85ae1df2494efb8 与该验收提交的 Git 树相同，因此上述数字对应相同的源码文件；**本次 README 修订没有重跑测试**。9 项跳过需要真实本地 Ollama 的显式启用或模型配置，不计作通过。该记录不涵盖 Python 3.10 动态兼容、此候选的完整真实模型交互或普通可见桌面流程。
 
-以下是**历史证据，不是本轮重新运行的结果**：
+本地复核可使用：
 
-| 代码身份 | 证据 |
-|---|---|
-| GitHub 干净检出 `c6d16b9f8357ecd329f784bfec320e15aedc9327`，独立 Windows venv | `1251 passed, 9 skipped in 78.32s`。独立进程冷启动和离屏 Qt 测试通过；两世界真实物理交互成功，随后只读失败，完整真实探针未通过 |
-| 基于 `c6d16b9` 的未提交只读修复，候选 wheel 与源码身份核对 | `1259 passed, 9 skipped in 64.96s`。真实 `qwen2.5:7b` 两世界只读→打开→重复打开→只读小样本通过；只读前后 Event 数不变 |
-| Memory 文档提交 `29aad11e80e2b65d57ffbe659bb4a6784b3e8173` | 仅文档审查和差异检查，没有重跑测试 |
-
-第二行不是已提交 GitHub 版本的验收。维护者独立验收目录的 `acceptance-results/` 保留 `ACCEPTANCE_REPORT.md`、`full-pytest.log/.xml`、`READONLY_FIX_REPORT.md`、`readonly-final-full.log/.xml` 和真实模型记录；这些本地材料未随仓库发布。公开状态摘要见 [REPOSITORY_STATUS.md](docs/REPOSITORY_STATUS.md)。9 项显式模型 opt-in 跳过不计作通过，单独模型探针不改写原全量跳过数。
-
-真实 embedding 固定小语料 Recall@5=`5/7`、MRR=`9/14`，与词汇基线相同；确定性替身提升不是实际模型收益。完整普通可见桌面进入、保存、退出、重启、恢复和继续行动仍缺操作验收。离屏 Qt 和窗口启动不能替代它。
-
-复核命令（目前没有测试 extra）：
-
-```powershell
+~~~powershell
 & $python -m pip install pytest pytest-qt
 & $python -m compileall -q src tests
 & $python -m pytest -q -ra
-```
+~~~
 
-保留 `.pytest_tmp` 配置。真实模型测试按各测试显式开关启用，普通全量不依赖模型在线。Windows 受限沙盒曾阻塞 loopback/socketpair，应与普通 PowerShell 结果分开记录，不为通过而跳过安全测试或切换全局事件循环策略。
+自动化结果只对实际执行的代码、依赖和环境有效；文档修订后的工作树不是前述已验收提交。
 
-## 权威文档与路线图
+## 路线图与文档
 
-- [ARCHITECTURE.md](docs/ARCHITECTURE.md)：职责、边界和规划。
-- [DATA_CONTRACTS.md](docs/DATA_CONTRACTS.md)：数据、授权、版本和持久化。
-- [ENGINEERING_RULES.md](docs/ENGINEERING_RULES.md)：工程与安全规则。
-- [REPOSITORY_STATUS.md](docs/REPOSITORY_STATUS.md)：当前状态和证据来源。
-- [DEVELOPMENT_ROADMAP.md](docs/DEVELOPMENT_ROADMAP.md)：任务、依赖和验收。
-- [SOCIAL_CAUSAL_DESIGN.md](docs/SOCIAL_CAUSAL_DESIGN.md)：社会因果边界。
-- [MEMORY_DESIGN.md](docs/MEMORY_DESIGN.md)：记忆治理与用途。
+近期工作以 [DEVELOPMENT_ROADMAP.md](docs/DEVELOPMENT_ROADMAP.md) 中现有任务为准：继续验证 ANCHOR-M2-01 的通用输入闭环，完成 ANCHOR-M3-01/02 的可见桌面与保存恢复验收。CPU 主动信息检索、未知机制探索、持续自主世界动力和实体组合属于后续研究方向；这里不设发布日期。
 
-`ANCHOR-M2-01` 保留通用交互稳健性工作；`ANCHOR-M3-01/02` 保留可见桌面验收。动态 Character–Memory 授权、可恢复社会经历、完整联想网络、通用物理和持久通知仍属延期。ECS、声明式复合实体、通用类型化关系、完整自主世界动力和任务信息规划是未来方向，不是当前能力。Timeline 祖先校验债务保持开放，D3.2.4 冻结，不因公开材料而进入 D4。
+权威文档入口：
 
-## 贡献与许可
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md)：系统边界和长期设计。
+- [DATA_CONTRACTS.md](docs/DATA_CONTRACTS.md)：数据、权限、版本及恢复契约。
+- [ENGINEERING_RULES.md](docs/ENGINEERING_RULES.md)：工程与安全约束。
+- [REPOSITORY_STATUS.md](docs/REPOSITORY_STATUS.md)：实现状态及历史证据。
+- [DEVELOPMENT_ROADMAP.md](docs/DEVELOPMENT_ROADMAP.md)：任务与验收条件。
+- [SOCIAL_CAUSAL_DESIGN.md](docs/SOCIAL_CAUSAL_DESIGN.md)：社会因果的现有边界与规划。
+- [MEMORY_DESIGN.md](docs/MEMORY_DESIGN.md)：记忆治理与检索。
 
-见 [CONTRIBUTING.md](CONTRIBUTING.md)。[CLA.md](CLA.md)、[CCLA.md](CCLA.md) 是待法律审阅、尚未生效的草案，没有自动签署门禁。
+## 许可证
 
-项目选定许可标识 **AGPL-3.0-only**：GNU Affero General Public License 第 3 版，仅此版本，完整原文见 [LICENSE](LICENSE)，来源为 [GNU 官方文本](https://www.gnu.org/licenses/agpl-3.0.txt)。LICENSE 内应用示例不改变本项目的 only 选择。依赖、模型和第三方资源遵守各自许可，本项目不替它们授权。版权所有者：**[待维护者核实并填写真实权利人及对应年份]**；公开发布前须核实既有与迁入材料授权链。
+项目代码采用 **AGPL-3.0-only**，见 [LICENSE](LICENSE)。依赖、模型与外部材料各有自己的许可条件；相关来源与发行说明见 [PROVENANCE.md](PROVENANCE.md) 和 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。贡献流程见 [CONTRIBUTING.md](CONTRIBUTING.md)；[CLA.md](CLA.md)、[CCLA.md](CCLA.md) 和 [TRADEMARKS.md](TRADEMARKS.md) 目前为待审草案，不构成已签署协议。
 
-AGPL 允许合规商业竞争。未来商业许可仅能涵盖已取得相应权利的材料；CLA 再许可权不撤销既有 AGPL 权利。[TRADEMARKS.md](TRADEMARKS.md) 保护品牌身份，不能改变代码许可或垄断架构思想。
+---
+
+<a id="english"></a>
+# English
+
+## Overview
+
+Ankorgine-CognitiveWorld is a local cognitive multi-agent world simulation engine under active development. It investigates how agent-specific cognition, world state, action adjudication, causal events, and timeline restoration can form an extensible and traceable simulation. The included Anchor desktop host loads two sample worlds; the complete MVP workflow has not yet been accepted through ordinary visible desktop use.
+
+Narrative output is separate from world facts. A language model may interpret input or propose candidates, but it cannot rewrite the world. Each NPC has its own scope of goals, memories, and judgments; whether an action takes effect is decided through formal resolution and event processing. A plausible description of an uninstalled mechanism is not a confirmed physical outcome.
+
+## Research Questions and Design Principles
+
+- **Separation of responsibility.** WorldState owns canonical world state; Cognition owns each character's cognitive records; AgentDecision selects candidates; Resolution adjudicates effects; EventProcessor commits confirmed changes; Presentation controls player-facing output.
+- **Authorized, attributed information.** Players and NPCs act from their respective authorized Observations and cognition projections. Memory preserves provenance, but neither subjective memory nor semantic similarity proves a world fact.
+- **Candidates are not outcomes.** Input interpretation, target resolution, read-only observation, clarification, unsupported mechanisms, and formal action have distinct result boundaries. Missing information, unsupported behavior, and verified impossibility should remain distinguishable.
+- **Restore and isolation.** Signed saves, event history, Timeline, and Runtime session/generation checks constrain restoration and late tasks. Neither branching nor model output confers new authority over facts.
+- **Bounded exploration.** The current Event Tree and evidence queries provide limited candidate diagnostics; general unknown-mechanism exploration and hypothetical future simulation remain research directions.
+
+## Architecture
+
+The diagram shows principal implemented paths. It does not imply that every player input triggers an NPC turn or a save.
+
+~~~mermaid
+flowchart LR
+    UI[Anchor desktop UI] --> HOST[Product gateway / host assembly]
+    HOST --> TASK[Background input coordinator]
+    HOST --> RUN[Runtime scheduler]
+    TASK --> SERVICE[PlayerActionService]
+    SERVICE --> UNDERSTAND[Input interpretation / authorized target candidates]
+    UNDERSTAND --> READ[Read-only observation / clarification / no result]
+    UNDERSTAND --> ATTEMPT[Action candidate / Attempt]
+    ATTEMPT --> RES[Resolution]
+    RES --> EVENT[EventFactory / EventProcessor]
+    EVENT --> WORLD[WorldState / EventHistory]
+    EVENT --> OBS[Authorized Observation]
+    READ --> PRES[Presentation safety projection]
+    OBS --> PRES
+    PRES --> HOST
+    HOST --> UI
+    RUN --> TURN[AgentTurn / AgentDecision]
+    OBS --> TURN
+    TURN --> COG[Cognition / Memory]
+    COG --> TURN
+    TURN --> ATTEMPT
+    SAVE[SaveManager / verified restore] <--> RUN
+    SAVE <--> WORLD
+~~~
+
+Core has no PySide6 dependency. The desktop consumes bounded results through the product gateway and thin DTOs; it does not own WorldState, Memory Stores, or write permits. Read-only observation creates no display-only World Event. Confirmed changes still pass Resolution, EventFactory, EventProcessor, and the Runtime write boundary.
+
+## Implemented Capabilities
+
+| Area | Implemented bounded path |
+|---|---|
+| World and mechanisms | Canonical Entity/WorldState records, content validation and installation, and the door and passage mechanisms used in two bundled worlds; not a general ECS or physics engine. |
+| Player input | Optional local Ollama interpretation, request-scoped target handles derived from current authorized Observations, service-owned clarification continuation, read-only observation, and formal action adaptation. Provider failure has a separate outcome. |
+| Action and presentation | Resolution adjudication, formal Event commit, authorized Observation, typed action feedback, and Presentation safety projection. An already satisfied goal differs from a confirmed state change. |
+| Agent cognition | Owner-scoped Goal, Belief, Memory, and bounded AgentDecision; governed Memory writes and canonical Store rechecks, with lexical, verified Event-anchor, and optional semantic retrieval. Parts of autonomous scheduling and conflict/opportunity discovery are implemented narrowly. |
+| Runtime and restore | Serialized background input coordination, request idempotency, and original Runtime-generation checks; explicit scenario-state codecs, signed Bundles, isolated validation, and cold restoration of the original Timeline. |
+| Desktop host | PySide6 world selection, interaction stream, world-state page, real save listing and save/restore entry points, using two bundled worlds. |
+
+These are source and automated-test boundaries, not product acceptance of arbitrary language, social behavior, or world mechanisms. Formal D3 Memory decisions require explicit host injection of policy and authority components; an interface does not supply a default policy or complete autonomous memory governance. SelfModel has only optional, source-linked tentative updates; Personality has no corresponding governed evolution path.
+
+## Development Status and Limitations
+
+**The project remains under active development; its MVP workflow is not yet fully integrated and accepted.**
+
+- The complete ordinary visible Windows workflow—enter, act, save, exit, restart, restore, and continue—still needs direct acceptance. Offscreen Qt and independent-process tests do not substitute for it.
+- Package metadata requires Python 3.10 or later. Independent acceptance used Python 3.14.7; Python 3.10 has not been dynamically validated.
+- Real Ollama tests require explicit opt-in or model configuration. Nine tests were skipped in this candidate's full suite; they do not establish quality across all model paths.
+- General language reference, complex clarification, mechanism discovery, and unknown actions remain bounded. The desktop NPC dialogue product loop and independent authorized history browsing are unfinished.
+- Timeline ancestor-validation debt remains open, and D3.2.4 remains frozen. General ECS/composite entities, broad physical mechanisms, adaptive three-axis LOD, a continuously autonomous world driver, and hypothetical branch simulation are planned, not implemented.
+
+## Installation and Usage
+
+[pyproject.toml](pyproject.toml) declares Python **>=3.10** and the optional **desktop** group (PySide6 >=6.7). Run these commands in Windows PowerShell from the repository root. Core does not require Qt; the desktop entry point is anchor_desktop.app:main.
+
+~~~powershell
+py -3.14 -m venv .venv
+$python = Join-Path $PWD '.venv\Scripts\python.exe'
+& $python -m pip install -e .
+# Install the optional desktop dependencies in the same environment:
+& $python -m pip install -e '.[desktop]'
+& $python -m anchor_desktop
+# Alternatively: .\.venv\Scripts\anchor-desktop.exe
+~~~
+
+The 3.14 command matches the accepted environment; it does not change the >=3.10 metadata requirement. The bundled worlds are “Clockwork Library” (钟楼藏书馆) and “Rain Harbor Observatory” (雨港观测站). Their manifest.json and content.json files reside in [src/anchor_desktop/worlds/](src/anchor_desktop/worlds/). Content still passes validation and adjudication. You can try “观察周围” and then propose an action concerning an actually displayed object; the example is not a scripted guarantee of success.
+
+The local Ollama input interpreter is optional. Install and start Ollama separately, and use ollama list to identify an **already installed** chat model; installing this project does not download one. Configure the same PowerShell session before launching the desktop:
+
+~~~powershell
+ollama list
+$env:COGNITIVEWORLD_INPUT_UNDERSTANDING_PROVIDER = 'ollama'
+$env:COGNITIVEWORLD_OLLAMA_MODEL = '<chat model already shown by ollama list>'
+$env:COGNITIVEWORLD_OLLAMA_BASE_URL = 'http://127.0.0.1:11434/v1'
+$env:COGNITIVEWORLD_INPUT_UNDERSTANDING_TIMEOUT = '8.0'
+& $python -m anchor_desktop
+~~~
+
+The interpreter accepts loopback addresses only and bounds its timeout. Without a configured service, the desktop can still start, while dependent free-form input reports service unavailability. Ollama embeddings are a separate, optional, host-injected cognition retrieval adapter; the variables above do not enable it.
+
+## Validation and Testing
+
+**Independent candidate acceptance on 2026-10-22** used a clean export of commit 5781feaa5ee21d75dc842688832dca1d405f7850: Python 3.14.7 and PySide6/Qt 6.12.0. The full pytest result was **1267 passed, 9 skipped, 0 failed (98.48 s; exit code 0)**. Compilation, wheel/sdist builds, distribution inspection, isolated Core import without Qt, and offscreen desktop entry/two-world discovery passed. The full suite includes independent-process signed-save cold-restore and continued-action cases.
+
+Current HEAD 0420f97839d0c027a6f7b04ec85ae1df2494efb8 has the same Git tree as that acceptance commit, so those results concern identical source files; **this README edit did not rerun tests**. The nine skips require explicit opt-in or model configuration for local real Ollama tests and are not passes. The record does not establish Python 3.10 dynamic compatibility, complete real-model interaction for this candidate, or ordinary visible desktop acceptance.
+
+To run the local suite:
+
+~~~powershell
+& $python -m pip install pytest pytest-qt
+& $python -m compileall -q src tests
+& $python -m pytest -q -ra
+~~~
+
+Automated evidence applies only to the executed source, dependencies, and environment; the worktree after this documentation change is not the previously accepted commit.
+
+## Roadmap and Documentation
+
+The near-term agenda follows existing entries in [DEVELOPMENT_ROADMAP.md](docs/DEVELOPMENT_ROADMAP.md): further validate the general input loop under ANCHOR-M2-01, and complete visible desktop/save/restore acceptance under ANCHOR-M3-01/02. CPU-led information retrieval, unknown-mechanism exploration, continuous autonomous world dynamics, and entity composition are later research directions; no delivery dates are claimed here.
+
+Authoritative documents:
+
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md): system boundaries and longer-term design.
+- [DATA_CONTRACTS.md](docs/DATA_CONTRACTS.md): data, authorization, versioning, and restoration.
+- [ENGINEERING_RULES.md](docs/ENGINEERING_RULES.md): engineering and safety constraints.
+- [REPOSITORY_STATUS.md](docs/REPOSITORY_STATUS.md): implementation state and historical evidence.
+- [DEVELOPMENT_ROADMAP.md](docs/DEVELOPMENT_ROADMAP.md): tasks and acceptance conditions.
+- [SOCIAL_CAUSAL_DESIGN.md](docs/SOCIAL_CAUSAL_DESIGN.md): current social-causality limits and plans.
+- [MEMORY_DESIGN.md](docs/MEMORY_DESIGN.md): Memory governance and retrieval.
+
+## License
+
+Project code uses **AGPL-3.0-only**; see [LICENSE](LICENSE). Dependencies, models, and external material retain their respective license conditions; see [PROVENANCE.md](PROVENANCE.md) and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for source and distribution notes. Contributions are described in [CONTRIBUTING.md](CONTRIBUTING.md). [CLA.md](CLA.md), [CCLA.md](CCLA.md), and [TRADEMARKS.md](TRADEMARKS.md) remain drafts pending review, not signed agreements.
