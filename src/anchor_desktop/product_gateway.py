@@ -20,6 +20,8 @@ from cognitive_world.runtime.save_manager import SaveManager, SaveMetadata
 from .engine import BundledWorldCatalogGateway, FeatureUnavailable
 from .host import NewWorldSession, start_new_world, resume_saved_world
 from .models import SaveSlot, WorldProjection
+from .model_warmup import LocalModelWarmup, ModelNotReady
+from .management import ManagementMixin
 
 
 _LOGGER = logging.getLogger(__name__)
@@ -81,13 +83,14 @@ def _desktop_clarification(message) -> str:
     return "这次请求需要补充关键信息；请重新明确描述你的意图。"
 
 
-class DesktopProductGateway(BundledWorldCatalogGateway):
+class DesktopProductGateway(ManagementMixin, BundledWorldCatalogGateway):
     """One active local world; UI sees only narrow status and display values."""
 
     status_message = "世界内容已验证；进入世界后由正式 Runtime 执行。"
 
     def __init__(self, directory: Path | None = None, *, trust_supplier=None,
-                 input_understanding_provider=None, saves_root: Path | None = None) -> None:
+                 input_understanding_provider=None, saves_root: Path | None = None,
+                 hidden_world_ids=(), package_visibility_writer=None) -> None:
         super().__init__(directory)
         local_appdata = os.environ.get("LOCALAPPDATA")
         if saves_root is None and not local_appdata:
@@ -105,12 +108,20 @@ class DesktopProductGateway(BundledWorldCatalogGateway):
         self._handles: dict[str, PlayerInputTaskHandle] = {}
         self._diagnosed_terminal_inputs: dict[str, tuple[str, str, str | None, str | None]] = {}
         self._display_counts = (0, 0, 0, 0, 0)
+        self._warmup = LocalModelWarmup()
+        self._entry_is_new = False
+        self._opening_pending = ""
+        self._init_management(hidden_world_ids, package_visibility_writer)
 
     def begin_world(self, world_id: str) -> None:
         package = self.catalog.package(world_id)
         with self._lock:
+            self._require_no_removal()
             if self._closed or self._entry is not None or self._active is not None:
                 raise FeatureUnavailable("当前世界会话尚未结束。")
+
+            self._entry_is_new = True
+            self._warmup.start(self._input_understanding_provider)
 
             def build() -> NewWorldSession:
                 result = start_new_world(
@@ -181,8 +192,12 @@ class DesktopProductGateway(BundledWorldCatalogGateway):
     def begin_restore(self, world_id: str, save_id: str) -> None:
         package = self.catalog.package(world_id)
         with self._lock:
+            self._require_no_removal()
             if self._closed or self._entry is not None or self._active is not None:
                 raise FeatureUnavailable("请先结束当前世界会话。")
+            self._entry_is_new = False
+            self._warmup.start(self._input_understanding_provider)
+
             def build() -> NewWorldSession:
                 trust = self._trust_supplier()
                 manager = self._save_manager(world_id, trust)
@@ -203,6 +218,7 @@ class DesktopProductGateway(BundledWorldCatalogGateway):
 
     def begin_save(self) -> None:
         with self._lock:
+            self._require_no_removal()
             session = self._active
             if self._closed or session is None or (self._save is not None and not self._save.done()):
                 raise FeatureUnavailable("当前无法创建存档。")
@@ -248,15 +264,41 @@ class DesktopProductGateway(BundledWorldCatalogGateway):
             if self._closed:
                 session.close()
                 return EntryStatus("failed", "host_closed")
-            self._active = session
+            if self._active is None:
+                self._active = session
+                self._opening_pending = session.package.opening if self._entry_is_new else ""
         return EntryStatus("ready")
+
+    def take_opening(self) -> str:
+        """One-shot, safety-reviewed authored prose for a new live session only."""
+        with self._lock:
+            text, self._opening_pending = self._opening_pending, ""
+            return text
+
+    def legacy_save_worlds(self) -> tuple[WorldProjection, ...]:
+        return self.catalog.legacy_worlds()
+
+    def model_status(self):
+        with self._lock:
+            return self._warmup.status()
+
+    def retry_model_warmup(self) -> None:
+        with self._lock:
+            if self._closed or self._active is None:
+                raise FeatureUnavailable("尚未进入运行中的世界。")
+            self._warmup.start(self._input_understanding_provider, retry=True)
 
     def submit_input(self, text: str, *, clarification_id: str | None = None,
                      new_request: bool = False) -> str:
         with self._lock:
+            self._require_no_removal()
             session = self._active
             if self._closed or session is None:
                 raise FeatureUnavailable("尚未进入运行中的世界。")
+            self._warmup.start(self._input_understanding_provider)
+            readiness = self._warmup.status()
+            if readiness.state in {"warming", "failed"}:
+                raise ModelNotReady(readiness.state)
             binding = session.runtime.context.player_session
             request = PlayerInputRequest(
                 f"desktop:{uuid4().hex}", binding.session_id, session.package.world_id, text,
@@ -341,11 +383,15 @@ class DesktopProductGateway(BundledWorldCatalogGateway):
             self._active = None
             self._entry = None
             self._handles.clear()
+            self._opening_pending = ""
+            self._warmup.detach()
             self._display_counts = (0, 0, 0, 0, 0)
 
     def close(self) -> None:
         with self._lock:
             self._closed = True
+            self._opening_pending = ""
+            self._warmup.close()
             active = self._active
             self._active = None
         if active is not None:

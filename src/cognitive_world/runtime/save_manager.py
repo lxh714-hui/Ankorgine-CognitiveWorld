@@ -412,7 +412,22 @@ class SaveManager:
             reader.load_verified(record.save_id, timeline_id=record.timeline_id)
         return records
 
-    def delete_manual_save(self, save_id: str) -> None:
+    def manual_deletion_fingerprint(self, save_id: str) -> str:
+        """Read-only preview binding; no catalog, journal or lease is created."""
+        with self._locked():
+            before = self.catalog_path.read_bytes()
+            catalog = self._load_catalog()
+            record = catalog["saves"].get(save_id)
+            if record is None:
+                raise KeyError(save_id)
+            if record["kind"] != SaveKind.MANUAL.value:
+                raise PermissionError("only manual saves can be deleted")
+            self._load_verified_locked(save_id, timeline_id=record["timeline_id"])
+            if self.catalog_path.read_bytes() != before:
+                raise SaveError("save catalog changed during preview")
+            return sha256_hex(before)
+
+    def delete_manual_save(self, save_id: str, *, expected_catalog_sha256: str | None = None) -> None:
         with self._locked():
             catalog = self._load_catalog()
             saves = catalog["saves"]
@@ -421,6 +436,10 @@ class SaveManager:
                 raise KeyError(save_id)
             if record["kind"] != SaveKind.MANUAL.value:
                 raise PermissionError("only explicit manual-save deletion is supported")
+            if expected_catalog_sha256 is not None:
+                if sha256_hex(self.catalog_path.read_bytes()) != expected_catalog_sha256:
+                    raise SaveError("save deletion preview is stale")
+                self._load_verified_locked(save_id, timeline_id=record["timeline_id"])
             transaction_id = str(uuid4())
             self._append_journal({"transaction_id": transaction_id, "phase": "PREPARED",
                                   "save_id": save_id, "operation": "delete"})

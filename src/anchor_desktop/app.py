@@ -8,7 +8,7 @@ from .engine import UnavailableEngineGateway
 from .product_gateway import DesktopProductGateway
 from .navigation import NavigationStack, Route
 from .pages import PAGE_TYPES
-from .widgets import apply_dark_theme
+from .widgets import apply_dark_theme, hidden_world_ids, save_hidden_world_ids
 
 
 class MainWindow(QMainWindow):
@@ -28,7 +28,15 @@ class MainWindow(QMainWindow):
     def _render_current(self):
         route = self.navigation.current
         cached = self._widgets.get(id(route))
+        if cached and route.page == "worlds":
+            self.stack.removeWidget(cached)
+            cached.deleteLater()
+            self._widgets.pop(id(route), None)
+            cached = None
         if cached:
+            refresh_management = getattr(cached, "refresh_management", None)
+            if callable(refresh_management):
+                refresh_management()
             refresh_saves = getattr(cached, "refresh_saves", None)
             if callable(refresh_saves):
                 refresh_saves()
@@ -85,7 +93,8 @@ def main():
     app.setApplicationName("Anchor Desktop")
     apply_dark_theme(app)
     try:
-        gateway = DesktopProductGateway()
+        gateway = DesktopProductGateway(hidden_world_ids=hidden_world_ids(),
+                                        package_visibility_writer=save_hidden_world_ids)
     except (OSError, ValueError, PermissionError):
         gateway = UnavailableEngineGateway()
         gateway.status_message = "世界包未通过本地检查，无法进入世界。"

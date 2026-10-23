@@ -4,7 +4,7 @@
 
 ## 概览
 
-Ankorgine-CognitiveWorld 是一个积极开发中的本地认知多智能体世界模拟引擎。项目研究如何将独立的智能体认知、世界状态、行动裁定、事件因果与时间线恢复组织成可扩展、可追溯的模拟系统。随仓库提供的 Anchor 桌面宿主可加载两套示例世界；整个 MVP 的普通可见桌面操作尚未完成验收。
+Ankorgine-CognitiveWorld 是一个积极开发中的本地认知多智能体世界模拟引擎。项目研究如何将独立的智能体认知、世界状态、行动裁定、事件因果与时间线恢复组织成可扩展、可追溯的模拟系统。随仓库提供的 Anchor 桌面宿主默认提供《灰域之外》世界预览，并保留旧版世界存档入口；整个 MVP 的普通可见桌面操作尚未完成验收。
 
 系统将叙述与世界事实分开：语言模型可以理解输入或提出候选，但不能直接改写世界。NPC 的目标、记忆和判断属于各自的认知范围；行动是否产生效果由正式裁定与事件提交链决定。对尚未安装的机制，系统保留不确定性，不把语言上的合理性当作物理结果。
 
@@ -52,12 +52,12 @@ Core 不依赖 PySide6。桌面端通过产品网关和薄 DTO 接收受限结�
 
 | 范围 | 已实现的有限路径 |
 |---|---|
-| 世界与机制 | 规范 Entity/WorldState、内容校验与安装，以及两套世界包中使用的门和通道机制；尚非通用 ECS 或物理引擎。 |
+| 世界与机制 | 规范 Entity/WorldState、内容校验与安装，以及默认世界与旧版兼容包使用的门和通道机制；尚非通用 ECS 或物理引擎。 |
 | 玩家输入 | 可选的本地 Ollama 输入理解、基于当前授权 Observation 的请求内目标句柄、服务层澄清接续、只读观察和正式行动适配。模型不可用时提供独立故障状态。 |
 | 行动与展示 | Resolution 裁定、正式 Event 提交、授权 Observation、类型化行动反馈与 Presentation 安全投影。已满足的目标与确认的状态变化有不同反馈。 |
 | 智能体认知 | owner 范围内的 Goal、Belief、Memory 与有限 AgentDecision；受治理的 Memory 写入、规范 Store 复核，以及词汇、可信 Event 锚点和可选语义检索。部分自主调度与冲突／机会发现有窄范围实现。 |
 | 运行与恢复 | 后台串行输入协调、请求幂等及原 Runtime 代次约束；显式场景状态编解码、签名 Bundle、隔离验证与原 Timeline 的冷启动恢复。 |
-| 桌面宿主 | PySide6 世界选择、交互流、世界状态页、真实存档列表及保存／恢复入口，使用两套随包世界。 |
+| 桌面宿主 | PySide6 世界选择、交互流、世界状态页、真实存档列表及保存／恢复入口，默认提供《灰域之外》，兼容旧版存档。 |
 
 上述是源码与自动化测试覆盖的范围，不代表所有自然语言、社交或世界机制已得到产品级验证。Memory 的正式 D3 决策依赖宿主显式注入策略与授权组件；可用的接口不等于默认策略或完整自主记忆治理。SelfModel 只有可选、带来源的 tentative 更新；Personality 尚无对应的正式演化路径。
 
@@ -85,7 +85,7 @@ $python = Join-Path $PWD '.venv\Scripts\python.exe'
 # 或运行 .\.venv\Scripts\anchor-desktop.exe
 ~~~
 
-命令中的 3.14 与已有验收环境一致；它不改变项目的 >=3.10 元数据要求。启动后可以选择“钟楼藏书馆”或“雨港观测站”。两套世界的 manifest.json 和 content.json 位于 [src/anchor_desktop/worlds/](src/anchor_desktop/worlds/)；内容仍需经过正式校验与裁定。可尝试输入“观察周围”，再依据界面实际显示的对象提出行动；示例句子并非保证成功的脚本。
+命令中的 3.14 与已有验收环境一致；它不改变项目的 >=3.10 元数据要求。启动后默认选择“灰域之外”（Gray Domain Beyond），复用原雨港世界的有效机制及内部 `rain-harbor` 身份；钟楼世界退出新世界选择，旧存档仍可从“管理世界与存档”进入。世界的 manifest.json 和 content.json 位于 [src/anchor_desktop/worlds/](src/anchor_desktop/worlds/)；内容仍需经过正式校验与裁定。新会话只动画展示世界包序章；跳过仅显示序章全文，读档不重播。初始观察及交互授权仍保留，场景信息由玩家主动请求“观察周围”后经现有授权路径展示。向上阅读历史时不会自动跳到底部。管理页分别提供内置包隐藏、当前运行实例的未保存进度丢弃与单个手动存档删除，均须确认；尚不提供用户安装包卸载或持久实例的级联删除。已配置的本地 Ollama 在后台执行一次有界预热推理，失败可手动重试；预热期间提交的草稿保留在输入框，应用不会自动排队或重复执行。序章不是角色记忆，预热响应不进入交互历史。可尝试输入“观察周围”，再依据界面实际显示的对象提出行动；示例句子并非保证成功的脚本。
 
 自由输入的本地 Ollama 解释器为可选功能。先自行安装并启动 Ollama，使用 ollama list 查看**已有**对话模型；项目安装不会下载模型。在启动桌面的同一 PowerShell 会话中可配置：
 
@@ -141,7 +141,7 @@ $env:COGNITIVEWORLD_INPUT_UNDERSTANDING_TIMEOUT = '8.0'
 
 ## Overview
 
-Ankorgine-CognitiveWorld is a local cognitive multi-agent world simulation engine under active development. It investigates how agent-specific cognition, world state, action adjudication, causal events, and timeline restoration can form an extensible and traceable simulation. The included Anchor desktop host loads two sample worlds; the complete MVP workflow has not yet been accepted through ordinary visible desktop use.
+Ankorgine-CognitiveWorld is a local cognitive multi-agent world simulation engine under active development. It investigates how agent-specific cognition, world state, action adjudication, causal events, and timeline restoration can form an extensible and traceable simulation. The included Anchor desktop host defaults to a Gray Domain Beyond preview and retains legacy-save access; the complete MVP workflow has not yet been accepted through ordinary visible desktop use.
 
 Narrative output is separate from world facts. A language model may interpret input or propose candidates, but it cannot rewrite the world. Each NPC has its own scope of goals, memories, and judgments; whether an action takes effect is decided through formal resolution and event processing. A plausible description of an uninstalled mechanism is not a confirmed physical outcome.
 
@@ -189,12 +189,12 @@ Core has no PySide6 dependency. The desktop consumes bounded results through the
 
 | Area | Implemented bounded path |
 |---|---|
-| World and mechanisms | Canonical Entity/WorldState records, content validation and installation, and the door and passage mechanisms used in two bundled worlds; not a general ECS or physics engine. |
+| World and mechanisms | Canonical Entity/WorldState records, content validation and installation, and the door and passage mechanisms reused by the default world and legacy package; not a general ECS or physics engine. |
 | Player input | Optional local Ollama interpretation, request-scoped target handles derived from current authorized Observations, service-owned clarification continuation, read-only observation, and formal action adaptation. Provider failure has a separate outcome. |
 | Action and presentation | Resolution adjudication, formal Event commit, authorized Observation, typed action feedback, and Presentation safety projection. An already satisfied goal differs from a confirmed state change. |
 | Agent cognition | Owner-scoped Goal, Belief, Memory, and bounded AgentDecision; governed Memory writes and canonical Store rechecks, with lexical, verified Event-anchor, and optional semantic retrieval. Parts of autonomous scheduling and conflict/opportunity discovery are implemented narrowly. |
 | Runtime and restore | Serialized background input coordination, request idempotency, and original Runtime-generation checks; explicit scenario-state codecs, signed Bundles, isolated validation, and cold restoration of the original Timeline. |
-| Desktop host | PySide6 world selection, interaction stream, world-state page, real save listing and save/restore entry points, using two bundled worlds. |
+| Desktop host | PySide6 world selection, interaction stream, world-state page, real save listing and save/restore entry points, with Gray Domain Beyond as the default and legacy-save compatibility. |
 
 These are source and automated-test boundaries, not product acceptance of arbitrary language, social behavior, or world mechanisms. Formal D3 Memory decisions require explicit host injection of policy and authority components; an interface does not supply a default policy or complete autonomous memory governance. SelfModel has only optional, source-linked tentative updates; Personality has no corresponding governed evolution path.
 
@@ -222,7 +222,7 @@ $python = Join-Path $PWD '.venv\Scripts\python.exe'
 # Alternatively: .\.venv\Scripts\anchor-desktop.exe
 ~~~
 
-The 3.14 command matches the accepted environment; it does not change the >=3.10 metadata requirement. The bundled worlds are “Clockwork Library” (钟楼藏书馆) and “Rain Harbor Observatory” (雨港观测站). Their manifest.json and content.json files reside in [src/anchor_desktop/worlds/](src/anchor_desktop/worlds/). Content still passes validation and adjudication. You can try “观察周围” and then propose an action concerning an actually displayed object; the example is not a scripted guarantee of success.
+The 3.14 command matches the accepted environment; it does not change the >=3.10 metadata requirement. The sole new-world choice is “Gray Domain Beyond” (灰域之外), retaining Rain Harbor's valid mechanisms and stable `rain-harbor` save identity. Clockwork Library is unlisted, with legacy-save access through world/save management. World manifest.json and content.json files reside in [src/anchor_desktop/worlds/](src/anchor_desktop/worlds/). Content still passes validation and adjudication. New sessions animate only the package-authored Chinese opening; skip reveals the remaining prologue. Initial evidence and interaction candidates remain intact, and scene information is presented through the authorized path on an explicit observation request. Restores do not replay the opening, and upward-scrolled readers retain their position as messages arrive. Management separates confirmed bundled-package hiding, disposal of unsaved live-session progress, and individual manual-save deletion; user-installed package uninstall and persistent-instance cascade deletion are not supported. A configured local Ollama interpreter warms asynchronously through one bounded inference. Failed warm-up retries are explicit; early input stays in the editor and is never automatically queued or resubmitted. Opening prose is not character memory, and warm-up output never enters chat history. You can try “观察周围” and then propose an action concerning an actually displayed object; the example is not a scripted guarantee of success.
 
 The local Ollama input interpreter is optional. Install and start Ollama separately, and use ollama list to identify an **already installed** chat model; installing this project does not download one. Configure the same PowerShell session before launching the desktop:
 

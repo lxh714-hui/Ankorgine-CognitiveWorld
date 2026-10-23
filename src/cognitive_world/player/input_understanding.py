@@ -176,18 +176,19 @@ class OllamaPlayerInputUnderstandingProvider:
             raise ValueError("input interpretation timeout is outside its bound")
 
     @classmethod
-    def from_environment(cls) -> "OllamaPlayerInputUnderstandingProvider | None":
-        selection = os.environ.get("COGNITIVEWORLD_INPUT_UNDERSTANDING_PROVIDER", "").strip().casefold()
+    def from_environment(cls, environment=None) -> "OllamaPlayerInputUnderstandingProvider | None":
+        settings = os.environ if environment is None else environment
+        selection = settings.get("COGNITIVEWORLD_INPUT_UNDERSTANDING_PROVIDER", "").strip().casefold()
         if not selection:
             return None
         if selection != "ollama":
             raise ValueError("input understanding provider must be explicitly selected as ollama")
-        model = os.environ.get("COGNITIVEWORLD_OLLAMA_MODEL", "").strip()
+        model = settings.get("COGNITIVEWORLD_OLLAMA_MODEL", "").strip()
         if not model:
             raise ValueError("COGNITIVEWORLD_OLLAMA_MODEL is required")
-        timeout = os.environ.get("COGNITIVEWORLD_INPUT_UNDERSTANDING_TIMEOUT", "8.0")
+        timeout = settings.get("COGNITIVEWORLD_INPUT_UNDERSTANDING_TIMEOUT", "8.0")
         return cls(
-            os.environ.get("COGNITIVEWORLD_OLLAMA_BASE_URL", "http://127.0.0.1:11434/v1"),
+            settings.get("COGNITIVEWORLD_OLLAMA_BASE_URL", "http://127.0.0.1:11434/v1"),
             model, float(timeout),
         )
 

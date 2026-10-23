@@ -70,7 +70,7 @@ def test_default_shell_has_no_fabricated_world_or_save(qtbot):
 def test_all_source_pages_and_avatar_component_are_preserved():
     assert set(PAGE_TYPES) == {
         "home", "worlds", "world_detail", "saves", "stage", "archive",
-        "history", "timeline", "settings",
+        "history", "timeline", "settings", "management",
     }
     assert AvatarComposer.identity("character-a") == AvatarComposer.identity("character-a")
     assert AvatarComposer.identity("character-a") != AvatarComposer.identity("character-b")
@@ -242,16 +242,23 @@ def test_stage_history_stays_at_older_position_when_new_items_arrive(qtbot):
 
 def test_stage_history_accepts_only_known_display_types(qtbot):
     class DisplayGateway(ProjectedTestGateway):
+        entries = ()
+
         def read_display(self):
-            return (
+            entries, self.entries = self.entries, ()
+            return entries
+
+    gateway = DisplayGateway()
+    stage = StagePage(gateway, Route("stage", {"world_id": "fixture-world"}))
+    qtbot.addWidget(stage)
+    gateway.entries = (
                 DisplayEntry("fact", "已确认的环境描述。"),
                 DisplayEntry("dialogue", "已经授权的角色言语。"),
                 DisplayEntry("clarification", "请说明方向。"),
                 DisplayEntry("unknown", "instance:private:door_open"),
             )
 
-    stage = StagePage(DisplayGateway(), Route("stage", {"world_id": "fixture-world"}))
-    qtbot.addWidget(stage)
+    stage._append_display()
     entries = [item for item in stage.findChildren(QLabel)
                if item.objectName() in {"actionEffectEntry", "dialogueEntry", "clarificationEntry"}]
     assert [item.text() for item in entries] == ["已确认的环境描述。", "已经授权的角色言语。", "请说明方向。"]

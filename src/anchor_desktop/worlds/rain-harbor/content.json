@@ -2,14 +2,14 @@
   "schema_version": 1,
   "content_type": "generation_proposal",
   "characters": [
-    {"template_id":"traveler","description":"抵达港口的旅人","goal_descriptions":["了解港口情况"],"sensory_capabilities":["sight","hearing"],"physical_capabilities":["manual_manipulation","locomotion"]},
-    {"template_id":"observer","description":"观测站值守者","goal_descriptions":["维护观测站"],"sensory_capabilities":["sight","hearing"],"physical_capabilities":["manual_manipulation","locomotion"]}
+    {"template_id":"traveler","description":"灰域中的实验品","goal_descriptions":["了解灰域观测区"],"sensory_capabilities":["sight","hearing"],"physical_capabilities":["manual_manipulation","locomotion"]},
+    {"template_id":"observer","description":"灰域观测区值守者","goal_descriptions":["维护观测区"],"sensory_capabilities":["sight","hearing"],"physical_capabilities":["manual_manipulation","locomotion"]}
   ],
   "locations": [
-    {"template_id":"pier","description":"雨港码头","mechanisms":[{"local_id":"station-door","kind":"door","destination_key":null,"initially_open":false,"initially_locked":false,"operable":true},{"local_id":"station-passage","kind":"passage","destination_key":"station","initially_open":false,"initially_locked":false,"operable":true}]},
-    {"template_id":"station","description":"港口观测站","mechanisms":[]}
+    {"template_id":"pier","description":"灰域观测区入口","mechanisms":[{"local_id":"station-door","kind":"door","destination_key":null,"initially_open":false,"initially_locked":false,"operable":true},{"local_id":"station-passage","kind":"passage","destination_key":"station","initially_open":false,"initially_locked":false,"operable":true}]},
+    {"template_id":"station","description":"灰域观测室","mechanisms":[]}
   ],
   "scenarios": [
-    {"template_id":"harbor-visit","description":"进入雨港","locations":[["pier","pier"],["station","station"]],"characters":[["traveler","traveler","pier"],["observer","observer","pier"]],"entry_key":"pier","exit_keys":["station"],"event_seeds":[],"side_branch":false,"value_refs":[]}
+    {"template_id":"harbor-visit","description":"进入灰域观测区","locations":[["pier","pier"],["station","station"]],"characters":[["traveler","traveler","pier"],["observer","observer","pier"]],"entry_key":"pier","exit_keys":["station"],"event_seeds":[],"side_branch":false,"value_refs":[]}
   ]
 }

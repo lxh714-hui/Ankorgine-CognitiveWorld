@@ -273,9 +273,12 @@ def test_world_status_page_returns_to_same_runtime_and_history(qtbot, tmp_path):
         stage = window.stack.currentWidget()
         runtime = gateway._active.runtime
         before = tuple(runtime.context.event_history.get_events())
+        assert not [item for item in stage.findChildren(QLabel) if item.objectName() == "actionEffectEntry"]
+        stage.opening.skip_button.click()
         history = [item.text() for item in stage.findChildren(QLabel)
                    if item.objectName() == "actionEffectEntry"]
-        assert history
+        assert history == []
+        assert stage.opening.text_label.text() == gateway.catalog.package("rain-harbor").opening
         QTest.mouseClick(stage.stage_buttons[0], Qt.MouseButton.LeftButton)
         assert window.navigation.current.page == "archive"
         page = window.stack.currentWidget()
@@ -352,9 +355,12 @@ def test_desktop_world_entry_and_async_fact_presentation(qtbot, tmp_path, world_
     stage = window.stack.currentWidget()
     assert stage.submit.isEnabled() and not stage.input_area.isReadOnly()
     assert stage.back_button.isEnabled()
+    if stage.opening is not None:
+        assert not [item for item in stage.findChildren(QLabel) if item.objectName() == "actionEffectEntry"]
+        stage.opening.skip_button.click()
     initial = [item.text() for item in stage.findChildren(QLabel)
                if item.objectName() == "actionEffectEntry"]
-    assert initial and all("instance:" not in item and "door_open" not in item for item in initial)
+    assert initial == []  # Startup evidence remains available to explicit observation.
     stage.input_area.setPlainText("Please open the observed door.")
     stage.submit.click()
     qtbot.waitUntil(lambda: stage.submit.isEnabled(), timeout=5000)

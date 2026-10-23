@@ -3,10 +3,11 @@ from __future__ import annotations
 from PySide6.QtCore import QEvent, QTimer, Qt, Signal
 from PySide6.QtWidgets import (QComboBox, QFrame, QHBoxLayout, QLabel, QLineEdit,
                                QListWidget, QListWidgetItem, QPushButton, QScrollArea,
-                               QSizePolicy, QTextEdit, QVBoxLayout, QWidget)
+                               QSizePolicy, QTextEdit, QVBoxLayout, QWidget, QMessageBox,
+                               QDialog, QDialogButtonBox, QGridLayout)
 
-from .widgets import ArchivePanel
-from .product_gateway import emit_input_diagnostic
+from .widgets import ArchivePanel, TypewriterOpening, HistoryTailFollower, configure_narrative_text
+from .product_gateway import emit_input_diagnostic, ModelNotReady
 
 
 def label(text: str, object_name: str | None = None) -> QLabel:
@@ -26,6 +27,87 @@ def button(text: str, primary: bool = False) -> QPushButton:
     return widget
 
 
+class ResourceRemovalDialog(QDialog):
+    """Display the detached preview; only the caller can confirm its host token."""
+    def __init__(self, parent, preview):
+        super().__init__(parent)
+        titles = {"package": "移除世界包（隐藏内置包）", "instance": "删除当前运行实例", "save": "删除存档"}
+        self.setWindowTitle(titles[preview.operation])
+        self.setObjectName("resourceRemovalDialog")
+        self.setStyleSheet("""
+            QDialog#resourceRemovalDialog { background:#181a1d; color:#d8dcda; }
+            QDialog#resourceRemovalDialog QPushButton {
+                background:#30353a; color:#d8dcda; border:1px solid #454c50;
+                border-radius:4px; padding:6px 12px;
+            }
+            QDialog#resourceRemovalDialog QPushButton:hover,
+            QDialog#resourceRemovalDialog QPushButton:focus {
+                background:#3b4043; border-color:#78817e;
+            }
+            QDialog#resourceRemovalDialog QPushButton:pressed,
+            QDialog#resourceRemovalDialog QPushButton:checked { background:#292d30; }
+            QDialog#resourceRemovalDialog QPushButton#confirmRemoval { border-color:#8d7975; }
+        """)
+        outer = QVBoxLayout(self)
+        outer.setContentsMargins(24, 20, 24, 20)
+        outer.setSpacing(16)
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setFrameShape(QFrame.Shape.NoFrame)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        content = QWidget()
+        body = QVBoxLayout(content)
+        body.setContentsMargins(0, 0, 0, 0)
+        body.setSpacing(12)
+        title = label(titles[preview.operation])
+        font = title.font()
+        font.setBold(True)
+        title.setFont(font)
+        body.addWidget(title)
+        self.subject = label(preview.name)
+        self.subject.setObjectName("removalSubject")
+        self.subject.setMinimumWidth(0)
+        self.subject.setSizePolicy(QSizePolicy.Policy.Ignored, QSizePolicy.Policy.Minimum)
+        body.addWidget(self.subject)
+        self.details = QGridLayout()
+        self.details.setHorizontalSpacing(16)
+        self.details.setVerticalSpacing(8)
+        self.details.setColumnStretch(1, 1)
+        for row, (caption, value) in enumerate((("世界 ID", preview.world_id),
+                ("资源 ID", preview.target_id), ("删除范围", preview.removed),
+                ("保留", preview.retained), ("影响", preview.consequences))):
+            key, text = label(caption), label(value)
+            key.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
+            text.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
+            text.setMinimumWidth(0)
+            text.setSizePolicy(QSizePolicy.Policy.Ignored, QSizePolicy.Policy.Minimum)
+            text.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+            self.details.addWidget(key, row, 0)
+            self.details.addWidget(text, row, 1)
+        body.addLayout(self.details)
+        self.warning = label("不可撤销：请确认已选对资源。" if preview.irreversible else "可通过管理页恢复显示。")
+        body.addWidget(self.warning)
+        body.addStretch()
+        scroll.setWidget(content)
+        outer.addWidget(scroll, 1)
+        self.actions = QDialogButtonBox()
+        self.confirm = self.actions.addButton("确认删除" if preview.irreversible else "确认移除", QDialogButtonBox.ButtonRole.DestructiveRole)
+        self.confirm.setObjectName("confirmRemoval")
+        self.confirm.setAutoDefault(False)
+        self.cancel = self.actions.addButton("取消", QDialogButtonBox.ButtonRole.RejectRole)
+        self.cancel.setDefault(True)
+        self.cancel.setFocus()
+        self.confirm.clicked.connect(self.accept)
+        self.actions.rejected.connect(self.reject)
+        outer.addWidget(self.actions)
+        available = self.screen().availableGeometry()
+        self.resize(min(560, available.width()), min(440, available.height()))
+
+
+def confirm_resource_removal(parent, preview):
+    return ResourceRemovalDialog(parent, preview).exec() == QDialog.DialogCode.Accepted
+
+
 class Page(QWidget):
     navigate = Signal(str, dict)
 
@@ -42,6 +124,62 @@ class Page(QWidget):
         top.addWidget(back, 0, Qt.AlignmentFlag.AlignLeft)
         top.addStretch()
         self.layout.addLayout(top)
+
+    def request_removal(self, operation, world_id, target_id=None, *, completed=None):
+        if getattr(self, "_removing", False):
+            return
+        try:
+            future = self.gateway.prepare_removal_async(operation, world_id, target_id)
+        except Exception:
+            self.management_status.setText("无法准备此操作；资源未被删除。")
+            return
+        self._removing = True
+        self.management_status.setText("正在核验所选资源与依赖……")
+        timer = QTimer(self)
+        self._preview_timer = timer
+        def ready():
+            if not future.done():
+                return
+            timer.stop()
+            self._removing = False
+            try:
+                preview = future.result()
+            except Exception:
+                self.management_status.setText("无法准备此操作；资源或依赖可能已变化。")
+                return
+            self._confirm_removal_preview(preview, completed)
+        timer.timeout.connect(ready)
+        timer.start(80)
+
+    def _confirm_removal_preview(self, preview, completed):
+        if not confirm_resource_removal(self, preview):
+            self.gateway.cancel_removal(preview.token)
+            self.management_status.setText("已取消；未删除任何资源。")
+            return
+        try:
+            self.gateway.begin_removal(preview.token)
+        except Exception:
+            self.management_status.setText("操作未受理；请刷新后重试。")
+            return
+        self._removing = True
+        self.management_status.setText("正在处理所选资源……")
+        timer = QTimer(self)
+        self._removal_timer = timer
+        def poll():
+            status = self.gateway.removal_status(preview.token)
+            if status.state == "running":
+                return
+            timer.stop()
+            self._removing = False
+            if status.state in {"completed", "completed_cleanup_pending"}:
+                self.management_status.setText("操作已提交；部分资源清理待恢复处理。" if status.state == "completed_cleanup_pending"
+                                               else "所选操作已完成。")
+                if completed is not None:
+                    completed()
+            else:
+                self.management_status.setText("操作未完成；选择或依赖可能已变化，请刷新后重试。")
+        timer.timeout.connect(poll)
+        timer.start(80)
 
     def title(self, text: str, subtitle: str | None = None):
         self.layout.addWidget(label(text, "pageTitle"))
@@ -88,7 +226,9 @@ class WorldListPage(Page):
         self.title("选择世界", "世界是独立的叙事空间；每个世界可以拥有多个存档和分支。")
         worlds = gateway.list_worlds()
         if not worlds:
-            self.layout.addWidget(label(getattr(gateway, "status_message", "当前没有可进入的世界。"), "muted"))
+            self.layout.addWidget(label("当前没有可选的新世界；可在管理中恢复已隐藏的世界包。"
+                                        if callable(getattr(gateway, "management_worlds", None)) else
+                                        getattr(gateway, "status_message", "当前没有可进入的世界。"), "muted"))
         for world in worlds:
             card = QFrame()
             row = QHBoxLayout(card)
@@ -100,6 +240,10 @@ class WorldListPage(Page):
             action.clicked.connect(lambda checked=False, wid=world.world_id: self.go("world_detail", world_id=wid))
             row.addWidget(action)
             self.layout.addWidget(card)
+        if callable(getattr(gateway, "management_worlds", None)):
+            manage = button("管理世界与存档")
+            manage.clicked.connect(lambda: self.go("management"))
+            self.layout.addWidget(manage)
         self.layout.addStretch()
 
 
@@ -242,6 +386,33 @@ class SaveListPage(Page):
         self.restore_button = open_btn
         self.restore_status_label = label("", "muted")
         self.layout.addWidget(self.restore_status_label)
+        self.management_status = label("", "muted")
+        self.layout.addWidget(self.management_status)
+        if callable(getattr(gateway, "prepare_removal", None)):
+            delete = button("删除选中存档")
+            delete.clicked.connect(self.delete_selected)
+            self.layout.addWidget(delete)
+
+    def delete_selected(self):
+        item = self.list.currentItem()
+        if item is not None:
+            self.request_removal("save", self.world_id, item.data(Qt.ItemDataRole.UserRole),
+                                 completed=self.refresh_saves)
+
+    def refresh_saves(self):
+        try:
+            saves = self.gateway.list_saves(self.world_id)
+        except Exception:
+            self.management_status.setText("无法核验最新存档列表；请稍后重试。")
+            self.restore_button.setEnabled(False)
+            return
+        self.saves = saves
+        self.list.clear()
+        for save in saves:
+            item = QListWidgetItem(f"{save.name}\n最近游玩  {save.updated}")
+            item.setData(Qt.ItemDataRole.UserRole, save.id)
+            self.list.addItem(item)
+        self.restore_button.setEnabled(bool(saves))
 
     def open_selected(self):
         item = self.list.currentItem()
@@ -328,6 +499,12 @@ class StagePage(Page):
         history_scroll.setWidget(history_content)
         self.layout.addWidget(history_scroll, 1)
         self.history_scroll = history_scroll
+        self._tail = HistoryTailFollower(history_scroll, self)
+        self._sequence_initial = False
+        self._collect_initial = False
+        self._initial_queue = []
+        self._initial_current = None
+        self._revealing_initial = False
 
         self._history_placeholder = label("世界尚未呈现可展示的记录。", "muted")
         self._history_placeholder.setObjectName("actionEffectEmpty")
@@ -369,11 +546,58 @@ class StagePage(Page):
             leave.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
             interaction_layout.addWidget(leave)
             self.leave_button = leave
+        if callable(getattr(gateway, "prepare_removal", None)):
+            delete_instance = button("删除当前运行实例")
+            delete_instance.clicked.connect(lambda: self.request_removal(
+                "instance", self.world_id, completed=lambda: self.go("__reset_worlds__")))
+            interaction_layout.addWidget(delete_instance)
+        self.management_status = label("", "muted")
+        self.layout.addWidget(self.management_status)
         self.layout.addWidget(interaction, 0)
         self.mode.currentIndexChanged.connect(self.update_mode)
         self.update_mode()
         self._clarification_id = None
+        self.opening = None
+        opening_reader = getattr(gateway, "take_opening", None)
+        text = opening_reader() if callable(opening_reader) else ""
+        if text:
+            self._sequence_initial = True
+            self.opening = self._animated_entry(text, "authoredOpeningText", heading="序章")
+            self._initial_current = self.opening
+        self._collect_initial = True
         self._append_display()
+        self._collect_initial = False
+        if self.opening is not None:
+            self.opening.start()
+        self.model_label = label("", "muted")
+        self.layout.insertWidget(self.layout.count() - 1, self.model_label)
+        self.retry_model_button = button("重试本地模型预热")
+        self.retry_model_button.hide()
+        self.retry_model_button.clicked.connect(self.retry_model)
+        interaction_layout.addWidget(self.retry_model_button)
+        self._model_timer = QTimer(self)
+        self._model_timer.timeout.connect(self._poll_model)
+        if callable(getattr(gateway, "model_status", None)):
+            self._poll_model()
+            self._model_timer.start(100)
+
+    def _poll_model(self):
+        status = self.gateway.model_status()
+        self.model_label.setText({
+            "warming": "本地模型正在后台预热；可以继续阅读序章。",
+            "ready": "本地模型预热请求已完成。",
+            "failed": "本地模型预热未完成；检查服务后可手动重试。",
+            "not_configured": "尚未配置本地输入解释模型。",
+        }.get(status.state, ""))
+        self.retry_model_button.setVisible(status.state == "failed")
+
+    def retry_model(self):
+        try:
+            self.gateway.retry_model_warmup()
+        except Exception:
+            self.response.setText("当前无法预热；输入仍保留在编辑框中。")
+            return
+        self._poll_model()
 
     def leave_world(self):
         try:
@@ -389,6 +613,10 @@ class StagePage(Page):
             return ()
         shown = []
         for entry in reader():
+            # Consume startup delivery only; retain authorized evidence/candidates.
+            # Explicit OBSERVE revalidates and presents the current scene.
+            if self._collect_initial and entry.kind in {"fact", "observation"}:
+                continue
             if entry.kind not in {"fact", "dialogue", "clarification", "narrative", "observation", "action_feedback"}:
                 continue
             if entry.kind == "clarification":
@@ -397,22 +625,75 @@ class StagePage(Page):
                 "fact": "actionEffectEntry", "dialogue": "dialogueEntry",
                 "clarification": "clarificationEntry", "narrative": "narrativeEntry",
                 "observation": "actionEffectEntry", "action_feedback": "actionEffectEntry",
-            }[entry.kind])
+            }[entry.kind], animate=self._collect_initial)
             shown.append((entry.kind, getattr(entry, "request_id", None)))
         return tuple(shown)
 
-    def _append_history_line(self, text: str, object_name: str):
-        bar = self.history_scroll.verticalScrollBar()
-        at_bottom = bar.maximum() - bar.value() <= 16
+    def _remove_placeholder(self):
         if self._history_placeholder:
             self._history_placeholder.hide()
             self._history_placeholder.deleteLater()
             self._history_placeholder = None
+
+    def _animated_entry(self, text, name, *, heading=""):
+        self._remove_placeholder()
+        item = TypewriterOpening(text, self, heading=heading, start=False)
+        item.text_label.setObjectName(name)
+        self.action_effect_history.insertWidget(self.action_effect_history.count() - 1, item)
+        item.finished.connect(self._next_initial)
+        item.finished.connect(self._tail.request)
+        item.skip_requested.connect(self._reveal_initial)
+        self._tail.request()
+        return item
+
+    def _next_initial(self):
+        if self._revealing_initial:
+            return
+        self._initial_current = None
+        while self._initial_queue:
+            text, name, animate = self._initial_queue.pop(0)
+            if animate:
+                item = self._animated_entry(text, name)
+                self._initial_current = item
+                item.start()
+                return
+            self._static_history_line(text, name)
+        self._sequence_initial = False
+
+    def _reveal_initial(self):
+        if not self._sequence_initial:
+            return
+        self._revealing_initial = True
+        try:
+            if self._initial_current is not None:
+                self._initial_current.finish()
+            while self._initial_queue:
+                text, name, animate = self._initial_queue.pop(0)
+                if animate:
+                    self._animated_entry(text, name).finish()
+                else:
+                    self._static_history_line(text, name)
+            self._initial_current = None
+            self._sequence_initial = False
+        finally:
+            self._revealing_initial = False
+        self._tail.request()
+
+    def _append_history_line(self, text: str, object_name: str, *, animate=False):
+        if self._sequence_initial:
+            self._initial_queue.append((text, object_name, animate))
+        else:
+            self._static_history_line(text, object_name)
+
+    def _static_history_line(self, text, object_name):
+        self._remove_placeholder()
         item = label(text)
         item.setObjectName(object_name)
+        if object_name == "actionEffectEntry":
+            configure_narrative_text(item)
+        item.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
         self.action_effect_history.insertWidget(self.action_effect_history.count() - 1, item)
-        if at_bottom:
-            QTimer.singleShot(0, lambda: bar.setValue(bar.maximum()))
+        self._tail.request()
 
     def _on_performance(self, event):
         """Render only an allowlisted action/effect projection, never dialogue."""
@@ -423,13 +704,7 @@ class StagePage(Page):
         parts = [part for part in (event.subject, event.action, event.effect) if part]
         if not parts:
             return
-        if self._history_placeholder:
-            self._history_placeholder.hide()
-            self._history_placeholder.deleteLater()
-            self._history_placeholder = None
-        entry = label("  ·  ".join(parts))
-        entry.setObjectName("actionEffectEntry")
-        self.action_effect_history.insertWidget(self.action_effect_history.count() - 1, entry)
+        self._append_history_line("  ·  ".join(parts), "actionEffectEntry")
 
     def update_mode(self):
         self.input_area.setPlaceholderText("描述想尝试的行动；不可确定的输入不会被强行执行。")
@@ -488,9 +763,16 @@ class StagePage(Page):
                 request_id = self.gateway.submit_input(raw)
             else:
                 request_id = self.gateway.submit_input(raw, clarification_id=self._clarification_id)
+        except ModelNotReady as exc:
+            self.response.setText("本地模型正在预热；输入已保留，请就绪后再次提交。"
+                                  if exc.state == "warming" else
+                                  "本地模型预热未完成；输入已保留，请检查服务并重试预热。")
+            self._poll_model()
+            return
         except Exception:
             self.response.setText("输入未受理；请检查会话状态。")
             return
+        self._reveal_initial()
         self._pending_request = request_id
         self._handled_terminal = None
         self._append_history_line(f"你：{raw}", "playerInputEntry")
@@ -706,8 +988,54 @@ class SettingsPage(Page):
         self.layout.addStretch()
 
 
+class ManagementPage(Page):
+    def __init__(self, gateway, route, parent=None):
+        super().__init__(gateway, route, parent)
+        self.title("管理世界与存档", "世界包、运行实例与保存槽分别管理；确认前不会删除资源。")
+        self.worlds = QComboBox()
+        reader = getattr(gateway, "management_worlds", None)
+        if not callable(reader):
+            self.layout.addWidget(label("管理接口尚未接入。"))
+            return
+        for world in reader():
+            self.worlds.addItem(world.title, world.world_id)
+        self.layout.addWidget(self.worlds)
+        self.management_status = label("", "muted")
+        self.layout.addWidget(self.management_status)
+        self.layout.addWidget(label("内置包移除只隐藏目录入口，源码和存档保留。永久删除持久世界实例尚无安全的所有权目录支持。"))
+        remove = button("移除所选世界包")
+        remove.clicked.connect(lambda: self.request_removal("package", self.worlds.currentData(), completed=self.refresh_management))
+        self.layout.addWidget(remove)
+        restore = button("恢复所选包的目录显示")
+        restore.clicked.connect(self.restore_visibility)
+        self.layout.addWidget(restore)
+        saves = button("查看／恢复／删除所选世界的存档")
+        saves.clicked.connect(lambda: self.go("saves", world_id=self.worlds.currentData()))
+        self.layout.addWidget(saves)
+        instance = button("删除所选世界的当前运行实例")
+        instance.clicked.connect(lambda: self.request_removal("instance", self.worlds.currentData(), completed=lambda: self.go("__reset_worlds__")))
+        self.layout.addWidget(instance)
+        self.layout.addStretch()
+        self.worlds.currentIndexChanged.connect(self.refresh_management)
+        self.refresh_management()
+
+    def refresh_management(self):
+        world_id = self.worlds.currentData()
+        if world_id is not None:
+            hidden = self.gateway.package_hidden(world_id)
+            self.management_status.setText("此包已隐藏；存档访问仍保留。" if hidden else "此包可供管理；旧版兼容包不加入新世界选择。")
+
+    def restore_visibility(self):
+        try:
+            self.gateway.restore_package_visibility(self.worlds.currentData())
+            self.refresh_management()
+        except Exception:
+            self.management_status.setText("未能恢复目录显示；请稍后重试。")
+
+
 PAGE_TYPES = {
     "home": HomePage, "worlds": WorldListPage, "world_detail": WorldDetailPage,
     "saves": SaveListPage, "stage": StagePage, "archive": ArchivePage,
     "history": HistoryPage, "timeline": TimelinePage, "settings": SettingsPage,
+    "management": ManagementPage,
 }

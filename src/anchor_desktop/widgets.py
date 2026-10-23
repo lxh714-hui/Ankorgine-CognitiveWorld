@@ -1,10 +1,10 @@
 import hashlib
 from enum import Enum
 
-from PySide6.QtCore import Qt, QSettings, Signal, QTimer, QPoint
-from PySide6.QtGui import QColor, QPainter, QPen
+from PySide6.QtCore import Qt, QSettings, Signal, QTimer, QPoint, QPointF, QRectF
+from PySide6.QtGui import QColor, QPainter, QPen, QPolygonF
 from PySide6.QtWidgets import (QFrame, QHBoxLayout, QLabel, QSizePolicy, QScrollArea,
-                               QVBoxLayout, QWidget)
+                               QVBoxLayout, QWidget, QPushButton, QToolButton)
 
 
 SETTINGS_FORMAT = QSettings.Format.IniFormat
@@ -16,6 +16,163 @@ ARCHIVE_STATE_KEY = "archive/state"
 
 def archive_settings() -> QSettings:
     return QSettings(SETTINGS_FORMAT, SETTINGS_SCOPE, SETTINGS_ORGANIZATION, SETTINGS_APPLICATION)
+
+
+def hidden_world_ids():
+    value = archive_settings().value("catalog/hidden_world_ids", [])
+    return tuple(item for item in value if isinstance(item, str)) if isinstance(value, (list, tuple)) else ()
+
+
+def save_hidden_world_ids(values):
+    settings = archive_settings()
+    settings.setValue("catalog/hidden_world_ids", list(values))
+    settings.sync()
+    if settings.status() != QSettings.Status.NoError:
+        raise OSError("package visibility settings could not be saved")
+
+
+def configure_narrative_text(widget):
+    """Share plain-text metrics without adding breaks or changing selection."""
+    widget.setTextFormat(Qt.TextFormat.PlainText)
+    widget.setWordWrap(True)
+    widget.setIndent(0)
+    widget.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
+    widget.setContentsMargins(0, 0, 0, 0)
+    widget.setStyleSheet("padding:3px 0; margin:0; border:0;")
+
+
+class OpeningSkipButton(QToolButton):
+    """Geometry-only icon: no font glyph, icon asset or native button painting."""
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setObjectName("openingSkip")
+        self.setToolTip("跳过动画")
+        self.setAccessibleName("跳过动画")
+        self.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+        self.setFixedSize(28, 28)
+        self.setAutoFillBackground(False)
+        self.setAttribute(Qt.WidgetAttribute.WA_NoSystemBackground, True)
+        self.setAttribute(Qt.WidgetAttribute.WA_Hover, True)
+
+    def paintEvent(self, event):
+        # Deliberately do not call QToolButton.paintEvent / style.drawControl.
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+        emphasized = self.underMouse() or self.hasFocus() or self.isChecked()
+        if emphasized or self.isDown():
+            painter.setPen(QPen(QColor("#686868"), 1))
+            painter.setBrush(Qt.BrushStyle.NoBrush)
+            painter.drawRoundedRect(QRectF(0.5, 0.5, self.width() - 1, self.height() - 1), 4, 4)
+        color = "#f2f2f2" if self.isDown() else "#dedede" if emphasized else "#b4b4b4"
+        painter.setPen(Qt.PenStyle.NoPen)
+        painter.setBrush(QColor(color))
+        painter.translate(self.width() / 2 - 9, self.height() / 2 - 6)
+        for x in (0, 7):
+            painter.drawPolygon(QPolygonF([QPointF(x, 0), QPointF(x + 6, 6), QPointF(x, 12)]))
+        painter.drawRect(QRectF(16, 0, 2, 12))
+
+
+class TypewriterOpening(QWidget):
+    """Plain-text animation shared by authored prose and verified initial messages."""
+    finished = Signal()
+    skip_requested = Signal()
+
+    def __init__(self, text: str, parent=None, *, heading="序章", start=True):
+        super().__init__(parent)
+        self.setObjectName("authoredOpening")
+        self._text, self._cursor, self._finished = text, 0, False
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(0, 0, 0, 0)
+        if heading:
+            title = QLabel(heading)
+            title.setTextFormat(Qt.TextFormat.PlainText)
+            title.setWordWrap(True)
+            layout.addWidget(title)
+        self.text_label = QLabel("")
+        configure_narrative_text(self.text_label)
+        self.text_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+        layout.addWidget(self.text_label)
+        # A child overlay, never an item in the narrative layout.
+        self.skip_button = OpeningSkipButton(self)
+        self.skip_button.clicked.connect(self.skip)
+        self.skip_button.hide()
+        self.setMinimumSize(36, 36)
+        self._position_skip()
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.advance)
+        if start:
+            self.start()
+
+    def _position_skip(self):
+        inset = 4
+        self.skip_button.move(self.width() - self.skip_button.width() - inset, inset)
+        # On narrow panels keep the full text width, below the small control.
+        margins = (0, 36, 0, 0) if self.width() < 160 else (0, 0, 36, 0)
+        if self.layout().getContentsMargins() != margins:
+            self.layout().setContentsMargins(*margins)
+        self.skip_button.raise_()
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        self._position_skip()
+
+    def start(self):
+        self.advance()
+        if not self._finished:
+            self.timer.start(25)
+            self.skip_button.show()
+            self.skip_button.raise_()
+
+    def advance(self):
+        if self._finished:
+            return
+        self._cursor = min(len(self._text), self._cursor + 2)
+        self.text_label.setText(self._text[:self._cursor])
+        if self._cursor == len(self._text):
+            self.finish()
+
+    def finish(self):
+        if self._finished:
+            return
+        self.timer.stop()
+        self._cursor, self._finished = len(self._text), True
+        self.text_label.setText(self._text)
+        self.skip_button.hide()
+        self.finished.emit()
+
+    def skip(self):
+        self.skip_requested.emit()
+        self.finish()
+
+
+class HistoryTailFollower(QWidget):
+    """Coalesced layout-driven following; never poll or rerender history."""
+    def __init__(self, scroll, parent=None):
+        super().__init__(parent)
+        self.hide()
+        self.bar = scroll.verticalScrollBar()
+        self.following, self._moving = True, False
+        self._deferred = QTimer(self)
+        self._deferred.setSingleShot(True)
+        self._deferred.timeout.connect(self._follow)
+        self.bar.valueChanged.connect(self._position_changed)
+        self.bar.rangeChanged.connect(self.request)
+
+    def _position_changed(self, value):
+        if not self._moving:
+            self.following = self.bar.maximum() - value <= 16
+
+    def request(self, *args):
+        if self.following and not self._deferred.isActive():
+            self._deferred.start(0)
+
+    def _follow(self):
+        if self.following:
+            self._moving = True
+            try:
+                self.bar.setValue(self.bar.maximum())
+            finally:
+                self._moving = False
 
 
 class ArchiveState(str, Enum):
