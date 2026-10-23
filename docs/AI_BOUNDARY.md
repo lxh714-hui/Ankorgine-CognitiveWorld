@@ -70,6 +70,12 @@ Each component has independent responsibilities.
 
 # 4. Cognitive AI
 
+## 4.0 Hybrid cognition allocation (architectural direction)
+
+The [system architecture](ARCHITECTURE.md#hybrid-cognition-execution-levels-architectural-direction-unified-policy-not-implemented) distinguishes deterministic fast paths, structured owner-scoped cognition, and optional LLM-assisted high-level reasoning. These are compute choices across the existing five cognitive functions, not new Stores or a requirement to call an LLM for every Agent turn. Known facts and installed rules should use deterministic processing where sufficient; uncertainty, complexity, importance or causal impact may justify bounded higher-cost proposals. There is no implemented unified policy that selects among these levels.
+
+An LLM may suggest an interpretation, hypothesis, plan, expected outcome or social reading only from the recipient's authorized context. Its structured output must be validated against current identity, evidence, capability and Runtime bindings before use. It cannot turn a mentioned entity into an installed one, authorize a target, decide a social recipient's Belief, assert an actual outcome, or grant itself more observation detail. The exact feedback and Memory write boundaries remain in [MEMORY_DESIGN.md](MEMORY_DESIGN.md#cognitive-feedback-and-evidence-provenance-architectural-direction).
+
 ## 4.1 Responsibility
 
 Cognitive AI interprets player input.

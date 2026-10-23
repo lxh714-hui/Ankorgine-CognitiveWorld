@@ -61,7 +61,8 @@ def test_old_clarification_cannot_rebind_after_formal_travel(world_id):
             ))
         new_location = context.world_state.locations[binding.controlled_agent_id]
         assert new_location != old_location
-        assert context.event_history.get_events()[-1].has_trusted_source("resolution")
+        assert any(event.has_trusted_source("resolution") for event in
+                   context.event_history.get_events())
         target = next(ref for ref, value in context.world_state.environment.items()
                       if getattr(value, "interaction_location_id", None) == new_location)
         session.runtime.event_processor.dispatch_with_evidence(SystemEventFactory().create(
@@ -74,6 +75,7 @@ def test_old_clarification_cannot_rebind_after_formal_travel(world_id):
         before_state = dict(context.world_state.environment)
         answer = session.player_tasks.submit_input(PlayerInputRequest(
             "old-choice-answer", binding.session_id, world_id, "1",
+            clarification_id="old-choice",
         ))
         assert session.player_tasks.completion(answer).result(timeout=5).outcome_status == "clarification_expired"
         assert context.event_history.get_events() == before_events
@@ -106,10 +108,188 @@ def test_clarification_keeps_original_identity_when_candidate_order_and_handles_
         before = len(session.runtime.context.event_history.get_events())
         second = session.player_tasks.submit_input(PlayerInputRequest(
             "ordered-answer", binding.session_id, "rain-harbor", "1",
+            clarification_id="ordered-choice",
         ))
         assert session.player_tasks.completion(second).result(timeout=5).outcome_status == "resolved"
         assert session.runtime.context.world_state.environment[selected].is_open
         assert len(session.runtime.context.event_history.get_events()) == before + 1
+    finally:
+        session.close()
+
+
+def test_clarification_survives_unrelated_formal_world_change():
+    from cognitive_world.core.update import WorldUpdate
+    from cognitive_world.event.factory import SystemEventFactory
+    from cognitive_world.event.handler import EventHandler
+
+    session = start_new_world(WorldPackageCatalog(PACKAGES).package("rain-harbor"),
+                              trust=HmacPersistenceTrust(b"unrelated-choice-key" * 4),
+                              input_understanding_provider=CandidateInteractionInterpreter(clarify=True))
+    try:
+        context = session.runtime.context
+        binding = context.player_session
+        target = session.player_service._request_candidates()[0][1]
+        first = session.player_tasks.submit_input(PlayerInputRequest(
+            "unrelated-choice", binding.session_id, "rain-harbor", "Operate this object.",
+        ))
+        assert session.player_tasks.completion(first).result(timeout=5).outcome_status == "clarification_required"
+
+        class RecordUnrelatedFact(EventHandler):
+            def handle(self, event):
+                return WorldUpdate("facts", "update", {"unrelated-audit-fact": True})
+
+        session.runtime.event_processor.register_handler("test_unrelated_fact", RecordUnrelatedFact())
+        session.runtime.event_processor.dispatch_with_evidence(SystemEventFactory().create(
+            event_id="unrelated-formal-change", event_type="test_unrelated_fact", timestamp="0",
+        ))
+        assert context.world_state.facts["unrelated-audit-fact"] is True
+        before = len(context.event_history.get_events())
+        second = session.player_tasks.submit_input(PlayerInputRequest(
+            "unrelated-answer", binding.session_id, "rain-harbor", "1",
+            clarification_id="unrelated-choice",
+        ))
+        assert session.player_tasks.completion(second).result(timeout=5).outcome_status == "resolved"
+        assert context.world_state.environment[target].is_open
+        assert len(context.event_history.get_events()) == before + 1
+    finally:
+        session.close()
+
+
+@pytest.mark.parametrize("wrong_selection", ("unlisted", "wrong_ordinal"))
+def test_choice_rejects_authorized_candidate_outside_displayed_options(wrong_selection):
+    from dataclasses import replace
+    from cognitive_world.content.models import MechanismTemplate
+
+    class WrongChoice(CandidateInteractionInterpreter):
+        def understand_candidates(self, request, *, candidates):
+            doors = tuple(item for item in candidates if item.kind == "door")
+            assert len(doors) == 2
+            return PlayerInputAssessment(
+                InputUnderstandingStatus.CLARIFICATION_REQUIRED,
+                "open a door", "push the door", None,
+                ("target",), "Which door?", "choice",
+                tuple(item.handle for item in doors),
+            )
+
+        def resolve_clarification(self, request, *, original, prior, candidates):
+            selected = next(item for item in candidates if item.handle == (
+                prior.option_handles[1] if wrong_selection == "wrong_ordinal" else
+                next(item.handle for item in candidates if item.handle not in prior.option_handles)
+            ))
+            return PlayerInputAssessment(InputUnderstandingStatus.ACTION, prior.intent,
+                                         selected.supported_methods[0], selected.handle)
+
+    package = WorldPackageCatalog(PACKAGES).package("rain-harbor")
+    locations = list(package.proposal.locations)
+    locations[0] = replace(locations[0], mechanisms=locations[0].mechanisms + (
+        MechanismTemplate("second-door", "door"),
+    ))
+    package = replace(package, proposal=replace(package.proposal, locations=tuple(locations)))
+    session = start_new_world(package, trust=HmacPersistenceTrust(b"wrong-choice-key" * 4),
+                              input_understanding_provider=WrongChoice())
+    try:
+        binding = session.runtime.context.player_session
+        first = session.player_tasks.submit_input(PlayerInputRequest(
+            "subset-question", binding.session_id, "rain-harbor", "Open a door.",
+        ))
+        assert session.player_tasks.completion(first).result(timeout=5).outcome_status == "clarification_required"
+        before_events = session.runtime.context.event_history.get_events()
+        before_state = dict(session.runtime.context.world_state.environment)
+        second = session.player_tasks.submit_input(PlayerInputRequest(
+            "subset-answer", binding.session_id, "rain-harbor", "1",
+            clarification_id="subset-question",
+        ))
+        assert session.player_tasks.completion(second).result(timeout=5).outcome_status == "reasoning_unavailable"
+        assert session.runtime.context.event_history.get_events() == before_events
+        assert session.runtime.context.world_state.environment == before_state
+        assert all(event.cause != "subset-answer" for event in before_events)
+    finally:
+        session.close()
+
+
+def test_free_text_clarification_keeps_authorized_target_path():
+    class FreeText(CandidateInteractionInterpreter):
+        def understand_candidates(self, request, *, candidates):
+            return PlayerInputAssessment(
+                InputUnderstandingStatus.CLARIFICATION_REQUIRED,
+                "open the observed door", "push the door", None,
+                ("target",), "Which object?", "free_text",
+            )
+
+        def resolve_clarification(self, request, *, original, prior, candidates):
+            door = next(item for item in candidates if item.kind == "door")
+            return PlayerInputAssessment(InputUnderstandingStatus.ACTION, prior.intent,
+                                         door.supported_methods[0], door.handle)
+
+    session = start_new_world(WorldPackageCatalog(PACKAGES).package("rain-harbor"),
+                              trust=HmacPersistenceTrust(b"free-text-choice-key" * 4),
+                              input_understanding_provider=FreeText())
+    try:
+        binding = session.runtime.context.player_session
+        first = session.player_tasks.submit_input(PlayerInputRequest(
+            "free-text-question", binding.session_id, "rain-harbor", "Open that.",
+        ))
+        assert session.player_tasks.completion(first).result(timeout=5).outcome_status == "clarification_required"
+        answer = session.player_tasks.submit_input(PlayerInputRequest(
+            "free-text-answer", binding.session_id, "rain-harbor", "The door I can see.",
+            clarification_id="free-text-question",
+        ))
+        assert session.player_tasks.completion(answer).result(timeout=5).outcome_status == "resolved"
+        door = next(reference for candidate, reference in session.player_service._request_candidates()
+                    if candidate.kind == "door")
+        assert session.runtime.context.world_state.environment[door].is_open
+    finally:
+        session.close()
+
+
+def test_late_reply_cannot_answer_a_newer_clarification():
+    class TwoQuestions(CandidateInteractionInterpreter):
+        def understand_candidates(self, request, *, candidates):
+            selected = candidates[0] if request.text == "first question" else candidates[-1]
+            return PlayerInputAssessment(
+                InputUnderstandingStatus.CLARIFICATION_REQUIRED,
+                "operate the selected object", "pending", None,
+                ("target",), "Which object?", "choice", (selected.handle,),
+            )
+
+        def resolve_clarification(self, request, *, original, prior, candidates):
+            if request.text == "second question":
+                return PlayerInputAssessment(InputUnderstandingStatus.INDEPENDENT_REQUEST)
+            selected = next(item for item in candidates if item.handle == prior.option_handles[0])
+            return PlayerInputAssessment(InputUnderstandingStatus.ACTION, prior.intent,
+                                         selected.supported_methods[0], selected.handle)
+
+    session = start_new_world(WorldPackageCatalog(PACKAGES).package("rain-harbor"),
+                              trust=HmacPersistenceTrust(b"two-questions-key" * 4),
+                              input_understanding_provider=TwoQuestions())
+    try:
+        binding = session.runtime.context.player_session
+        for request_id, text, clarification_id in (
+            ("question-a", "first question", None),
+            ("question-b", "second question", "question-a"),
+        ):
+            handle = session.player_tasks.submit_input(PlayerInputRequest(
+                request_id, binding.session_id, "rain-harbor", text,
+                clarification_id=clarification_id,
+            ))
+            assert session.player_tasks.completion(handle).result(timeout=5).outcome_status == "clarification_required"
+        before_events = session.runtime.context.event_history.get_events()
+        before_state = dict(session.runtime.context.world_state.environment)
+        stale = session.player_tasks.submit_input(PlayerInputRequest(
+            "late-a", binding.session_id, "rain-harbor", "1", clarification_id="question-a",
+        ))
+        assert session.player_tasks.completion(stale).result(timeout=5).outcome_status == "clarification_expired"
+        missing = session.player_tasks.submit_input(PlayerInputRequest(
+            "missing-id", binding.session_id, "rain-harbor", "1",
+        ))
+        assert session.player_tasks.completion(missing).result(timeout=5).outcome_status == "clarification_expired"
+        assert session.runtime.context.event_history.get_events() == before_events
+        assert session.runtime.context.world_state.environment == before_state
+        current = session.player_tasks.submit_input(PlayerInputRequest(
+            "answer-b", binding.session_id, "rain-harbor", "1", clarification_id="question-b",
+        ))
+        assert session.player_tasks.completion(current).result(timeout=5).outcome_status == "resolved"
+        assert len(session.runtime.context.event_history.get_events()) == len(before_events) + 1
     finally:
         session.close()
 
@@ -133,6 +313,7 @@ def test_clarification_expires_after_formal_target_state_change():
         before = session.runtime.context.event_history.get_events()
         second = session.player_tasks.submit_input(PlayerInputRequest(
             "changed-answer", binding.session_id, "rain-harbor", "1",
+            clarification_id="changed-choice",
         ))
         assert session.player_tasks.completion(second).result(timeout=5).outcome_status == "clarification_expired"
         assert session.runtime.context.event_history.get_events() == before
@@ -185,6 +366,7 @@ def test_clarification_rejects_removed_or_same_description_different_identity(re
         before_state = dict(context.world_state.environment)
         second = session.player_tasks.submit_input(PlayerInputRequest(
             "identity-answer", binding.session_id, "rain-harbor", "1",
+            clarification_id="identity-choice",
         ))
         assert session.player_tasks.completion(second).result(timeout=5).outcome_status == "clarification_expired"
         assert context.event_history.get_events() == before_events
@@ -224,6 +406,7 @@ def test_clarification_rechecks_context_at_final_dispatch_boundary(monkeypatch):
         before = len(context.event_history.get_events())
         second = session.player_tasks.submit_input(PlayerInputRequest(
             "final-answer", binding.session_id, "rain-harbor", "1",
+            clarification_id="final-choice",
         ))
         assert session.player_tasks.completion(second).result(timeout=5).outcome_status == "clarification_expired"
         assert len(context.event_history.get_events()) == before + 1  # travel only
@@ -384,7 +567,8 @@ def test_choice_clarification_continues_original_action_once_across_worlds(world
         first = session.player_tasks.submit_input(original)
         assert session.player_tasks.completion(first).result(timeout=5).outcome_status == "clarification_required"
         assert len(history.get_events()) == before
-        answer = PlayerInputRequest("clarify-answer", binding.session_id, world_id, "1")
+        answer = PlayerInputRequest("clarify-answer", binding.session_id, world_id, "1",
+                                    clarification_id="clarify-original")
         second = session.player_tasks.submit_input(answer)
         outcome = session.player_tasks.completion(second).result(timeout=5)
         assert outcome.outcome_status == "resolved"
@@ -514,6 +698,7 @@ def test_expired_clarification_cannot_resume_a_world_action(monkeypatch):
         clock[0] = 121.0
         second = session.player_tasks.submit_input(PlayerInputRequest(
             "expired-answer", binding.session_id, "rain-harbor", "1",
+            clarification_id="expired-original",
         ))
         assert session.player_tasks.completion(second).result(timeout=5).outcome_status == "clarification_expired"
         assert len(session.runtime.context.event_history.get_events()) == before
@@ -551,6 +736,7 @@ def test_pending_clarification_is_not_reused_after_runtime_or_user_invalidation(
             )
         second = session.player_tasks.submit_input(PlayerInputRequest(
             "pending-answer", binding.session_id, "rain-harbor", "1",
+            clarification_id="pending-original",
         ))
         outcome = session.player_tasks.completion(second).result(timeout=5)
         assert outcome.outcome_status != "resolved"
@@ -581,6 +767,7 @@ def test_explicit_new_request_replaces_pending_clarification_without_reusing_its
         assert session.player_tasks.completion(first).result(timeout=5).outcome_status == "clarification_required"
         second = session.player_tasks.submit_input(PlayerInputRequest(
             "new-independent", binding.session_id, "rain-harbor", "查看周围",
+            new_request=True,
         ))
         assert session.player_tasks.completion(second).result(timeout=5).outcome_status == "observed"
         assert session.player_service._pending_clarification is None
@@ -613,6 +800,7 @@ def test_yes_no_answer_is_only_interpreted_for_an_explicit_yes_no_clarification(
         assert session.player_tasks.completion(first).result(timeout=5).outcome_status == "clarification_required"
         second = session.player_tasks.submit_input(PlayerInputRequest(
             "confirm-answer", binding.session_id, "rain-harbor", answer,
+            clarification_id="confirm-original",
         ))
         status = session.player_tasks.completion(second).result(timeout=5).outcome_status
         assert status == ("resolved" if expected_delta else "clarification_cancelled")
@@ -665,6 +853,256 @@ def test_desktop_read_only_observation_uses_thin_authorized_projection(world_id)
         assert gateway.read_display() == ()
     finally:
         gateway.close()
+
+
+def test_desktop_gateway_continues_the_issued_clarification():
+    gateway = DesktopProductGateway(
+        PACKAGES, trust_supplier=lambda: HmacPersistenceTrust(b"desktop-clarification-key" * 3),
+        input_understanding_provider=CandidateInteractionInterpreter(clarify=True),
+    )
+    try:
+        gateway.begin_world("rain-harbor")
+        assert _wait_for_entry(gateway).state == "ready"
+        gateway.read_display()
+        question_id = gateway.submit_input("Open this object.")
+        deadline = monotonic() + 5
+        while gateway.input_status(question_id).execution.value in {"accepted", "running"} and monotonic() < deadline:
+            sleep(0.01)
+        assert gateway.input_status(question_id).outcome_status == "clarification_required"
+        assert any(entry.kind == "clarification" and entry.request_id == question_id
+                   for entry in gateway.read_display())
+        session = gateway._active
+        target = session.player_service._request_candidates()[0][1]
+        before_events = len(session.runtime.context.event_history.get_events())
+        answer_id = gateway.submit_input("1", clarification_id=question_id)
+        while gateway.input_status(answer_id).execution.value in {"accepted", "running"} and monotonic() < deadline:
+            sleep(0.01)
+        assert gateway.input_status(answer_id).outcome_status == "resolved"
+        new_events = session.runtime.context.event_history.get_events()[before_events:]
+        assert len(new_events) == 1 and new_events[0].has_trusted_source("resolution")
+        assert session.runtime.context.world_state.environment[target].is_open
+    finally:
+        gateway.close()
+
+
+@pytest.mark.parametrize("world_id", ("clockwork-library", "rain-harbor"))
+def test_passage_arrival_reaches_desktop_and_followup_uses_new_location(
+    world_id, tmp_path, monkeypatch, caplog,
+):
+    monkeypatch.setenv("COGNITIVEWORLD_DESKTOP_INPUT_DIAGNOSTICS", "1")
+    class TravelThenObserve:
+        def understand_candidates(self, request, *, candidates):
+            if request.text == "look after travel":
+                return PlayerInputAssessment(InputUnderstandingStatus.OBSERVE,
+                                             "inspect current surroundings")
+            passage = next(item for item in candidates if item.kind == "passage")
+            return PlayerInputAssessment(InputUnderstandingStatus.ACTION,
+                                         "travel through observed passage",
+                                         passage.supported_methods[0], passage.handle)
+
+    gateway = DesktopProductGateway(
+        PACKAGES, trust_supplier=lambda: HmacPersistenceTrust(b"arrival-display-key" * 4),
+        input_understanding_provider=TravelThenObserve(), saves_root=tmp_path / "saves",
+    )
+    try:
+        gateway.begin_world(world_id)
+        assert _wait_for_entry(gateway).state == "ready"
+        session = gateway._active
+        context = session.runtime.context
+        actor = context.player_session.controlled_agent_id
+        original_location = context.world_state.locations[actor]
+        original_targets = {reference for _, reference in session.player_service._request_candidates()}
+        gateway.read_display()
+        before_events = context.event_history.get_events()
+
+        request_id = gateway.submit_input("travel through the passage")
+        deadline = monotonic() + 5
+        while (gateway.input_status(request_id).execution.value in {"accepted", "running"}
+               and monotonic() < deadline):
+            sleep(0.01)
+        assert gateway.input_status(request_id).outcome_status == "resolved"
+        arrival_location = context.world_state.locations[actor]
+        assert arrival_location != original_location
+        assert len(context.event_history.get_events()) == len(before_events) + 1
+        event = context.event_history.get_events()[-1]
+        assert event.has_trusted_source("resolution")
+        observations = context.observation_store.get_by_observer(actor)
+        assert any(item.source_event_id == event.id
+                   and item.content.predicate == "actor_arrived"
+                   and item.content.value == arrival_location for item in observations)
+        entries = gateway.read_display()
+        assert any(item.kind == "fact" and item.text == "你到达了新的地点。"
+                   for item in entries)
+        assert all(arrival_location not in item.text and actor not in item.text
+                   for item in entries)
+        diagnostic = [json.loads(item.getMessage().split("CW_INPUT_DIAGNOSTIC ", 1)[1])
+                      for item in caplog.records
+                      if "CW_INPUT_DIAGNOSTIC " in item.getMessage()
+                      and f'"request_id": "{request_id}"' in item.getMessage()]
+        processed = next(item for item in diagnostic if item["stage"] == "event_processing")
+        presented = next(item for item in diagnostic if item["stage"] == "presentation")
+        terminal = next(item for item in diagnostic if item["stage"] == "gateway_terminal")
+        assert processed["effect_type"] == "actor_location_changed"
+        assert processed["location_before"] == original_location
+        assert processed["location_after"] == arrival_location
+        assert processed["location_changed"] is True
+        assert processed["event_processed"] is True
+        assert processed["arrival_fact_emitted"] is True
+        assert processed["arrival_observation_authorized"] is True
+        assert presented["arrival_observation_used_by_presentation"] is True
+        assert presented["confirmed_message_count"] == 1
+        assert terminal["outcome_status"] == "resolved"
+        assert not original_targets.intersection(
+            reference for _, reference in session.player_service._request_candidates()
+        )
+
+        count_after_travel = len(context.event_history.get_events())
+        followup_id = gateway.submit_input("look after travel")
+        deadline = monotonic() + 5
+        while (gateway.input_status(followup_id).execution.value in {"accepted", "running"}
+               and monotonic() < deadline):
+            sleep(0.01)
+        assert gateway.input_status(followup_id).outcome_status == "observed"
+        assert len(context.event_history.get_events()) == count_after_travel
+        assert any(item.kind == "observation" and item.text == "你到达了新的地点。"
+                   for item in gateway.read_display())
+    finally:
+        gateway.close()
+
+
+@pytest.mark.parametrize("traversable,suppress_display", ((False, False), (True, True)))
+def test_input_diagnostics_separate_location_arrival_observation_and_display(
+    traversable, suppress_display, monkeypatch, caplog,
+):
+    from dataclasses import replace
+
+    class Travel:
+        def understand_candidates(self, request, *, candidates):
+            passage = next(item for item in candidates if item.kind == "passage")
+            return PlayerInputAssessment(InputUnderstandingStatus.ACTION, "traverse passage",
+                                         passage.supported_methods[0], passage.handle)
+
+    monkeypatch.setenv("COGNITIVEWORLD_DESKTOP_INPUT_DIAGNOSTICS", "1")
+    package = WorldPackageCatalog(PACKAGES).package("rain-harbor")
+    locations = list(package.proposal.locations)
+    source = locations[0]
+    locations[0] = replace(source, mechanisms=tuple(
+        replace(item, operable=traversable) if item.kind == "passage" else item
+        for item in source.mechanisms
+    ))
+    package = replace(package, proposal=replace(package.proposal, locations=tuple(locations)))
+    session = start_new_world(package, trust=HmacPersistenceTrust(b"diagnostic-route-key" * 4),
+                              input_understanding_provider=Travel())
+    try:
+        if suppress_display:
+            monkeypatch.setattr(session.player_service.presentation.visibility_filter,
+                                "filter", lambda *args: ())
+        context = session.runtime.context
+        binding = context.player_session
+        actor = binding.controlled_agent_id
+        before_location = context.world_state.locations[actor]
+        before_events = len(context.event_history.get_events())
+        task = session.player_tasks.submit_input(PlayerInputRequest(
+            "diagnostic-route", binding.session_id, "rain-harbor", "travel",
+        ))
+        outcome = session.player_tasks.completion(task).result(timeout=5)
+        after_location = context.world_state.locations[actor]
+        records = [json.loads(item.getMessage().split("CW_INPUT_DIAGNOSTIC ", 1)[1])
+                   for item in caplog.records
+                   if "CW_INPUT_DIAGNOSTIC " in item.getMessage()
+                   and '"request_id": "diagnostic-route"' in item.getMessage()]
+        processed = next(item for item in records if item["stage"] == "event_processing")
+        presented = next(item for item in records if item["stage"] == "presentation")
+        assert len(context.event_history.get_events()) == before_events + 1
+        assert processed["location_before"] == before_location
+        assert processed["location_after"] == after_location
+        assert processed["location_changed"] is traversable
+        assert processed["arrival_fact_emitted"] is traversable
+        assert processed["arrival_observation_authorized"] is traversable
+        assert presented["arrival_observation_used_by_presentation"] is False
+        assert presented["confirmed_message_count"] == 0
+        assert outcome.outcome_status == (
+            "executed_no_observable_change" if traversable else "failed"
+        )
+    finally:
+        session.close()
+
+
+def test_arrival_observes_only_destination_mechanisms_and_allows_followup_action():
+    from dataclasses import replace
+    from cognitive_world.content.models import LocationTemplate, MechanismTemplate
+
+    class TravelThenOpen:
+        def understand_candidates(self, request, *, candidates):
+            kind = "passage" if request.text == "travel" else "door"
+            selected = next(item for item in candidates if item.kind == kind)
+            return PlayerInputAssessment(InputUnderstandingStatus.ACTION,
+                                         request.text, selected.supported_methods[0], selected.handle)
+
+    package = WorldPackageCatalog(PACKAGES).package("rain-harbor")
+    locations = list(package.proposal.locations)
+    locations[1] = replace(locations[1], mechanisms=(MechanismTemplate("arrival-door", "door"),))
+    locations.append(LocationTemplate("hidden-room", "Unreachable room", (
+        MechanismTemplate("hidden-door", "door"),
+    )))
+    scenario = package.proposal.scenarios[0]
+    scenario = replace(scenario, locations=scenario.locations + (("hidden", "hidden-room"),))
+    package = replace(package, proposal=replace(
+        package.proposal, locations=tuple(locations), scenarios=(scenario,),
+    ))
+    session = start_new_world(package, trust=HmacPersistenceTrust(b"arrival-mechanism-key" * 4),
+                              input_understanding_provider=TravelThenOpen())
+    try:
+        context = session.runtime.context
+        binding = context.player_session
+        actor = binding.controlled_agent_id
+        before_location = context.world_state.locations[actor]
+        before_events = context.event_history.get_events()
+        assert all(candidate.kind != "door" or "arrival-door" not in reference
+                   for candidate, reference in session.player_service._request_candidates())
+
+        travel = session.player_tasks.submit_input(PlayerInputRequest(
+            "travel-with-destination", binding.session_id, "rain-harbor", "travel",
+        ))
+        assert session.player_tasks.completion(travel).result(timeout=5).outcome_status == "resolved"
+        destination = context.world_state.locations[actor]
+        assert destination != before_location
+        new_events = context.event_history.get_events()[len(before_events):]
+        arrivals = [event for event in new_events if any(
+            isinstance(change, dict) and change.get("effect_type") == "actor_location_changed"
+            for change in event.changes)]
+        assert len(arrivals) == 1 and arrivals[0].has_trusted_source("resolution")
+        observations = context.observation_store.get_by_observer(actor)
+        assert any(item.source_event_id == arrivals[0].id
+                   and item.content.predicate == "actor_arrived"
+                   and item.content.value == destination for item in observations)
+        assert any(item.content.predicate == "door_open"
+                   and "arrival-door" in (item.content.subject_ref or "")
+                   and item.content.location_id == destination for item in observations)
+        assert not any("hidden-door" in (item.content.subject_ref or "") for item in observations)
+        assert any("arrival-door" in reference for _, reference in session.player_service._request_candidates())
+        assert not any("hidden-door" in reference for _, reference in session.player_service._request_candidates())
+        assert any(item.content == "你到达了新的地点。"
+                   for item in session.output.messages_for(binding.player_id))
+
+        event_count_after_travel = len(context.event_history.get_events())
+        replay = session.player_service.retry_input_presentation(PlayerInputRequest(
+            "travel-with-destination", binding.session_id, "rain-harbor", "travel",
+        ))
+        assert replay.status == "resolved"
+        assert len(context.event_history.get_events()) == event_count_after_travel
+
+        before_followup = len(context.event_history.get_events())
+        followup = session.player_tasks.submit_input(PlayerInputRequest(
+            "open-arrival-door", binding.session_id, "rain-harbor", "open door",
+        ))
+        assert session.player_tasks.completion(followup).result(timeout=5).outcome_status == "resolved"
+        target = next(reference for _, reference in session.player_service._request_candidates()
+                      if "arrival-door" in reference)
+        assert context.world_state.environment[target].is_open
+        assert len(context.event_history.get_events()) == before_followup + 1
+    finally:
+        session.close()
 
 
 def test_read_only_observation_gateway_rejects_unissued_result():

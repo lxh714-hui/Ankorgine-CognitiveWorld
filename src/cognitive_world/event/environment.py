@@ -157,7 +157,7 @@ class RoomLightChangedHandler(EventHandler):
 
 
 class EnvironmentStateObservedHandler(EventHandler):
-    """Record one trusted initialization-time environment state snapshot.
+    """Record one trusted local environment state snapshot.
 
     The event carries only an entity reference. Fact payloads are built from
     the typed canonical WorldState object, never from caller-supplied values.

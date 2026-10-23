@@ -6,6 +6,7 @@ from PySide6.QtWidgets import (QComboBox, QFrame, QHBoxLayout, QLabel, QLineEdit
                                QSizePolicy, QTextEdit, QVBoxLayout, QWidget)
 
 from .widgets import ArchivePanel
+from .product_gateway import emit_input_diagnostic
 
 
 def label(text: str, object_name: str | None = None) -> QLabel:
@@ -371,6 +372,7 @@ class StagePage(Page):
         self.layout.addWidget(interaction, 0)
         self.mode.currentIndexChanged.connect(self.update_mode)
         self.update_mode()
+        self._clarification_id = None
         self._append_display()
 
     def leave_world(self):
@@ -389,6 +391,8 @@ class StagePage(Page):
         for entry in reader():
             if entry.kind not in {"fact", "dialogue", "clarification", "narrative", "observation", "action_feedback"}:
                 continue
+            if entry.kind == "clarification":
+                self._clarification_id = entry.request_id
             self._append_history_line(entry.text, {
                 "fact": "actionEffectEntry", "dialogue": "dialogueEntry",
                 "clarification": "clarificationEntry", "narrative": "narrativeEntry",
@@ -480,7 +484,10 @@ class StagePage(Page):
             return
         self.response.setText("正在受理请求……")
         try:
-            request_id = self.gateway.submit_input(raw)
+            if self._clarification_id is None:
+                request_id = self.gateway.submit_input(raw)
+            else:
+                request_id = self.gateway.submit_input(raw, clarification_id=self._clarification_id)
         except Exception:
             self.response.setText("输入未受理；请检查会话状态。")
             return
@@ -522,6 +529,8 @@ class StagePage(Page):
         shown = self._append_display()
         has_clarification = ("clarification", request_id) in shown
         has_narrative = ("narrative", request_id) in shown
+        if status.outcome_status != "clarification_required" or not has_clarification:
+            self._clarification_id = None
         if status.delivery.value == "stale":
             self.response.setText("展示已失效；当前世界事实不因此回滚。")
         elif status.delivery.value == "retryable":
@@ -583,6 +592,14 @@ class StagePage(Page):
         else:
             self.response.setText("请求已结束：没有已确认的行动结果。" if status.execution.value == "completed" else "请求未完成。")
             self._append_history_line("这次请求没有产生可展示的行动结果。", "statusEntry")
+        try:
+            emit_input_diagnostic(request_id, "ui_terminal",
+                                  outcome_status=status.outcome_status,
+                                  delivery=status.delivery.value,
+                                  ui_status=self.response.text(),
+                                  display_kinds=sorted({kind for kind, _ in shown}))
+        except Exception:
+            pass
         self.submit.setEnabled(True)
 
     def retry_display(self):

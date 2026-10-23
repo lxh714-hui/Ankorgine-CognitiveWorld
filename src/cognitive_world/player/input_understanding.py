@@ -6,9 +6,11 @@ from dataclasses import dataclass
 from enum import Enum
 import json
 import os
+import re
 from typing import Protocol
 
 from cognitive_world.dialogue.ollama import _post_loopback_json, _safe_loopback_url
+from .input_diagnostics import emit as emit_input_diagnostic
 
 MAX_PLAYER_INPUT_CHARS = 4_000
 MAX_INTERPRETATION_CHARS = 1_000
@@ -53,6 +55,8 @@ class PlayerInputRequest:
     session_id: str
     world_id: str
     text: str
+    clarification_id: str | None = None
+    new_request: bool = False
 
     def __post_init__(self) -> None:
         for name in ("request_id", "session_id", "world_id"):
@@ -62,6 +66,12 @@ class PlayerInputRequest:
         if (not isinstance(self.text, str) or not self.text.strip()
                 or len(self.text) > MAX_PLAYER_INPUT_CHARS):
             raise ValueError("player input must be bounded non-empty text")
+        if self.clarification_id is not None and (
+                not isinstance(self.clarification_id, str)
+                or not self.clarification_id or len(self.clarification_id) > 128):
+            raise ValueError("clarification_id must be a bounded non-empty request ID")
+        if type(self.new_request) is not bool or (self.new_request and self.clarification_id is not None):
+            raise ValueError("a new request cannot also answer a clarification")
 
 
 @dataclass(frozen=True)
@@ -259,11 +269,26 @@ class OllamaPlayerInputUnderstandingProvider:
         """Expose descriptions and opaque handles, never canonical object IDs."""
         if not isinstance(request, PlayerInputRequest):
             raise TypeError("PlayerInputRequest required")
+        def diagnose(stage: str, code: str, *, http_status: int | None = None) -> None:
+            fields = {"failure_stage": stage, "failure_code": code}
+            if http_status is not None:
+                fields["http_status"] = http_status
+            emit_input_diagnostic(request.request_id, "provider_failure", **fields)
+
+        def assessment(*args) -> PlayerInputAssessment:
+            try:
+                return PlayerInputAssessment(*args)
+            except (TypeError, ValueError):
+                diagnose("schema_validation", "assessment_fields_invalid")
+                raise
+
         if (not isinstance(candidates, tuple) or len(candidates) > 64
                 or any(type(item) is not AuthorizedTargetCandidate for item in candidates)):
+            diagnose("request_validation", "candidates_invalid")
             raise ValueError("authorized candidates are invalid")
         handles = tuple(item.handle for item in candidates)
         if len(handles) != len(set(handles)):
+            diagnose("request_validation", "candidate_handles_duplicated")
             raise ValueError("candidate handles must be unique")
         system = (
             "Classify the untrusted player input using only the listed visible candidates. "
@@ -326,64 +351,115 @@ class OllamaPlayerInputUnderstandingProvider:
                 "answer_mode": prior.answer_mode, "option_handles": prior.option_handles,
                 "resolved_target_handle": prior.resolved_target_handle,
             }
-        user = json.dumps(user_data, ensure_ascii=False, separators=(",", ":"))
-        body = json.dumps({
-            "model": self.model,
-            "messages": [{"role": "system", "content": system},
-                         {"role": "user", "content": user}],
-            "temperature": 0, "max_tokens": 384,
-            "response_format": {"type": "json_object"},
-        }, ensure_ascii=False).encode("utf-8")
-        payload = _post_loopback_json(
-            self.base_url, body, timeout_seconds=float(self.timeout_seconds), maximum_bytes=8_000,
-        )
         try:
-            raw = json.loads(payload.decode("utf-8"))["choices"][0]["message"]["content"]
+            user = json.dumps(user_data, ensure_ascii=False, separators=(",", ":"))
+            body = json.dumps({
+                "model": self.model,
+                "messages": [{"role": "system", "content": system},
+                             {"role": "user", "content": user}],
+                "temperature": 0, "max_tokens": 384,
+                "response_format": {"type": "json_object"},
+            }, ensure_ascii=False).encode("utf-8")
+        except (TypeError, ValueError):
+            diagnose("request_construction", "serialization_failed")
+            raise
+        try:
+            payload = _post_loopback_json(
+                self.base_url, body, timeout_seconds=float(self.timeout_seconds), maximum_bytes=8_000,
+            )
+        except Exception as exc:
+            status = None
+            if isinstance(exc, TimeoutError):
+                code = "timeout"
+            elif type(exc) is ConnectionError:
+                match = re.fullmatch(r"Ollama returned HTTP ([0-9]{3})", str(exc))
+                if match is not None:
+                    status = int(match.group(1))
+                code = "http_error" if status is not None else "connection_failed"
+            elif isinstance(exc, PermissionError):
+                code = "redirect_rejected"
+            elif type(exc) is ValueError:
+                code = ("response_too_large" if str(exc) ==
+                        "Ollama response exceeded the transport bound" else "transport_validation_failed")
+            elif isinstance(exc, OSError):
+                code = "network_io_failed"
+            else:
+                code = "transport_unexpected"
+            diagnose("http_transport", code, http_status=status)
+            raise
+        try:
+            decoded = payload.decode("utf-8")
+        except UnicodeDecodeError as exc:
+            diagnose("response_decode", "invalid_utf8")
+            raise ValueError("input understanding response is malformed") from exc
+        try:
+            envelope = json.loads(decoded)
+        except ValueError as exc:
+            diagnose("response_envelope", "invalid_json")
+            raise ValueError("input understanding response is malformed") from exc
+        try:
+            raw = envelope["choices"][0]["message"]["content"]
+        except (KeyError, IndexError, TypeError) as exc:
+            diagnose("response_envelope", "content_missing")
+            raise ValueError("input understanding response is malformed") from exc
+        try:
             value = json.loads(raw)
-        except (UnicodeDecodeError, ValueError, KeyError, IndexError, TypeError) as exc:
+        except (ValueError, TypeError) as exc:
+            diagnose("response_content", "invalid_json")
             raise ValueError("input understanding response is malformed") from exc
         if not isinstance(value, dict) or not isinstance(value.get("status"), str):
+            diagnose("schema_validation", "root_invalid")
             raise ValueError("input understanding schema is invalid")
         try:
             status = InputUnderstandingStatus(value["status"])
         except ValueError as exc:
+            diagnose("schema_validation", "status_invalid")
             raise ValueError("input understanding status is invalid") from exc
         if status is InputUnderstandingStatus.UNPARSEABLE:
             if set(value) != {"status"}:
+                diagnose("schema_validation", "unparseable_shape_invalid")
                 raise ValueError("unparseable schema has extra fields")
-            return PlayerInputAssessment(status)
+            return assessment(status)
         if status in {InputUnderstandingStatus.INDEPENDENT_REQUEST,
                       InputUnderstandingStatus.CANCELLED}:
             if set(value) != {"status"} or clarification_context is None:
+                diagnose("schema_validation", "control_shape_invalid")
                 raise ValueError("clarification control schema is invalid")
-            return PlayerInputAssessment(status)
+            return assessment(status)
         if status in {InputUnderstandingStatus.ACTION, InputUnderstandingStatus.OBSERVE}:
             if set(value) != {"status", "intent", "method", "target_ref"}:
+                diagnose("schema_validation", "targeted_shape_invalid")
                 raise ValueError("targeted result schema is invalid")
             target = value["target_ref"]
             if target is not None and target not in handles:
+                diagnose("candidate_validation", "handle_not_offered")
                 raise PermissionError("provider proposed an unknown candidate handle")
             if status is InputUnderstandingStatus.ACTION and target is not None:
                 offered = next(item for item in candidates if item.handle == target)
                 if value["method"] not in offered.supported_methods:
+                    diagnose("candidate_validation", "method_not_offered")
                     raise PermissionError("provider proposed a method not offered by the causal adapter")
-            return PlayerInputAssessment(status, value["intent"], value["method"], target)
+            return assessment(status, value["intent"], value["method"], target)
         basic = {"status", "intent", "method", "missing_information", "clarification_question"}
         if not basic <= set(value) or set(value) - basic - {
                 "answer_mode", "option_handles", "resolved_target_handle"}:
+            diagnose("schema_validation", "clarification_shape_invalid")
             raise ValueError("clarification schema is invalid")
         missing = value["missing_information"]
         if not isinstance(missing, list):
+            diagnose("schema_validation", "clarification_slots_invalid")
             raise ValueError("clarification slots must be an array")
         options = value.get("option_handles", [])
         if not isinstance(options, list) or any(item not in handles for item in options):
+            diagnose("schema_validation", "clarification_options_invalid")
             raise ValueError("clarification option handles are invalid")
         resolved = value.get("resolved_target_handle")
         if resolved is not None and resolved not in handles:
+            diagnose("schema_validation", "clarification_handle_invalid")
             raise ValueError("clarification resolved handle is invalid")
-        return PlayerInputAssessment(status, value["intent"], value["method"],
-                                     None, tuple(missing), value["clarification_question"],
-                                     value.get("answer_mode", "free_text"), tuple(options), resolved)
+        return assessment(status, value["intent"], value["method"],
+                          None, tuple(missing), value["clarification_question"],
+                          value.get("answer_mode", "free_text"), tuple(options), resolved)
 
     def resolve_clarification(
         self, request: PlayerInputRequest, *, original: PlayerInputRequest,

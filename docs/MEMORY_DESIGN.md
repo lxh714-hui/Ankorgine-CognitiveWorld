@@ -43,6 +43,12 @@ Future Decision Support
 
 The current implementation provides data models and boundary components. Automatic selection, compression, and forgetting remain unimplemented. Phase 12.2 adds bounded relevance retrieval over the existing MemoryStore; candidate IDs must be referenced by the current Character and match the Agent owner. This does not introduce a second Memory store.
 
+## Cognitive feedback and evidence provenance (architectural direction)
+
+The intended [hybrid cognition loop](ARCHITECTURE.md#hybrid-cognition-execution-levels-architectural-direction-unified-policy-not-implemented) distinguishes an owner's authorized evidence, subjective Belief, Goal, intention/plan, proposed method and expected outcome from the actual Resolution/Event/WorldState outcome. After a confirmed action, only an authorized Observation and its verified source can become that owner's evidence of what happened; absence of an Observation is not proof that the Event did not occur. Comparison may identify partial success, failure, unexpected effects or unresolved uncertainty, but it is a proposed review, not an automatic Memory or Belief write.
+
+Any durable update must cite the specific owner, relevant evidence/source Event, prior cognitive record and the belief, expectation, method or causal assumption being revised. It must preserve the difference between testimony, the fact of hearing it, interpretation and independently verified outcome. A mismatched expectation should not indiscriminately lower confidence in every related Belief. The existing cognition validators and MemoryDecision/Factory/Persistence chain remain the only supported write paths for their respective records; historical support follows verified EventHistory and Timeline ancestry. Current locked-door BehaviorFeedback is a narrow separately persisted adaptation, not a general expectation-result learner or new Memory authority. General expectation capture, comparison, targeted learning and replayable feedback semantics remain future design work.
+
 ---
 
 # 4. Short-term Memory

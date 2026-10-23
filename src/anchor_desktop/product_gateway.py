@@ -13,6 +13,7 @@ from uuid import uuid4
 from cognitive_world.core.persistence import WindowsDpapiPersistenceTrust
 from cognitive_world.player.async_coordinator import PlayerInputTaskHandle, PlayerInputTaskSnapshot
 from cognitive_world.player.input_understanding import PlayerInputRequest
+from cognitive_world.player.input_diagnostics import emit as emit_input_diagnostic, enabled as input_diagnostics_enabled
 from cognitive_world.content.persistence import scenario_snapshot_codec
 from cognitive_world.runtime.save_manager import SaveManager, SaveMetadata
 
@@ -102,6 +103,7 @@ class DesktopProductGateway(BundledWorldCatalogGateway):
         self._listing: tuple[str, Future[tuple[SaveSlot, ...]]] | None = None
         self._active: NewWorldSession | None = None
         self._handles: dict[str, PlayerInputTaskHandle] = {}
+        self._diagnosed_terminal_inputs: dict[str, tuple[str, str, str | None, str | None]] = {}
         self._display_counts = (0, 0, 0, 0, 0)
 
     def begin_world(self, world_id: str) -> None:
@@ -249,7 +251,8 @@ class DesktopProductGateway(BundledWorldCatalogGateway):
             self._active = session
         return EntryStatus("ready")
 
-    def submit_input(self, text: str) -> str:
+    def submit_input(self, text: str, *, clarification_id: str | None = None,
+                     new_request: bool = False) -> str:
         with self._lock:
             session = self._active
             if self._closed or session is None:
@@ -257,6 +260,7 @@ class DesktopProductGateway(BundledWorldCatalogGateway):
             binding = session.runtime.context.player_session
             request = PlayerInputRequest(
                 f"desktop:{uuid4().hex}", binding.session_id, session.package.world_id, text,
+                clarification_id=clarification_id, new_request=new_request,
             )
             handle = session.player_tasks.submit_input(request)
             self._handles[request.request_id] = handle
@@ -266,10 +270,24 @@ class DesktopProductGateway(BundledWorldCatalogGateway):
         with self._lock:
             if self._active is None or request_id not in self._handles:
                 raise KeyError(request_id)
-            return self._active.player_tasks.get_status(self._handles[request_id])
+            status = self._active.player_tasks.get_status(self._handles[request_id])
+            if input_diagnostics_enabled() and status.execution.value not in {"accepted", "running"}:
+                try:
+                    signature = (status.execution.value, status.delivery.value,
+                                 status.outcome_status, status.recovery_code)
+                    if self._diagnosed_terminal_inputs.get(request_id) != signature:
+                        emit_input_diagnostic(request_id, "gateway_terminal",
+                                              execution=status.execution.value,
+                                              delivery=status.delivery.value,
+                                              outcome_status=status.outcome_status,
+                                              recovery_code=status.recovery_code)
+                        self._diagnosed_terminal_inputs[request_id] = signature
+                except Exception:
+                    pass
+            return status
 
     def retry_display(self, request_id: str) -> None:
-        """Retry Presentation only; the completed player action is not rerun."""
+        """Retry delivery without rerunning the completed player action."""
         with self._lock:
             if self._active is None or request_id not in self._handles:
                 raise KeyError(request_id)

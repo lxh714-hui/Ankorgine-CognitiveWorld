@@ -308,7 +308,7 @@ class PlayerInputTaskCoordinator:
         return self._future_view(self._record(handle).completion)
 
     def retry_presentation(self, handle: PlayerInputTaskHandle) -> Future[PlayerInputTaskSnapshot]:
-        """Retry only authorized projection of a completed canonical Event."""
+        """Retry delivery of a completed action without rerunning that action."""
         record = self._record(handle)
         with self._lock:
             if self._closed:

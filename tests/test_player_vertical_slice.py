@@ -816,6 +816,108 @@ def test_unparseable_input_without_narrative_provider_returns_recoverable_signal
     assert observations.get_by_observer("actor-1") == before_observations
 
 
+def test_input_diagnostics_are_disabled_by_default(monkeypatch, caplog):
+    monkeypatch.delenv("COGNITIVEWORLD_DESKTOP_INPUT_DIAGNOSTICS", raising=False)
+    provider = ScriptedInputUnderstandingProvider([
+        PlayerInputAssessment(InputUnderstandingStatus.UNPARSEABLE),
+    ])
+    service, _, _, _, _ = live_player(input_understanding_provider=provider)
+    assert service.submit_input(input_request("quiet-diagnostic", "private input")).status == "unparseable"
+    assert not any("CW_INPUT_DIAGNOSTIC" in record.getMessage() for record in caplog.records)
+
+
+def test_unparseable_diagnostic_records_unknown_reason_without_input_text(monkeypatch, caplog):
+    import json
+
+    monkeypatch.setenv("COGNITIVEWORLD_DESKTOP_INPUT_DIAGNOSTICS", "1")
+    provider = ScriptedInputUnderstandingProvider([
+        PlayerInputAssessment(InputUnderstandingStatus.UNPARSEABLE),
+    ])
+    service, world, history, _, _ = live_player(input_understanding_provider=provider)
+    before = _world_snapshot(world), history.get_events()
+    outcome = service.submit_input(input_request("unparseable-diagnostic", "吃掉苹果 PRIVATE_MARKER"))
+    records = [json.loads(item.getMessage().split("CW_INPUT_DIAGNOSTIC ", 1)[1])
+               for item in caplog.records if "CW_INPUT_DIAGNOSTIC " in item.getMessage()]
+
+    assert outcome.status == "unparseable"
+    assert (_world_snapshot(world), history.get_events()) == before
+    assert any(item["stage"] == "provider_invocation" and item["provider_invoked"] is True
+               for item in records)
+    assert any(item["stage"] == "interpretation" and item["status"] == "unparseable"
+               and item["structured_response"] == "accepted"
+               and item["unparseable_reason"] == "provider_unspecified"
+               and item["clarification_available"] == "unknown"
+               and item["stopped_before_attempt"] is True for item in records)
+    assert all(item["request_id"] == "unparseable-diagnostic" for item in records)
+    assert "PRIVATE_MARKER" not in " ".join(item.getMessage() for item in caplog.records)
+
+
+def test_input_diagnostic_logger_failure_cannot_change_action_or_duplicate_event(monkeypatch):
+    import cognitive_world.player.input_diagnostics as diagnostics
+
+    monkeypatch.setenv("COGNITIVEWORLD_DESKTOP_INPUT_DIAGNOSTICS", "1")
+    def failed_log(*args, **kwargs):
+        raise RuntimeError("diagnostic sink unavailable")
+    monkeypatch.setattr(diagnostics._LOGGER, "warning", failed_log)
+    service, world, history, _, _ = live_player()
+    before_events = len(history.get_events())
+    result = service.submit(request("diagnostic-sink-failed"))
+
+    assert result.status == "resolved"
+    assert world.environment["door-1"].is_open is True
+    assert len(history.get_events()) == before_events + 1
+    assert service.submit(request("diagnostic-sink-failed")) == result
+    assert len(history.get_events()) == before_events + 1
+
+
+def test_input_diagnostics_distinguish_provider_rejection_from_unparseable(monkeypatch, caplog):
+    import json
+
+    class InvalidProvider:
+        def understand_candidates(self, request, *, candidates):
+            raise ValueError("PRIVATE_MODEL_RESPONSE")
+
+    monkeypatch.setenv("COGNITIVEWORLD_DESKTOP_INPUT_DIAGNOSTICS", "1")
+    service, world, history, _, _ = live_player(input_understanding_provider=InvalidProvider())
+    before = _world_snapshot(world), history.get_events()
+    result = service.submit_input(input_request("invalid-provider-diagnostic", "PRIVATE_INPUT"))
+    records = [json.loads(item.getMessage().split("CW_INPUT_DIAGNOSTIC ", 1)[1])
+               for item in caplog.records if "CW_INPUT_DIAGNOSTIC " in item.getMessage()]
+
+    assert result.status == "reasoning_unavailable"
+    assert (_world_snapshot(world), history.get_events()) == before
+    assert any(item["stage"] == "interpretation" and item["structured_response"] == "unavailable"
+               and item["provider_returned"] is False
+               and item["failure_type"] == "ValueError" for item in records)
+    assert any(item["stage"] == "input_stopped" and not item["attempt_created"]
+               and not item["formal_event_created"] for item in records)
+    assert "PRIVATE_INPUT" not in " ".join(item.getMessage() for item in caplog.records)
+    assert "PRIVATE_MODEL_RESPONSE" not in " ".join(item.getMessage() for item in caplog.records)
+
+
+def test_input_diagnostics_identify_rejected_candidate_without_world_write(monkeypatch, caplog):
+    import json
+
+    class InvalidCandidateProvider:
+        def understand_candidates(self, request, *, candidates):
+            return PlayerInputAssessment(InputUnderstandingStatus.ACTION, "open the door",
+                                         "push the closed door", "not-an-offered-handle")
+
+    monkeypatch.setenv("COGNITIVEWORLD_DESKTOP_INPUT_DIAGNOSTICS", "1")
+    service, world, history, _, _ = live_player(input_understanding_provider=InvalidCandidateProvider())
+    before = _world_snapshot(world), history.get_events()
+    result = service.submit_input(input_request("bad-candidate-diagnostic", "open door"))
+    records = [json.loads(item.getMessage().split("CW_INPUT_DIAGNOSTIC ", 1)[1])
+               for item in caplog.records if "CW_INPUT_DIAGNOSTIC " in item.getMessage()]
+
+    assert result.status == "reasoning_unavailable"
+    assert (_world_snapshot(world), history.get_events()) == before
+    assert any(item["stage"] == "interpretation" and item["structured_response"] == "rejected"
+               and item["provider_returned"] is True
+               and item["failure_type"] == "PermissionError" for item in records)
+    assert all("not-an-offered-handle" not in item.getMessage() for item in caplog.records)
+
+
 @pytest.mark.parametrize("drafts,reviews,diagnostic", [
     ([TimeoutError("private generation detail"), TimeoutError("private generation detail")],
      [], "generation_failed:TimeoutError"),
@@ -890,6 +992,113 @@ def test_ollama_input_interpreter_returns_only_closed_assessment_and_visible_tar
 
     with pytest.raises(ValueError, match="loopback"):
         OllamaPlayerInputUnderstandingProvider("https://remote.example/v1", "local-test")
+
+
+@pytest.mark.parametrize("payload,stage,code", [
+    (b"\xff", "response_decode", "invalid_utf8"),
+    (b"PRIVATE_BAD_ENVELOPE", "response_envelope", "invalid_json"),
+    (b"{}", "response_envelope", "content_missing"),
+    (b'{"choices":[{"message":{"content":"PRIVATE_BAD_CONTENT"}}]}',
+     "response_content", "invalid_json"),
+    (b'{"choices":[{"message":{"content":"{\\"status\\":\\"unknown\\"}"}}]}',
+     "schema_validation", "status_invalid"),
+    (b'{"choices":[{"message":{"content":"{\\"status\\":\\"action\\"}"}}]}',
+     "schema_validation", "targeted_shape_invalid"),
+    (b'{"choices":[{"message":{"content":"{\\"status\\":\\"observe\\",\\"intent\\":null,\\"method\\":null,\\"target_ref\\":null}"}}]}',
+     "schema_validation", "assessment_fields_invalid"),
+])
+def test_ollama_input_failure_diagnostics_identify_stage_without_response_body(
+    monkeypatch, caplog, payload, stage, code,
+):
+    import json
+    from cognitive_world.player.input_understanding import OllamaPlayerInputUnderstandingProvider
+
+    monkeypatch.setenv("COGNITIVEWORLD_DESKTOP_INPUT_DIAGNOSTICS", "1")
+    monkeypatch.setattr("cognitive_world.player.input_understanding._post_loopback_json",
+                        lambda *args, **kwargs: payload)
+    provider = OllamaPlayerInputUnderstandingProvider("http://127.0.0.1:11434/v1", "local-test")
+    with pytest.raises(ValueError):
+        provider.understand_candidates(input_request("wire-failure", "PRIVATE_INPUT"), candidates=())
+    records = [json.loads(item.getMessage().split("CW_INPUT_DIAGNOSTIC ", 1)[1])
+               for item in caplog.records if "CW_INPUT_DIAGNOSTIC " in item.getMessage()]
+    assert records == [{"schema": "desktop-input-diagnostic/v1", "request_id": "wire-failure",
+                        "stage": "provider_failure", "failure_stage": stage, "failure_code": code}]
+    assert "PRIVATE_INPUT" not in caplog.text
+    assert "PRIVATE_BAD" not in caplog.text
+
+
+@pytest.mark.parametrize("failure,expected_code,expected_status", [
+    (ValueError("Ollama response exceeded the transport bound"), "response_too_large", None),
+    (ValueError("PRIVATE_TRANSPORT_DETAIL"), "transport_validation_failed", None),
+    (ConnectionError("Ollama returned HTTP 400"), "http_error", 400),
+    (TimeoutError("PRIVATE_TIMEOUT"), "timeout", None),
+])
+def test_ollama_input_transport_diagnostics_keep_original_failure_and_safe_http_status(
+    monkeypatch, caplog, failure, expected_code, expected_status,
+):
+    import json
+    from cognitive_world.player.input_understanding import OllamaPlayerInputUnderstandingProvider
+
+    monkeypatch.setenv("COGNITIVEWORLD_DESKTOP_INPUT_DIAGNOSTICS", "1")
+    def failing_post(*args, **kwargs):
+        raise failure
+    monkeypatch.setattr("cognitive_world.player.input_understanding._post_loopback_json",
+                        failing_post)
+    provider = OllamaPlayerInputUnderstandingProvider("http://127.0.0.1:11434/v1", "local-test")
+    with pytest.raises(type(failure)):
+        provider.understand_candidates(input_request("transport-failure", "PRIVATE_INPUT"), candidates=())
+    records = [json.loads(item.getMessage().split("CW_INPUT_DIAGNOSTIC ", 1)[1])
+               for item in caplog.records if "CW_INPUT_DIAGNOSTIC " in item.getMessage()]
+    assert len(records) == 1
+    assert records[0]["failure_stage"] == "http_transport"
+    assert records[0]["failure_code"] == expected_code
+    assert records[0].get("http_status") == expected_status
+    assert "PRIVATE_INPUT" not in caplog.text
+    assert "PRIVATE_TRANSPORT_DETAIL" not in caplog.text
+    assert "PRIVATE_TIMEOUT" not in caplog.text
+
+
+def test_malformed_ollama_candidate_response_stops_before_attempt_and_event(monkeypatch, caplog):
+    import json
+    from cognitive_world.player.input_understanding import OllamaPlayerInputUnderstandingProvider
+
+    monkeypatch.setenv("COGNITIVEWORLD_DESKTOP_INPUT_DIAGNOSTICS", "1")
+    payload = json.dumps({"choices": [{"message": {"content": json.dumps({
+        "status": "action", "intent": "open the door",
+    })}}]}).encode()
+    monkeypatch.setattr("cognitive_world.player.input_understanding._post_loopback_json",
+                        lambda *args, **kwargs: payload)
+    provider = OllamaPlayerInputUnderstandingProvider("http://127.0.0.1:11434/v1", "local-test")
+    service, world, history, _, _ = live_player(input_understanding_provider=provider)
+    before = _world_snapshot(world), history.get_events()
+    result = service.submit_input(input_request("malformed-wire", "PRIVATE_INPUT"))
+    records = [json.loads(item.getMessage().split("CW_INPUT_DIAGNOSTIC ", 1)[1])
+               for item in caplog.records if "CW_INPUT_DIAGNOSTIC " in item.getMessage()]
+
+    assert result.status == "reasoning_unavailable"
+    assert service.fallback_diagnostic("malformed-wire") == "input_understanding_failed:ValueError"
+    assert (_world_snapshot(world), history.get_events()) == before
+    assert any(item["stage"] == "provider_failure"
+               and item["failure_stage"] == "schema_validation"
+               and item["failure_code"] == "targeted_shape_invalid" for item in records)
+    assert any(item["stage"] == "interpretation" and item["provider_returned"] is False
+               and item["structured_response"] == "unavailable" for item in records)
+    assert any(item["stage"] == "input_stopped" and not item["attempt_created"]
+               and not item["formal_event_created"] for item in records)
+    assert "PRIVATE_INPUT" not in caplog.text
+
+
+def test_ollama_provider_failure_diagnostics_remain_off_by_default(monkeypatch, caplog):
+    from cognitive_world.player.input_understanding import OllamaPlayerInputUnderstandingProvider
+
+    monkeypatch.delenv("COGNITIVEWORLD_DESKTOP_INPUT_DIAGNOSTICS", raising=False)
+    monkeypatch.setattr("cognitive_world.player.input_understanding._post_loopback_json",
+                        lambda *args, **kwargs: b"not-json")
+    provider = OllamaPlayerInputUnderstandingProvider("http://127.0.0.1:11434/v1", "local-test")
+    with pytest.raises(ValueError):
+        provider.understand_candidates(input_request("quiet-wire-failure", "PRIVATE_INPUT"),
+                                       candidates=())
+    assert "CW_INPUT_DIAGNOSTIC" not in caplog.text
 
 
 def test_candidate_interpreter_method_must_match_installed_causal_adapter_offer(monkeypatch):
@@ -1067,12 +1276,7 @@ def test_async_player_input_duplicate_admission_is_idempotent():
         PlayerInputTaskCoordinator, PlayerTaskExecutionState,
     )
 
-    provider = ScriptedInputUnderstandingProvider([
-        PlayerInputAssessment(
-            InputUnderstandingStatus.ACTION,
-            intent="open the door", method="push the closed door", target_ref="door-1",
-        ),
-    ])
+    provider = BlockingInputUnderstandingProvider(block_request_id="async-idempotent")
     service, world, history, _, _ = live_player(input_understanding_provider=provider)
     runtime = _runtime_bound_player(service)
     coordinator = PlayerInputTaskCoordinator(service)
@@ -1082,8 +1286,12 @@ def test_async_player_input_duplicate_admission_is_idempotent():
         first = coordinator.submit_input(request_value)
         duplicate = coordinator.submit_input(request_value)
         assert duplicate == first
+        assert provider.entered.wait(2)
         abandoned_view = coordinator.completion(first)
+        assert not abandoned_view.done()
         assert abandoned_view.cancel() is True
+        assert len(history.get_events()) == before
+        provider.release.set()
         completed = coordinator.completion(first).result(timeout=4)
         assert completed.execution is PlayerTaskExecutionState.COMPLETED
         assert completed.outcome_status == "resolved"
@@ -1093,6 +1301,7 @@ def test_async_player_input_duplicate_admission_is_idempotent():
         with pytest.raises(PermissionError, match="changed content"):
             coordinator.submit_input(input_request("async-idempotent", "Close the door."))
     finally:
+        provider.release.set()
         coordinator.close()
         runtime.stop()
 

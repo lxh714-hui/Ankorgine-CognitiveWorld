@@ -14,7 +14,9 @@ from time import monotonic
 from uuid import uuid4
 
 from cognitive_world.agent.registry import AgentRegistry
+from cognitive_world.core.door import DoorState
 from cognitive_world.core.interaction import InteractionReference
+from cognitive_world.core.passage import PassageState
 from cognitive_world.core.action_result import ActionResultKind
 from cognitive_world.core.event import Event
 from cognitive_world.core.no_result import _issue_no_result_state
@@ -23,6 +25,7 @@ from cognitive_world.decision.action_pipeline import ActionPipeline
 from cognitive_world.decision.action_proposal import ActionProposal
 from cognitive_world.event.processor import EventProcessor
 from cognitive_world.event.history import EventProcessingStatus
+from cognitive_world.event.factory import SystemEventFactory
 from cognitive_world.observation.store import ObservationStore
 from cognitive_world.presentation.gateway import ChatOutputGateway
 from cognitive_world.presentation.contracts import (
@@ -48,6 +51,7 @@ from .input_understanding import (
     AuthorizedTargetCandidate, InputUnderstandingStatus, OllamaPlayerInputUnderstandingProvider,
     PlayerInputAssessment, PlayerInputRequest, PlayerInputUnderstandingProvider,
 )
+from .input_diagnostics import emit as emit_input_diagnostic, enabled as input_diagnostics_enabled
 
 
 @dataclass(frozen=True)
@@ -136,6 +140,48 @@ class PlayerActionService:
         """Return an internal non-text failure code; never includes provider output/errors."""
         return self._fallback_diagnostics.get(request_id)
 
+    def _diagnose_action_event(self, request_id: str, event: Event,
+                               before_location: str | None, batch=None,
+                               track_location: bool = False) -> None:
+        if not input_diagnostics_enabled():
+            return
+        try:
+            effect = event.changes[1] if len(event.changes) > 1 else None
+            effect_type = effect.get("effect_type") if isinstance(effect, dict) else None
+            effect_type = effect_type if effect_type in {
+                "actor_location_changed", "door_state_changed",
+            } else ("other" if effect_type is not None else None)
+            evidence = self.context.event_history.get_processing_evidence(event.id)
+            arrivals = set() if evidence is None else {
+                fact.fact_id for fact in evidence.observable_facts
+                if fact.fact_type == "movement" and fact.predicate == "actor_arrived"
+            }
+            observed = {
+                item.content.fact_id
+                for item in self.context.observation_store.get_by_observer(self._actor())
+                if item.source_event_id == event.id and item.has_trusted_provenance()
+            }
+            fields = dict(
+                effect_type=effect_type,
+                event_processed=(self.context.event_history.get_processing_status(event.id)
+                                 is EventProcessingStatus.COMPLETE),
+                arrival_fact_emitted=bool(arrivals),
+                arrival_observation_authorized=bool(arrivals & observed),
+            )
+            if track_location or effect_type == "actor_location_changed":
+                after_location = self.context.world_state.locations.get(self._actor())
+                fields.update(location_before=before_location, location_after=after_location,
+                              location_changed=before_location != after_location)
+            if batch is not None:
+                displayed = {fact_id for message in batch.messages
+                             for fact_id in message.source_fact_ids}
+                fields.update(arrival_observation_used_by_presentation=bool(arrivals & observed & displayed),
+                              confirmed_message_count=len(batch.messages))
+            emit_input_diagnostic(request_id, "presentation" if batch is not None else "event_processing",
+                                  **fields)
+        except Exception:
+            pass
+
     def cancel_pending_clarification(self, original_request_id: str, *, session_id: str) -> bool:
         """Cancel one unconsumed, process-local clarification without a world write."""
         with self._request_lock:
@@ -186,7 +232,10 @@ class PlayerActionService:
             if event is None or evidence is None:
                 continue
             for visible in visibility.filter(event, evidence, perspective):
-                if visible.source_observation_id == observation.observation_id and visible.subject_ref:
+                if (visible.source_observation_id == observation.observation_id
+                        and visible.scope == "environment"
+                        and visible.fact_type == "environment_state"
+                        and visible.subject_ref):
                     targets.add(visible.subject_ref)
         return tuple(sorted(targets))
 
@@ -219,7 +268,7 @@ class PlayerActionService:
         descriptions = {}
         kinds = {}
         for item in self._current_visible_environment():
-            if not item.subject_ref:
+            if item.fact_type != "environment_state" or not item.subject_ref:
                 continue
             rendered = self.presentation.composer._render(item)
             if rendered is None:
@@ -284,14 +333,16 @@ class PlayerActionService:
     ) -> PlayerActionOutcome:
         """Resume the recorded Event, never reinterpret or repeat its Attempt.
 
-        Completed processing needs only Presentation's current authorization
-        checks, not a new write permit. Incomplete processing retains the
-        existing EventProcessor replay/recovery checks. Keep the pending entry
-        intact if either stage fails again.
+        Completed action processing does not rerun the action. Passage arrivals
+        may complete missing local observation Events before delivery; current
+        Presentation authorization still applies. Incomplete action processing
+        retains EventProcessor recovery checks. Keep the pending entry intact
+        if any stage fails again.
         """
         if self.context.event_history.get_processing_status(event.id) is not EventProcessingStatus.COMPLETE:
             self.processor.dispatch_with_evidence(event)
         batch = self.presentation.publish_event(event.id)
+        self._observe_arrival_environment(event)
         feedback = self.presentation.publish_action_feedback(
             event.id, request_id, has_visible_result=bool(batch.messages),
         )
@@ -301,6 +352,47 @@ class PlayerActionService:
         )
         self._requests[request_id] = (digest, event, result)
         return result
+
+    def _observe_arrival_environment(self, event: Event) -> None:
+        """Issue local typed mechanism observations after a committed passage move."""
+        if (event.type != "resolution" or not event.has_trusted_source("resolution")
+                or self.context.event_history.get_processing_status(event.id)
+                    is not EventProcessingStatus.COMPLETE
+                or len(event.changes) != 2 or not isinstance(event.changes[1], dict)):
+            return
+        effect = event.changes[1]
+        actor = self._actor()
+        destination = effect.get("destination_location")
+        if (effect.get("effect_type") != "actor_location_changed"
+                or effect.get("actor_id") != actor
+                or not isinstance(destination, str)
+                or self.context.world_state.locations.get(actor) != destination):
+            return
+        for mechanism_id, mechanism in self.context.world_state.environment.items():
+            location = (mechanism.interaction_location_id if isinstance(mechanism, DoorState)
+                        else mechanism.source_location_id if isinstance(mechanism, PassageState)
+                        else None)
+            if location != destination:
+                continue
+            observation_id = "arrival-observation:" + sha256(
+                (event.id + "\0" + mechanism_id).encode("utf-8")
+            ).hexdigest()[:32]
+            recorded = self.context.event_history.get_event(observation_id)
+            if recorded is None:
+                observed = SystemEventFactory().create(
+                    event_id=observation_id, event_type="environment_state_observed",
+                    timestamp=str(self.context.clock.current_time),
+                    simulation_tick=self.context.clock.current_time,
+                    changes=[{"environment_id": mechanism_id}],
+                )
+                self.processor.dispatch_with_evidence(observed)
+            elif (recorded.type != "environment_state_observed"
+                  or not recorded.has_trusted_source("system")
+                  or recorded.changes != [{"environment_id": mechanism_id}]
+                  or self.context.event_history.get_processing_status(observation_id)
+                      is not EventProcessingStatus.COMPLETE):
+                raise RuntimeError("destination observation is incomplete or conflicting")
+            self.presentation.publish_event(observation_id)
 
     def _submit_action(
         self, request: PlayerActionRequest, digest: str, *, preclaimed: bool = False,
@@ -339,10 +431,39 @@ class PlayerActionService:
                 parameters={"method": request.method},
             )
             attempt = self.action_pipeline.create_attempt(proposal)
+            before_location = None
+            track_location = False
+            if input_diagnostics_enabled():
+                try:
+                    before_location = self.context.world_state.locations.get(actor)
+                    target = (self.context.world_state.environment.get(
+                        InteractionReference.parse(request.target_ref).identifier)
+                        if request.target_ref is not None else None)
+                    kind = ("passage" if isinstance(target, PassageState) else
+                            "door" if isinstance(target, DoorState) else None)
+                    track_location = kind == "passage"
+                    offered = self.resolution_flow.supported_attempt_methods(kind) if kind else ()
+                    emit_input_diagnostic(request.request_id, "attempt_prepared",
+                                          attempt_created=True, selected_mechanism_kind=kind,
+                                          permitted_method=(request.method if request.method in offered else None),
+                                          location_before=(before_location if kind == "passage" else None))
+                except Exception:
+                    pass
             resolution, event = self.resolution_flow.execute_with_result(
                 attempt, action_proposal_id=proposal.proposal_id,
                 simulation_tick=self.context.clock.capture(),
             )
+            if input_diagnostics_enabled():
+                try:
+                    effect = event.changes[1] if event is not None and len(event.changes) > 1 else None
+                    effect_type = effect.get("effect_type") if isinstance(effect, dict) else None
+                    emit_input_diagnostic(request.request_id, "resolution",
+                                          formal_event_created=event is not None,
+                                          effect_type=(effect_type if effect_type in {
+                                              "actor_location_changed", "door_state_changed",
+                                          } else ("other" if effect_type is not None else None)))
+                except Exception:
+                    pass
             self._check_task_binding()
             if event is None:
                 state = _issue_no_result_state(
@@ -391,7 +512,12 @@ class PlayerActionService:
                     return self._complete_input_result(request.request_id, digest,
                         PlayerActionOutcome(request.request_id, "clarification_expired"))
                 self.processor.dispatch_with_evidence(event)
+            self._diagnose_action_event(request.request_id, event, before_location,
+                                        track_location=track_location)
             batch = self.presentation.publish_event(event.id)
+            self._diagnose_action_event(request.request_id, event, before_location, batch,
+                                        track_location=track_location)
+            self._observe_arrival_environment(event)
             feedback = self.presentation.publish_action_feedback(
                 event.id, request.request_id, has_visible_result=bool(batch.messages),
             )
@@ -422,7 +548,8 @@ class PlayerActionService:
 
     @staticmethod
     def _input_digest(request: PlayerInputRequest) -> str:
-        payload = ("player-input/v1", request.session_id, request.world_id, request.text)
+        payload = ("player-input/v1", request.session_id, request.world_id, request.text,
+                   request.clarification_id, request.new_request)
         return sha256(json.dumps(payload, ensure_ascii=False).encode("utf-8")).hexdigest()
 
     def _complete_input_result(
@@ -440,6 +567,9 @@ class PlayerActionService:
             request.request_id, NoResultReason.NPC_REASONING_UNAVAILABLE, digest,
         )
         self._fallback_diagnostics[request.request_id] = reason_code
+        emit_input_diagnostic(request.request_id, "input_stopped",
+                              reason_code=reason_code.split(":", 1)[0],
+                              attempt_created=False, formal_event_created=False)
         return self._complete_input_result(request.request_id, digest, PlayerActionOutcome(
             request.request_id, "reasoning_unavailable", recovery_action="clarify_or_retry",
             no_result_state=state,
@@ -469,6 +599,16 @@ class PlayerActionService:
                 return self._resume_event_delivery(request.request_id, digest, existing[1])
             raise RuntimeError("request processing is incomplete; do not replay its interpretation")
         self._requests[request.request_id] = (digest, None, None)
+        pending = self._pending_clarification
+        if request.clarification_id is not None:
+            if pending is None or pending.original.request_id != request.clarification_id:
+                return self._complete_input_result(request.request_id, digest,
+                    PlayerActionOutcome(request.request_id, "clarification_expired"))
+        elif pending is not None and not request.new_request:
+            return self._complete_input_result(request.request_id, digest,
+                PlayerActionOutcome(request.request_id, "clarification_expired"))
+        if request.new_request:
+            self._pending_clarification = None
 
         try:
             self.context.safety_governance.require_action_allowed(SafetyInput(
@@ -531,7 +671,12 @@ class PlayerActionService:
             context_reads = pending.context_reads
             candidates = tuple(item for item, _ in candidate_pairs)
             candidate_refs = {item.handle: reference for item, reference in candidate_pairs}
+        provider_returned = False
         try:
+            emit_input_diagnostic(request.request_id, "provider_invocation",
+                                  provider_invoked=True, candidate_count=len(candidates),
+                                  candidate_mechanism_kinds=sorted({item.kind for item in candidates}),
+                                  continuation=pending is not None)
             candidate_interpreter = getattr(provider, "understand_candidates", None)
             resolver = getattr(provider, "resolve_clarification", None)
             if pending is not None and callable(resolver):
@@ -553,6 +698,17 @@ class PlayerActionService:
                     assessment = candidate_interpreter(request, candidates=candidates)
                 elif assessment.status in {InputUnderstandingStatus.ACTION,
                                            InputUnderstandingStatus.OBSERVE}:
+                    selected = assessment.target_ref or prior.resolved_target_handle
+                    if prior.answer_mode == "choice":
+                        ordinal = request.text.strip()
+                        expected = (prior.option_handles[int(ordinal) - 1]
+                                    if ordinal.isdecimal()
+                                    and 1 <= int(ordinal) <= len(prior.option_handles)
+                                    else None)
+                        if (selected not in prior.option_handles
+                                or (ordinal.isdecimal() and selected != expected)):
+                            self._pending_clarification = None
+                            return self._input_failure(request, digest, "clarification_choice_invalid")
                     assessment = replace(
                         assessment, intent=prior.intent,
                         target_ref=assessment.target_ref or prior.resolved_target_handle,
@@ -569,6 +725,7 @@ class PlayerActionService:
                 assessment = candidate_interpreter(request, candidates=candidates)
             else:
                 assessment = provider.understand(request, authorized_targets=admission_targets)
+            provider_returned = True
             if not isinstance(assessment, PlayerInputAssessment):
                 raise TypeError("input provider returned an untyped assessment")
             if using_candidates and assessment.target_ref is not None:
@@ -576,9 +733,26 @@ class PlayerActionService:
                 if reference is None:
                     raise PermissionError("input provider proposed an unknown candidate")
                 assessment = replace(assessment, target_ref=reference)
+            selected_kind = next((item.kind for item, reference in candidate_pairs
+                                  if reference == assessment.target_ref), None)
+            emit_input_diagnostic(request.request_id, "interpretation",
+                                  structured_response="accepted",
+                                  status=assessment.status.value,
+                                  selected_mechanism_kind=selected_kind,
+                                  clarification_requested=(assessment.status is InputUnderstandingStatus.CLARIFICATION_REQUIRED),
+                                  clarification_answer_mode=(assessment.answer_mode if assessment.status is InputUnderstandingStatus.CLARIFICATION_REQUIRED else None),
+                                  clarification_option_count=len(assessment.option_handles),
+                                  clarification_available=("unknown" if assessment.status is InputUnderstandingStatus.UNPARSEABLE else None),
+                                  unparseable_reason=("provider_unspecified" if assessment.status is InputUnderstandingStatus.UNPARSEABLE else None),
+                                  stopped_before_attempt=(assessment.status is not InputUnderstandingStatus.ACTION))
         except PlayerTaskAborted:
             raise
         except Exception as exc:
+            emit_input_diagnostic(request.request_id, "interpretation",
+                                  structured_response=("rejected" if provider_returned else "unavailable"),
+                                  provider_returned=provider_returned,
+                                  failure_type=type(exc).__name__,
+                                  stopped_before_attempt=True)
             self._check_task_binding()
             return self._input_failure(
                 request, digest, "input_understanding_failed:" + type(exc).__name__,
@@ -772,7 +946,7 @@ class PlayerActionService:
             )
 
     def retry_input_presentation(self, request: PlayerInputRequest) -> PlayerActionOutcome:
-        """Re-project an already completed input Event; never interpret or dispatch it again."""
+        """Redeliver a completed input action without interpreting or dispatching it again."""
         if not isinstance(request, PlayerInputRequest):
             raise TypeError("PlayerInputRequest required")
         with self._request_lock:

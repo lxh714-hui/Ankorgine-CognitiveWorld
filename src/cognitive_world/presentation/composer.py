@@ -59,6 +59,16 @@ class MinimalComposer:
     @staticmethod
     def _render(item: VisibleInput) -> str | None:
         if (
+            item.scope == "environment"
+            and item.fact_type == "movement"
+            and item.predicate == "actor_arrived"
+            and item.source_event_changed_state
+            and isinstance(item.value, str)
+            and item.location_id == item.value
+            and item.subject_ref is not None
+        ):
+            return "你到达了新的地点。" if item.subject_ref == item.observer_id else "有人来到了这里。"
+        if (
             item.scope == "dialogue"
             and item.fact_type == "social_output"
             and item.predicate == "utterance_delivered"

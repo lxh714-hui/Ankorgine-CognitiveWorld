@@ -147,4 +147,8 @@ class VisibilityFilter:
             return "dialogue"
         if fact.fact_type == "environment_state" and fact.location_id is not None:
             return "environment"
+        if (fact.fact_type == "movement" and fact.predicate == "actor_arrived"
+                and isinstance(fact.value, str) and fact.location_id == fact.value
+                and fact.subject_ref is not None):
+            return "environment"
         return None
