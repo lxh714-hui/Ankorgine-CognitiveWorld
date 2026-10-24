@@ -37,7 +37,7 @@ class MemoryStore:
         from cognitive_world.cognition.l1_consumption_proof import (
             PROOF_MEMORY_TYPE, NONVERBAL_PROOF_MEMORY_TYPE,
         )
-        if memory.type.startswith("system_l1_"):
+        if memory.type.startswith(("system_l1_", "system_action_")):
             return False
         return not isinstance(memory.content, SystemOnlyMemoryContent)
 
@@ -181,6 +181,36 @@ class MemoryStore:
                     raise PermissionError("conflicting L1 proof identity")
                 return
             self._memories[memory.id] = deepcopy(memory)
+
+    def _commit_action_record(self, memory, *, authority, permit):
+        """B3 exact records only; independent from L1 proof authority."""
+        from cognitive_world.cognition.action_expectation import (
+            _AUTHORITY, ActionExpectationRecord, ActionResultAssociation,
+            EXPECTATION_TYPE, ASSOCIATION_TYPE, validate_structure,
+        )
+        if authority is not _AUTHORITY or self.write_fence is None:
+            raise PermissionError("B3 write has no Runtime issuer")
+        from cognitive_world.cognition.action_expectation_source import (
+            SOURCE_TYPE,ActionExpectationSourceBinding,verify_source_records,
+        )
+        types = {EXPECTATION_TYPE: ActionExpectationRecord, ASSOCIATION_TYPE: ActionResultAssociation,
+                 SOURCE_TYPE:ActionExpectationSourceBinding}
+        if (memory.type not in types or type(memory.content) is not types[memory.type]
+                or memory.id != memory.content.record_id or memory.owner_id != memory.content.owner_id
+                or memory.source_event != (memory.content.event_id if memory.type == ASSOCIATION_TYPE else "")):
+            raise PermissionError("B3 record envelope mismatch")
+        validate_structure(memory.content)
+        with self.write_fence.commit_scope():
+            self.write_fence.require_candidate_origin(permit)
+            prior = self._memories.get(memory.id)
+            if prior is not None and prior != memory:
+                raise PermissionError("conflicting immutable B3 record")
+            if prior is None:
+                context=self.write_fence._event_history_verification_context
+                if context is None:
+                    raise PermissionError("B3 Store lacks canonical source verification authority")
+                verify_source_records((*self.get_all_memories(),memory),context[3])
+                self._memories[memory.id] = deepcopy(memory)
 
     def get_memory(self, memory_id: str) -> Memory | None:
         """Return an isolated copy of a Memory by identifier."""

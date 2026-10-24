@@ -199,6 +199,16 @@ class SimulationRuntime:
                     trust=trust, fence=self.write_fence,
                 )
             )
+        if (type(self.event_processor) is EventProcessor
+                and self.event_processor.persistence_trust is not None
+                and self.cognition_context_provider is not None
+                and type(self.agent_action_loop) is AgentActionLoop):
+            from cognitive_world.cognition.action_expectation import ActionExpectationIssuer
+            issuer = ActionExpectationIssuer(context=self.context, fence=self.write_fence,
+                trust=self.event_processor.persistence_trust, context_provider=self.cognition_context_provider)
+            self.event_processor.action_expectations = issuer
+            self.agent_action_loop.action_resolution_flow.action_expectations = issuer
+            self.agent_action_loop.agent_turn.action_expectation_issuer = issuer
         if self.npc_communication_provider is not None:
             from cognitive_world.event.processor import EventProcessor
             from cognitive_world.dialogue.npc import NpcDialogueService

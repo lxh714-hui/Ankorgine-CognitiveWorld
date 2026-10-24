@@ -43,11 +43,13 @@ from cognitive_world.event.history import EventHistory
 from cognitive_world.runtime.write_fence import RuntimeWriteFence
 
 
-COGNITIVE_SNAPSHOT_SCHEMA_VERSION = 3
+COGNITIVE_SNAPSHOT_SCHEMA_VERSION = 5
 _COGNITIVE_SNAPSHOT_PURPOSE_V2 = "cognitive-world/cognitive-state-snapshot/v2"
 _COGNITIVE_SNAPSHOT_PURPOSE_V3 = "cognitive-world/cognitive-state-snapshot/v3"
-# Compatibility name for callers that sign newly captured snapshots.
-_COGNITIVE_SNAPSHOT_PURPOSE = _COGNITIVE_SNAPSHOT_PURPOSE_V3
+# Explicit versioned signing purposes preserve historical envelope semantics.
+_COGNITIVE_SNAPSHOT_PURPOSE_V4 = "cognitive-world/cognitive-state-snapshot/v4"
+_COGNITIVE_SNAPSHOT_PURPOSE_V5 = "cognitive-world/cognitive-state-snapshot/v5"
+_COGNITIVE_SNAPSHOT_PURPOSE = _COGNITIVE_SNAPSHOT_PURPOSE_V5
 _STORE_NAMES = ("beliefs", "goals", "self_models", "memories", "emotions", "personalities")
 _EXCLUSIONS = (
     "WorkingMemory and turn-local buffers",
@@ -62,8 +64,14 @@ _EXCLUSIONS = (
 
 def cognitive_snapshot_codec() -> PersistedValueCodec:
     """Build the existing allow-list codec with supported cognition records."""
+    from cognitive_world.cognition.action_expectation import ActionExpectationRecord, ActionResultAssociation
+    from cognitive_world.cognition.action_expectation_source import (
+        ActionExpectationSourceBinding,NpcSelectedExpectation,PlayerExpectationAbsent,
+    )
     codec = PersistedValueCodec()
     for value_type in (
+        ActionExpectationRecord, ActionResultAssociation,
+        ActionExpectationSourceBinding,NpcSelectedExpectation,PlayerExpectationAbsent,
         Belief, Goal, GoalResourceDemand, SelfModel, Memory,
         MemoryDecisionProvenance, MemoryDecisionProvenanceV2, Emotion,
         EmotionReaction, EmotionDimensionProfile, EmotionProfile, Personality,
@@ -192,7 +200,7 @@ class CognitiveSnapshotBody:
     exclusions: tuple[str, ...] = _EXCLUSIONS
 
     def __post_init__(self) -> None:
-        if type(self.schema_version) is not int or self.schema_version not in {2, 3}:
+        if type(self.schema_version) is not int or self.schema_version not in {2, 3, 4, 5}:
             raise ValueError("unsupported CognitiveStateSnapshot schema version")
         if isinstance(self.simulation_tick, bool) or not isinstance(self.simulation_tick, int) or self.simulation_tick < 0:
             raise ValueError("snapshot simulation tick must be non-negative")
@@ -282,7 +290,9 @@ class CognitiveStateSnapshot:
             except ValueError as error:
                 raise ValueError("invalid cognitive snapshot signature encoding") from error
             purpose = (_COGNITIVE_SNAPSHOT_PURPOSE_V2 if self.body.schema_version == 2
-                       else _COGNITIVE_SNAPSHOT_PURPOSE_V3)
+                       else _COGNITIVE_SNAPSHOT_PURPOSE_V3 if self.body.schema_version == 3
+                       else _COGNITIVE_SNAPSHOT_PURPOSE_V4 if self.body.schema_version == 4
+                       else _COGNITIVE_SNAPSHOT_PURPOSE_V5)
             if not trust.verify(purpose, body_bytes, signature):
                 raise PermissionError("cognitive snapshot signature verification failed")
             authenticity = "signature-verified"
@@ -370,14 +380,22 @@ class CognitiveStateSnapshot:
                     unsigned = CognitiveStoreSnapshot(name, records, owners, "sha256:pending")
                     digest = "sha256:" + sha256_hex(codec.dumps(unsigned))
                     stores.append(CognitiveStoreSnapshot(name, records, owners, digest))
+                # Keep the existing v3 envelope for snapshots with no B3
+                # payload. Bound sources select v5; legacy unbound B3 syntax uses v4.
+                from cognitive_world.cognition.action_expectation_source import SOURCE_TYPE
+                version = (5 if any(record.value.type==SOURCE_TYPE for record in store_records["memories"])
+                    else 4 if any(record.value.type.startswith("system_action_")
+                    for record in store_records["memories"]) else 3)
                 body = CognitiveSnapshotBody(
-                    COGNITIVE_SNAPSHOT_SCHEMA_VERSION, simulation_tick, timeline_id,
+                    version, simulation_tick, timeline_id,
                     permit.session_id, permit.restore_generation,
                     tuple(sorted(agent_ids)), expected_agents, registry_revision,
                     links, tuple(stores),
                 )
                 body_bytes = codec.dumps(body)
-                signature = None if trust is None else trust.sign(_COGNITIVE_SNAPSHOT_PURPOSE_V3, body_bytes).hex()
+                purpose = (_COGNITIVE_SNAPSHOT_PURPOSE_V5 if version==5 else
+                    _COGNITIVE_SNAPSHOT_PURPOSE_V4 if version==4 else _COGNITIVE_SNAPSHOT_PURPOSE_V3)
+                signature = None if trust is None else trust.sign(purpose, body_bytes).hex()
                 result = cls(body, "sha256:" + sha256_hex(body_bytes), signature)
                 result.validate(trust=trust, codec=codec, event_history=event_history,
                                 historical_rule_registry=historical_rule_registry,
@@ -720,6 +738,26 @@ def _validate_body(
                         verify_instance_proof(memory.content, history=event_history, trust=trust,
                             checkpoint_timeline_id=body.timeline_id, checkpoint_tick=body.simulation_tick,
                             rule_registry=historical_rule_registry, memory_revision_lineage=memory_revision_lineage)
+                elif memory.type.startswith("system_action_"):
+                    from cognitive_world.cognition.action_expectation import (
+                        EXPECTATION_TYPE, ASSOCIATION_TYPE, ActionExpectationRecord,
+                        ActionResultAssociation, validate_structure,
+                    )
+                    from cognitive_world.cognition.action_expectation_source import SOURCE_TYPE,ActionExpectationSourceBinding
+                    kinds = {EXPECTATION_TYPE: ActionExpectationRecord, ASSOCIATION_TYPE: ActionResultAssociation,
+                             SOURCE_TYPE:ActionExpectationSourceBinding}
+                    minimum=5 if memory.type==SOURCE_TYPE else 4
+                    if (body.schema_version < minimum or memory.type not in kinds
+                            or type(memory.content) is not kinds[memory.type]
+                            or memory.id != memory.content.record_id
+                            or memory.owner_id != memory.content.owner_id
+                            or memory.source_event != (memory.content.event_id if memory.type==ASSOCIATION_TYPE else "")):
+                        raise PermissionError("unsupported or mismatched B3 record")
+                    validate_structure(memory.content)
+                    if trust is None:
+                        raise PermissionError("B3 requires signed verification")
+                    from cognitive_world.cognition.action_expectation import verify_signature
+                    verify_signature(memory.content, trust)
                 elif memory.type.startswith("system_l1_"):
                     raise PermissionError("unknown L1 system record type")
                 elif isinstance(memory.content, SystemOnlyMemoryContent):
@@ -741,6 +779,18 @@ def _validate_body(
         if tuple(sorted(actual_owners)) != tuple(sorted(store.owner_ids)):
             raise ValueError("store owner coverage does not match its records")
         if store.store_name == "memories":
+            if any(item.value.type.startswith("system_action_") for item in store.records):
+                from cognitive_world.cognition.action_expectation_source import verify_source_records
+                if trust is None:raise PermissionError("source-bound B3 requires signature verification")
+                verify_source_records(tuple(item.value for item in store.records),trust,checkpoint_tick=body.simulation_tick)
+            if event_history is not None:
+                from cognitive_world.cognition.action_expectation import verify_records
+                if (any(item.value.type.startswith("system_action_") for item in store.records)
+                        or any(e.metadata.get("action_expectation_id") is not None for e in event_history.get_events())):
+                    if trust is None:
+                        raise PermissionError("B3 requires trusted history verification")
+                    verify_records(tuple(item.value for item in store.records), history=event_history,
+                        trust=trust, checkpoint_tick=body.simulation_tick, lineage=memory_revision_lineage)
             memories_by_id = {item.record_id: item.value for item in store.records}
             for record in store.records:
                 memory = record.value

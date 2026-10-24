@@ -174,8 +174,10 @@ class AgentActionLoop:
             self.safety_governance.require_action_allowed(
                 safety_input_from_attempt(attempt, source="agent_attempt_submission")
             )
+            b3_options = ({"action_proposal": proposal}
+                          if self.action_resolution_flow.action_expectations is not None else {})
             resolution, event = self.action_resolution_flow.execute_with_result(
-                attempt,
+                attempt, **b3_options,
                 action_proposal_id=proposal.proposal_id,
                 simulation_tick=simulation_tick,
             )

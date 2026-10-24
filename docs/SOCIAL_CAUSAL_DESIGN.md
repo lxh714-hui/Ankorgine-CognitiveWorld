@@ -1,5 +1,19 @@
 # Social Causality: Persuasion and Cross-Agent Goal Conflict
 
+## B3 association does not establish actor knowledge
+
+[B3](DATA_CONTRACTS.md#b3-immutable-expectation-and-authoritative-result-association)
+links one frozen physical Attempt prediction to its verified formal result.
+Event association, authorized Observation, actual L1 consumption and later
+interpretation remain distinct. B1/B2 retain their narrow original-owner scope;
+B3 neither creates a consumption proof nor attributes a decision causally to an
+arbitrary source reference. NPC communication is outside this physical-action
+slice. The [trusted source](DATA_CONTRACTS.md#trusted-action-expectation-source-binding-v1)
+binds the original selection content/time or player absence independently of
+expectation claims. This establishes neither Belief causation nor result
+consumption. B4 and general social-experience learning remain unimplemented.
+
+
 **Status at committed `579fcbb`: player-to-NPC existing-Belief persuasion and a narrow NPC-origin communication-to-recipient-Belief slice are IMPLEMENTED / PARTIAL; Socialization v0.2 D1 and one registered D2 historical-visibility proof family, plus formal D3 MemoryDecision/Memory-v2, have separate narrow implementations. D4–D9 and the full social-experience loop remain DESIGN / NOT IMPLEMENTED.** This document refines the shared authority in [ARCHITECTURE.md](ARCHITECTURE.md) and the existing data boundaries in [DATA_CONTRACTS.md](DATA_CONTRACTS.md). It does not declare a new Store, Runtime, social action taxonomy, or causal policy. The two routes may be developed independently; their transient in-process slices do not imply desktop NPC dialogue, durable social experience, general claim truth or complete cross-restore continuity.
 
 ## B2 owner-result proof scope

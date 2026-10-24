@@ -50,6 +50,7 @@ class EventProcessor:
     observation_store: object | None = None
     persistence_trust: PersistenceTrust | None = None
     persistence_codec: PersistedValueCodec | None = None
+    action_expectations: object | None = field(default=None, init=False, repr=False)
     write_fence: RuntimeWriteFence | None = None
 
     def __post_init__(self) -> None:
@@ -124,7 +125,19 @@ class EventProcessor:
     ) -> EventProcessingEvidence:
         scope = self._write_scope(event)
         with scope:
-            return self._process_with_evidence(event, world_state, cause_id)
+            try:
+                evidence = self._process_with_evidence(event, world_state, cause_id)
+                if event.metadata.get("action_expectation_id") is not None:
+                    if self.action_expectations is None:
+                        raise PermissionError("required B3 issuer unavailable")
+                    self.action_expectations.associate(event)
+                return evidence
+            except BaseException:
+                if (event.metadata.get("action_expectation_id") is not None
+                        and self.event_history.get_event(event.id) is not None
+                        and self.write_fence is not None):
+                    self.write_fence.mark_recovery_required()
+                raise
 
     def _process_with_evidence(
         self,

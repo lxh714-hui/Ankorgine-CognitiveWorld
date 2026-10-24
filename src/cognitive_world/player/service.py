@@ -35,6 +35,7 @@ from cognitive_world.presentation.perspective import PerspectiveResolver
 from cognitive_world.presentation.pipeline import PresentationPipeline
 from cognitive_world.presentation.visibility import VisibilityFilter
 from cognitive_world.resolution.action_flow import ActionResolutionFlow
+from cognitive_world.runtime.write_fence import RuntimeWriteFence
 from cognitive_world.runtime.context import PlayerMode, RuntimeContext
 from cognitive_world.safety.governance import SafetyInput, UniversalSafetyGovernance
 from .task_context import (
@@ -127,6 +128,8 @@ class PlayerActionService:
         resolution_flow.bind_safety_governance(context.safety_governance)
         self.context, self.processor = context, processor
         self.action_pipeline, self.resolution_flow = action_pipeline, resolution_flow
+        resolution_flow.action_expectations = processor.action_expectations
+        resolution_flow.expectation_origin = "player"
         self.presentation = PresentationPipeline.for_runtime(context, output)
         self.world_id = world_id
         self._requests: dict[str, tuple[str, object | None, PlayerActionOutcome | None]] = {}
@@ -321,10 +324,20 @@ class PlayerActionService:
         payload = (request.session_id, request.world_id, request.intent, request.method, request.target_ref)
         return sha256(json.dumps(payload, ensure_ascii=False).encode("utf-8")).hexdigest()
 
+    def _request_scope(self):
+        # A synchronous host call starts one operation before Proposal creation.
+        # Background tasks must retain their own capability, never replace it.
+        fence = self.processor.write_fence
+        if (self.processor.action_expectations is not None and fence is not None
+                and RuntimeWriteFence.current_permit() is None
+                and active_player_task() is None):
+            return fence.operation()
+        return nullcontext()
+
     def submit(self, request: PlayerActionRequest) -> PlayerActionOutcome:
         if not isinstance(request, PlayerActionRequest):
             raise TypeError("PlayerActionRequest required")
-        with self._request_lock:
+        with self._request_lock, self._request_scope():
             self._check_task_binding()
             return self._submit_action(request, self._digest(request))
 
@@ -430,6 +443,9 @@ class PlayerActionService:
                 target_refs=[] if request.target_ref is None else [request.target_ref],
                 parameters={"method": request.method},
             )
+            if self.processor.action_expectations is not None:
+                from cognitive_world.cognition.action_expectation_source import _PLAYER_ENTRY_AUTHORITY
+                self.processor.action_expectations.issue_player_source(proposal,authority=_PLAYER_ENTRY_AUTHORITY)
             attempt = self.action_pipeline.create_attempt(proposal)
             before_location = None
             track_location = False
@@ -449,8 +465,10 @@ class PlayerActionService:
                                           location_before=(before_location if kind == "passage" else None))
                 except Exception:
                     pass
+            b3_options = ({"action_proposal": proposal}
+                          if self.resolution_flow.action_expectations is not None else {})
             resolution, event = self.resolution_flow.execute_with_result(
-                attempt, action_proposal_id=proposal.proposal_id,
+                attempt, **b3_options, action_proposal_id=proposal.proposal_id,
                 simulation_tick=self.context.clock.capture(),
             )
             if input_diagnostics_enabled():
@@ -577,7 +595,7 @@ class PlayerActionService:
 
     def submit_input(self, request: PlayerInputRequest) -> PlayerActionOutcome:
         """Interpret raw input, then route only an authorized action candidate to the existing path."""
-        with self._request_lock:
+        with self._request_lock, self._request_scope():
             return self._submit_input_locked(request)
 
     def _submit_input_locked(self, request: PlayerInputRequest) -> PlayerActionOutcome:

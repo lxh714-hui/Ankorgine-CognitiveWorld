@@ -66,6 +66,7 @@ class AgentTurn:
     self_model_review_provider: object | None = None
     cognitive_update_validator: CognitiveUpdateValidator = field(default_factory=CognitiveUpdateValidator)
     write_fence: RuntimeWriteFence | None = None
+    action_expectation_issuer: object | None = field(default=None, repr=False, kw_only=True)
     l1_consumption_issuer: L1ConsumptionIssuer | None = field(default=None, repr=False)
     _memory_event_verification_context: tuple[object, object, object, object] | None = field(
         default=None, init=False, repr=False,
@@ -106,10 +107,12 @@ class AgentTurn:
         )
         if not callable(getattr(decision, "propose", None)):
             raise TypeError("decision must provide a callable propose(context) method")
-        if legacy_proposal_compatibility and type(decision) is AgentDecision:
-            proposal = decision.propose(cognition_state)
-        else:
-            proposal = decision.propose(decision_input)
+        from cognitive_world.cognition.action_expectation import selection_scope
+        with selection_scope(self.action_expectation_issuer):
+            if legacy_proposal_compatibility and type(decision) is AgentDecision:
+                proposal = decision.propose(cognition_state)
+            else:
+                proposal = decision.propose(decision_input)
         if not isinstance(proposal, ActionProposal):
             raise TypeError("decision.propose(context) must return an ActionProposal")
         if proposal.agent_id != agent.agent_id:

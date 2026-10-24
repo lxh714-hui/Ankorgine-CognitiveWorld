@@ -1,5 +1,157 @@
 # CognitiveWorld Data Contracts
 
+## B3 immutable expectation and authoritative result association
+
+B3 adds two exact system-only payloads in the existing MemoryStore:
+`ActionExpectationRecord/v1` (`system_action_expectation_v1`) and
+`ActionResultAssociation/v1` (`system_action_result_association_v1`). Their
+independent signing purposes are `cognitive-world/action-expectation/v1` and
+`cognitive-world/action-result-association/v1`; the closed historical policy is
+`attempt-result-association/v1`. They are not L1 proofs, semantic Memory,
+WorldState facts or permissions to revise cognition.
+
+### Trusted action expectation source binding v1
+
+`ActionExpectationSourceBinding/v1` is a third, independent system record of
+entry provenance, not another expectation, result or L1 proof. Its exact Memory
+type is `system_action_expectation_source_v1`, signing purpose is
+`cognitive-world/action-expectation-source/v1`, and closed policy is
+`trusted-action-entry/v1`. Identity binds version, canonical Timeline, owner and
+proposal ID; content changes conflict instead of creating another identity.
+
+The closed common envelope stores identity/policy, source kind, owner/Timeline,
+proposal ID and canonical proposal digest, representation, source-specific
+payload, original source references and entry tick. `NpcSelectedExpectation`
+contains exactly candidate ID, actual decision tick and the unchanged original
+prediction. `PlayerExpectationAbsent` contains only the registered player-absence
+policy. Missing required fields, extra payload fields, unknown kinds/versions or
+policies are not inferred or accepted as defaults. References remain cited
+provenance, not proof of Belief influence.
+
+NPC issuance occurs inside the real validated candidate-selection boundary.
+The original clock capture is bound to the active issuer/Timeline/permit in a
+transient stamp before the proposal is built. Player issuance is a separate
+trusted service entry, checks the controlled roleplay actor, and records explicit
+absence according to that entry contract without an extra model call. Open
+Attempt parameters do not classify source kind or establish a player's prediction.
+The source's `issued_tick` denotes the original entry boundary (the selection
+tick for NPCs), not delayed signing, retry or restore time.
+
+The source is signed and committed in the existing fenced MemoryStore before
+final Attempt construction. Pipeline-owned metadata then stores only its version,
+stable ID and canonical body digest; this immutable reference is covered by the
+existing Attempt fingerprint. The same fence remains held until the Attempt is
+fully frozen. Legacy reference-free Attempts retain byte-equivalent snapshots,
+UUID generation and the original fingerprint algorithm. A reference cannot be
+transplanted to another proposal or replaced after freezing.
+
+One shared semantic rule reconstructs the original proposal projection from the
+canonical Attempt, checks its digest and source refs, and compares every B3
+expectation claim against the signed source-specific payload. It validates owner,
+Timeline, proposal, original content/absence, candidate and decision tick. `origin`
+is a claim, never a switch that can erase prediction data. Re-signing expectation,
+association and snapshot, or even changing the source payload, cannot override
+an unchanged Attempt reference. Signed decoding applies these cross-record
+checks before EventHistory is available; full isolated verification additionally
+checks history and exact checkpoint ancestry.
+
+A source signature is historical evidence, not Runtime write authority. Permits,
+cancellation state and current-entry receipts are never serialized. Publication
+failure or uncertainty enters existing recovery-required isolation before any
+Attempt/Resolution can proceed; a pre-write validation rejection publishes
+nothing. Repeated valid issuance reuses original bytes/ticks. Restored pending
+sources cannot create current authorization or restart an old action.
+
+Source-bound snapshots use cognition schema/signing purpose v5 with explicit
+exact-type codec registrations. v2/v3 readers and original signing purposes
+remain. v4 syntax remains decodable for inspection, but B3 records lacking
+independent source evidence reject as `ambiguous_action_expectation_source`;
+they are not backfilled or automatically upgraded. Old envelopes cannot contain
+the new source type. The outer SnapshotBundle remains v2. Parent sources retain
+original signatures/ticks and require exact fork-checkpoint membership; sibling
+and post-fork-only sources are denied. Recovery verifies, never re-signs.
+
+Implementation: [source contract and shared rule](../src/cognitive_world/cognition/action_expectation_source.py),
+[coordinated attack and provenance tests](../tests/test_action_expectation_source.py).
+
+**Freeze and identity.** In a signed Runtime with canonical owner contexts, B3
+is bound automatically, with no feature-disable switch. The actual validated
+AgentDecision selection captures the trusted clock and originating permit in a
+transient receipt. The final immutable Attempt is created by the existing
+pipeline; before its first Resolution, the issuer checks the original selection
+and proposal binding, fixes a separate freeze tick, signs and commits the
+expectation under the existing fence. Its ID binds version, Timeline, owner and
+Attempt ID. Digest changes conflict rather than mint another identity. Repeated
+registration returns the original ticks/bytes. A selected proposal cannot be
+rebound to a second Attempt, and a started/restored incomplete Attempt is not
+automatically re-executed. Attempt ID and fingerprint algorithms are unchanged.
+
+The record retains a bounded canonical preimage of the selected Attempt so
+restore can recompute its original fingerprint, including its existing source
+references and metadata; it does not create persistent records for unselected
+candidates or persist the live candidate/provider/task pipeline. References mean
+cited decision provenance, not proof that a particular Belief caused selection.
+No Belief revision is inferred. `free_text` is a subjective prediction, never a
+physical law. Player actions use `expectation_absent` with no inferred prediction
+or extra model call. A source-bound physical action without authenticated
+entry provenance is ambiguous/rejected; no origin or selection time is inferred. `typed` is reserved but rejected
+without a registered projector; this slice supplies none. Comparison remains
+explicitly `uncomparable`, including when prose appears to contradict Resolution.
+
+**Result.** Only a committed Resolution Event with canonical signed history and
+processing evidence can establish the separate association. Verification binds
+expectation identity/body digest, owner, original Timeline, full Attempt
+fingerprint, proposal, Event cause/Attempt fields, Resolution identity, Event
+source digest and event time. The deterministic association ID binds the
+expectation and fixed formal-result role. Identical duplicates are idempotent;
+changed Event bindings conflict. The expectation is never amended with an Event
+ID. An unresolved or pre-execution-rejected request has no formal association.
+Observation delivery failure does not undo a committed Event or imply L1
+consumption. Presentation and UI receive no new authority or cognition objects.
+
+**Failure and capture.** Pre-mutation validation rejection has no action effect.
+Signing/Store failure after expectation publication begins, including uncertain
+writes, freezes the existing Runtime recovery fence and prevents Resolution.
+Event processing and association completion share the existing commit lock.
+A committed Event survives association failure; the fence is marked recovery-
+required before returning to outer handlers, blocking protected writes and
+snapshot capture. No rollback, uncertain-action retry or replacement identity is
+invented. A checkpoint may capture a frozen expectation before execution, but
+cannot capture a committed B3 Event lacking its required association. Restored
+incomplete expectations are deferred and cannot restart Resolution automatically.
+An expectation without an association cannot by itself distinguish a never-started
+Attempt, an unresolved Resolution or a pre-commit interruption after restoration;
+it is not evidence of a confirmed success or failure.
+
+**Persistence and branches.** Canonical in-memory records are not durable until
+SaveManager publishes a checkpoint containing them and their authoritative
+history. No pending-intent journal or stronger uncheckpointed crash guarantee is
+added. Source-bound B3 uses cognition snapshot v5 and its v5 purpose; captures
+without B3 content retain v3 encoding/purpose. v2/v3 retain their original
+readers/purposes. Unbound legacy v4 B3 data is inspectable but ambiguous and
+cannot authorize a resumed lifecycle; no provenance is inferred. SnapshotBundle v2 is
+unchanged because its component set and exact-byte binding are unchanged.
+Unknown types/versions/policies, malformed envelopes and signature-valid semantic
+mismatches fail closed. Restore verifies existing bytes, never re-signs or
+reconstructs missing predictions from text. Required Event/association gaps
+reject rather than being repaired.
+
+Ancestor records must match exact immutable records in the verified fork
+checkpoint, not merely possess a valid ancestor signature. Parent records keep
+original Timeline/ticks/signatures; post-fork parent and sibling-only records
+are denied. A child cannot execute an inherited incomplete Attempt and attach
+its own result to the ancestor expectation. New child actions use new Attempts
+and child-scoped expectation identities. Old Runtime capabilities cannot commit.
+
+B1 authorization, B2 identity/time/proofs, and existing BehaviorFeedback are
+independent and unchanged. B3 does not prove observation, consumption,
+understanding or belief; B4 remains responsible for governed revision. Legacy
+unsigned or cognition-less host compositions cannot issue recoverable B3
+records; they retain their prior compatibility behavior without a B3 claim.
+See [implementation](../src/cognitive_world/cognition/action_expectation.py) and
+[contract tests](../tests/test_action_expectation.py).
+
+
 Version: 1.0
 
 ---

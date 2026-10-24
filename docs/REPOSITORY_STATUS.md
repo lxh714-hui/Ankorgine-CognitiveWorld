@@ -1,5 +1,77 @@
 # Repository Status
 
+## B3 trusted expectation provenance correction (2026-10-25)
+
+The [source-binding contract](DATA_CONTRACTS.md#trusted-action-expectation-source-binding-v1)
+adds a separately signed, closed `ActionExpectationSourceBinding/v1` record at
+the trusted NPC selection or player entry boundary. The final Attempt binds its
+stable source ID and canonical body digest under the unchanged fingerprint
+algorithm. Reference-free legacy Attempts retain their original bytes. NPC
+selection evidence and explicit player absence use distinct closed payloads;
+an unrelated player `expected_result` parameter does not establish expectation.
+Issuance, system-record verification, decode and restore share semantic checks.
+Changing all five expectation claims cannot override the original source binding.
+
+Source-bound cognitive snapshots use v5 with a dedicated signing purpose.
+Legacy codecs remain readable, but unbound B3 expectations are rejected as
+`ambiguous_action_expectation_source`, never inferred or re-signed. SnapshotBundle
+v2, B1 owner authorization and B2 identity/original consumption tick remain intact.
+Source publication and final Attempt freezing use the existing Runtime fence;
+uncertain writes block protected execution and capture pending recovery. Published
+checkpoints remain the durability boundary. No B4 revision is introduced.
+
+Independent verification: the coordinated attack failed at all four boundaries
+before correction (4 failures), then passed. Final source/B3 tests passed (103 in
+2.67s), B1/B2 passed (144 in 30.97s), the exact ambiguous-L1 P1 regression passed
+(2 in 0.24s), and fence/snapshot/history/save/restore passed (135 in 30.79s).
+Final `py -3.14 -m pytest -q -rs`: 1566 passed, 9 skipped in 93.05s, exit 0.
+All skips require local Ollama integration/evaluation opt-ins or the embedding
+model setting. Compilation of 17 changed Python files, 73 local documentation
+links/anchors and both diff checks passed. This is deterministic contract
+verification, not live-model quality or visible desktop acceptance.
+
+The dated report below describes the preceding unbound B3 schema. This correction
+supersedes its current-v4 schema and source-provenance claims.
+
+## B3 immutable expectation/result association (2026-10-24)
+
+Local implementation on `e1d215a98108dd0df3b493b231e430db6affaa26`; no B3
+commit or release is created. The [B3 contract](DATA_CONTRACTS.md#b3-immutable-expectation-and-authoritative-result-association)
+adds exact signed expectation and association system records in the existing
+MemoryStore. NPC selection captures an original trusted tick; the final Attempt
+is frozen and registered before Resolution. Player expectations remain explicitly
+absent. Only committed, verified Resolution history can establish the separate
+association. Duplicates retain original identities/ticks, and committed-result
+association failure freezes the existing Runtime write/capture boundary.
+
+B3 is automatic for signed physical-action Runtime compositions with canonical
+owner contexts. Unsigned legacy compositions retain their old behavior without
+a recoverable B3 claim. NPC communication, typed expectation projection, general
+comparison, durable request journals and B4 cognitive revision are outside scope.
+The classification remains `uncomparable`; prediction text never determines
+world truth or actor knowledge. B1/B2 and BehaviorFeedback remain independent.
+Cognition snapshots with B3 use v4/purpose v4; without B3 they retain v3. Existing
+v2/v3 readers and SnapshotBundle v2 are preserved. Restored incomplete Attempts
+are deferred rather than re-executed; durability starts at published checkpoints.
+
+Verification on Python 3.14: the explicitly adjusted B2 test passed (1 in 0.44s),
+and the initial B1/B2 persistence/P1 group passed (144 in 29.31s). Subsequent
+fence/snapshot checks passed (43 in 0.80s); B1/B2, restore and reconstruction
+passed (217 in 48.60s); NPC/player/autonomous checks passed (165 in 3.52s).
+The first full run found one real communication-scope regression (1524 passed,
+1 failed, 9 skipped); its production fix leaves the existing D1 test unchanged.
+The B3 plus social-interaction run passed (77 in 2.35s). Final diff review
+also preserved existing positional constructors by making new fields keyword-only;
+its regression brings B3 coverage to 66 cases. Final B3+B1+B2 checks passed
+(181 in 7.67s), followed by `py -3.14 -m pytest -q -rs --tb=short`: 1529 passed,
+9 skipped in 87.67s, exit 0. Skips require explicit local Ollama integration or
+evaluation opt-ins, including the embedding-model setting; none is a B3 skip.
+Compilation, local link/anchor checks and diff checks pass. Existing v1 proof
+models/helpers/verifiers and B2 instance, Attempt, fence and Bundle sources are
+unchanged. This is deterministic contract acceptance, not live-model quality,
+visible desktop acceptance, uncheckpointed recovery or general learning.
+
+
 ## B2 ambiguous-consumption P1 correction (2026-10-24)
 
 The B2 gate now rejects both a completed unbound legacy receipt and a partial

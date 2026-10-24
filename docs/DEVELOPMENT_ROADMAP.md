@@ -1,5 +1,20 @@
 # CognitiveWorld Development Roadmap
 
+## B3 local scoped implementation (2026-10-24)
+
+The local [B3 contract](DATA_CONTRACTS.md#b3-immutable-expectation-and-authoritative-result-association)
+implements immutable execution-before expectation capture and committed-result
+association for signed physical-action Runtime compositions. Existing NPC and
+player paths share the guarded boundary while preserving absent player
+expectations. Recovery is checkpoint-only; incomplete restored Attempts are not
+automatically resumed. No typed expectation projector, general semantic
+comparison, B4 revision, learning or durable pending journal is supplied.
+The [source-integrity correction](DATA_CONTRACTS.md#trusted-action-expectation-source-binding-v1)
+adds independently signed entry provenance in the existing Store, referenced by
+the final Attempt. It closes coordinated origin/content/time claim suppression;
+v5 checkpoints retain the source, while unbound v4 B3 history fails ambiguous.
+
+
 ## B2 scoped L1 identity and proof milestone (2026-10-24)
 
 The local B2 implementation establishes the default immutable owner/Timeline/

@@ -1,5 +1,21 @@
 # CognitiveWorld AI Boundary
 
+## B3 predictions remain subjective
+
+The [B3 records](DATA_CONTRACTS.md#b3-immutable-expectation-and-authoritative-result-association)
+certify pre-execution capture and a verified formal-result association, not the
+truth of the original prediction. Free text is not compiled into physics;
+players without explicit predictions remain `expectation_absent`. No extra
+model inference, knowledge grant or automatic cognitive revision is introduced.
+The [source binding](DATA_CONTRACTS.md#trusted-action-expectation-source-binding-v1)
+is issued by the trusted NPC selection/player entry, with distinct closed
+payloads. Its ID and digest are bound into the final Attempt. Issuance and
+restore validate claims against it; signatures alone or mutable origin flags
+cannot turn a captured prediction into absence.
+Only the actual source selection can supply a decision tick; later Event times
+cannot substitute. The engine, not model prose, owns association verification.
+
+
 Version: 1.0
 
 The [CognitiveWorld Core Doctrine](COGNITIVEWORLD_CORE_DOCTRINE.md) supplies the foundational model/world distinction and the requirements for task-scoped context, deterministic enforcement, governed learning and computational allocation. This document specifies the AI-facing boundary; a temporary prompt or model-generated expectation cannot replace canonical cognition, authorize an outcome or expand the existing proof/persistence contracts.

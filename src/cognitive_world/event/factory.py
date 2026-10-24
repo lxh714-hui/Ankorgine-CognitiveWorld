@@ -30,6 +30,7 @@ class EventFactory:
         resolution_result: ResolutionResult,
         *,
         action_proposal_id: str | None = None,
+        action_expectation_id: str | None = None,
     ) -> Event:
         """Create an Event retaining the resolution and Attempt provenance."""
         if not isinstance(resolution_result, ResolutionResult):
@@ -109,6 +110,8 @@ class EventFactory:
             metadata["initiator_id"] = initiator_id
         if action_proposal_id is not None:
             metadata["action_proposal_id"] = action_proposal_id
+        if action_expectation_id is not None:
+            metadata["action_expectation_id"] = action_expectation_id
         event = Event(
             id=f"event:{resolution_result.resolution_id}",
             type="resolution",

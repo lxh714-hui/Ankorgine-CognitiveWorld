@@ -93,7 +93,15 @@ def test_real_agent_turn_consumes_once_without_semantic_revision_or_world_replay
     assert not runtime.context.world_state.environment[DOOR_ID].is_open
     assert before == (dict(cognition.beliefs), dict(cognition.goals), dict(cognition.self_models))
     assert context.get_memories() == ()
-    assert memory.get_all_memories()[0].type == INSTANCE_PROOF_MEMORY_TYPE
+    records = memory.get_all_memories()
+    b2_records = tuple(item for item in records if item.type == INSTANCE_PROOF_MEMORY_TYPE)
+    assert len(b2_records) == 1 and b2_records[0].content == proof
+    from cognitive_world.cognition.action_expectation import EXPECTATION_TYPE, ActionExpectationRecord
+    b3_records = tuple(item for item in records if item.type == EXPECTATION_TYPE)
+    assert len(b3_records) == 1 and type(b3_records[0].content) is ActionExpectationRecord
+    assert records.index(b3_records[0]) < records.index(b2_records[0])
+    assert b3_records[0].type != INSTANCE_PROOF_MEMORY_TYPE
+    assert not memory.is_semantically_retrievable(b3_records[0])
 
 
 def test_duplicate_input_retrieval_and_delivery_preserve_instance_time_and_percept():
@@ -315,10 +323,26 @@ def test_cold_resume_existing_timeline_preserves_proof_or_defers_ambiguous_histo
     assert _proofs(restored_memory) == ((proof,) if with_proof else ())
     assert not cold.write_fence.recovery_required
     # New post-restore source Events are not the ambiguous historical input.
-    from test_causal_resolution import _attempt
-    from cognitive_world.decision import ActionPipeline, ActionProposal
-    proposal = ActionProposal('post-resume', AGENT_ID, 'open the archive door', [DOOR_ID], {'method': 'push the door'})
+    from cognitive_world.decision import ActionPipeline
+    from cognitive_world.decision.context import DecisionContext
+    from cognitive_world.cognition.action_expectation import selection_scope
+    # A fresh physical action now needs a genuine entry source. Establish fresh
+    # authorized door evidence without promoting the ambiguous old result.
+    _observe_door(cold,'post-resume-known-door')
+    context=cold.cognition_context_provider(owner)
+    l1=cold.agent_action_loop.agent_turn.cognitive_runtime
+    current_observations=tuple(o for o in cold.context.observation_store.get_by_observer(AGENT_ID)
+        if o.source_event_id=='post-resume-known-door')
     with cold.write_fence.operation():
+        state=l1.process(AGENT_ID,current_observations,
+            beliefs=context.get_beliefs(),goals=context.get_goals())
+        decision_context=DecisionContext(cognition_state=state,percepts=tuple(state.percepts),
+            goals=tuple(context.get_goals()),beliefs=tuple(context.get_beliefs()),
+            self_model=context.get_self_model(),personality=context.get_personality(),
+            working_memory=l1.working_memory_store.get(AGENT_ID))
+        with selection_scope(cold.event_processor.action_expectations):
+            proposal=cold.agent_decision.propose(decision_context)
+        assert proposal.target_refs==[DOOR_ID]
         new_event = cold.agent_action_loop.action_resolution_flow.execute(
             ActionPipeline().create_attempt(proposal), simulation_tick=cold.context.clock.capture())
         cold.event_processor.dispatch_with_evidence(new_event)

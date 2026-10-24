@@ -62,7 +62,7 @@ class MemoryPersistence:
                 verified_history = fence._verify_complete_event_history(self.event_history)
 
             proposal = request.validate_authorization()
-            if request.memory_type.startswith("system_l1_"):
+            if request.memory_type.startswith(("system_l1_", "system_action_")):
                 raise PermissionError("ordinary Memory decisions cannot create system L1 proofs")
             if proposal.source_event_id != request.source_event_id:
                 raise ValueError("Request source does not match Proposal source")

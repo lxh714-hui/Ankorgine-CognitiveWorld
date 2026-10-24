@@ -1,5 +1,20 @@
 # CognitiveWorld Architecture
 
+## B3 execution expectation boundary
+
+The [B3 contract](DATA_CONTRACTS.md#b3-immutable-expectation-and-authoritative-result-association)
+adds a selected-Attempt expectation frozen before Resolution and a separate
+immutable association issued after canonical Event commit. Both use the existing
+system MemoryStore, signed snapshots and Runtime fence; predictions remain
+subjective. Event/association failures freeze writes/capture without replaying
+world actions. Checkpoint-only durability and exact ancestor membership remain
+required. B3 supplies neither actor knowledge nor B4 cognitive revision.
+Its [trusted entry source](DATA_CONTRACTS.md#trusted-action-expectation-source-binding-v1)
+is signed before the final Attempt, whose existing fingerprint covers the
+source ID/digest. Source-bound cognition uses v5; unbound historical B3 remains
+ambiguous. No Runtime capability is serialized and no second Store is created.
+
+
 Version: 1.0
 
 The [CognitiveWorld Core Doctrine](COGNITIVEWORLD_CORE_DOCTRINE.md) defines the foundational invariants behind this architecture: independent world authority, owner-scoped cognition, reconstructed action context, validated execution, evidence-governed revision and need-based computation. The doctrine is the conceptual foundation; this document and the detailed contracts retain their specific responsibilities and implementation limits. Its unified feedback lifecycle is an objective, not a newly implemented capability.

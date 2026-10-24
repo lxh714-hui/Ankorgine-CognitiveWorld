@@ -1,5 +1,20 @@
 # CognitiveWorld Memory Design
 
+## B3 system records are not semantic Memory
+
+[B3](DATA_CONTRACTS.md#b3-immutable-expectation-and-authoritative-result-association)
+stores its exact immutable expectation and association through a dedicated
+system authority in the existing MemoryStore. Ordinary MemoryPersistence cannot
+write them and semantic retrieval excludes them without hiding them from the
+canonical record collection. Source-bound checkpoint v5 verifies original signatures,
+Attempt/Event bindings and exact ancestor membership. This is result association,
+not proof of owner consumption or a Memory/Belief/Goal/SelfModel update.
+The separate [source binding](DATA_CONTRACTS.md#trusted-action-expectation-source-binding-v1)
+is also system-only. It authenticates the selected NPC prediction or trusted
+player absence through the final Attempt reference; an origin claim is not
+provenance. Unbound legacy B3 records remain ambiguous rather than upgraded.
+
+
 Version: 1.0
 
 ---

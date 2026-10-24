@@ -198,6 +198,8 @@ class AgentDecision:
             candidates,
             key=lambda candidate: (-float(evaluation_by_id[candidate.candidate_id].score), candidate.candidate_id),
         )
+        from cognitive_world.cognition.action_expectation import capture_selection_time, bind_selection
+        selection_tick = capture_selection_time()
         decision_trace = tuple(
             {
                 "candidate_id": candidate.candidate_id,
@@ -227,7 +229,7 @@ class AgentDecision:
                 ),
             )
         )
-        return ActionProposal(
+        proposal = ActionProposal(
             proposal_id=f"action-proposal:{situation.owner_id}:{uuid4().hex}",
             agent_id=situation.owner_id,
             # ActionProposal.action_type has always been an open string; use
@@ -261,3 +263,4 @@ class AgentDecision:
                 "selected_candidate_id": selected.candidate_id,
             },
         )
+        return bind_selection(proposal, selection_tick, selected=selected)

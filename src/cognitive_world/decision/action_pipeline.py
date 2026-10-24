@@ -53,13 +53,19 @@ class ActionPipeline:
         )
         metadata = attempt.metadata
         metadata["action_proposal_reasoning_refs"] = action_proposal.reasoning_refs
-        return Attempt(
-            attempt_id=attempt.attempt_id,
-            agent_id=attempt.agent_id,
-            action_proposal_id=attempt.action_proposal_id,
-            action_type=attempt.action_type,
-            target_refs=attempt.target_refs,
-            parameters=attempt.parameters,
-            metadata=metadata,
-            initiator_id=initiator_id,
-        )
+        from cognitive_world.cognition.action_expectation_source import SOURCE_REF_KEY,source_reference_scope
+        if SOURCE_REF_KEY in metadata:
+            raise PermissionError("proposal cannot supply reserved source-binding metadata")
+        with source_reference_scope(action_proposal) as reference:
+            if reference is not None:
+                metadata[SOURCE_REF_KEY]=reference
+            return Attempt(
+                attempt_id=attempt.attempt_id,
+                agent_id=attempt.agent_id,
+                action_proposal_id=attempt.action_proposal_id,
+                action_type=attempt.action_type,
+                target_refs=attempt.target_refs,
+                parameters=attempt.parameters,
+                metadata=metadata,
+                initiator_id=initiator_id,
+            )

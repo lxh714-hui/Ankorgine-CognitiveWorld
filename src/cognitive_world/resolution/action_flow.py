@@ -19,6 +19,8 @@ class ActionResolutionFlow:
 
     resolution_engine: ResolutionEngine = field(default_factory=ResolutionEngine)
     event_factory: EventFactory = field(default_factory=EventFactory)
+    action_expectations: object | None = field(default=None, repr=False, kw_only=True)
+    expectation_origin: str = field(default="npc", kw_only=True)
     world_state: WorldState | None = None
     event_history: EventHistory | None = None
     safety_governance: UniversalSafetyGovernance = field(default_factory=UniversalSafetyGovernance)
@@ -71,7 +73,7 @@ class ActionResolutionFlow:
         return event
 
     def execute_with_result(
-        self, attempt: Attempt, *, action_proposal_id: str | None = None,
+        self, attempt: Attempt, *, action_proposal: object | None = None, action_proposal_id: str | None = None,
         simulation_tick: SimulationTime | None = None,
     ) -> tuple[ResolutionResult, Event | None]:
         """Return the controlled result and an Event only when it is confirmed."""
@@ -107,6 +109,13 @@ class ActionResolutionFlow:
             if hasattr(self.resolution_engine, "simulation_time"):
                 setattr(self.resolution_engine, "simulation_time", simulation_tick)
 
+        expectation = None
+        if self.action_expectations is not None:
+            if action_proposal_id is not None and action_proposal_id != attempt.action_proposal_id:
+                raise PermissionError("B3 proposal/Attempt source mismatch")
+            action_proposal_id = attempt.action_proposal_id
+            expectation = self.action_expectations.freeze(attempt, action_proposal, origin=self.expectation_origin)
+            self.action_expectations.begin_resolution(expectation)
         resolution_result = self.resolution_engine.resolve(attempt)
         if not isinstance(resolution_result, ResolutionResult):
             raise TypeError(
@@ -116,8 +125,9 @@ class ActionResolutionFlow:
             if resolution_result.confirmed is False and resolution_result.outcome == "unresolved":
                 return resolution_result, None
             raise ValueError("ResolutionEngine did not issue a valid confirmation for this Attempt")
+        options = {} if expectation is None else {"action_expectation_id": expectation.record_id}
         event = self.event_factory.create_from_resolution(
-            resolution_result, action_proposal_id=action_proposal_id
+            resolution_result, action_proposal_id=action_proposal_id, **options
         )
         if not isinstance(event, Event) or not event.has_trusted_source("resolution"):
             raise ValueError("EventFactory did not return an intact Resolution-sourced Event")
