@@ -44,6 +44,8 @@ class _L1ConsumptionReceipt:
     observation_snapshot: tuple[Any, ...]
     runtime_identity: int
     working_memory_identity: int
+    instance: object | None = None
+    original_permit: object | None = None
 
 
 @dataclass
@@ -92,6 +94,10 @@ class CognitiveRuntime:
             and observation.observer_id == agent_id
             and observation.has_trusted_provenance()
         )
+        for observation in authorized_observations:
+            prior = self._l1_consumption_receipts.get((agent_id, observation.observation_id))
+            if prior is not None and prior.instance is not None and prior.observation_snapshot != observation._snapshot():
+                raise PermissionError("conflicting consumed Observation identity")
         percepts = tuple(
             self.perception_processor.process(observation, observer_id=agent_id)
             for observation in authorized_observations
@@ -152,6 +158,9 @@ class CognitiveRuntime:
             percepts=list(percepts),
         )
         for observation, percept in zip(authorized_observations, percepts):
+            prior = self._l1_consumption_receipts.get((agent_id, observation.observation_id))
+            if prior is not None and prior.instance is not None:
+                continue  # B2's first receipt and tick are immutable.
             self._l1_consumption_receipts[(agent_id, observation.observation_id)] = (
                 _L1ConsumptionReceipt(
                     owner_id=agent_id,
@@ -164,6 +173,38 @@ class CognitiveRuntime:
                 )
             )
         return state
+
+    def _accept_result_instance(self, owner, observation, instance, permit, *, authority):
+        from cognitive_world.cognition.l1_instance import (
+            _INSTANCE_ACCEPTANCE_AUTHORITY, AmbiguousL1ConsumptionError,
+        )
+        if authority is not _INSTANCE_ACCEPTANCE_AUTHORITY:
+            raise PermissionError("instance acceptance has no Runtime authority")
+        state = self.process(owner, (observation,))
+        expected_id = "percept:" + observation.observation_id
+        percept = (state.percepts[0] if type(state) is CognitionState
+                   and len(state.percepts) == 1 else None)
+        workspace = self.working_memory_store.get(owner)
+        if (type(state) is not CognitionState or state.agent_id != owner
+                or state.percept_ids != [expected_id] or type(percept) is not Percept
+                or percept.percept_id != expected_id or percept.observer_id != owner
+                or percept.source_observation_id != observation.observation_id
+                or percept.content != observation.content or percept.metadata != observation.metadata
+                or workspace is None or workspace.owner_id != owner
+                or workspace.percept_ids.count(expected_id) != 1):
+            # process() can return an existing Percept without newly ingesting
+            # it. No instance may be attached to that ambiguous result. The
+            # caller's protected post-L1 failure boundary freezes this Runtime.
+            raise AmbiguousL1ConsumptionError("ambiguous L1 acceptance: expected a newly consumed Percept")
+        self._publish_result_receipt(owner, observation, instance, permit)
+
+    def _publish_result_receipt(self, owner, observation, instance, permit):
+        from dataclasses import replace
+        if not self.has_consumed_observation(owner, observation, source_event_id=observation.source_event_id):
+            raise PermissionError("instance input did not cross L1")
+        key = (owner, observation.observation_id)
+        self._l1_consumption_receipts[key] = replace(
+            self._l1_consumption_receipts[key], instance=instance, original_permit=permit)
 
     def has_consumed_observation(
         self, agent_id: str, observation: Observation, *, source_event_id: str

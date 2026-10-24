@@ -196,10 +196,16 @@ class EventProcessor:
                     "EventHandler.observable_facts must return a tuple of "
                     "ObservableFactDraft records"
                 )
+            if any(draft.fact_type == "action_result" and draft.predicate == "door_open_attempt_failed"
+                   for draft in fact_drafts):
+                raise PermissionError("door failure result facts are issued only by EventProcessor")
             if not event.has_trusted_source():
                 raise ValueError("Event was mutated during controlled processing")
             self._validate_physical_slot_reads(event, world_state, history)
             self._validate_confirmed_failure_source(event, world_state, history)
+            result = self._door_open_failure_draft(event, world_state)
+            if result is not None:
+                fact_drafts = (*fact_drafts, result)
         except Exception:
             history.abandon_prepared_processing(event.id)
             raise
@@ -230,6 +236,15 @@ class EventProcessor:
                     door = environment.get(draft.subject_ref)
                     if isinstance(door, DoorState):
                         conditions.append((f"door:{draft.subject_ref}:open", door.is_open))
+                elif draft.fact_type == "action_result" and draft.predicate == "door_open_attempt_failed":
+                    source = event.metadata["confirmed_attempt_failure"]
+                    door = environment[draft.subject_ref]
+                    conditions.extend((
+                        (f"action-result:{event.id}:owner", source["owner_id"]),
+                        (f"door:{door.door_id}:locked", door.is_locked),
+                        (f"door:{door.door_id}:open", door.is_open),
+                        (f"door:{door.door_id}:location", door.interaction_location_id),
+                    ))
                 elif draft.predicate == "door_locked" and draft.subject_ref:
                     door = environment.get(draft.subject_ref)
                     if isinstance(door, DoorState):
@@ -305,6 +320,28 @@ class EventProcessor:
                 if self.write_fence is not None:
                     self.write_fence.mark_recovery_required()
             raise
+
+    def _door_open_failure_draft(self, event: Event, world_state: WorldState):
+        """Use already validated canonical failure evidence, never outcome prose."""
+        from cognitive_world.event.attempt_source import confirmed_door_open_failure_source
+
+        source = confirmed_door_open_failure_source(event)
+        if source is None or getattr(self.simulation_clock, "current_time", None) != event.simulation_tick:
+            return None
+        target = source["target_refs"][0]
+        door = world_state.environment.get(target)
+        owner = source["owner_id"]
+        observers = self._capture_observers(world_state)
+        if (world_state.get_entity(owner) is None
+                or not isinstance(door, DoorState) or door.door_id != target
+                or door.is_locked is not True or door.is_open is not False
+                or not any(identity == owner and position == door.interaction_location_id
+                           for identity, position, _ in observers)):
+            return None
+        return ObservableFactDraft(
+            "action_result", "door_open_attempt_failed", True,
+            subject_ref=target, location_id=door.interaction_location_id,
+        )
 
     @staticmethod
     def _validate_confirmed_failure_source(
@@ -426,7 +463,7 @@ class EventProcessor:
             try:
                 for observer_id, _, _ in evidence.event_time_context.observer_positions:
                     for observation in generator.generate_authorized(
-                        event, evidence, observer_id=observer_id,
+                        event, evidence, observer_id=observer_id, event_history=history,
                         source_timeline_id=history.timeline_id,
                         source_runtime_session_id=(
                             None if self.write_fence is None

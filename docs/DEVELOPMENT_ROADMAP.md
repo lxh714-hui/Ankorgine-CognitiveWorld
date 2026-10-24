@@ -1,5 +1,20 @@
 # CognitiveWorld Development Roadmap
 
+## B2 scoped L1 identity and proof milestone (2026-10-24)
+
+The local B2 implementation establishes the default immutable owner/Timeline/
+Observation consumption instance, original L1 acceptance tick, and a separate
+instance-bound v2 proof for B1's private locked-door failure. Acceptance and
+proof completion share Runtime fencing; post-L1 failures freeze writes/capture.
+Published-checkpoint verification, cold-resume ambiguity denial and exact
+ancestor-checkpoint record membership preserve branch isolation. This is a
+narrow evidence milestone, not general learning, independent re-consumption,
+uncheckpointed recovery, B3 expectation persistence or B4 cognitive revision.
+Legacy v1 proofs and outer save identities are unchanged. See the
+[B2 contract](DATA_CONTRACTS.md#b2-durable-l1-identity-and-instance-bound-proof)
+and [local verification record](REPOSITORY_STATUS.md) for scope and evidence.
+
+
 本文是阶段状态与后续依赖顺序的统一索引。整体产品架构及长期不变量以 [ARCHITECTURE.md](ARCHITECTURE.md) 为准；数据边界以 [DATA_CONTRACTS.md](DATA_CONTRACTS.md) 为准。Phase 编号保留历史，不因跨阶段增量而重编号或重复开任务。
 
 ## 当前核验基线（2026-10-24）

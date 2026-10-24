@@ -14,6 +14,156 @@ The sections below mix implemented contracts, historical phase records and appro
 
 The desktop's `ScenarioRuntimeState` uses an explicit `PersistedValueCodec` type registration supplied by the content layer to both encoding and decoding. `SaveManager.load_verified` and `stage_cold_resume`, signed SnapshotBundle v2, complete EventHistory lineage/ancestor checks and `ColdRuntimePublisher` verify an isolated original-Timeline Runtime before first publication. A new session/generation invalidates old permits; the transient Observation store, pending clarification, provider tasks and UI delivery are not restored from the Bundle. In-process restore/fork and cold original-Timeline resume are different operations. The broader social, physical, retrieval and product contracts below do not become implemented merely through this snapshot.
 
+## B2 durable L1 identity and instance-bound proof
+
+B2 adds `L1ConsumptionInstance/v1` and `InstanceL1ConsumptionProof/v2` only for
+B1's owner-specific `action_result/door_open_attempt_failed=True`. It does not
+change either legacy v1 proof's meaning, ID formula, signing purpose or verifier.
+The new reserved Memory type is `system_l1_instance_consumption_proof_v2`; its
+fixed signing purpose is `cognitive-world/l1-instance-consumption-proof/v2`.
+
+**Actual acceptance.** A scheduled AgentTurn explicitly submits the eligible
+result to `L1ConsumptionIssuer.accept_owner_result`, which uses the same
+CognitiveRuntime/PerceptionProcessor/WorkingMemory path. Source signatures,
+owner, current Observation session/generation, exact fact/digest, event-time
+rule and canonical MemoryStore fence binding are checked before L1. Within
+RuntimeWriteFence's commit lock, the trusted clock and EventHistory fix the
+consumption tick and Timeline; L1 updates WorkingMemory, then publishes the
+instance-bearing receipt. Only after that acceptance may the issuer sign and
+commit the proof. Generation, storage, retrieval and ordinary context assembly
+alone are not acceptance. Legacy direct `CognitiveRuntime.process()` cannot
+be promoted to B2: a prior unbound consumption is ambiguous, not backfilled.
+A normally completed legacy receipt without a B2 instance, and a partial legacy
+write leaving the exact `percept:<Observation ID>` WorkingMemory cursor without
+a receipt, both prevent fresh B2 acceptance. Missing receipts do not prove
+non-consumption. The deterministic rejection is `AmbiguousL1ConsumptionError`
+with code `ambiguous_l1_consumption`; it never assigns the current tick to an
+old Percept. A verified existing B2 proof is checked first and still returns its
+original instance and tick.
+
+Before publishing an instance-bearing receipt, the protected invocation must
+return the expected newly accepted Percept ID, owner, exact Observation content
+and metadata, with one matching WorkingMemory cursor. Reusing an existing
+Percept is insufficient. Known ambiguity rejected before any new protected
+mutation leaves the legacy workspace unchanged and does not itself latch
+recovery-required. That transient workspace is excluded from checkpoints; a
+checkpoint without a B2 proof does not establish never-consumed status. A
+mismatch or publication failure after L1 begins instead latches the existing
+recovery boundary described below. Neither case rolls back or automatically
+recovers historical consumption. This correction changes no proof identity,
+signature, snapshot version or Bundle version.
+
+**Default identity.** Canonical encoding of contract scope `l1-consumption-instance/v1`,
+Timeline, owner, Observation ID and fixed occurrence scope `default` determines
+the instance ID. Digest and consumption tick are immutable bindings, not ways
+to create another instance for the same input ID. Duplicate acceptance returns
+the original verified proof/instance/tick without L1 or signing again. A changed
+payload conflicts. Concurrent calls recheck under the same fence. B2 has no
+independent-instance creation API or caller-selected occurrence identity.
+Runtime permits remain transient; they are not fields of the signed instance.
+
+**Source and historical authorization.** `door-open-failed-owner-result/v1`
+checks the exact trusted Resolution/confirmed-failure source, original owner,
+Attempt ID/fingerprint, locked-door slot-read fingerprint, result fact identity,
+door, location and captured event-time conditions. Inner proof verification
+independently verifies the source Event chain, source and consumption Timeline
+ancestry, original ticks, Observation digest and this versioned rule. Ancestor
+proofs must also match exact system records in the existing verified parent
+checkpoint Memory lineage; a parent post-fork proof cannot enter a child even
+when it has a valid signature and the same tick. It does
+not re-adjudicate the present door. Ordinary sensory rules and private owner
+access remain unchanged. Explicit delivery retry may reuse an exact recorded
+ancestor Event's processing evidence through EventProcessor; local delivery
+bookkeeping neither appends an Event nor reapplies WorldState. Restore itself
+does not deliver historical Observations or issue replacement proofs.
+
+**Failure and durability.** From the first possible L1 mutation through proof
+completion, any failure (including a write that may have happened before an
+exception) latches the existing fence's recovery-required state before releasing
+the lock. Runtime halts the current tick; protected writes and snapshot capture
+are frozen. There is no automatic re-consumption, new tick, uncertain-write
+retry, Resolution replay or rollback claim. A committed in-memory proof is not
+durable until SaveManager publishes a checkpoint containing its exact bytes.
+Encoding/publication failures preserve this distinction; a committed catalog
+with a later error follows SaveManager's existing committed-error semantics.
+No pending-intent journal or power-loss/exactly-once guarantee is introduced.
+
+**Ambiguous history and branches.** The issuer records source Event IDs present
+at its construction as a conservative historical boundary. Without a verified
+current-Timeline v2 instance proof, a result from that boundary is rejected as
+ambiguous; absence is not evidence of never having consumed it. Later committed
+Events remain eligible for actual new acceptance. The trusted fork reconstruction
+factory alone clears this boundary for the just-created, independently verified
+child Timeline, whose consumption scope did not previously exist. Original-
+Timeline cold resume, including resume of an existing child, keeps the boundary
+for all loaded sources, including ancestors. Inherited proofs retain their
+original Timeline/tick/signature; a real later child consumption has a different
+Timeline-scoped instance. Sibling suffixes remain isolated. Recovery cannot
+reconstruct an uncheckpointed consumption, and cannot promote an old missing
+record merely because an Observation can be re-delivered.
+
+**Persistence and non-goals.** Existing MemoryStore system authority and the
+closed cognition codec accept the exact new proof and nested instance types.
+Both are system-only, excluded from semantic Memory and ordinary Memory writes.
+CognitiveStateSnapshot v3 explicitly validates the new payload; v2 reading and
+legacy proof validation remain intact, and v2 envelopes cannot contain the new
+payload. SnapshotBundle v2's component set and signed meaning are unchanged.
+Unknown types/versions/rules, mismatched records and corrupted signatures reject;
+legacy snapshots gain no inferred instances. Restore verifies existing proof
+bytes and rebuilds neither actual consumption nor signatures. The B2 result
+receipt is withheld from existing decision/revision projections, preserving
+legacy failure scoring; no semantic Memory, Belief, Goal or SelfModel revision,
+B3 expectation/result journal or B4 learning is added.
+
+Implementation: [instance/proof lifecycle](../src/cognitive_world/cognition/l1_instance.py),
+[historical rule](../src/cognitive_world/observation/historical_rules.py),
+[adversarial tests](../tests/test_l1_instance.py).
+
+## B1 actor-authorized execution-result Observation
+
+B1 implements authorized result issuance only. CPU-controlled Resolution first
+confirms the Attempt; EventProcessor validates and commits the Event, then its
+existing ObservationGenerator/ObservationStore delivery path may issue one
+`action_result/door_open_attempt_failed=True` Observation to the original owner.
+This means that this Attempt failed to open this door, not that every method or
+future attempt must fail. No additional Event or artificial WorldUpdate is made.
+
+Eligibility reuses `cognitive-world/confirmed-attempt-failure/v1` and the existing
+canonical locked-door/state-slot-read validation. The trusted Resolution must
+bind the original Attempt ID/fingerprint, owner, one typed closed locked door,
+method, Event ID and tick. B1 accepts only the installed manual door-opening
+method recognition, without negation, and exactly the verified conditions
+`door_locked` and `attempt_method_does_not_unlock`. Missing evidence, other
+failure causes, successful effects and unresolved actions confer no B1 result.
+EventProcessor alone adds the reserved result draft after source validation;
+the fact's subject is the verified door and its location is the interaction
+location. The registered owner must have a canonical Entity and matching
+location at the processing tick. Handler-supplied lookalike result drafts are
+rejected before commit.
+
+Authorization checks the intact committed Event and its recorded processing
+evidence in the supplied canonical EventHistory, plus the event-time owner,
+door state and location bindings. Only that owner may receive the result;
+co-location or sight does not authorize bystanders. This private result channel
+does not require sight and does not grant sensory access to any other facts.
+Existing door-state visibility remains separate. Result Observations retain the
+existing Event/fact provenance and Runtime session/generation binding. Runtime
+write permits still fence commit and delivery. Delivery failure leaves the
+committed Event authoritative and pending; retry resumes existing evidence
+without repeating Resolution, world effects or the original Event.
+
+The result is available in the existing owner-scoped ObservationStore. B1
+explicitly defers this result kind in ordinary AgentTurn input assembly, so
+issuance does not automatically consume it, influence the legacy precondition
+score, issue a consumption proof, or revise Memory, Belief or Goal. The
+independent BehaviorFeedback path remains unchanged. B2 recoverable
+actual-consumption proof, B3 durable expectation/result association and B4
+governed cognitive revision are **not implemented by B1**. Historical rule and
+proof registries, signing purposes, snapshot formats and migration rules are
+unchanged; ordinary Event processing evidence is not a B2 consumption proof.
+See [system authority boundaries](ARCHITECTURE.md) and the
+[current implementation status](REPOSITORY_STATUS.md).
+
 ## Behavior feedback v0.3b (signed snapshot component)
 
 v0.2 locked-door evidence is an `environment_state/door_locked=True` fact issued from a typed `DoorState` by a trusted environment observation Event and checked against event-time conditions. A confirmed failed manual open has a Resolution Event containing only `{success: false, outcome: ...}`; its empty WorldUpdate leaves all state-slot provenance unchanged. The feedback receipt is the committed Event ID, not the model's explanation. Unknown lock state has no such affirmative observation or confirmed-failure shortcut.

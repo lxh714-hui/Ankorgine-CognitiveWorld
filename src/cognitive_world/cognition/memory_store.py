@@ -37,7 +37,7 @@ class MemoryStore:
         from cognitive_world.cognition.l1_consumption_proof import (
             PROOF_MEMORY_TYPE, NONVERBAL_PROOF_MEMORY_TYPE,
         )
-        if memory.type in {PROOF_MEMORY_TYPE, NONVERBAL_PROOF_MEMORY_TYPE}:
+        if memory.type.startswith("system_l1_"):
             return False
         return not isinstance(memory.content, SystemOnlyMemoryContent)
 
@@ -159,7 +159,9 @@ class MemoryStore:
         )
         if authority is not _L1_PROOF_WRITE_AUTHORITY or self.write_fence is None:
             raise PermissionError("system proof has no trusted Runtime issuer")
+        from cognitive_world.cognition.l1_instance import INSTANCE_PROOF_MEMORY_TYPE, InstanceL1ConsumptionProof
         valid_types = {
+            INSTANCE_PROOF_MEMORY_TYPE: InstanceL1ConsumptionProof,
             PROOF_MEMORY_TYPE: L1ConsumptionProof,
             NONVERBAL_PROOF_MEMORY_TYPE: NonverbalL1ConsumptionProof,
         }
@@ -170,6 +172,9 @@ class MemoryStore:
             raise PermissionError("system proof record does not match its signed identity")
         with self.write_fence.commit_scope():
             self.write_fence.require_candidate_origin(permit)
+            if memory.type == INSTANCE_PROOF_MEMORY_TYPE:
+                from cognitive_world.cognition.l1_instance import validate_instance_proof_structure
+                validate_instance_proof_structure(memory.content)
             prior = self._memories.get(memory.id)
             if prior is not None:
                 if prior != memory:

@@ -43,6 +43,17 @@ Future Decision Support
 
 The current implementation provides data models and boundary components. Automatic selection, compression, and forgetting remain unimplemented. Phase 12.2 adds bounded relevance retrieval over the existing MemoryStore; candidate IDs must be referenced by the current Character and match the Agent owner. This does not introduce a second Memory store.
 
+## B2 system-only consumption evidence
+
+[B2](DATA_CONTRACTS.md#b2-durable-l1-identity-and-instance-bound-proof) stores only
+its exact instance-bound proof in the existing MemoryStore system-record path.
+The instance and proof are system-only content, never Character-semantic Memory,
+and cannot be written by ordinary MemoryDecision/MemoryPersistence. Their
+checkpoint verification preserves original owner, Timeline, tick, source and
+signature. Missing historical consumption is not inferred from Memory absence
+or reconstructed input. Consumption proof does not revise semantic Memory,
+Belief, Goal or SelfModel; expectation association and learning remain B3/B4.
+
 ## Cognitive feedback and evidence provenance (architectural direction)
 
 The intended [hybrid cognition loop](ARCHITECTURE.md#hybrid-cognition-execution-levels-architectural-direction-unified-policy-not-implemented) distinguishes an owner's authorized evidence, subjective Belief, Goal, intention/plan, proposed method and expected outcome from the actual Resolution/Event/WorldState outcome. After a confirmed action, only an authorized Observation and its verified source can become that owner's evidence of what happened; absence of an Observation is not proof that the Event did not occur. Comparison may identify partial success, failure, unexpected effects or unresolved uncertainty, but it is a proposed review, not an automatic Memory or Belief write.

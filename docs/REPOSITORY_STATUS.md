@@ -1,5 +1,80 @@
 # Repository Status
 
+## B2 ambiguous-consumption P1 correction (2026-10-24)
+
+The B2 gate now rejects both a completed unbound legacy receipt and a partial
+legacy WorkingMemory write without a receipt as `ambiguous_l1_consumption`.
+Absence of a receipt does not prove non-consumption and cannot justify a later
+consumption tick. Verified existing B2 proofs keep their identity and original
+tick. The protected invocation must establish a newly accepted, source-bound
+Percept before publishing its instance receipt. Pre-mutation ambiguity is
+rejected without altering the transient workspace; a post-L1 mismatch or failure
+uses the existing recovery-required fence and blocks protected writes/capture.
+This does not automatically recover ambiguous history or extend checkpoint-only
+durability. See the [B2 contract](DATA_CONTRACTS.md#b2-durable-l1-identity-and-instance-bound-proof).
+
+The exact tick-5 partial legacy write / tick-8 B2 promotion regression failed
+before the correction and passes afterward. Focused verification returned
+85 L1-instance, 30 B1, 29 legacy persistence/branch and 75 fence/snapshot/history/
+save-restore tests passed. Final `py -3.14 -m pytest -q -rs` returned 1463 passed,
+9 skipped in 80.40s, exit 0; all skips are explicit local Ollama integration or
+evaluation opt-ins, including the required embedding-model setting. Three
+changed Python files compile, 91 local documentation links/anchors validate,
+and the eight checked legacy v1 proof models/helpers/verifiers match HEAD.
+No proof/snapshot/Bundle version or B3/B4 behavior is changed by this correction.
+
+## B2 local implementation (2026-10-24)
+
+Base: local `main` at `13d01de7dfdb13db169d3b20284ca5a08d4c7be8` plus preserved
+uncommitted B1 work and this B2 change. This is not a new published release.
+
+The local change adds [B2 instance-bound L1 evidence](DATA_CONTRACTS.md#b2-durable-l1-identity-and-instance-bound-proof)
+for B1's original actor only. Actual L1 fixes a default Timeline/owner/Observation
+identity and original tick; duplicate/retry does not re-consume or re-sign.
+Post-L1 failure uses RuntimeWriteFence recovery-required and halts the current
+tick. New proof types use the existing system-only MemoryStore and v3 cognition
+codec; old proof signatures, v2 snapshot reading and SnapshotBundle v2 remain
+unchanged. Cold-resume ambiguity rejects rather than inventing past consumption;
+verified new child scopes and inherited proofs remain distinct. Durability is
+checkpoint-only, with no uncheckpointed reconstruction, independent-instance
+operation, pending journal or B3/B4 cognitive revision.
+
+B2 verification on Python 3.14.7: `py -3.14 -m pytest tests/test_l1_instance.py -q`
+returned 70 passed in 4.08s; the final `py -3.14 -m pytest -q -rs` returned
+1448 passed, 9 skipped in 81.43s, exit 0. The nine skips are explicit local
+Ollama integration/evaluation opt-ins (including the embedding-model variable),
+not B2 skips. Independent-process cold restore, post-L1 failures, exact ancestor
+checkpoint membership and both snapshot/commit orders are covered. Legacy v1
+proof models, bodies, identity/signing path and verifiers were also compared
+against HEAD without changing their semantics. This does not assert live-model
+quality, visible desktop acceptance or recovery of uncheckpointed consumption.
+
+## B1 result-observation implementation (2026-10-24)
+
+The current local change adds one narrow execution-result channel: a trusted,
+formally committed failed manual opening of a verified locked door can issue
+`action_result/door_open_attempt_failed=True` to its original action owner.
+EventProcessor validates the existing confirmed-failure source and canonical
+state reads, seals the result in processing evidence, and uses existing fenced
+Observation delivery. No second action/Event, door-state change or bystander
+result is introduced. Ordinary door-state sight rules remain independent.
+
+B1 is issuance only: AgentTurn defers this result kind rather than consuming it
+implicitly. Memory/Belief/Goal revision, recoverable actual-consumption proof
+(B2), durable expectation/result association (B3) and governed cognitive
+revision (B4) are not supplied here. No historical proof rule, Store, signing
+purpose or persisted format is added. Existing BehaviorFeedback scoring remains
+an independent supported path. The source below is a historical audit of its
+stated checkout, not a claim that this local B1 change belongs to a published
+release.
+
+Focused tests cover the real NPC production path, fact/provenance and owner
+binding, co-located bystander denial, mixed private/sensory facts, unsupported
+sources, unchanged door/cognition, cancellation/generation fences and delivery
+retry without action replay. See the
+[B1 contract](DATA_CONTRACTS.md#b1-actor-authorized-execution-result-observation).
+
+
 ## Current audited worktree (2026-10-24)
 
 This is fresh verification of local `main` at HEAD `c493f6e7eb153cdccdcdfd18069d0ffd326dce4c` plus this task's uncommitted catalog-label/filter and regression-test changes. The existing Doctrine cross-reference edits remain uncommitted; the Doctrine itself is tracked at HEAD. The published `v1.0` tag still targets `1e5573b978a1de0252b90ebc04cdf3bed5302ebb`; `v1.0-mvp` remains unchanged. This audit neither modifies those releases nor reports its changed worktree as the released source tree.

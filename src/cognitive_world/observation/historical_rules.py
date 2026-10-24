@@ -119,11 +119,64 @@ class _RoomLightOnColocatedSightV1:
 _ROOM_LIGHT_ON_COLOCATED_SIGHT_V1 = _RoomLightOnColocatedSightV1()
 
 
+@dataclass(frozen=True)
+class _DoorOpenFailedOwnerResultV1:
+    rule_id: str = "door-open-failed-owner-result"
+    version: int = 1
+    source_event_type: str = "resolution"
+
+    def supports_source(self, event, evidence):
+        from cognitive_world.event.attempt_source import confirmed_door_open_failure_source
+        return (confirmed_door_open_failure_source(event) is not None
+                and evidence.has_trusted_source(event)
+                and any(f.fact_type == "action_result" and f.predicate == "door_open_attempt_failed"
+                        for f in evidence.observable_facts))
+
+    def issue(self, event, evidence, owner_id, fact_id):
+        from cognitive_world.event.attempt_source import confirmed_door_open_failure_source
+        from cognitive_world.core.world_state import _slot_fingerprint
+        from cognitive_world.observation.observation import _OBSERVATION_RECEIPT_SEAL, _ObservationProvenance
+        source = confirmed_door_open_failure_source(event)
+        if source is None or not evidence.has_trusted_source(event) or owner_id != source["owner_id"]:
+            raise PermissionError("not the original confirmed-failure owner")
+        target = source["target_refs"][0]
+        context = evidence.event_time_context
+        conditions = dict(context.environment_conditions or ())
+        positions = [p for owner, p, _ in context.observer_positions if owner == owner_id]
+        fact = next((f for f in evidence.observable_facts if f.fact_id == fact_id), None)
+        reads = source["state_slot_reads"]
+        if (fact is None or not fact.has_trusted_source(event)
+                or fact.fact_type != "action_result" or fact.predicate != "door_open_attempt_failed"
+                or fact.value is not True or fact.subject_ref != target
+                or not isinstance(fact.location_id, str) or not fact.location_id
+                or fact.location_id != context.fact_location_id or positions != [fact.location_id]
+                or context.simulation_time != event.simulation_tick
+                or conditions.get(f"action-result:{event.id}:owner") != owner_id
+                or conditions.get(f"door:{target}:locked") is not True
+                or conditions.get(f"door:{target}:open") is not False
+                or conditions.get(f"door:{target}:location") != fact.location_id
+                or not any(r.get("slot") == {"collection": "environment", "record_id": target,
+                                             "path": ("is_locked",)}
+                           and r.get("present") is True
+                           and r.get("value_fingerprint") == _slot_fingerprint(True, True)
+                           for r in reads)):
+            raise PermissionError("historical owner-result evidence is incomplete")
+        observation = Observation(f"observation:{event.id}:{owner_id}:{fact.fact_id}", owner_id, event.id, fact)
+        fingerprint = sha256(repr((event._source_snapshot(), fact._snapshot(), context._snapshot(),
+                                   owner_id, self.rule_id, self.version)).encode()).hexdigest()
+        object.__setattr__(observation, "_provenance", _ObservationProvenance(
+            _OBSERVATION_RECEIPT_SEAL, observation._snapshot(), fingerprint))
+        return observation
+
+
+_DOOR_OPEN_FAILED_OWNER_RESULT_V1 = _DoorOpenFailedOwnerResultV1()
+
+
 class HistoricalObservationRuleRegistry:
     """Explicit trusted configuration mapping versioned identities to verifiers."""
 
     def __init__(self, rules: Iterable[HistoricalObservationRule] | None = None) -> None:
-        configured = (_ROOM_LIGHT_ON_COLOCATED_SIGHT_V1,) if rules is None else tuple(rules)
+        configured = (_ROOM_LIGHT_ON_COLOCATED_SIGHT_V1, _DOOR_OPEN_FAILED_OWNER_RESULT_V1) if rules is None else tuple(rules)
         by_identity: dict[tuple[str, int], HistoricalObservationRule] = {}
         by_event: dict[str, list[HistoricalObservationRule]] = {}
         for rule in configured:
@@ -164,7 +217,8 @@ class HistoricalObservationRuleRegistry:
         return reference.wire_value
 
     def for_source(self, event: object, evidence: object) -> HistoricalObservationRule | None:
-        if (not event.has_trusted_source("system")
+        if (not (event.has_trusted_source("system")
+                 or (event.type == "resolution" and event.has_trusted_source("resolution")))
                 or not evidence.has_trusted_source(event)):
             return None
         candidates = tuple(

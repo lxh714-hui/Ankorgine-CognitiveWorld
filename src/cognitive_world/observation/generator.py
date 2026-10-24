@@ -12,12 +12,52 @@ class ObservationAuthorizationError(PermissionError):
     """Raised when trusted facts and event-time observer context are missing."""
 
 
+def _allows_door_open_failure(event, evidence, observer_id, fact=None, event_history=None):
+    """Private owner-result channel, independent of co-located visual access."""
+    from cognitive_world.event.attempt_source import confirmed_door_open_failure_source
+
+    source = confirmed_door_open_failure_source(event)
+    if (source is None or not isinstance(evidence, EventProcessingEvidence)
+            or not evidence.has_trusted_source(event) or observer_id != source["owner_id"]):
+        return False
+    from cognitive_world.event.history import EventHistory, EventProcessingStatus
+
+    if not isinstance(event_history, EventHistory) or event_history.requires_recovery():
+        return False
+    committed = event_history.get_event(event.id)
+    recorded = event_history.get_processing_evidence(event.id)
+    if (committed is None or committed._source_snapshot() != event._source_snapshot()
+            or recorded != evidence or not recorded.has_trusted_source(committed)
+            or event_history.get_processing_status(event.id) not in {
+                EventProcessingStatus.OBSERVATIONS_PENDING, EventProcessingStatus.COMPLETE}):
+        return False
+    context = evidence.event_time_context
+    target = source["target_refs"][0]
+    conditions = dict(context.environment_conditions or ())
+    positions = [position for owner, position, _ in context.observer_positions if owner == observer_id]
+    if (context.simulation_time != event.simulation_tick
+            or context.fact_location_id is None or positions != [context.fact_location_id]
+            or conditions.get(f"action-result:{event.id}:owner") != observer_id
+            or conditions.get(f"door:{target}:locked") is not True
+            or conditions.get(f"door:{target}:open") is not False
+            or conditions.get(f"door:{target}:location") != context.fact_location_id):
+        return False
+    return any(
+        item.has_trusted_source(event) and item.fact_type == "action_result"
+        and item.predicate == "door_open_attempt_failed" and item.value is True
+        and item.subject_ref == target and item.location_id == context.fact_location_id
+        and (fact is None or item == fact)
+        for item in evidence.observable_facts
+    )
+
+
 @dataclass(frozen=True)
 class VisibilityPolicy:
     """First narrow perception rule: a registered agent sees a lit-room change."""
 
     def allows(
-        self, event: Event, evidence: EventProcessingEvidence, observer_id: str
+        self, event: Event, evidence: EventProcessingEvidence, observer_id: str,
+        *, event_history=None,
     ) -> bool:
         if (
             not isinstance(event, Event)
@@ -29,6 +69,8 @@ class VisibilityPolicy:
             or not observer_id
         ):
             return False
+        if _allows_door_open_failure(event, evidence, observer_id, event_history=event_history):
+            return True
         context = evidence.event_time_context
         if event.type in {"dialogue_input", "dialogue_reply"}:
             # A trusted input event explicitly addresses one registered receiver.
@@ -137,6 +179,7 @@ class ObservationGenerator:
         source_timeline_id: str | None = None,
         source_runtime_session_id: str | None = None,
         source_runtime_generation: int | None = None,
+        event_history=None,
     ) -> tuple[Observation, ...]:
         """Issue only facts authorized by the narrow, default-deny policy."""
         if source_timeline_id is not None and (
@@ -152,7 +195,7 @@ class ObservationGenerator:
             or source_runtime_generation < 0
         ):
             raise ValueError("Runtime binding must contain a session and non-negative generation")
-        if not VisibilityPolicy().allows(event, evidence, observer_id):
+        if not VisibilityPolicy().allows(event, evidence, observer_id, event_history=event_history):
             return ()
         context = evidence.event_time_context
         from cognitive_world.observation.observation import (
@@ -161,11 +204,17 @@ class ObservationGenerator:
         )
 
         observations: list[Observation] = []
+        sensory_allowed = VisibilityPolicy().allows(event, evidence, observer_id)
         for fact in evidence.observable_facts:
+            # Receiving a private result grants no additional sensory access.
+            if fact.fact_type != "action_result" and not sensory_allowed:
+                continue
             authorized_content = (
                 fact.has_trusted_source(event)
                 and fact.location_id == context.fact_location_id
                 and (
+                    _allows_door_open_failure(event, evidence, observer_id, fact, event_history)
+                    or
                     (event.type in {"dialogue_input", "dialogue_reply"} and fact.fact_type == ("social_input" if event.type == "dialogue_input" else "social_output") and fact.predicate == "utterance_delivered" and fact.subject_ref == observer_id and observer_id in event.participants and observer_id in {item[0] for item in context.observer_positions} and context.fact_location_id == fact.location_id and next((position for identity, position, _ in context.observer_positions if identity == observer_id), None) == fact.location_id and isinstance(fact.value, str))
                     or
                     (fact.fact_type == "environment_state" and fact.value is True and fact.predicate == "room_light_on" and dict(context.environment_conditions or ()).get(f"{context.fact_location_id}:light_on") is True)
@@ -193,7 +242,9 @@ class ObservationGenerator:
                     source_timeline_id,
                     source_runtime_session_id,
                     source_runtime_generation,
-                    "co-located registered observer with known sight; room light on",
+                    ("actor-owned confirmed locked-door execution result"
+                     if fact.fact_type == "action_result" else
+                     "co-located registered observer with known sight; room light on"),
                 )
             )
             fingerprint = sha256(basis.encode("utf-8")).hexdigest()

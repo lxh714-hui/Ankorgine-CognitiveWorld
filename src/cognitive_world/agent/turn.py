@@ -144,7 +144,13 @@ class AgentTurn:
         if self.write_fence is not None:
             cognition_context.bind_write_fence(self.write_fence)
 
-        observations = cognition_context.get_observations()
+        # B1 issues private result Observations only. Consumption/learning of
+        # this result kind requires the separately reviewed B2-B4 contracts.
+        observations = tuple(
+            item for item in cognition_context.get_observations()
+            if not (getattr(item.content, "fact_type", None) == "action_result"
+                    and getattr(item.content, "predicate", None) == "door_open_attempt_failed")
+        )
         beliefs = cognition_context.get_beliefs()
         goals = cognition_context.get_goals()
         cognition_state = self.cognitive_runtime.process(
@@ -334,6 +340,14 @@ class AgentTurn:
             current_working_memory = self.cognitive_runtime.working_memory_store.get(
                 agent.agent_id
             )
+            if current_working_memory is not None:
+                deferred_ids = {
+                    receipt.percept_id for (owner, _), receipt
+                    in self.cognitive_runtime._l1_consumption_receipts.items()
+                    if owner == agent.agent_id and receipt.instance is not None
+                }
+                current_working_memory.percept_ids = [
+                    pid for pid in current_working_memory.percept_ids if pid not in deferred_ids]
             return DecisionContext(
                 cognition_state=cognition_state,
                 personality=cognition_context.get_personality(),
@@ -511,4 +525,12 @@ class AgentTurn:
             motivation_assessment=motivation,
             decision_modulation=modulation,
         )
+        if self.l1_consumption_issuer is not None:
+            for observation in cognition_context.get_observations():
+                if (getattr(observation.content, "fact_type", None) == "action_result"
+                        and getattr(observation.content, "predicate", None) == "door_open_attempt_failed"):
+                    self.l1_consumption_issuer.accept_owner_result(
+                        owner_id=agent.agent_id, observation=observation,
+                        cognitive_runtime=self.cognitive_runtime,
+                        memory_store=cognition_context.memory_store)
         return decision_input, cognition_state

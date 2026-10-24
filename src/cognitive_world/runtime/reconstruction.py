@@ -309,6 +309,7 @@ class IsolatedRuntimeReconstructionFactory:
             if runtime.memory_revision_lineage != revision_lineage:
                 raise PermissionError("Runtime is bound to a different Memory revision view")
             IsolatedRuntimeReconstructionFactory._validate_assembly(runtime, inputs, trust)
+            runtime.agent_action_loop.agent_turn.l1_consumption_issuer._instance_history_boundary = frozenset()
             IsolatedRuntimeReconstructionFactory._validate_no_active_aliases(
                 runtime, active_runtime, inputs,
             )

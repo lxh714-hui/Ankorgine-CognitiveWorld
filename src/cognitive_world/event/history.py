@@ -81,9 +81,19 @@ class EventHistory:
                 raise RuntimeError(
                     f"Event {event.id} is {existing.status.value}; explicit recovery is required"
                 )
-            if any(record.id == event.id for record in self._inherited_events) or any(
-                record.id == event.id for record in self._events
-            ):
+            inherited = next((item for item in self._inherited_events if item.id == event.id), None)
+            if inherited is not None:
+                evidence = self._inherited_evidence.get(event.id)
+                if (inherited._source_snapshot() != event._source_snapshot()
+                        or evidence is None or not evidence.has_trusted_source(event)):
+                    raise PermissionError("ancestor delivery has no matching processed Event")
+                # Local delivery bookkeeping only: never process/apply/append the
+                # immutable ancestor again. Observation authorization stays in
+                # EventProcessor/ObservationGenerator, under the active fence.
+                self._processing_records[event.id] = _ProcessingRecord(
+                    event._source_snapshot(), EventProcessingStatus.RECORDED)
+                return False
+            if any(record.id == event.id for record in self._events):
                 raise RuntimeError(
                     f"Event {event.id} is already in EventHistory without a processing receipt"
                 )
@@ -268,8 +278,7 @@ class EventHistory:
                         f"EventHistory is not durably attestable at Event {event.id}"
                     )
                 records.append(deepcopy(record))
-            if set(self._processing_records) - {event.id for event in self._events}:
-                raise PermissionError("EventHistory contains an incomplete processing operation")
+            self._validate_ancestor_delivery_records()
             return tuple(records)
 
     def export_local_persisted_records(self) -> tuple[PersistedEventRecord, ...]:
@@ -290,9 +299,21 @@ class EventHistory:
                         f"EventHistory local suffix is not durably attestable at Event {event.id}"
                     )
                 records.append(deepcopy(record))
-            if set(self._processing_records) - {event.id for event in self._events}:
-                raise PermissionError("EventHistory contains an incomplete processing operation")
+            self._validate_ancestor_delivery_records()
             return tuple(records)
+
+    def _validate_ancestor_delivery_records(self) -> None:
+        local_ids = {event.id for event in self._events}
+        ancestors = {event.id: event for event in self._inherited_events}
+        for event_id in set(self._processing_records) - local_ids:
+            event = ancestors.get(event_id)
+            record = self._processing_records[event_id]
+            evidence = self._inherited_evidence.get(event_id)
+            if (event is None or evidence is None or not evidence.has_trusted_source(event)
+                    or record.event_snapshot != event._source_snapshot()
+                    or record.status not in {EventProcessingStatus.RECORDED,
+                        EventProcessingStatus.OBSERVATIONS_PENDING, EventProcessingStatus.COMPLETE}):
+                raise PermissionError("EventHistory contains an incomplete processing operation")
 
     @classmethod
     def fork_from_checkpoint(

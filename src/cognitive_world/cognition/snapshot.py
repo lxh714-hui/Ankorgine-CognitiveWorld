@@ -30,6 +30,8 @@ from cognitive_world.cognition.l1_consumption_proof import (
     PROOF_MEMORY_TYPE, NONVERBAL_PROOF_MEMORY_TYPE, verify_proof,
     verify_nonverbal_proof,
 )
+from cognitive_world.cognition.l1_instance import (L1ConsumptionInstance, InstanceL1ConsumptionProof,
+    INSTANCE_PROOF_MEMORY_TYPE, verify_instance_proof)
 from cognitive_world.cognition.personality import Personality
 from cognitive_world.cognition.self_model import SelfModel
 from cognitive_world.agent.registry import AgentRegistry
@@ -69,7 +71,7 @@ def cognitive_snapshot_codec() -> PersistedValueCodec:
         CognitiveAgentManifestEntry,
         CognitiveAgentLinks, CognitiveSnapshotBody, CognitiveStateSnapshot,
         L1ConsumptionProof,
-        NonverbalL1ConsumptionProof,
+        NonverbalL1ConsumptionProof, L1ConsumptionInstance, InstanceL1ConsumptionProof,
     ):
         codec.register_type(value_type)
     return codec
@@ -704,6 +706,22 @@ def _validate_body(
                             checkpoint_tick=body.simulation_tick,
                             rule_registry=historical_rule_registry,
                         )
+                elif memory.type == INSTANCE_PROOF_MEMORY_TYPE:
+                    if (body.schema_version < 3 or type(memory.content) is not InstanceL1ConsumptionProof
+                            or memory.id != memory.content.proof_id
+                            or memory.owner_id != memory.content.owner_id
+                            or memory.source_event != memory.content.source_event_id):
+                        raise PermissionError("instance proof record is malformed or unsupported")
+                    from cognitive_world.cognition.l1_instance import validate_instance_proof_structure
+                    validate_instance_proof_structure(memory.content)
+                    if event_history is not None:
+                        if trust is None:
+                            raise PermissionError("instance proof requires trusted verification")
+                        verify_instance_proof(memory.content, history=event_history, trust=trust,
+                            checkpoint_timeline_id=body.timeline_id, checkpoint_tick=body.simulation_tick,
+                            rule_registry=historical_rule_registry, memory_revision_lineage=memory_revision_lineage)
+                elif memory.type.startswith("system_l1_"):
+                    raise PermissionError("unknown L1 system record type")
                 elif isinstance(memory.content, SystemOnlyMemoryContent):
                     raise PermissionError("system-only content cannot be hidden in ordinary Memory")
             if _record_id(store.store_name, record.value) != record.record_id:

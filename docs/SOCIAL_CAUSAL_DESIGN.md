@@ -2,6 +2,17 @@
 
 **Status at committed `579fcbb`: player-to-NPC existing-Belief persuasion and a narrow NPC-origin communication-to-recipient-Belief slice are IMPLEMENTED / PARTIAL; Socialization v0.2 D1 and one registered D2 historical-visibility proof family, plus formal D3 MemoryDecision/Memory-v2, have separate narrow implementations. D4–D9 and the full social-experience loop remain DESIGN / NOT IMPLEMENTED.** This document refines the shared authority in [ARCHITECTURE.md](ARCHITECTURE.md) and the existing data boundaries in [DATA_CONTRACTS.md](DATA_CONTRACTS.md). It does not declare a new Store, Runtime, social action taxonomy, or causal policy. The two routes may be developed independently; their transient in-process slices do not imply desktop NPC dialogue, durable social experience, general claim truth or complete cross-restore continuity.
 
+## B2 owner-result proof scope
+
+The historical Stage 1 nonverbal v1 family below remains unchanged. Separately,
+[B2](DATA_CONTRACTS.md#b2-durable-l1-identity-and-instance-bound-proof) registers
+only `door-open-failed-owner-result/v1` for a new instance-bound v2 system proof.
+It binds actual owner L1 acceptance and original time to a verified B1 failure,
+not testimony truth or general social knowledge. Default duplicates retain the
+same Timeline-scoped consumption. Published proofs verify without re-signing;
+missing restored history is ambiguous. No D4-D9 socialization or B3/B4 update
+is supplied by this addition.
+
 ## Verified starting point and gaps
 
 - `PlayerDialogueService` records addressed **player-origin** `dialogue_input`; the narrow `NpcDialogueService` path records a selected, owner-bound NPC utterance through the existing `EventProcessor` no-op-world handler. In both paths only the addressed registered recipient receives the trusted `utterance_delivered` Observation and may consume it in its own L1. The Event proves delivery and utterance, not the speaker's claims. NPC-origin speech is an explicitly injected candidate source, appended to the sender's ordinary candidate batch and selected by its `AgentDecision`; it is not an autonomous background conversation loop or general dialogue framework. The selected communication is not a physical Attempt/Resolution. A recipient's existing-Belief review remains independent and governed, and a selected later action still uses Safety, Attempt, Resolution, EventFactory, and EventProcessor.

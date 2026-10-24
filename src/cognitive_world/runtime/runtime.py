@@ -766,7 +766,7 @@ class SimulationRuntime:
                     turn_records.append(AgentRuntimeTurnRecord(
                         agent_id, failure_type=type(error).__name__
                     ))
-                    if self.context.event_history.requires_recovery():
+                    if self.context.event_history.requires_recovery() or self.write_fence.recovery_required:
                         self.stop()
                         self.last_agent_turn_results = tuple(turn_records)
                         self.last_scheduled_event_results = tuple(scheduled_records)

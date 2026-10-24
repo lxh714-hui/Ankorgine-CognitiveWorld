@@ -110,7 +110,7 @@ Not every action invokes a model, every result changes WorldState, every Observa
 
 These references identify existing implementation/test coverage, not a new test run or complete product acceptance. The general recoverable execution-feedback lifecycle, durable expectation/result/feedback associations, general social attribution, universal physical simulation and unified cross-domain LOD coordination remain objectives. Where the detailed architecture explicitly labels a design approved, that status is retained; this doctrine neither withdraws it nor claims it is implemented. Other directions still require review.
 
-In particular, the default historical nonverbal consumption rule covers the documented room-light case, not general door-result feedback. New observation rules, proof policies, owner-scoped system records and snapshot migrations require their explicit contracts before implementation. The doctrine does not close those gaps or turn transient expectations into persistent cognition.
+The legacy nonverbal v1 rule covers the documented room-light case. The separately contracted [B2 instance-bound proof](DATA_CONTRACTS.md#b2-durable-l1-identity-and-instance-bound-proof) adds only the original owner's verified B1 locked-door result; it does not establish general door-result feedback or learning. New observation rules, proof policies, owner-scoped system records and snapshot migrations require their explicit contracts before implementation. The doctrine does not close those gaps or turn transient expectations into persistent cognition.
 
 ## Prohibited architectural shortcuts
 

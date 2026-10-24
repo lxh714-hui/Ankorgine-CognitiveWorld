@@ -255,9 +255,15 @@ class L1ConsumptionIssuer:
                  fence: object,
                  rule_registry: HistoricalObservationRuleRegistry | None = None) -> None:
         self.history, self.clock, self.trust, self.fence = history, clock, trust, fence
+        # Restored/pre-existing source Events without a v2 instance are ambiguous.
+        self._instance_history_boundary = frozenset(e.id for e in history.get_events())
         self.rule_registry = (
             HISTORICAL_OBSERVATION_RULES if rule_registry is None else rule_registry
         )
+
+    def accept_owner_result(self, **kwargs):
+        from cognitive_world.cognition.l1_instance import accept_owner_result
+        return accept_owner_result(self, **kwargs)
 
     def issue_after_l1(self, *, owner_id: str, observation: Observation,
                        cognitive_runtime: object, memory_store: object) -> L1ConsumptionProof | NonverbalL1ConsumptionProof | None:
@@ -276,6 +282,9 @@ class L1ConsumptionIssuer:
         evidence = self.history.get_processing_evidence(observation.source_event_id)
         if event is None or evidence is None:
             return None
+        if (getattr(observation.content, "fact_type", None) == "action_result"
+                and getattr(observation.content, "predicate", None) == "door_open_attempt_failed"):
+            raise PermissionError("B2 requires authoritative instance acceptance, not a legacy receipt")
         rule = self.rule_registry.for_source(event, evidence)
         if rule is not None:
             return self._issue_nonverbal(

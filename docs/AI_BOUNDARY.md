@@ -6,6 +6,16 @@ The [CognitiveWorld Core Doctrine](COGNITIVEWORLD_CORE_DOCTRINE.md) supplies the
 
 ---
 
+## B2 consumption evidence is engine authority
+
+The [B2 instance proof](DATA_CONTRACTS.md#b2-durable-l1-identity-and-instance-bound-proof)
+is issued only after Runtime-controlled L1 acceptance of the original owner's
+B1 result. Models, prompts, retrieval, UI delivery and caller-supplied identities
+cannot assert consumption or its time. The engine fixes the original tick and
+Timeline; retries do not refresh either. Ambiguous restored history rejects,
+and post-L1 proof failure freezes the Runtime. A valid proof is technical
+consumption evidence, not evidence of understanding, belief or learning.
+
 # 1. Purpose
 
 This document defines the responsibility boundaries of AI components in CognitiveWorld.

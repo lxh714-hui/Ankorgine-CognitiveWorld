@@ -2368,6 +2368,18 @@ Optional OpenAI-compatible Decision and Causal adapters use the shared bounded t
 
 A remote Decision request may contain the bounded current-owner view: trusted observed facts, WorkingMemory, retrieved Memory, subjective Beliefs, Goals, SelfModel-derived capabilities and limitations, Personality preferences/values/traits, Emotion levels, motivation/modulation and uncertainty. Direct Causal requests contain bounded Attempt/proposal data and the verified context supplied to that operation. Existing wrappers on the same adapter send their bounded task payloads: Safety sends the submitted SafetyInput and trusted subject context, WorldNorms generation sends its world seed, and content generation sends its creative brief and schema constraints. These are disclosures to the host-configured endpoint. The host must explicitly authorize the destination and decide whether each payload may leave the process. Encryption does not establish provider trust, retention limits, data minimization, or semantic correctness.
 
+## B2 owner-result L1 consumption boundary
+
+The [B2 contract](DATA_CONTRACTS.md#b2-durable-l1-identity-and-instance-bound-proof)
+adds an immutable Timeline/owner/Observation default identity and original
+acceptance tick for the B1 locked-door result. The same CognitiveRuntime accepts
+it under the Runtime fence; a separate v2 system proof follows actual L1, never
+delivery. Post-L1 failure freezes writes/capture and halts Runtime; durability
+still begins at published checkpoints. Missing historical consumption remains
+ambiguous after original-Timeline resume. Verified new forks have independent
+scopes. Legacy v1 proofs, sensory access and world-event authority are unchanged;
+B3/B4 and independent-instance creation are not enabled.
+
 ## L1 utterance consumption evidence v0.1
 
 For a trusted, addressed `utterance_delivered` Observation, the receiver's AgentTurn issues an `L1ConsumptionProof` only after CognitiveRuntime puts its Percept in the owner's WorkingMemory. The issuer checks the process-local receipt, signed source Event, processing evidence, event-time receiver position and fixed visibility rule. It signs a canonical proof body with the existing PersistenceTrust root and commits under the original RuntimeWriteFence permit.

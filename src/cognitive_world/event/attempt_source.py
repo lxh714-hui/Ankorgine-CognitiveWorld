@@ -110,3 +110,26 @@ def verify_confirmed_failure_event(event: object, *, attempt: Attempt | None = N
     except (TypeError, ValueError):
         return False
     return dict(source) == expected
+
+
+def confirmed_door_open_failure_source(event: object) -> Mapping[str, object] | None:
+    """Narrow B1 scope on top of the existing confirmed-failure validator.
+
+    Canonical state-read validation remains EventProcessor's responsibility.
+    This helper neither issues facts nor authorizes an observer.
+    """
+    if (not isinstance(event, Event) or not event.has_trusted_source("resolution")
+            or not verify_confirmed_failure_event(event)):
+        return None
+    from cognitive_world.resolution.causal import _contains_operation, _contains_negation
+
+    source = event.metadata["confirmed_attempt_failure"]
+    fingerprint = source["attempt_fingerprint"]
+    if (len(source["target_refs"]) != 1
+            or set(source["verified_conditions"]) != {"door_locked", "attempt_method_does_not_unlock"}
+            or not _contains_operation(source["method"])
+            or _contains_negation(source["method"])
+            or not isinstance(fingerprint, str) or len(fingerprint) != 64
+            or any(c not in "0123456789abcdef" for c in fingerprint)):
+        return None
+    return source
