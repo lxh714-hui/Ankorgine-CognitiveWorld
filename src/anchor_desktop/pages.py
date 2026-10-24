@@ -1023,7 +1023,7 @@ class ManagementPage(Page):
         world_id = self.worlds.currentData()
         if world_id is not None:
             hidden = self.gateway.package_hidden(world_id)
-            self.management_status.setText("此包已隐藏；存档访问仍保留。" if hidden else "此包可供管理；旧版兼容包不加入新世界选择。")
+            self.management_status.setText("此包已隐藏；存档访问仍保留。" if hidden else "所选资源可供管理；存档内容仍须独立核验。")
 
     def restore_visibility(self):
         try:

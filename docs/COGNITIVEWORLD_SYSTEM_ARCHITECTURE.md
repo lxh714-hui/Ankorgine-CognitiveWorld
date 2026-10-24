@@ -4,6 +4,21 @@ CognitiveWorld（CW）是以自然语言交互的持久认知多智能体世界�
 
 本文是系统结构视图，不替代 [ARCHITECTURE.md](ARCHITECTURE.md)、[DATA_CONTRACTS.md](DATA_CONTRACTS.md)、[ENGINEERING_RULES.md](ENGINEERING_RULES.md)、[MEMORY_DESIGN.md](MEMORY_DESIGN.md)、[SOCIAL_CAUSAL_DESIGN.md](SOCIAL_CAUSAL_DESIGN.md) 和 [AI_BOUNDARY.md](AI_BOUNDARY.md) 的详细规范。[REPOSITORY_STATUS.md](REPOSITORY_STATUS.md) 与 [DEVELOPMENT_ROADMAP.md](DEVELOPMENT_ROADMAP.md) 仅用于辨明设计与实现的边界，不决定本文的组织顺序。下文分别标明已有的窄路径、已批准但未完整实现的设计，以及尚待确认的方向；存在契约或接口不等于全域能力已经完成。
 
+## 核心原则与架构边界
+
+[Core Doctrine](COGNITIVEWORLD_CORE_DOCTRINE.md) 是本总纲的概念基础，规定未来实现必须保持的不变量；本总纲继续解释子系统结构，具体权限、数据与恢复能力仍以各详细契约为准。原则要求不等于当前能力已实现，也不批准新的结果观察规则、消费证明或持久化 schema。
+
+| 核心原则 | 在本总纲中的职责映射与边界 |
+|---|---|
+| [I — 世界权威独立于模型表达](COGNITIVEWORLD_CORE_DOCTRINE.md#principle-i--world-authority-is-independent-of-model-expression) | §2、§5–§7：WorldState、Resolution、EventProcessor 与 Presentation 分离；实体提及、Worldbook 和叙事不取得事实权威。 |
+| [II — 角色拥有独立认知](COGNITIVEWORLD_CORE_DOCTRINE.md#principle-ii--cognitive-agents-own-distinct-cognitive-states) | §3、§9：owner 限定的 Belief、Goal、Memory 与授权 Observation 保持不同含义；按需模拟不得任意丢失重要身份与经历，保存仅覆盖已定义记录。 |
+| [III — 每次行动重建推理上下文](COGNITIVEWORLD_CORE_DOCTRINE.md#principle-iii--reconstruct-the-reasoning-context-for-every-action) | §3–§4：从当前获准认知与相关证据派生 DecisionContext／模型输入，保留来源、时间和未知；上一轮模型文本不是默认记忆，也不要求每次调用模型。 |
+| [IV — 模型提案，确定性机制执行权威](COGNITIVEWORLD_CORE_DOCTRINE.md#principle-iv--llms-propose-deterministic-mechanisms-enforce-authority) | §4–§6、§9–§10：语义解释不替代授权、Safety、机制检查、Resolution 或当前代次的最终提交；CPU 执行本身也不是正确性证明。 |
+| [V — 认知修订须有证据与治理](COGNITIVEWORLD_CORE_DOCTRINE.md#principle-v--cognitive-revision-requires-evidence-and-governance) | §3、§5、§9：预期、实际结果、主体获准观察、必要消费证明及认知修订分开。既有门锁惩罚不是通用学习；可恢复执行反馈闭环仍不完整。 |
+| [VI — 计算投入服从认知需要](COGNITIVEWORLD_CORE_DOCTRINE.md#principle-vi--computational-effort-must-follow-cognitive-need) | §6、§8：认知功能层、混合计算层级、空间三层与独立 LOD 轴分别负责不同问题；距离／角度／重要性是调度线索，不授予权限或改变事实。统一跨域协调仍属目标。 |
+
+上述映射是原则约束，不新增模块或接口。通用反馈关联、结果消费证明扩展、空间求解与跨域预算机制仍需各自的正式设计、治理和恢复验证。
+
 ## 1. 权威关系与系统闭环
 
 从职责与权威关系看，CW 可以概括为四类相互协作的边界：世界权威，角色认知与决策，应用与运行时协调，以及安全呈现与客户端。数据在这些边界之间流动，权威不随数据复制。WorldState（规范世界状态）是当前世界事实的权威来源；EventHistory（事件历史）记录已处理事件及其可核验证据；角色的 Belief（信念）、Goal（目标）、Memory（记忆）等由既有的 owner 限定认知 Store 管理；Presentation（可信呈现）向 UI 交付受限的只读投影。见 [ARCHITECTURE.md](ARCHITECTURE.md#current-committed-product-boundary-2026-10-22) 与 [DATA_CONTRACTS.md](DATA_CONTRACTS.md#15-data-authority-rules)。

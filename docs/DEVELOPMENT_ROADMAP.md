@@ -2,7 +2,17 @@
 
 本文是阶段状态与后续依赖顺序的统一索引。整体产品架构及长期不变量以 [ARCHITECTURE.md](ARCHITECTURE.md) 为准；数据边界以 [DATA_CONTRACTS.md](DATA_CONTRACTS.md) 为准。Phase 编号保留历史，不因跨阶段增量而重编号或重复开任务。
 
-## 当前基线（2026-10-22；已提交源码的文档同步）
+## 当前核验基线（2026-10-24）
+
+基础原则以已跟踪的 [Core Doctrine](COGNITIVEWORLD_CORE_DOCTRINE.md) 为准；具体架构与数据权限仍分别由 ARCHITECTURE 和 DATA_CONTRACTS 规定。当前分支 `main`、HEAD `c493f6e7eb153cdccdcdfd18069d0ffd326dce4c`，本轮目录展示与测试调整尚未提交。`v1.0` 和 `v1.0-mvp` 均未改变。
+
+当前样例为《灰域之外》：序章只提供世界设定，环境信息通过主动观察取得；底层仍是已安装的门与已知通道机制。用于既有存档的内部兼容定义不作为另一款世界宣传。2026-10-24 在目标仓库执行 `py -3.14 -m pytest -q -rs`：**1,348 passed、9 skipped、0 failed、0 errors，77.43 秒，退出码 0**，Python 3.14.7 / pytest 9.1.1。详见 [当前状态及跳过原因](REPOSITORY_STATUS.md#current-audited-worktree-2026-10-24)。
+
+有限锁门失败反馈及其签名恢复已实现，但不等于 actor 已获知结果或通用 Belief／Memory 学习。通用可恢复执行反馈仍缺少获准的结果观察、对应消费证明及执行记录／修订契约；本任务不实现这些能力。三层空间表示、独立 LOD 轴与更广义的物理／社会机制保持各自原有的已批准或待设计状态，不标记为已实现。
+
+现有 `ANCHOR-M2-01` 和 `ANCHOR-M3-01/02` 的一般交互、真实模型及可见桌面验收边界仍开放；通过离屏自动化不关闭这些事项。以下日期、旧提交、测试总数及“本轮”说明均保留为对应历史工作的证据，不是本次 HEAD 的最新结果；本次不调整既有任务编号、优先级或实现顺序。
+
+## 历史基线（2026-10-22；已提交源码的文档同步）
 
 `579fcbb` 包含独立 Anchor 桌面包、两套验证后的世界包、真实宿主与后台输入协调、有限的授权目标/澄清/只读查看契约、正式门与通道裁定、薄展示、显式 Scenario 状态编解码及原 Timeline 的可信冷启动首发。自动化测试存在，普通可见桌面产品验收仍开放。最新 `1251 passed, 9 skipped` 仅是负责人提供的提交前全量数字；仓库中未发现可核对的原始输出或退出码，本次不运行 pytest，不能作为当前 HEAD 的新验收。具体证据分层见 [REPOSITORY_STATUS.md](REPOSITORY_STATUS.md)。
 
@@ -323,7 +333,7 @@ Current MVP priority stays unchanged: finish `ANCHOR-M2-01` real interaction/rea
 
 ### Anchor M0.5 migration and active MVP work
 
-M0.5 migrates the reusable CWUI PySide6 shell into `src/anchor_desktop/` without moving Core. A later fresh-world slice adds two independently defined packages, validated entry through a real Runtime host, authorized initial fact projection and asynchronous raw player action input. The current save slice adds signed manual saves, original-Timeline cold resumption and thin desktop save/restore controls. The default entry has no Demo gateway, fake save or simulated dialogue. The original `D:\CWUI` directory is preserved with a verified file archive; its synchronous optional live adapter is not a product adapter. Visible ordinary Windows GUI and product trust-root acceptance still remain. The following tasks record each removed or disabled prototype promise in this existing roadmap rather than silently dropping it:
+M0.5 migrated the reusable CWUI PySide6 shell into `src/anchor_desktop/` without moving Core. Historical fresh-world work used independent compatibility fixtures to verify validated entry, Observation provenance and asynchronous input. The current public sample is Gray Domain Beyond; internal fixture definitions do not add public world choices. Initial scene evidence remains available to explicit observation rather than being appended to the opening. The current save slice adds signed manual saves, original-Timeline cold resumption and thin desktop save/restore controls. The default entry has no Demo gateway, fake save or simulated dialogue. The original `D:\CWUI` directory is preserved with a verified file archive; its synchronous optional live adapter is not a product adapter. Visible ordinary Windows GUI and product trust-root acceptance still remain. The following tasks record each removed or disabled prototype promise in this existing roadmap rather than silently dropping it:
 
 | ID | Status / priority | Dependency | Why pending | Acceptance criterion |
 |---|---|---|---|---|

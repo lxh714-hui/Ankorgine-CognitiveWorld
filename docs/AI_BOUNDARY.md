@@ -2,6 +2,8 @@
 
 Version: 1.0
 
+The [CognitiveWorld Core Doctrine](COGNITIVEWORLD_CORE_DOCTRINE.md) supplies the foundational model/world distinction and the requirements for task-scoped context, deterministic enforcement, governed learning and computational allocation. This document specifies the AI-facing boundary; a temporary prompt or model-generated expectation cannot replace canonical cognition, authorize an outcome or expand the existing proof/persistence contracts.
+
 ---
 
 # 1. Purpose

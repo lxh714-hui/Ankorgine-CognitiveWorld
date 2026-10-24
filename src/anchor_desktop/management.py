@@ -51,7 +51,13 @@ class ManagementMixin:
                      if world.world_id not in self._hidden_packages)
 
     def management_worlds(self):
-        return tuple(package.projection() for package in self.catalog._packages.values())
+        # Compatibility definitions are not sample worlds. Keep their recovery
+        # entry when local resources exist, even if their catalog cannot verify.
+        active = self._active
+        return tuple(package.projection() for package in self.catalog._packages.values()
+                     if package.listed
+                     or (self._saves_root / package.world_id / "catalog.json").is_file()
+                     or (active is not None and active.package.world_id == package.world_id))
 
     def package_hidden(self, world_id):
         self.catalog.package(world_id)

@@ -1,5 +1,52 @@
 # Repository Status
 
+## Current audited worktree (2026-10-24)
+
+This is fresh verification of local `main` at HEAD `c493f6e7eb153cdccdcdfd18069d0ffd326dce4c` plus this task's uncommitted catalog-label/filter and regression-test changes. The existing Doctrine cross-reference edits remain uncommitted; the Doctrine itself is tracked at HEAD. The published `v1.0` tag still targets `1e5573b978a1de0252b90ebc04cdf3bed5302ebb`; `v1.0-mvp` remains unchanged. This audit neither modifies those releases nor reports its changed worktree as the released source tree.
+
+### Product scope and architecture
+
+| Area | Current supported scope and limit |
+|---|---|
+| Public sample | Gray Domain Beyond is the sole new-world choice. Its authored opening is worldbuilding only; installed door and known-passage mechanisms supply the current bounded interactive scene. The broader setting's five-domain/corruption mechanisms are not implemented. |
+| Compatibility | Internal definitions, stable IDs, signed history and save recovery remain. An unlisted definition is not advertised without a local catalog or active session; retained compatibility entries use neutral labels. A corrupt catalog retains its entry and still fails existing verification. Old saved scene descriptions are not rewritten. |
+| Action authority | Proposal → immutable Attempt → supported Resolution → EventFactory/EventProcessor. A processed result may leave WorldState unchanged. No model sentence or UI text supplies authority. |
+| Cognition and feedback | Owner-scoped governed cognition and limited locked-door failure penalties with signed snapshot/restore exist. A formal failure, authorized Observation, actual L1 consumption and governed revision remain distinct. |
+| General execution feedback | Not implemented. The default recoverable nonverbal proof rule covers the documented room-light case, not general failed-door result consumption. No new execution-record schema, proof, Store or learning policy is introduced here. |
+| Spatial/physical/LOD | Canonical spatial world, derived subject-centered projection and adaptive scheduling form the architecture direction. Cognitive/perceptual/physical LOD retain independent duties; distance, angular relevance and importance are allocation cues. General 3D transforms, physics solving and unified cross-domain LOD coordination remain unimplemented. |
+| Acceptance | Fresh automated and offscreen Qt coverage is available. Full ordinary visible desktop acceptance, general real-model quality and Python 3.10 runtime validation are not established by this audit. |
+
+The [Core Doctrine](COGNITIVEWORLD_CORE_DOCTRINE.md), [system overview](COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md), [feedback contract](DATA_CONTRACTS.md#behavior-feedback-v03b-signed-snapshot-component) and [consumption-proof contract](DATA_CONTRACTS.md#consumption-proof-separation) retain their respective normative scope. Their objectives do not register new executable permissions.
+
+### Fresh test evidence
+
+- Environment: Windows, Python **3.14.7**, pytest **9.1.1**, PySide6/Qt **6.12.0**. Interpreter: `C:\Users\18636\AppData\Local\Python\pythoncore-3.14-64\python.exe`.
+- Actual command from `D:\Ankorgine-CognitiveWorld`: `py -3.14 -m pytest -q -rs`. The configured pytest `pythonpath = ["src"]` resolves `anchor_desktop.pages`, `anchor_desktop.widgets` and `cognitive_world` to this checkout. Standalone imports without that configuration can resolve another editable checkout, so they are not interchangeable evidence.
+- Initial inspection baseline: **1,346 passed, 9 skipped in 79.56s**, exit **0**.
+- Focused catalog/opening/management regressions after the change: **55 passed in 7.52s**, exit **0**.
+- Final full suite after both new regression tests: **1,348 passed, 9 skipped, 0 failed, 0 errors in 77.43s**, exit **0**.
+- No real Ollama integration opt-ins were enabled. Offscreen Qt is not visible desktop acceptance. No dependencies were installed and no wheel/sdist or minimum-Python runtime validation was performed in this audit.
+
+The nine actual skips are:
+
+| Test | Recorded requirement not enabled/configured |
+|---|---|
+| `test_cognitive_causality.py::test_live_ollama_cognitive_review_runs_on_trusted_agent_turn` | Explicit real local Ollama cognitive-review opt-in. |
+| `test_dialogue_runtime.py::test_live_ollama_dialogue_candidate_reaches_player_gateway` | Explicit real local Ollama dialogue-integration opt-in. |
+| `test_memory_retrieval_evaluation.py::test_optional_real_ollama_embedding_on_unchanged_fixed_corpus` | `COGNITIVEWORLD_OLLAMA_EMBEDDING_MODEL` for the local probe. |
+| `test_ollama_physical_effects.py::test_real_local_ollama_proposes_only_a_candidate` | Explicit local Ollama physical-effect integration opt-in. |
+| `test_player_insight.py::test_real_local_ollama_synthetic_insight` | Explicit local synthetic Ollama insight opt-in. |
+| `test_player_insight.py::test_real_local_ollama_synthetic_semantic_challenges` | Explicit local synthetic Ollama insight opt-in. |
+| `test_player_insight_generation.py::test_local_ollama_generation_protocol_probe` | Explicit non-sensitive loopback Ollama protocol-probe opt-in. |
+| `test_player_insight_semantic_eval.py::test_local_ollama_semantic_calibration_matrix` | Explicit synthetic loopback Ollama evaluation opt-in. |
+| `test_player_insight_unit_semantic_eval.py::test_local_ollama_unit_presupposition_eval` | Explicit synthetic loopback Ollama unit-review opt-in. |
+
+Ignored `.pytest_cache`, `.pytest_tmp` and Python `__pycache__` artifacts remain outside the tracked change set. The test run is new evidence; older build, compiler, model and UI reports below are not silently re-certified by it.
+
+## Historical audit records
+
+The dated sections and milestone snapshots below preserve their original branches, commits, counts, failures and acceptance limits. References to “current”, “this turn” or “本轮” inside those records apply to that historical run, not to the worktree audit above.
+
 ## P1 clarification, Python metadata and desktop-contract regression (2026-10-22)
 
 This is evidence for the uncommitted worktree based on local `master` HEAD `29aad11e80e2b65d57ffbe659bb4a6784b3e8173`, not a clean GitHub release. The local tracking reference remains `origin/master` at `c6d16b9f8357ecd329f784bfec320e15aedc9327` (ahead 1); no fresh remote query, staging, commit or push is part of this repair. Earlier dated baseline sections below remain historical audit records.
@@ -17,7 +64,7 @@ This repair does not establish Python 3.10 runtime acceptance, new real-model re
 
 **Final P1 submission review (2026-10-22):** The 1267/9 result above remains evidence for the larger uncommitted worktree, not a new run or the isolated P1 commit. Final review constructed a separate candidate from HEAD `29aad11` plus only the P1 changes, excluding prior read-only response repairs, ECS proposals and public-release materials. No production code changed during this review. Its original rebinding probe again returned `clarification_expired`, both targets stayed closed and EventHistory remained 6 → 6. New runs on that independent candidate completed **120 passed in 3.10s** (host/player/fence) and **1259 passed, 9 skipped in 82.16s** (full suite), both exit 0. The eight-test difference reflects the excluded earlier read-only repair tests, not disabled tests. The same nine real-model opt-in/configuration skips remain unverified. Commands, logs and JUnit XML are retained in the separate `cw-p1-final-review-r4ydh9l4` Windows temporary directory. Only P1 differences in README, metadata, tests and roadmap are selected for submission; the rest remain in the development worktree. This is not public-release or visible desktop acceptance.
 
-## Current audited baseline (2026-10-22; documentation-only consistency repair)
+## Historical audited baseline (2026-10-22; documentation-only consistency repair)
 
 The entries in this section distinguish the current checkout, prior committed snapshots and prior runs. Later chronological paragraphs retain their original scope: “this turn”, “current” and old HEAD/worktree statements in those historical records do not override this dated baseline. No tests or compiler were run during this consistency repair.
 
@@ -193,7 +240,7 @@ The P1 and ARCH labels above preserve prior acceptance findings and current impl
 
 **本轮本地延迟复验（2026-10-17）**：本机 Python 3.14.7、Ollama 0.40.5、`qwen2.5:7b`。模型冷加载 2.934 秒；最小合成输入预热后 0.121 秒。单个合成认知请求包含 280 字符证据/信念输入、675 字符系统指令、约 791 字符 Schema；现有 Schema 请求 2.324 秒，同输入 JSON 对象格式 1.990 秒，512 token 上限的 Schema 请求 1.985 秒；各次输出均有效且解析低于 0.2 毫秒。一次同形状原生 API 诊断总耗时 5.538 秒，其中模型重新加载 2.901 秒、提示评估 0.155 秒、生成 2.442 秒、客户端解析约 0.000061 秒。1/4/8 条有界合成证据和信念分别耗时 1.199/1.493/1.896 秒。真实本地模型驱动的可信 Observation → AgentTurn → canonical BeliefStore → 后续 AgentTurn 合成路径连续 **3/3 成功**，复核耗时 3.002/2.648/2.683 秒；可选真实认知集成测试 **1 passed**；真实 Dialogue 集成测试 **1 passed in 23.13s**。定向回归 **41 passed, 2 skipped**，其中新增超时保护测试；全量 **643 passed, 2 skipped**；`compileall` 与 `git diff --check` 通过。先前 30 秒超时未复现，根因未确定；这些结果只验收窄范围合成场景，不能保证一般语义质量或最坏情况延迟。本轮测量未显示 Schema、输出上限或解析是稳定瓶颈，因此没有为了单次超时放宽预算或更改生产请求契约。仅访问本机回环端点。
 
-## Current runtime capabilities
+## Previously recorded runtime capabilities
 
 **本轮开放式物理效果与多实体来源复验**：`OllamaPhysicalEffectSuggestionProvider` 复用 Dialogue 的 loopback-only transport 与共享配置；模型输入来自单次 Attempt 和窄化物理视图。聚合器只将 WorldState 当前核验身份的 actor、typed target、自有工具和 Attempt 有界引用列为可用引用；额外实体状态不会因此暴露。每个语义效果携带自己的参与者关系、条件和当前聚合来源绑定。`SupportedPhysicalEffectTranslator` 将开放效果标签交给已安装规则复核；不支持的效果给出具体缺口并保持 unresolved。成功兼容路径将参与者关系保留在签发 Resolution/Event 的 `model_proposed_unverified` 元数据中，不把这些关系当作观察事实。Actor、initiator、潜在直接致因和可能承受者保持分离；碰撞、伤害和跨实体变化目前无可确认的状态转变契约。相关定向 **115 passed, 3 skipped**；本次显式本地 `qwen2.5:7b` Ollama 路径 **1 passed in 7.10s**（仅 loopback、本地合成数据）；全量 **652 passed, 3 skipped**。`compileall` 与 `git diff --check` 在最终复验通过。单次真实模型结果不证明一般语义可靠性。
 

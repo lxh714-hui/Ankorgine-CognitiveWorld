@@ -485,3 +485,36 @@ def test_restored_stage_does_not_replay_startup_scene_or_generate_observations(q
         assert gateway.read_display() == ()
     finally:
         window.close()
+
+
+def test_management_does_not_advertise_unlisted_fixture_without_resources(tmp_path):
+    gateway = host(tmp_path)
+    try:
+        assert [item.world_id for item in gateway.management_worlds()] == ["rain-harbor"]
+        assert gateway.list_worlds()[0].title == "灰域之外"
+        gateway.begin_world("clockwork-library")
+        gateway._entry.result(timeout=5)
+        assert gateway.entry_status().state == "ready"
+        compatibility = next(item for item in gateway.management_worlds() if item.world_id == "clockwork-library")
+        assert compatibility.title == "历史存档（兼容）"
+        assert all(item.world_id != "clockwork-library" for item in gateway.list_worlds())
+        gateway.leave_world()
+        assert [item.world_id for item in gateway.management_worlds()] == ["rain-harbor"]
+    finally:
+        gateway.close()
+
+
+def test_unverified_compatibility_catalog_keeps_its_recovery_entry(tmp_path):
+    gateway = host(tmp_path)
+    root = tmp_path / "saves" / "clockwork-library"
+    root.mkdir(parents=True)
+    (root / "catalog.json").write_text("not a valid signed catalog", encoding="utf-8")
+    before = tree(root)
+    try:
+        assert "clockwork-library" in {item.world_id for item in gateway.management_worlds()}
+        with pytest.raises((ValueError, SaveError)):
+            gateway.list_saves("clockwork-library")
+        assert tree(root) == before
+        assert all(item.world_id != "clockwork-library" for item in gateway.list_worlds())
+    finally:
+        gateway.close()

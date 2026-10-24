@@ -341,10 +341,15 @@ def test_qt_world_selection_has_one_new_world_and_keeps_legacy_save_restore(qtbo
         assert not any(item.text().startswith("恢复旧版") for item in page.findChildren(QPushButton))
         next(item for item in page.findChildren(QPushButton) if item.text() == "管理世界与存档").click()
         manage = window.stack.currentWidget()
-        manage.worlds.setCurrentIndex(manage.worlds.findData("clockwork-library"))
+        compatibility_index = manage.worlds.findData("clockwork-library")
+        assert compatibility_index >= 0
+        assert manage.worlds.itemText(compatibility_index) == "历史存档（兼容）"
+        manage.worlds.setCurrentIndex(compatibility_index)
         next(item for item in manage.findChildren(QPushButton) if item.text().startswith("查看／恢复")).click()
         assert window.navigation.current.page == "saves"
         saves = window.stack.currentWidget()
+        from PySide6.QtWidgets import QLabel
+        assert not any("钟楼" in item.text() for item in saves.findChildren(QLabel))
         assert saves.list.count() == 1
         saves.list.setCurrentRow(0)
         saves.restore_button.click()
