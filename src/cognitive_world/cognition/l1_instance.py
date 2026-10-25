@@ -183,6 +183,7 @@ def accept_owner_result(issuer, *, owner_id, observation, cognitive_runtime, mem
     the snapshot/write lock. Recovery uses only a previously published checkpoint.
     """
     from cognitive_world.cognition.runtime import CognitiveRuntime
+    from cognitive_world.cognition.l1_history import L1HistoryContext
     from cognitive_world.cognition.memory_store import MemoryStore, _L1_PROOF_WRITE_AUTHORITY
     from cognitive_world.cognition.l1_consumption_proof import _observation_digest, _source_timeline
     from cognitive_world.runtime.write_fence import RuntimeWriteFence
@@ -193,6 +194,15 @@ def accept_owner_result(issuer, *, owner_id, observation, cognitive_runtime, mem
         issuer.fence.require_candidate_origin(permit)
         if memory_store.write_fence is not issuer.fence:
             raise PermissionError("instance proof Store belongs to another Runtime")
+        # Read the immutable Runtime binding under the existing commit lock.
+        # This is a pre-L1 prerequisite, not a consumption result or an upgrade.
+        binding = issuer.fence._event_history_verification_context
+        context = cognitive_runtime._history_context
+        if (binding is None or type(context) is not L1HistoryContext
+                or issuer.history is not binding[0] or issuer.trust is not binding[3]
+                or context.history is not binding[0] or context.codec is not binding[2]
+                or context.trust is not binding[3]):
+            raise PermissionError("B2 history binding prerequisite is missing or mismatched")
         if (type(observation) is not Observation or observation.observer_id != owner_id
                 or not observation.has_trusted_provenance()
                 or observation.trusted_source_runtime_binding() != (
@@ -206,7 +216,7 @@ def accept_owner_result(issuer, *, owner_id, observation, cognitive_runtime, mem
         if event is None or evidence is None:
             raise PermissionError("result source is not committed")
         # Source signature, exact rule, and Observation semantics are pre-L1 gates.
-        issuer.history.verify_persisted_lineage(codec=PersistedValueCodec(), trust=issuer.trust)
+        issuer.fence._verify_complete_event_history(issuer.history)
         source_timeline = _source_timeline(issuer.history, event.id, issuer.trust)
         rule = issuer.rule_registry.by_reference(RESULT_RULE)
         expected = rule.issue(event, evidence, owner_id, observation.content.fact_id)

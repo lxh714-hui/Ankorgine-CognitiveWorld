@@ -80,7 +80,12 @@ def test_agent_turn_calls_decision_and_returns_action_proposal():
     agent, cognition_context, _, _ = make_inputs()
     decision = RecordingDecision()
 
-    proposal = AgentTurn().execute(agent, cognition_context, decision)
+    from test_cognitive_runtime import _real_input
+    runtime, observation = _real_input(agent.agent_id, "agent-turn-input")
+    store = ObservationStore()
+    store.add(observation)
+    cognition_context.observation_store = store
+    proposal = AgentTurn(cognitive_runtime=runtime).execute(agent, cognition_context, decision)
 
     assert proposal is decision.proposal
     assert isinstance(proposal, ActionProposal)
@@ -89,7 +94,7 @@ def test_agent_turn_calls_decision_and_returns_action_proposal():
     assert decision.received_context.cognition_state.goal_ids == ("goal_001",)
     assert len(decision.received_context.goals) == 1
     assert decision.received_context.cognition_state.percept_ids == (
-        "percept:obs_001",
+        "percept:" + observation.observation_id,
     )
 
 

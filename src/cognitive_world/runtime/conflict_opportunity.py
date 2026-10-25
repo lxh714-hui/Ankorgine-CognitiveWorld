@@ -246,6 +246,9 @@ class ConflictOpportunityScheduler:
             or simulation_tick < 0
         ):
             raise ValueError("scheduler requires a non-negative trusted simulation tick")
+        # Terminal Goals remain cognitive history, not actionable scheduler input.
+        situation = replace(situation, goals=tuple(
+            goal for goal in situation.goals if goal.status == "active"))
         owner = situation.owner_id
         previous_tick = self._latest_tick.get(owner, simulation_tick)
         if simulation_tick < previous_tick:

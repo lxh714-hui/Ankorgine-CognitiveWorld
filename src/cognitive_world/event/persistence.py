@@ -167,6 +167,8 @@ def verify_and_restore_event_records(
         evidence = _issue_processing_evidence(
             event, drafts, simulation_time=context.simulation_time,
             observer_positions=context.observer_positions,
+            # Preserve signed historical metadata; never relabel legacy evidence.
+            observer_state_phase=context.observer_state_phase,
             environment_conditions=context.environment_conditions,
             environment_snapshot_complete=context.environment_snapshot_complete,
         )

@@ -20,7 +20,6 @@ from cognitive_world.runtime.context import RuntimeContext
 from cognitive_world.runtime.runtime import SimulationRuntime
 from cognitive_world.runtime.scheduler import EventScheduler, ScheduledEvent
 from cognitive_world.runtime.write_fence import RuntimeWriteFence
-from tests._trusted_observation_support import make_trusted_observation
 
 
 def _event(event_id="light-event"):
@@ -248,29 +247,41 @@ def test_event_without_history_uses_processor_history_for_duplicate_guard():
 
 
 def test_repeat_observation_consumption_is_idempotent_and_scoped_by_agent_and_event():
+    world, history, store, agents = WorldState(), EventHistory(), ObservationStore(), AgentRegistry()
+    world.load_environment_data("room-a", {"light_on": False})
+    for owner in ("agent-a", "agent-b"):
+        world.load_entity(Entity(owner, "agent", sensory_capabilities=("sight",)))
+        world.load_location(owner, "room-a")
+        agents.register(RuntimeAgent(owner))
+    processor = EventProcessor(event_history=history, world_state=world,
+        simulation_clock=SimulationClock(7), agent_registry=agents, observation_store=store)
+    processor.register_handler("room_light_changed", RoomLightChangedHandler())
+    processor.dispatch_with_evidence(_event("event-1"))
+    processor.dispatch_with_evidence(SystemEventFactory().create(
+        event_id="light-off-between", event_type="room_light_changed", timestamp="event-time",
+        changes=[{"room_id": "room-a", "from_light_on": True, "to_light_on": False}]))
+    processor.dispatch_with_evidence(_event("event-2"))
+    obs_one, = [o for o in store.get_by_observer("agent-a") if o.source_event_id == "event-1"]
+    obs_two, = [o for o in store.get_by_observer("agent-a") if o.source_event_id == "event-2"]
+    obs_one_other_agent, = [o for o in store.get_by_observer("agent-b") if o.source_event_id == "event-1"]
+    assert obs_one.content.predicate == obs_two.content.predicate
+    assert obs_one.content.value is obs_two.content.value is True
     runtime = CognitiveRuntime()
-    obs_one = make_trusted_observation(
-        "obs-1", "agent-a", "event-1", "same visible text"
-    )
-    obs_one_other_agent = make_trusted_observation(
-        "obs-1-other", "agent-b", "event-1", "same visible text"
-    )
-    obs_two = make_trusted_observation(
-        "obs-2", "agent-a", "event-2", "same visible text"
-    )
+    runtime._bind_observation_history(history)
 
     first_ingestion = runtime.process("agent-a", [obs_one])
     repeated_ingestion = runtime.process("agent-a", [obs_one])
     second_event_ingestion = runtime.process("agent-a", [obs_two])
     runtime.process("agent-b", [obs_one_other_agent])
 
-    assert first_ingestion.percept_ids == ["percept:obs-1"]
+    assert first_ingestion.percept_ids == ["percept:" + obs_one.observation_id]
     assert repeated_ingestion.percept_ids == []
-    assert second_event_ingestion.percept_ids == ["percept:obs-2"]
+    assert second_event_ingestion.percept_ids == ["percept:" + obs_two.observation_id]
     assert runtime.working_memory_store.get("agent-a").percept_ids == [
-        "percept:obs-1",
-        "percept:obs-2",
+        "percept:" + obs_one.observation_id,
+        "percept:" + obs_two.observation_id,
     ]
     assert runtime.working_memory_store.get("agent-b").percept_ids == [
-        "percept:obs-1-other"
+        "percept:" + obs_one_other_agent.observation_id
     ]
+    assert len(history.get_events()) == 3

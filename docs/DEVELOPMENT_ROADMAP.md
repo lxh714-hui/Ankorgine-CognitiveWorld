@@ -1,5 +1,34 @@
 # CognitiveWorld Development Roadmap
 
+> Current-state clarification (2026-10-25): B1+B2 are archived in
+> `e1d215a98108dd0df3b493b231e430db6affaa26`; B3, including trusted source
+> binding, is archived in `662d38ac347aabb4c1525edae4d4af5337b2ce9d`.
+> See [current milestone status](REPOSITORY_STATUS.md#current-milestone-status-2026-10-25)
+> for the development/release distinction and historical test provenance.
+> Narrow actor-result Observation and consumption proofs now exist; generalized
+> cross-domain evidence, the sample-count producer/authorization contract and
+> typed cognitive revision do not. Generalized evidence and B4 remain NO-GO;
+> B5 has no independently approved definition. Candidate schemas/purposes,
+> cognition v6 and E1/E2/E3/S/T remain unapproved proposals, not roadmap stages.
+> This clarification does not renumber, reorder or reprioritize existing work.
+
+
+## Contextual interaction and bounded investigation (design consensus; implementation not approved)
+
+The [approved interaction direction](ARCHITECTURE.md#contextual-interaction-and-bounded-autonomous-investigation-design-consensus-not-implemented-as-a-general-workflow) keeps unrestricted free-text expression alongside grounded clickable narrative objects, shortcuts and suggestions. Default clicks express attention -> minimum justified supported adjustment, if any -> observation -> verified feedback, not implicit turning or manipulation. Manner-sensitive attention/gaze/head/body/approach distinctions, time/exposure consequences and supported perceptual detail need review; no new orientation or concealment mechanics are claimed. All forms retain the existing interpretation, decision, Resolution and EventProcessor boundaries where applicable; there is no new UI execution authority.
+
+Future player-goal investigation may span scenes/time with strictly bounded low-risk reversible rounds, progress reports and player-controlled continuation. Counts (including a possible 2–3-step experiment), risk classification, early pause conditions, interruption and continuation semantics still need design; major clues, contradiction, rising risk, authority boundaries, irreversible choices, missing evidence and completion return control early. Current Agent turns/stepwise components do not establish this end-to-end workflow or durable goal/task recovery.
+
+This is a dependency note, not a new milestone or implementation schedule. Review target grounding and attention/observation support before execution automation; preserve the separate potential-world determination/acceptance decision below. No shared LOD coordinator, general executor, automatic Agent, API/schema or persistence guarantee is authorized. Existing B4/sample-count boundaries and milestone numbering remain unchanged.
+
+## LOD modeling and potential-world design decisions (documentation only)
+
+The [visual/auditory models](ARCHITECTURE.md#visual-and-auditory-lod-mathematics-candidate-models-uncalibrated) and [NPC reference-policy deviation models](SOCIAL_CAUSAL_DESIGN.md#reference-policy-deviation-candidate-mathematics-not-a-production-classifier) remain uncalibrated candidates. Review intended use (quality proxy, probability or other output), reference policy, data, units, model bounds, parameter calibration and adversarial acceptance before any production approval. This does not freeze interfaces or add a classifier, sensory model or shared allocator.
+
+The maintainer-selected [hybrid Lazy World Expansion direction](ARCHITECTURE.md#hybrid-lazy-world-expansion-selected-direction-acceptance-boundary-unresolved) is a design direction only. The next design task is **potential-world determination and structure acceptance boundaries**: distinguish existence fixed/details unknown, partly undetermined but constrained content, and undetermined existence; decide permitted generation and the conditions making a possibility a fact on one Timeline. EventProcessor versus another compatible admission mechanism remains undecided. Seed reproducibility, accepted identity/provenance, materialization, ancestor inheritance and exact recovery must not be assumed from current narrow content installation.
+
+Shared budget scope, cost, fairness and recovery semantics remain separate open decisions. Existing milestone numbers/dependencies and B4/sample-count NO-GO status are unchanged; this entry creates no new milestone or implementation schedule and reports no test execution.
+
 ## B3 local scoped implementation (2026-10-24)
 
 The local [B3 contract](DATA_CONTRACTS.md#b3-immutable-expectation-and-authoritative-result-association)
@@ -33,6 +62,8 @@ and [local verification record](REPOSITORY_STATUS.md) for scope and evidence.
 本文是阶段状态与后续依赖顺序的统一索引。整体产品架构及长期不变量以 [ARCHITECTURE.md](ARCHITECTURE.md) 为准；数据边界以 [DATA_CONTRACTS.md](DATA_CONTRACTS.md) 为准。Phase 编号保留历史，不因跨阶段增量而重编号或重复开任务。
 
 ## 当前核验基线（2026-10-24）
+
+> Historical baseline: the HEAD, uncommitted-work statements, test results and missing-capability claims in this dated section describe that inspection. Later narrow B1/B2/B3 milestones supersede the relevant absences; use the [current status](REPOSITORY_STATUS.md#current-milestone-status-2026-10-25) for present blockers. No historical result is rewritten here.
 
 基础原则以已跟踪的 [Core Doctrine](COGNITIVEWORLD_CORE_DOCTRINE.md) 为准；具体架构与数据权限仍分别由 ARCHITECTURE 和 DATA_CONTRACTS 规定。当前分支 `main`、HEAD `c493f6e7eb153cdccdcdfd18069d0ffd326dce4c`，本轮目录展示与测试调整尚未提交。`v1.0` 和 `v1.0-mvp` 均未改变。
 
@@ -389,3 +420,30 @@ The clarification/feedback repair remains within `ANCHOR-M3-02`: the typed clari
 P1 clarification-rebinding repair under the same `ANCHOR-M2-01`: pending options now retain their original canonical identities and existing state-slot continuity reads. Movement, target removal/replacement or relevant state changes expire the question; enumeration-only changes preserve its original option meanings. Resume rechecks current Observation authorization and the original Runtime bindings, including a final check inside the existing fence-protected dispatch boundary. Deterministic regressions cover both world packages and an interleaved formal move before dispatch. This repair does not complete general language, NPC dialogue or visible desktop acceptance. The Python package minimum is corrected to 3.10; minimum-version runtime testing remains open before claiming a supported-version matrix. Existing Timeline-ancestor debt and D3.2.4 freeze remain unchanged.
 
 The earlier P0 diagnosis established the need for grounded targets, follow-up state and read-only inspection. Those three narrow contracts are now implemented in the working tree; real Ollama has produced a valid read-only observation without an Event but has also returned malformed or unnecessary clarification for a simple action. Model quality, semantic disambiguation and ordinary visible desktop use remain open acceptance evidence. Keep original gold and safety boundaries intact.
+
+
+## Social physical vertical slice status
+
+A runnable opt-in room now connects two NPCs, selected addressed speech, actual L1 evidence, exact Event-scoped comparison, formal experience Memory, governed new Goal creation and a later keyed-door Event. It reuses existing physics rather than waiting for a generic solver. See [scope and entry point](SOCIAL_CAUSAL_DESIGN.md#social-physical-room-slice).
+
+| Remaining work / evidence | Trigger and current limit | V1.0 treatment | Suggested follow-up |
+|---|---|---|---|
+| Pickup, movable containment and drawer mechanics | Table/drawer hierarchy is static; key ownership is initially declared. Only the keyed-door interaction is dynamically adjudicated. | Not required to claim this bounded slice; do not advertise general physical interaction. | Next physical slice: governed ownership/location transfer with explicit constraints and restore tests. |
+| Broader social comparison and revision | Only exact typed predicate/subject and explicit source-Event scope are comparable. Other properties/proof families and intervals defer; no global credibility. | Preserve narrow scope. | Extend a justified typed evidence rule and tests before broader D5/D6 or B4. |
+| Experience supersession/revocation and historical Goal-policy attestation | v1 experiences are immutable proof-pair assessments; new evidence is another record. Goal creation has in-process governance and signed saved state, not a separately persisted policy execution proof. | State this limitation; no implicit historical authorization. | Separately review revision/grant lifecycle if a product flow needs it. |
+| Desktop/model integration | New host is CLI/programmatic with explicit deterministic content policies, not Qt dialogue or arbitrary model semantics. | Separate visible-product acceptance remains open. | Wire only through existing Gateway/Observation/Presentation boundaries. |
+| DecisionContext fixture compatibility (resolved) | The fixture now uses real EventProcessor/Runtime history assembly; a separate direct-call test asserts deferral. | Existing snapshot/owner/immutability guarantees and strict L1 history qualification are preserved. | Closed by the owner-specific social response task; see current acceptance results in REPOSITORY_STATUS.md. |
+| Installation intermediate-state recovery | This world is initialized before execution; it does not install generated content mid-turn or resume partial installation. | Existing recovery limitations unchanged. | Follow the separately reviewed checkpoint admission policy when LWE needs it. |
+
+
+## Owner specific social response status
+
+Implemented a bounded, optional three-NPC room: same proposition, separately authorized recipients, owner-specific saved willingness, explicit supported/contradicted/insufficient evidence and different real action choices. The new slice reuses SocialExperience/v1, Goal governance and existing door physics. It changes no persistence/signature contract. [Runnable scope](SOCIAL_CAUSAL_DESIGN.md#owner-specific-social-response-slice).
+
+| Remaining debt | Evidence and trigger | Current guarantee / V1 treatment | Next bounded increment |
+|---|---|---|---|
+| General Goal fulfillment beyond the declared condition | The [narrow completion loop](ARCHITECTURE.md#consumed-result-goal-completion-slice) is implemented for an exact Goal-bound, committed result fact actually consumed by its owner. Legacy/unconfigured Goals and missing post-restore consumption do not infer completion. | Completed state and condition survive verified checkpoints/forks; no general planner, automatic evidence reconstruction or separately persisted completion-policy proof. | Select a separately justified typed multi-action or current-state requirement before extending this condition. |
+| Qualified-address B1 failure validation — P2 | The missing-key room action uses `object:ID`, but EventProcessor failure checks look up that full string as the environment slot ID. Resolution fails, then submission rejects before history commit. | No false Goal completion or fabricated failure Event; bare-object-address formal failure is tested. Resolve for V1 before advertising equivalent failure behavior across both address forms. | Normalize the existing routing reference consistently at the failure evidence boundary, with separate historical compatibility review and negative binding tests; no new world rule or blind retry. |
+| General social aggregation | v1 retains individual proof-pair assessments, not a general policy for contradictory statements over time, reputation or semantic truth. | Exact Event-scoped comparison and owner isolation remain intact; not a full socialization claim. | Pick one typed evidence/claim scope before adding a temporal or revision lifecycle. |
+| Non-rational behavior labels | Different willingness preferences are not a psychological diagnosis or measured reference-policy deviation. | No production non-rational classifier or new numeric thresholds are introduced; not a gate for this room. | Only pursue a separately justified reference policy and bounded decision contrast. |
+| UI and broader perception | The optional mode is a production-component CLI host; the existing directed speech rule is not an acoustic propagation model. | No new player disclosure permissions; private assessment diagnostics are not Presentation output. | Integrate visible behavior through existing Gateway and Presentation contracts when requested. |

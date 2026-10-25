@@ -111,9 +111,11 @@ $env:COGNITIVEWORLD_INPUT_UNDERSTANDING_TIMEOUT = '8.0'
 
 ## 验证与测试
 
-**2026-10-24 当前工作树复验：1,348 passed、9 skipped、0 failed、0 errors，77.43 秒，退出码 0。** 环境为 Python 3.14.7、pytest 9.1.1、PySide6/Qt 6.12.0；在仓库根目录实际执行 `py -3.14 -m pytest -q -rs`。pytest 使用 `pyproject.toml` 的 `pythonpath = ["src"]`，模块解析已核对为本仓库，而非另一个检出目录。
+**历史工作树验证（2026-10-24）：1,348 passed、9 skipped、0 failed、0 errors，77.43 秒，退出码 0。** 环境为 Python 3.14.7、pytest 9.1.1、PySide6/Qt 6.12.0；在仓库根目录实际执行 `py -3.14 -m pytest -q -rs`。pytest 使用 `pyproject.toml` 的 `pythonpath = ["src"]`，模块解析已核对为本仓库，而非另一个检出目录。
 
-源码基线为 `main` 的 `c493f6e7eb153cdccdcdfd18069d0ffd326dce4c` 加本轮未提交的目录展示及回归测试调整；这不是对已发布标签字节内容的重新验收。9 项跳过为显式本地 Ollama 集成／评估或 Embedding 模型配置要求，具体原因见 [当前状态记录](docs/REPOSITORY_STATUS.md#current-audited-worktree-2026-10-24)。没有执行真实模型验收，也没有将离屏 Qt 结果当作可见桌面验收；Python 3.10 动态兼容仍未验证。
+该历史运行的源码基线为 `main` 的 `c493f6e7eb153cdccdcdfd18069d0ffd326dce4c` 加当时未提交的目录展示及回归测试调整；这不是对已发布标签字节内容的重新验收。9 项跳过为显式本地 Ollama 集成／评估或 Embedding 模型配置要求，具体原因见 [当前状态记录](docs/REPOSITORY_STATUS.md#current-audited-worktree-2026-10-24)。没有执行真实模型验收，也没有将离屏 Qt 结果当作可见桌面验收；Python 3.10 动态兼容仍未验证。
+
+当前开发与 B1/B2/B3 归档状态见[当前里程碑状态](docs/REPOSITORY_STATUS.md#current-milestone-status-2026-10-25)。本次文档同步未运行测试，未将上述历史数字更新为当前 HEAD 的新验收结果。
 
 本地复核可使用：
 
@@ -260,9 +262,11 @@ The interpreter accepts loopback addresses only and bounds its timeout. Without 
 
 ## Validation and Testing
 
-**Current worktree verification on 2026-10-24: 1,348 passed, 9 skipped, 0 failed, 0 errors in 77.43 seconds; exit code 0.** Environment: Python 3.14.7, pytest 9.1.1, PySide6/Qt 6.12.0. The actual repository-root command was `py -3.14 -m pytest -q -rs`. The configured pytest `pythonpath = ["src"]` and checked module paths resolve to this checkout.
+**Historical worktree verification on 2026-10-24: 1,348 passed, 9 skipped, 0 failed, 0 errors in 77.43 seconds; exit code 0.** Environment: Python 3.14.7, pytest 9.1.1, PySide6/Qt 6.12.0. The actual repository-root command was `py -3.14 -m pytest -q -rs`. The configured pytest `pythonpath = ["src"]` and checked module paths resolve to this checkout.
 
-The source baseline is `main` at `c493f6e7eb153cdccdcdfd18069d0ffd326dce4c` plus this task's uncommitted public-catalog and regression-test changes, not the unchanged published tag. The nine skips require explicit local Ollama opt-ins or an embedding-model configuration; see [current status](docs/REPOSITORY_STATUS.md#current-audited-worktree-2026-10-24). Real-model integration, complete visible desktop acceptance and Python 3.10 runtime compatibility were not verified by this run.
+That historical run used `main` at `c493f6e7eb153cdccdcdfd18069d0ffd326dce4c` plus the then-uncommitted public-catalog and regression-test changes, not the unchanged published tag. The nine skips require explicit local Ollama opt-ins or an embedding-model configuration; see [current status](docs/REPOSITORY_STATUS.md#current-audited-worktree-2026-10-24). Real-model integration, complete visible desktop acceptance and Python 3.10 runtime compatibility were not verified by this run.
+
+See [current milestone status](docs/REPOSITORY_STATUS.md#current-milestone-status-2026-10-25) for the development baseline and B1/B2/B3 archival. This documentation synchronization ran no tests and does not present the historical count above as a fresh result for the current HEAD.
 
 To run the local suite:
 

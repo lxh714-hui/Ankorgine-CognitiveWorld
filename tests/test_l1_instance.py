@@ -951,3 +951,134 @@ def test_valid_b2_identity_and_proof_formula_are_unchanged_by_ambiguity_fix():
     runtime.context.clock.advance(3)
     with runtime.write_fence.operation(): assert _accept(runtime, observation) == proof
     assert proof.instance.consumption_tick == 5 and len(_proofs(memory)) == 1
+
+
+
+def test_unbound_history_rejected_before_b2_acceptance_without_recovery(monkeypatch):
+    from cognitive_world.cognition.runtime import CognitiveRuntime
+    runtime, cognition, memory, trust, event, observation = _fixture()
+    unbound = CognitiveRuntime()
+    issuer = runtime.agent_action_loop.agent_turn.l1_consumption_issuer
+    history_before = runtime.context.event_history.get_events()
+    memories_before = memory.get_all_memories()
+    generation_before = runtime.write_fence.restore_generation
+    called = []
+    original = CognitiveRuntime.process
+
+    def process(self, *args, **kwargs):
+        called.append(self)
+        return original(self, *args, **kwargs)
+
+    monkeypatch.setattr(CognitiveRuntime, 'process', process)
+    with runtime.write_fence.operation():
+        with pytest.raises(PermissionError, match='history binding') as failure:
+            issuer.accept_owner_result(owner_id=AGENT_ID, observation=observation,
+                cognitive_runtime=unbound, memory_store=memory)
+    assert type(failure.value) is PermissionError
+    assert called == []
+    assert unbound._history_context is None
+    assert unbound.working_memory_store.get(AGENT_ID) is None
+    assert not unbound._l1_consumption_receipts and not _proofs(memory)
+    assert runtime.context.event_history.get_events() == history_before
+    assert memory.get_all_memories() == memories_before
+    assert runtime.write_fence.restore_generation == generation_before
+    assert not runtime.write_fence.recovery_required and not runtime.write_fence.frozen
+    # Correctly assembled operations and checkpoint capture remain possible.
+    _capture(runtime, cognition, memory, trust)
+    with runtime.write_fence.operation():
+        proof = _accept(runtime, observation)
+    assert proof.instance.observation_id == observation.observation_id
+    assert called == [runtime.agent_action_loop.agent_turn.cognitive_runtime]
+    assert runtime.context.event_history.get_events() == history_before
+
+
+
+@pytest.mark.parametrize('mismatch', [
+    'cognition-history', 'cognition-codec', 'cognition-trust',
+    'issuer-history', 'issuer-trust', 'issuer-without-runtime-verifier',
+])
+def test_b2_history_prerequisites_preserve_existing_state(monkeypatch, mismatch):
+    from cognitive_world.cognition.runtime import CognitiveRuntime
+    from cognitive_world.cognition.memory_store import MemoryStore
+    from cognitive_world.cognition.l1_consumption_proof import L1ConsumptionIssuer
+    from cognitive_world.event.history import EventHistory
+    from cognitive_world.runtime.write_fence import RuntimeWriteFence
+    runtime, container, memory, trust, event, observation = _fixture()
+    canonical = runtime.agent_action_loop.agent_turn.cognitive_runtime
+    issuer = runtime.agent_action_loop.agent_turn.l1_consumption_issuer
+    processor = runtime.event_processor
+    cognitive = canonical
+    candidate_store = memory
+    if mismatch.startswith('cognition-'):
+        cognitive = CognitiveRuntime()
+        cognitive._bind_observation_history(
+            EventHistory(timeline_id=runtime.context.event_history.timeline_id)
+                if mismatch == 'cognition-history' else runtime.context.event_history,
+            codec=PersistedValueCodec() if mismatch == 'cognition-codec' else processor.persistence_codec,
+            trust=HmacPersistenceTrust(b'independent-b2-prerequisite-trust-32')
+                if mismatch == 'cognition-trust' else trust)
+    else:
+        fence = runtime.write_fence
+        history = runtime.context.event_history
+        selected_trust = trust
+        if mismatch == 'issuer-history':
+            history = EventHistory(timeline_id=history.timeline_id)
+        elif mismatch == 'issuer-trust':
+            selected_trust = HmacPersistenceTrust(b'independent-b2-prerequisite-trust-32')
+        else:
+            fence = RuntimeWriteFence()
+            candidate_store = MemoryStore()
+            candidate_store.bind_write_fence(fence)
+        issuer = L1ConsumptionIssuer(history=history, clock=runtime.context.clock,
+                                    trust=selected_trust, fence=fence)
+    workspace = cognitive.working_memory_store.get(AGENT_ID)
+    workspace_record = cognitive.working_memory_store._memories.get(AGENT_ID)
+    receipts = dict(cognitive._l1_consumption_receipts)
+    records = candidate_store.get_all_memories()
+    canonical_records = memory.get_all_memories()
+    canonical_history = runtime.context.event_history.export_persisted_state()
+    beliefs, goals = dict(container.beliefs), dict(container.goals)
+    generation = issuer.fence.restore_generation
+    called = []
+    original_process = CognitiveRuntime.process
+
+    def process(self, *args, **kwargs):
+        called.append(self)
+        return original_process(self, *args, **kwargs)
+
+    monkeypatch.setattr(CognitiveRuntime, 'process', process)
+    with issuer.fence.operation():
+        with pytest.raises(PermissionError, match='history binding') as failure:
+            issuer.accept_owner_result(owner_id=AGENT_ID, observation=observation,
+                cognitive_runtime=cognitive, memory_store=candidate_store)
+    assert type(failure.value) is PermissionError and not called
+    assert cognitive.working_memory_store.get(AGENT_ID) == workspace
+    assert cognitive.working_memory_store._memories.get(AGENT_ID) is workspace_record
+    assert cognitive._l1_consumption_receipts.keys() == receipts.keys()
+    assert all(cognitive._l1_consumption_receipts[key] is value for key, value in receipts.items())
+    assert candidate_store.get_all_memories() == records
+    assert memory.get_all_memories() == canonical_records
+    assert runtime.context.event_history.export_persisted_state() == canonical_history
+    assert dict(container.beliefs) == beliefs and dict(container.goals) == goals
+    assert issuer.fence.restore_generation == generation
+    assert not issuer.fence.recovery_required and not issuer.fence.frozen
+    assert not runtime.write_fence.recovery_required
+
+
+def test_explicit_canonical_history_binding_keeps_b2_acceptance_valid():
+    from cognitive_world.cognition.runtime import CognitiveRuntime
+    runtime, _, memory, trust, event, observation = _fixture()
+    cognitive = CognitiveRuntime()
+    processor = runtime.event_processor
+    cognitive._bind_observation_history(runtime.context.event_history,
+        codec=processor.persistence_codec, trust=trust)
+    history_before = runtime.context.event_history.export_persisted_state()
+    with runtime.write_fence.operation():
+        proof = runtime.agent_action_loop.agent_turn.l1_consumption_issuer.accept_owner_result(
+            owner_id=AGENT_ID, observation=observation, cognitive_runtime=cognitive, memory_store=memory)
+    assert cognitive.working_memory_store.get(AGENT_ID).percept_ids == ['percept:' + observation.observation_id]
+    assert cognitive.has_consumed_observation(AGENT_ID, observation, source_event_id=event.id)
+    assert cognitive._l1_consumption_receipts[(AGENT_ID, observation.observation_id)].instance == proof.instance
+    assert _proofs(memory) == (proof,)
+    assert runtime.context.event_history.export_persisted_state() == history_before
+    assert not runtime.write_fence.recovery_required

@@ -124,7 +124,7 @@ def test_real_trusted_observation_revises_owner_belief_and_next_turn_reads_it():
             observation_ids=(observation.observation_id,),
         ),
     ))
-    turn = AgentTurn(cognitive_review_provider=provider)
+    turn = _bound_turn(history, cognitive_review_provider=provider)
     decision = CapturingDecision()
     before_world = {key: dict(value) for key, value in world.environment.items()}
     before_history = history.get_events()
@@ -157,12 +157,12 @@ def test_real_trusted_observation_revises_owner_belief_and_next_turn_reads_it():
 
 
 def test_review_does_not_run_without_new_l1_percept_or_trusted_observation():
-    world, _, _, _, _ = production_observation()
+    world, history, _, _, _ = production_observation()
     store = ObservationStore()
     store.add(Observation("manual", "agent-a", "forged-event", {"claim": "seen"}))
     context = cognition_context(store)
     provider = RecordingReviewProvider(CognitiveReview("", "not enough evidence"))
-    turn = AgentTurn(cognitive_review_provider=provider)
+    turn = _bound_turn(history, cognitive_review_provider=provider)
 
     proposal = turn.execute(
         RuntimeAgent("agent-a", "character-agent-a"), context, CapturingDecision()
@@ -174,7 +174,7 @@ def test_review_does_not_run_without_new_l1_percept_or_trusted_observation():
 
 
 def test_revision_cannot_cite_another_observation_or_other_agents_belief():
-    _, _, _, observation, observations = production_observation()
+    _, history, _, observation, observations = production_observation()
     own = Belief("belief-a", "agent-a", "old", ["old"], 0.5)
     other = Belief("belief-b", "agent-b", "private", ["private-event"], 0.8)
     cognition = CognitionContainer()
@@ -190,7 +190,7 @@ def test_revision_cannot_cite_another_observation_or_other_agents_belief():
             "belief-a", "new", 0.8, "review", ("observation:forged",)
         ),
     ))
-    turn = AgentTurn(cognitive_review_provider=provider)
+    turn = _bound_turn(history, cognitive_review_provider=provider)
 
     decision = CapturingDecision()
     turn.execute(RuntimeAgent("agent-a", "character-a"), context, decision)
@@ -203,7 +203,7 @@ def test_revision_cannot_cite_another_observation_or_other_agents_belief():
 
 
 def test_assessment_without_revision_preserves_existing_uncertainty():
-    _, _, _, _, observations = production_observation()
+    _, history, _, _, observations = production_observation()
     old = Belief("belief-a", "agent-a", {"claim": "unsure"}, ["old"], 0.35)
     context = cognition_context(observations, beliefs=(old,))
     provider = RecordingReviewProvider(CognitiveReview(
@@ -211,7 +211,7 @@ def test_assessment_without_revision_preserves_existing_uncertainty():
     ))
     decision = CapturingDecision()
 
-    AgentTurn(cognitive_review_provider=provider).execute(
+    _bound_turn(history, cognitive_review_provider=provider).execute(
         RuntimeAgent("agent-a", "character-agent-a"), context, decision
     )
 
@@ -316,7 +316,7 @@ def test_ollama_review_invalid_output_keeps_prior_belief(monkeypatch):
             "content": '{"assessment":"x","uncertainty":"","revision":null,"owner_id":"agent-b"}'
         }}]}).encode(),
     )
-    turn = AgentTurn(cognitive_review_provider=OllamaCognitiveReviewProvider(
+    turn = _bound_turn(history, cognitive_review_provider=OllamaCognitiveReviewProvider(
         "http://127.0.0.1:11434/v1", "test-model"
     ))
 
@@ -343,7 +343,7 @@ def test_ollama_review_timeout_keeps_prior_belief_and_world(monkeypatch):
         raise TimeoutError("local model generation exceeded its budget")
 
     monkeypatch.setattr(dialogue_ollama, "_post_loopback_json", timeout_transport)
-    turn = AgentTurn(cognitive_review_provider=OllamaCognitiveReviewProvider(
+    turn = _bound_turn(history, cognitive_review_provider=OllamaCognitiveReviewProvider(
         "http://127.0.0.1:11434/v1", "test-model"
     ))
     decision = CapturingDecision()
@@ -460,7 +460,7 @@ def test_live_ollama_cognitive_review_runs_on_trusted_agent_turn():
 
     recording = RecordingLocalProvider(provider)
     before_events = history.get_events()
-    AgentTurn(cognitive_review_provider=recording).execute(
+    _bound_turn(history, cognitive_review_provider=recording).execute(
         RuntimeAgent("agent-a", "character-agent-a"), context, CapturingDecision()
     )
 
@@ -480,3 +480,9 @@ def test_live_ollama_cognitive_review_runs_on_trusted_agent_turn():
         assert updated.metadata["source_event_ids"] == (source_event.id,)
     assert history.get_events() == before_events
     assert world.environment["room-a"]["light_on"] is True
+
+
+def _bound_turn(history, **kwargs):
+    turn = AgentTurn(**kwargs)
+    turn.cognitive_runtime._bind_observation_history(history)
+    return turn

@@ -70,6 +70,20 @@ class CognitiveRuntime:
         default_factory=dict, init=False, repr=False
     )
 
+    _history_context: object | None = field(default=None, init=False, repr=False)
+
+    def _bind_observation_history(self, history, *, codec=None, trust=None):
+        """Assembly-only binding; no caller-provided Timeline or action permission."""
+        from cognitive_world.event.history import EventHistory
+        from cognitive_world.cognition.l1_history import L1HistoryContext
+        if type(history) is not EventHistory:
+            raise TypeError("L1 requires the canonical EventHistory")
+        prior = self._history_context
+        if prior is not None and (prior.history is not history
+                or prior.codec is not codec or prior.trust is not trust):
+            raise PermissionError("L1 history binding is immutable")
+        self._history_context = L1HistoryContext(history, codec, trust)
+
     def process(
         self,
         agent_id: str,
@@ -87,13 +101,27 @@ class CognitiveRuntime:
             raise ValueError("agent_id must be a non-empty string")
         # This public compatibility entry point may receive caller-supplied
         # records directly. Storage or identity matching is not authorization.
-        authorized_observations = tuple(
-            observation
-            for observation in observations
-            if isinstance(observation, Observation)
-            and observation.observer_id == agent_id
-            and observation.has_trusted_provenance()
-        )
+        context = self._history_context
+        index, unavailable = ((None, "history_context_unavailable") if context is None
+                              else context.evidence_index())
+        outcomes = []
+        authorized_observations = []
+        for position, observation in enumerate(observations):
+            item = {"index": position, "observation_id": None,
+                    "source": "rejected", "history": "not_checked", "consumption": "not_consumed",
+                    "code": "invalid_source"}
+            outcomes.append(item)
+            if (not isinstance(observation, Observation)
+                    or observation.observer_id != agent_id
+                    or not observation.has_trusted_provenance()):
+                continue
+            item["observation_id"] = observation.observation_id
+            item["source"] = "eligible"
+            status, code = (("undetermined", unavailable) if index is None
+                            else context.classify(observation, index))
+            item.update(history=status, code=code)
+            if status == "eligible":
+                authorized_observations.append(observation)
         for observation in authorized_observations:
             prior = self._l1_consumption_receipts.get((agent_id, observation.observation_id))
             if prior is not None and prior.instance is not None and prior.observation_snapshot != observation._snapshot():
@@ -122,7 +150,14 @@ class CognitiveRuntime:
             context={} if previous is None else previous.context,
             metadata={} if previous is None else previous.metadata,
         )
-        self.working_memory_store.update(working_memory)
+        if authorized_observations:
+            self.working_memory_store.update(working_memory)
+        reported_ids = set(previous.percept_ids) if previous is not None else set()
+        for item in outcomes:
+            if item["history"] == "eligible":
+                percept_id = "percept:" + item["observation_id"]
+                item["consumption"] = "duplicate" if percept_id in reported_ids else "ingested"
+                reported_ids.add(percept_id)
 
         if beliefs is None:
             belief_snapshot = (
@@ -156,6 +191,7 @@ class CognitiveRuntime:
             ],
             focus=working_memory.focus,
             percepts=list(percepts),
+            metadata={"l1_ingestion": {"version": 1, "items": tuple(outcomes)}},
         )
         for observation, percept in zip(authorized_observations, percepts):
             prior = self._l1_consumption_receipts.get((agent_id, observation.observation_id))

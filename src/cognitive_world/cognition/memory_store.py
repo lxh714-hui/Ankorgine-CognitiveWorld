@@ -39,6 +39,10 @@ class MemoryStore:
         )
         if memory.type.startswith(("system_l1_", "system_action_")):
             return False
+        from cognitive_world.memory.social_experience import SOCIAL_MEMORY_TYPE, SocialExperience
+        if memory.type.startswith("attributed_social_experience") or type(memory.content) is SocialExperience:
+            return (memory.type == SOCIAL_MEMORY_TYPE and type(memory.content) is SocialExperience
+                    and memory.schema_version == 2)
         return not isinstance(memory.content, SystemOnlyMemoryContent)
 
     @classmethod
@@ -89,6 +93,11 @@ class MemoryStore:
             raise PermissionError("system-only records require their trusted commit path")
         if type(memory) is not Memory:
             raise TypeError("MemoryStore accepts canonical Memory records only")
+        from cognitive_world.memory.social_experience import SOCIAL_MEMORY_TYPE, SocialExperience
+        if memory.type.startswith("attributed_social_experience") or type(memory.content) is SocialExperience:
+            if (memory.type != SOCIAL_MEMORY_TYPE or type(memory.content) is not SocialExperience
+                    or memory.schema_version != 2):
+                raise PermissionError("social experience requires its exact formal record type")
         if memory.schema_version == 2:
             if (self.write_fence is None or authorization is None
                     or persistence_authority is not _MEMORY_PERSISTENCE_AUTHORITY):

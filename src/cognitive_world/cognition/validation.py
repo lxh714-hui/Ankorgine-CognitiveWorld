@@ -72,8 +72,10 @@ class CognitiveUpdateValidator:
         """Return a validation result for a supported cognition proposal."""
         from cognitive_world.cognition.self_model_evolution import SelfModelUpdateProposal
 
+        from cognitive_world.cognition.goal_creation import GoalCreationProposal
+        is_goal_creation = isinstance(proposal, GoalCreationProposal)
         is_self_model = isinstance(proposal, SelfModelUpdateProposal)
-        if not isinstance(proposal, (BeliefUpdateProposal, GoalUpdateProposal)) and not is_self_model:
+        if not isinstance(proposal, (BeliefUpdateProposal, GoalUpdateProposal)) and not is_self_model and not is_goal_creation:
             return ValidationResult(False, "unsupported proposal type")
 
         source_refs = proposal.source_refs
@@ -95,6 +97,22 @@ class CognitiveUpdateValidator:
             return ValidationResult(
                 False, "proposal owner does not match context agent"
             )
+
+        if is_goal_creation:
+            from cognitive_world.cognition.goal_completion import COMPLETION_KEY, GoalCompletionCondition
+            if COMPLETION_KEY in proposal.metadata:
+                try:
+                    GoalCompletionCondition.from_value(proposal.metadata[COMPLETION_KEY])
+                except (TypeError, ValueError):
+                    return ValidationResult(False, "unsupported Goal completion condition")
+            import math
+            if (not isinstance(context, Mapping) or "authorized_source_refs" not in context
+                    or not isinstance(proposal.goal_id, str) or not proposal.goal_id
+                    or not isinstance(proposal.description, str) or not proposal.description.strip()
+                    or len(proposal.description) > 1024
+                    or type(proposal.priority) not in (int, float)
+                    or not math.isfinite(proposal.priority) or not 0 <= proposal.priority <= 1):
+                return ValidationResult(False, "Goal creation requires bounded content and explicit evidence authorization")
 
         if is_self_model:
             if (

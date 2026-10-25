@@ -148,6 +148,29 @@ class GoalStore:
             )
         )
 
+    def create(self, goal: Goal, *, proposal: Any, validation_result: Any) -> None:
+        """Commit only the exact evidence-authorized new Goal, without replacing an old one."""
+        from cognitive_world.cognition.goal_creation import GoalCreationProposal
+        from cognitive_world.cognition.validation import ValidationResult
+        scope = nullcontext() if self.write_fence is None else self.write_fence.commit_scope()
+        with scope:
+            if self.write_fence is not None:
+                self.write_fence.require_candidate_origin(original_proposal_permit(proposal))
+            if (type(proposal) is not GoalCreationProposal
+                    or type(validation_result) is not ValidationResult
+                    or not validation_result.authorizes(proposal)):
+                raise PermissionError("Goal creation requires matching governance")
+            expected = Goal(proposal.goal_id, proposal.owner_id, proposal.description,
+                            proposal.priority, "active", proposal.source_refs, proposal.metadata)
+            if type(goal) is not Goal or goal != expected:
+                raise PermissionError("new Goal differs from its authorized proposal")
+            prior = self.get_owned(goal.owner_id, goal.goal_id)
+            if prior is not None:
+                if prior != goal:
+                    raise PermissionError("conflicting Goal identity")
+                return
+            self._add(goal)
+
     def update(
         self,
         goal: Goal,
@@ -194,4 +217,7 @@ class GoalStore:
             or expected_metadata != goal.metadata
         ):
             raise ValueError("Goal does not match its validated proposal")
+        from cognitive_world.cognition.goal_completion import COMPLETION_KEY
+        if current.metadata.get(COMPLETION_KEY) != goal.metadata.get(COMPLETION_KEY):
+            raise ValueError("status/priority updates cannot change the Goal completion condition")
         self._goals.setdefault(goal.owner_id, {})[goal.goal_id] = deepcopy(goal)

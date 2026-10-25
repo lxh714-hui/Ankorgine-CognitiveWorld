@@ -12,7 +12,8 @@ from typing import Protocol
 from cognitive_world.decision.autonomous import ConflictOpportunityCandidate
 from cognitive_world.runtime.conflict_opportunity import ConflictOpportunityScheduler
 
-from .installation import RuntimeContentInstaller, installation_record_key
+from .installation import ContentInstallationRecord, RuntimeContentInstaller, installation_record_key
+from cognitive_world.event.history import EventProcessingStatus
 from .llm import ContentGenerationRequest
 from .runtime import ScenarioLifecycle
 
@@ -141,9 +142,9 @@ class ProactiveContentExpansion:
             key = installation_record_key(self.world_id, instance_id)
             existing = self.installer.context.world_state.facts.get(key)
             if existing is not None:
-                status = "already_installed" if getattr(existing, "status", None) == "ready" else "recovery_required"
+                status = self._existing_status(existing)
                 results.append(ContentExpansionResult(finding.finding_id, status, instance_id))
-                if status == "recovery_required":
+                if status != "already_installed":
                     break
                 continue
 
@@ -191,16 +192,37 @@ class ProactiveContentExpansion:
                 break
             except Exception as error:
                 existing = self.installer.context.world_state.facts.get(key)
-                pending = getattr(existing, "status", None) == "world_installed"
+                status = "rejected" if existing is None else self._existing_status(existing)
+                if status == "already_installed":
+                    # A later orchestration failure is not a successful caller result.
+                    status = "recovery_required"
                 results.append(ContentExpansionResult(
-                    finding.finding_id,
-                    "recovery_required" if pending else "rejected",
-                    instance_id if pending else None,
+                    finding.finding_id, status,
+                    instance_id if existing is not None else None,
                     type(error).__name__,
                 ))
                 break
         self._last_results = tuple(results)
         return self._last_results
+
+    def _existing_status(self, record: object) -> str:
+        if type(record) is not ContentInstallationRecord or record.status != "ready":
+            return "recovery_required"
+        history = self.installer.context.event_history
+        event = history.get_event(record.completion_event_id)
+        evidence = history.get_processing_evidence(record.completion_event_id)
+        if (history.requires_recovery() or event is None or evidence is None
+                or event.type != "runtime_content_ready" or not event.has_trusted_source("system")
+                or not evidence.has_trusted_source(event)
+                or event.changes != [{"world_id": record.world_id, "instance_id": record.instance_id,
+                                      "template_id": record.template_id}]):
+            return "recovery_required"
+        status = history.get_processing_status(event.id)
+        if status is EventProcessingStatus.COMPLETE:
+            return "already_installed"
+        if status in (EventProcessingStatus.RECORDED, EventProcessingStatus.OBSERVATIONS_PENDING):
+            return "observations_pending"
+        return "recovery_required"
 
     @staticmethod
     def _instance_id(world_id: str, finding_id: str) -> str:

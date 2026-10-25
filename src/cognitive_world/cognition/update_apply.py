@@ -48,6 +48,13 @@ class CognitiveUpdateApplier:
         ):
             raise PermissionError("proposal has no matching accepted validation")
 
+        from cognitive_world.cognition.goal_creation import GoalCreationProposal
+        if isinstance(proposal, GoalCreationProposal):
+            goal = Goal(proposal.goal_id, proposal.owner_id, proposal.description,
+                        proposal.priority, "active", proposal.source_refs, proposal.metadata)
+            self.goal_store.create(goal, proposal=proposal, validation_result=validation_result)
+            return self.goal_store.get_owned(proposal.owner_id, proposal.goal_id)
+
         if isinstance(proposal, BeliefUpdateProposal):
             current = self.belief_store.get_by_id(proposal.belief_id)
             if current is None or current.owner_id != proposal.owner_id:

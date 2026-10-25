@@ -1,5 +1,74 @@
 # Repository Status
 
+**2026-10-26 runtime content commit-boundary repair (local, unarchived):** ready-Event delivery failure now retains the corresponding Agents/cognition and formal ready state, while preserving pending delivery and propagating failure. Registration through ready dispatch uses existing fence/registry locks; a deterministic real-Runner interleaving verifies the pre-ready batch is not scheduled by another registry reader. The standard Scenario codec explicitly supports the existing installation record/batch types, with closed decode validation. Targeted signed-component tests cover completed installation, published save verification, isolated fork restore, unchanged inherited Event attestations and fail-closed encoding faults. This is not visible-desktop acceptance or complete Lazy World Expansion: partial checkpoint policy, automatic template/lifecycle reconstruction, arbitrary concurrent hosts and operator recovery remain unresolved. No installation auto-resume, new schema/version, historical re-signing or cross-Store rollback was added.
+
+
+## Current milestone status (2026-10-25)
+
+Documentation synchronization baseline: local `main` at
+`662d38ac347aabb4c1525edae4d4af5337b2ce9d`. The released `v1.0` tag remains
+`1e5573b978a1de0252b90ebc04cdf3bed5302ebb`; `v1.0-mvp` remains
+`88b38c67a6e63e98b2619264337d5ce5842fd785`. Local milestone archival is not a
+release or a change to those tags. This documentation task runs no tests.
+
+| Capability | Current source scope and archival |
+|---|---|
+| B1 | Original actor-specific door-failure Observation, with narrow authorization and historical validation; archived with B2 in `e1d215a98108dd0df3b493b231e430db6affaa26`. Not generalized result perception. |
+| B2 | Corresponding default L1 consumption instance, original tick and signed proof under existing eligibility, recovery and ancestry rules; archived in the same B1+B2 commit. Not arbitrary-Observation proof coverage. |
+| B3 | Immutable trusted expectation source and formal-result association; archived separately in `662d38ac347aabb4c1525edae4d4af5337b2ce9d`. It proves neither delivery, consumption, understanding nor justification for a Belief revision. Free-text expectations remain insufficient for authoritative typed comparison. |
+| BehaviorFeedback | Separate bounded failure penalty with Event deduplication and verified snapshot/restore; not semantic Belief revision or generalized learning. |
+| Generalized result evidence / sample count | Not implemented or approved. No established sample task/batch/revision, trustworthy measured-count producer, historical execution witness and actor-authorization chain has been identified. NO-GO pending separate contract review and approval. |
+| B4 | Not implemented; NO-GO. An approved complete typed owner-specific revision contract is missing, including target binding, revision identity, ABA protection, governance and mutation/application-proof consistency. |
+| B5 | No independently approved milestone definition is established by current repository evidence; no scope or implementation order is assigned here. |
+
+`ResultEvidenceDefinition/v1`, `ResultAuthorizationPolicy/v1`,
+`EvidenceInstallationGrant/v1`, `FormalResultProjection/v1`,
+`ResultProductionAttestation/v1`, `OwnerResultConsumptionProof/v1`, candidate
+signature purposes, cognition schema v6, Event metadata extensions, generalized
+proof/result-group rules and E1/E2/E3/S/T stages remain unapproved review
+proposals. This note approves no new contract, schema, migration or stage.
+
+Formal commit, Observation issuance, delivery, actual L1 consumption,
+understanding and governed revision remain separate. Missing historical proof
+is not proof of never-consumed status. Recovery never manufactures historical
+consumption or replays a committed action to supply feedback.
+
+Current details: [B1/B2 contract](DATA_CONTRACTS.md#b2-durable-l1-identity-and-instance-bound-proof),
+[B3 contract](DATA_CONTRACTS.md#b3-immutable-expectation-and-authoritative-result-association),
+[Memory boundaries](MEMORY_DESIGN.md#b3-system-records-are-not-semantic-memory),
+[dependency index](DEVELOPMENT_ROADMAP.md).
+The untracked `COGNITIVE_EXECUTION_FEEDBACK_REVIEW.md` is historical analysis,
+not an approval record. Every dated test count and worktree claim below belongs
+to its recorded run/baseline, not this documentation task; earlier absence or
+pre-archival statements are not current milestone status.
+
+
+## Identity continuity and epistemic disagreement status (2026-10-25)
+
+The [approved principle](ARCHITECTURE.md#entity-identity-continuity-and-epistemic-disagreement-approved-architectural-principle) records authoritative identity continuity independently of LOD, scene visibility, tracked observation targets and subjective identity judgments. World facts, authorized evidence, NPC cognition and player understanding may differ; unknown identity, misidentification and NPC deception are permitted architectural possibilities, with later consequences governed by existing supported mechanisms. This is a documentation decision, not implementation of a generic identity-association, disguise/deception, target-tracking or automatic belief-correction system. Existing reference, authorization, cognition and signed restore contracts remain unchanged. No new tests, schema, API, persistence or historical identity reconstruction is claimed.
+
+## Contextual interaction and bounded investigation status (2026-10-25)
+
+[Design consensus](ARCHITECTURE.md#contextual-interaction-and-bounded-autonomous-investigation-design-consensus-not-implemented-as-a-general-workflow) now records free text plus contextual clicks/suggestions, attention-first default observation, authorized LOD-sensitive presentation and strictly bounded player-goal investigation with progress and returned control. This is documentation synchronization only: clickable narrative target grounding, manner-sensitive attention/gaze/head/body/approach and observation integration and the general player-goal autonomous investigation workflow are not claimed implemented. Existing raw-input/clarification, typed mechanisms and bounded Agent/stepwise paths remain narrow foundations.
+
+Target-entry projection, supported turn/observe semantics, action counts/risk/pause/continuation policy, cross-scene goal handling and any durable recovery requirements remain unresolved. A 2–3-step example is experimental, not a constant. A new opportunity does not restore old work; no commit is undone by interruption. Lazy expansion admission, model calibration and shared LOD coordination remain separate open work. Existing observer-sampling fixes and all prior test results are unchanged; no tests, source changes, APIs, schemas, runtime settings or new persistence guarantees are introduced in this task.
+
+## LOD mathematics and hybrid expansion documentation status (2026-10-25)
+
+This synchronization records [candidate visual/auditory mathematics](ARCHITECTURE.md#visual-and-auditory-lod-mathematics-candidate-models-uncalibrated), [relative NPC policy-deviation models](SOCIAL_CAUSAL_DESIGN.md#reference-policy-deviation-candidate-mathematics-not-a-production-classifier), and the [selected hybrid Lazy World Expansion direction](ARCHITECTURE.md#hybrid-lazy-world-expansion-selected-direction-acceptance-boundary-unresolved). Equations are uncalibrated hypotheses, not approved production probabilities/classifiers. Existing narrow location/sensory checks, Emotion/Motivation modulation, bounded Event Tree and reviewed content installation do not establish general FOV, acoustics, adaptive LOD or general lazy topology materialization.
+
+The pre-existing local observer-sampling correction remains separate: new evidence explicitly labels post-update sampling; historical reconstruction preserves signed phase values and payload bytes without rewriting or re-signing. A legacy BEFORE label alone is not proof of pre-update sampling. This documentation task does not repeat that code/test change or claim a new test run.
+
+Potential-world determination and structure acceptance authority, model uses/calibration, and shared budget cost/fairness/recovery remain unresolved. Existing parent/child history, snapshot limits and formal mutation/Observation boundaries stay in force; no generic graph persistence, runtime configuration, API/schema, coordinator or B4/sample-count capability is added. Only documentation is synchronized.
+
+## Scheduled work responsibility status (2026-10-25)
+
+The [approved responsibility clarification](ARCHITECTURE.md#scheduled-work-responsibility-approved-contract-no-scheduling-implementation-change) records guarantees and limits, not a scheduling fix. Current Runtime processing removes due Event items before budget validation/checks and removes due Agent entries before their execution-budget checks. Over-budget items are recorded as skipped without automatic requeueing; an interrupted batch has no general retention guarantee for its already-dequeued, unstarted remainder. This behavior is not a universal discard authorization or proof that every skipped item must execute.
+
+Periodic Runner rounds generate new decision opportunities. Content wakeup deduplication records arrangement, not successful execution, and provides no general skipped-wakeup compensation guarantee. Committed-Event delivery retries retain their separate contracts. Pending Runtime schedules have no general checkpoint persistence guarantee. Producer-specific obligations, valid deferral/termination conditions, and responsibility for unstarted work after budget exhaustion or interruption remain unresolved where no applicable approved contract defines them. Required authoritative causal consequences remain protected.
+
+This documentation synchronization changes no scheduling, retry, cancellation, persistence or recovery behavior, introduces no fairness/eventual-execution guarantee or milestone, and runs no tests.
+
 ## B3 trusted expectation provenance correction (2026-10-25)
 
 The [source-binding contract](DATA_CONTRACTS.md#trusted-action-expectation-source-binding-v1)
@@ -537,3 +606,36 @@ Stage 1.1 removes the domain rule ID comparison from the generic proof verifier.
 The new proof is committed through the existing system MemoryStore route and included in the current cognition snapshot envelope; isolated reconstruction revalidates its signature, source Event/fact, owner, timeline ancestry and rule. **Stage 1.2 acceptance:** the built-in production registry is used consistently by the tested Runtime and fresh Windows process; a real DPAPI SaveManager checkpoint is staged and activated in independent processes. Parent and child post-fork proof suffixes remain isolated, and child ancestor Event/processing-evidence/proof resources remain verifiable after parent slot deletion and GC. **Stage 1.2.1 acceptance:** real Windows child-process fault injection covers consumption before proof, post-L1/pre-signature, signed/pre-canonical-commit, canonical-commit/pre-save, and catalog-published/pre-commit-journal exits. Restart restores only the last published checkpoint; the published D2 record is reverified and a new active Runtime can continue consuming. Deterministic RuntimeWriteFence tests cover commit-before-capture and capture-before-commit; failed Store commit leaves no canonical or captured D2 record, and delayed old-generation issuance is rejected after activation. These results use an explicitly assembled synthetic host and do not persist arbitrary custom rule registries. OS power-loss durability, cross-host coordination and arbitrary host isolation remain unverified. D3 formal MemoryDecision/v1 is implemented in a separate narrow slice; D4–D9 social-experience integration remains unimplemented, including dynamic Character grants, social-experience Memory, temporal comparison and typed social decision influence. Full NPC Socialization v0.2 remains unaccepted. Historical test counts elsewhere remain historical, not results of this Stage 1.2.1.
 
 **State-aware action feedback (current working tree, narrow):** Resolution now issues a closed `ActionResultKind` for supported state changes, the installed already-satisfied door condition, and confirmed infeasibility; EventFactory binds that code into the trusted Resolution Event metadata. Presentation verifies the Event and completed processing evidence, then emits a separate `PlayerActionFeedbackMessage` for already-satisfied, failed, or successful-but-not-player-visible outcomes. Successful physical changes continue to display only their authorized Observation-backed facts; the Composer distinguishes confirmed change wording from an initial state snapshot. The desktop displays the typed action feedback once and keeps its task strip for lifecycle status. Free-form Resolution explanation, player wording, and model output do not determine result text. This turn's focused Player/Presentation/desktop/Resolution/EventProcessor group: **118 passed in 5.60s**; an earlier pre-expansion group: **91 passed in 5.85s**; `compileall -q src tests` exited **0**. Full `pytest -q` reached about 85% without failures printed, then produced no output for roughly 90 seconds; it was interrupted with exit code 1 and no final summary, so the full suite is **not verified**. No live Ollama call or visible Windows desktop operation was performed this turn. No tested action-feedback humor subsystem exists; `MVP-DEFER-08` records optional style work. The no-result narrative's optional tone guidance is not an action-feedback subsystem.
+
+
+## Social physical room working-tree implementation
+
+The current uncommitted room slice is executable through `run_social_room.py` and uses the existing SimulationRuntime, AgentTurn, AgentDecision, NPC speech service, canonical Memory/Goal Stores, keyed-door Resolution/EventProcessor and SaveManager. New closed SocialExperience/v1 payload/grant semantics were explicitly approved during this task. General physics, automatic credibility inference, full D4–D9, B4 and desktop social UI remain unimplemented.
+
+Actual new coverage: `tests/test_social_physical_slice.py` has **22 passed** (4.58 seconds, exit 0), including the source-checkout subprocess with real DPAPI trust and checkpoint publication, proof-bound owner isolation, new Goals affecting next-turn physical action, missing-key failure, contradicted/refused testimony, ancestor evidence reuse, branch-local continuation, Goal termination, stale generation and recovery freeze. This is focused verification, not a full-suite result.
+
+A wider 24-file focused run returned **360 passed, 2 failed in 48.55 seconds, exit 1**, without skips. Both failures are in `test_decision_cognition_snapshot.py` (Percept assertions for a direct unbound AgentTurn). An in-memory baseline probe using the exact pre-task AgentTurn source, verified against its preflight SHA-256, reproduced **4 passed, 2 failed in 0.13 seconds, exit 1** for that file. The tests were not changed or skipped; this pre-existing L1 fixture debt remains visible and blocks a claim of an entirely green wider run. No full suite was run for this task.
+
+The [roadmap debt table](DEVELOPMENT_ROADMAP.md#social-physical-vertical-slice-status) distinguishes this accepted narrow causal loop from pickup/containment physics, broader social comparison, historical policy attestation and visible desktop acceptance. [DATA_CONTRACTS](DATA_CONTRACTS.md#social-experience-v1-and-goal-creation) records exact persistence and compatibility limits.
+
+
+## Owner specific social response acceptance
+
+The earlier DecisionContext fixture debt is closed by supported history assembly, not by relaxing L1. Before modification the target file produced **4 passed, 2 failed in 0.27s, exit 1**. Its real EventProcessor now creates the event, processing evidence and authorized Observation; SimulationRuntime binds the AgentTurn history context. All original isolation, contents and recursive-immutability assertions remain, adapted to the actual typed fact/Observation identity. A separate new negative test verifies that a direct unbound turn defers a genuine Observation without a Percept, WorkingMemory entry or consumption receipt. The corrected file produced **7 passed in 0.21s, exit 0**.
+
+The optional contrasting-receivers mode uses saved per-owner Personality preferences and the existing SocialExperience/v1/Goal/Resolution chain. It also fixes the room-host sender/receiver same-tick ordering assumption; there is no global scheduler change, forced speech or automatic delivery retry. Supported comparison does not force a Goal, insufficient independent evidence does not become contradiction, and an available-but-deferred comparison remains awaiting_review. No new persisted type, historical interpretation, signature purpose or B4 implementation was introduced.
+
+The previous section's wider-run failures are historical results, superseded for this fixture by this task's corrected tests. Visible Qt, real-model semantic quality, generalized trust and non-rational classification remain unverified/unimplemented. See [scope](SOCIAL_CAUSAL_DESIGN.md#owner-specific-social-response-slice) and [remaining debt](DEVELOPMENT_ROADMAP.md#owner-specific-social-response-status).
+
+Actual verification for this increment: the 26-file focused group (social perspective/physical room, DecisionContext/AgentTurn/L1 history, Goal/cognitive governance, Memory, B1/B2, save/reconstruction and write fences) completed **393 passed in 52.50s, exit 0, no skips**. The earlier intermediate group completed 392 passed; the final group additionally includes the new content-identity collision test. No full suite was run. A genuine Windows source-checkout subprocess ran the contrasting-receivers mode, used DPAPI trust and published its checkpoint. Restore/fork behavior was exercised through real SaveManager, ColdRuntimePublisher and RestoreCoordinator components; this is not visible Qt acceptance or real-model semantic acceptance.
+
+
+## Consumed result Goal completion acceptance
+
+The opt-in social-room slice now completes newly configured Goals from their own signed, formally committed successful action result only after actual owner L1 consumption. It uses existing GoalUpdateProposal governance and Runtime fencing; active-only candidate/scheduler input prevents a completed objective from driving the same action again. Existing Goals without a condition keep their meaning. A condition is versioned metadata in the existing Goal encoding, not a new Store, snapshot envelope, signature purpose or B4 implementation.
+
+The first new regression failed on the pre-change behavior (Goal remained active after consumption). Integration then exposed the scheduler's assumption that all Goal source references must still be in the current view; terminal Goals are now excluded from actionable scheduler input while active Goal authorization remains checked. Final focused verification ran 18 files: **333 passed in 59.56s, exit 0, no skips**. This covers Goal/AgentTurn/social room, scheduler, B1/B2, ordinary L1 history, signed persistence/crash/fork, write fences and snapshots. A subsequently added exact other-Goal binding regression was included in the new file's final run: **17 passed in 3.99s, exit 0**. No full suite or visible desktop acceptance was run. The existing source-checkout CLI subprocess tests exercised actual DPAPI signing and checkpoint publication with the extra bounded completion round.
+
+Completed parent checkpoints retain status and condition in child/sibling restores without re-signing ancestor Events or L1 proofs; child-only completion leaves the active parent and sibling unchanged. An uncertain post-write error freezes checkpoint capture and does not repeat the committed door action. This is checkpoint durability, not an uncheckpointed crash-recovery guarantee.
+
+Remaining concrete limitation: the existing B1 failure verifier rejects a qualified `object:ID` target against raw environment IDs in the missing-key scenario before formal commitment. This increment does not change historical B1 interpretation; a real supported bare-address failure and the qualified-address noncommit are separately asserted. General planning and recovery of missing pre-completion consumption remain unsupported. See [scope](ARCHITECTURE.md#consumed-result-goal-completion-slice) and [remaining debt](DEVELOPMENT_ROADMAP.md#owner-specific-social-response-status).

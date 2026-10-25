@@ -125,6 +125,7 @@ class SituationGoal:
     motivation_score: float
     blocked: bool
     source_refs: tuple[str, ...] = ()
+    status: str = "active"
 
 
 @dataclass(frozen=True)
@@ -457,7 +458,7 @@ class DeterministicSituationAssessmentPolicy:
             goals.append(SituationGoal(
             goal.goal_id, _text(goal.description[:MAX_TEXT_CHARS]), priority,
                 float(score_by_goal.get(goal.goal_id, priority)), goal.goal_id in blocked,
-                tuple(goal.source_refs),
+                tuple(goal.source_refs), goal.status,
             ))
 
         emotion = context.emotion

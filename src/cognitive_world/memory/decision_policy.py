@@ -246,6 +246,9 @@ def _bounded_json(value: object) -> str:
             if any(not isinstance(key, str) for key in item):
                 raise TypeError("Memory policy mappings require string keys")
             return {key: check(child, depth + 1) for key, child in item.items()}
+        from cognitive_world.memory.social_experience import SocialExperience
+        if type(item) is SocialExperience:
+            return check(item.policy_value(), depth + 1)
         raise TypeError("Memory policy input contains an unsupported value")
 
     encoded = json.dumps(check(value), ensure_ascii=False, sort_keys=True,

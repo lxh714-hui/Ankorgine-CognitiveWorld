@@ -292,3 +292,16 @@ def test_same_objective_for_two_owners_has_separate_lifecycle_records():
     assert left[0].finding_id != right[0].finding_id
     assert scheduler.current_for("agent-a", 1)[0].owner_id == "agent-a"
     assert scheduler.current_for("agent-b", 1)[0].owner_id == "agent-b"
+
+
+def test_completed_goals_are_history_not_actionable_scheduler_authority():
+    completed = SituationGoal("goal-a", "completed objective", .8, .8, False,
+                              source_refs=("historical-result-not-in-current-view",), status="completed")
+    scheduler = ConflictOpportunityScheduler()
+    situation = _situation(goals=(completed,))
+    assert scheduler.discover(situation, (), simulation_tick=1) == ()
+    with pytest.raises(PermissionError):
+        scheduler.discover(situation, (_candidate(),), simulation_tick=1)
+    # Active Goal evidence checks remain unchanged.
+    with pytest.raises(PermissionError, match="Goal source reference"):
+        scheduler.discover(replace(situation, goals=(replace(completed, status="active"),)), (), simulation_tick=1)

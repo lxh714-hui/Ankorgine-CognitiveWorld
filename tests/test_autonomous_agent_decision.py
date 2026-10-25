@@ -264,7 +264,7 @@ def test_agent_turn_limits_model_target_to_owner_observed_refs():
             }]})
 
     provider = TargetProvider("room-a")
-    proposal = AgentTurn().execute(
+    proposal = _bound_turn(runtime_context.event_history).execute(
         agent, cognition_context,
         AgentDecision(candidate_policy=ModelAssistedCandidatePolicy(provider)),
     )
@@ -278,7 +278,7 @@ def test_agent_turn_limits_model_target_to_owner_observed_refs():
 
     forged = TargetProvider("room-hidden")
     with pytest.raises(PermissionError, match="target is not present"):
-        AgentTurn().execute(
+        _bound_turn(runtime_context.event_history).execute(
             agent, cognition_context,
             AgentDecision(candidate_policy=ModelAssistedCandidatePolicy(forged)),
         )
@@ -455,10 +455,10 @@ def test_real_event_observation_to_personalized_decision_and_unresolved_resoluti
             goal_drive_weights=(("protect", 1.0), ("investigate", 1.0)),
         ),
     )
-    first_proposal = AgentTurn().execute(
+    first_proposal = _bound_turn(runtime_context.event_history).execute(
         first_agent, first_context, AgentDecision(), simulation_tick=runtime_context.clock.capture()
     )
-    second_proposal = AgentTurn().execute(
+    second_proposal = _bound_turn(runtime_context.event_history).execute(
         second_agent, second_context, AgentDecision(), simulation_tick=runtime_context.clock.capture()
     )
     assert first_context.get_emotion().levels["resolve"] == pytest.approx(1.0)
@@ -505,3 +505,9 @@ def test_real_event_observation_to_personalized_decision_and_unresolved_resoluti
     assert len(visible.messages) == 1
     assert "score" not in visible.messages[0].content.casefold()
     assert "emotion" not in visible.messages[0].content.casefold()
+
+
+def _bound_turn(history):
+    turn = AgentTurn()
+    turn.cognitive_runtime._bind_observation_history(history)
+    return turn

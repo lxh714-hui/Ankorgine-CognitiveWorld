@@ -21,6 +21,8 @@ class MemoryPersistence:
     event_history: EventHistory
     write_fence: RuntimeWriteFence | None = None
     memory_revision_lineage: MemoryRevisionLineage | None = None
+    persistence_trust: object | None = None
+    simulation_clock: object | None = None
 
     def __post_init__(self) -> None:
         if self.write_fence is not None:
@@ -62,6 +64,10 @@ class MemoryPersistence:
                 verified_history = fence._verify_complete_event_history(self.event_history)
 
             proposal = request.validate_authorization()
+            from cognitive_world.memory.social_experience import SocialExperience
+            if (request.memory_type.startswith("attributed_social_experience")
+                    or type(request.content) is SocialExperience) and request.schema_version != 2:
+                raise PermissionError("social experience cannot use legacy Memory writes")
             if request.memory_type.startswith(("system_l1_", "system_action_")):
                 raise PermissionError("ordinary Memory decisions cannot create system L1 proofs")
             if proposal.source_event_id != request.source_event_id:
@@ -92,6 +98,16 @@ class MemoryPersistence:
                     supersedes_record_id=request.supersedes_record_id,
                 )
                 request.validate_formal_memory(memory)
+                from cognitive_world.memory.social_experience import (
+                    SOCIAL_MEMORY_TYPE, SocialExperience, verify_experience,
+                )
+                if memory.type.startswith("attributed_social_experience") or type(memory.content) is SocialExperience:
+                    if (memory.type != SOCIAL_MEMORY_TYPE or self.persistence_trust is None
+                            or self.simulation_clock is None):
+                        raise PermissionError("social Memory requires its exact supported verification context")
+                    verify_experience(memory, records={m.id: m for m in self.memory_store.get_all_memories()},
+                        history=self.event_history, trust=self.persistence_trust,
+                        timeline_id=self.event_history.timeline_id, tick=self.simulation_clock.current_time)
                 self.memory_store._commit_memory(
                     memory, authorization=request,
                     persistence_authority=_MEMORY_PERSISTENCE_AUTHORITY,

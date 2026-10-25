@@ -2,10 +2,12 @@
 
 The processor commits one world batch; cognition/registry provisioning then
 finishes before an instance becomes AVAILABLE. Cross-authority work is not a
-durable distributed transaction: failures after the world commit stay pending.
+durable distributed transaction: pre-ready provisioning failures stay pending.
+Committed ready state survives delivery failure; no retry is automatic.
 """
 from __future__ import annotations
 
+from contextlib import nullcontext
 from copy import deepcopy
 from dataclasses import dataclass, replace
 from hashlib import sha256
@@ -42,6 +44,23 @@ class ContentInstallationRecord:
     source_refs: tuple[tuple[str, str], ...] = ()
 
     def __post_init__(self) -> None:
+        if any(not isinstance(value, str) or not value or len(value) > 160
+               for value in (self.world_id, self.instance_id, self.template_id, self.source_id)):
+            raise ValueError("installation identities must be bounded non-empty strings")
+        if type(self.installation_tick) is not int or self.installation_tick < 0:
+            raise ValueError("installation tick must be non-negative")
+        if self.status not in {"world_installed", "ready"}:
+            raise ValueError("unsupported installation status")
+        if self.installation_event_id != f"runtime-content:{self.world_id}:{self.instance_id}":
+            raise ValueError("installation Event identity mismatch")
+        expected_completion = (None if self.status == "world_installed" else
+                               f"runtime-content-ready:{self.world_id}:{self.instance_id}")
+        if self.completion_event_id != expected_completion:
+            raise ValueError("completion Event identity mismatch")
+        if self.proposal_digest is not None and (not isinstance(self.proposal_digest, str)
+                or len(self.proposal_digest) != 64
+                or any(char not in "0123456789abcdef" for char in self.proposal_digest)):
+            raise ValueError("invalid installation proposal digest")
         if not isinstance(self.source_refs, tuple) or len(self.source_refs) > 16:
             raise ValueError("installation source references exceed their bound")
         if any(type(item) is not tuple or len(item) != 2 or
@@ -62,6 +81,24 @@ class WorldContentBatch:
     environment: tuple[tuple[str, DoorState | PassageState], ...]
     record_key: str
     record: ContentInstallationRecord
+
+    def __post_init__(self) -> None:
+        if (type(self.record) is not ContentInstallationRecord
+                or self.record.status != "world_installed"
+                or self.record_key != installation_record_key(self.record.world_id, self.record.instance_id)
+                or type(self.entities) is not tuple or any(type(item) is not Entity for item in self.entities)
+                or type(self.locations) is not tuple or type(self.environment) is not tuple):
+            raise TypeError("invalid typed installation batch")
+        if any(type(pair) is not tuple or len(pair) != 2
+               or any(not isinstance(value, str) or not value for value in pair) for pair in self.locations):
+            raise TypeError("invalid installation locations")
+        for pair in self.environment:
+            if (type(pair) is not tuple or len(pair) != 2 or not isinstance(pair[0], str)
+                    or type(pair[1]) not in (DoorState, PassageState)):
+                raise TypeError("invalid installation environment")
+            identity = pair[1].door_id if type(pair[1]) is DoorState else pair[1].passage_id
+            if pair[0] != identity:
+                raise ValueError("installation mechanism identity mismatch")
 
 
 class _RuntimeContentHandler(EventHandler):
@@ -201,17 +238,29 @@ class RuntimeContentInstaller:
             event_type="runtime_content_ready", timestamp="", simulation_tick=clock.capture().tick,
             changes=[{"world_id": world_id, "instance_id": instance_id,
                       "template_id": template_id}])
-        # Registration is deliberately last before the ready marker. Should
-        # finalization fail, remove these new Agents so a pending installation
-        # cannot be scheduled as a normal NPC by the autonomous Runner.
-        try:
-            for agent in plan.agents:
-                self.agents.register(agent)
-            self._dispatch(ready_event, (record_key, ready, plan.state))
-        except Exception:
-            for agent in plan.agents:
-                self.agents.remove(agent.agent_id)
-            raise
+        # Use the same lock order as checkpoint capture: fence, then registry.
+        # Other threads cannot enumerate/schedule a partially registered batch.
+        scope = nullcontext() if self.processor.write_fence is None else self.processor.write_fence.commit_scope()
+        with scope, self.agents.snapshot_scope():
+            owned = []
+            try:
+                for agent in plan.agents:
+                    if self.agents.get(agent.agent_id) is not None:
+                        raise ValueError("Agent identity was claimed after installation preparation")
+                    owned.append(agent)
+                    self.agents.register(agent)
+                self._dispatch(ready_event, (record_key, ready, plan.state))
+            except Exception:
+                # A dispatch exception can follow a committed ready Event.
+                # Only a proven pre-ready failure permits ownership-scoped cleanup.
+                committed = self.context.event_history.get_event(ready_event.id)
+                not_committed = (committed is None or
+                                 committed._source_snapshot() != ready_event._source_snapshot())
+                if not_committed and world.facts.get(record_key) == record:
+                    for agent in owned:
+                        if self.agents.get(agent.agent_id) == agent:
+                            self.agents.remove(agent.agent_id)
+                raise
         return plan.instance
 
     def _dispatch(self, event: Event, payload: object) -> None:

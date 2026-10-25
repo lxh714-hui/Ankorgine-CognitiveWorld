@@ -313,6 +313,7 @@ def _issue_processing_evidence(
     observer_positions: tuple[tuple[str, str | None, tuple[str, ...] | None], ...] = (),
     environment_conditions: tuple[tuple[str, FactValue], ...] | None = None,
     environment_snapshot_complete: bool = False,
+    observer_state_phase: EventStatePhase = EventStatePhase.BEFORE_WORLD_UPDATE,
 ) -> EventProcessingEvidence:
     """Private EventProcessor issuance boundary; not a public auth API."""
     if not isinstance(event, Event) or not event.has_trusted_source():
@@ -349,6 +350,7 @@ def _issue_processing_evidence(
         simulation_time=simulation_time,
         fact_location_id=fact_location,
         observer_positions=observer_positions,
+        observer_state_phase=observer_state_phase,
     )
     object.__setattr__(
         context,

@@ -125,6 +125,10 @@ class StepwisePlanExecutor:
         self.action_resolution_flow.world_state = self.world_state
         self.action_resolution_flow.event_history = self.event_processor.event_history
         self.event_processor.world_state = self.world_state
+        if self.cognitive_runtime is not None:
+            self.cognitive_runtime._bind_observation_history(
+                self.event_processor.event_history, codec=self.event_processor.persistence_codec,
+                trust=self.event_processor.persistence_trust)
         if not isinstance(self.safety_governance, UniversalSafetyGovernance):
             raise RuntimeError("StepwisePlanExecutor has no valid safety governance")
         self.safety_governance.bind_world_state(self.world_state)
@@ -275,24 +279,17 @@ class StepwisePlanExecutor:
                 raise PermissionError("the previous step must be observed through the trusted perception path")
             if self.cognitive_runtime is None:
                 raise PermissionError("continuing a plan requires the Runtime's CognitiveRuntime")
+            state = self.cognitive_runtime.process(proposal.agent_id, observations)
+            eligible_ids = {
+                item["observation_id"] for item in state.metadata["l1_ingestion"]["items"]
+                if item["history"] == "eligible"
+            }
             consumed = any(
-                self.cognitive_runtime.has_consumed_observation(
-                    proposal.agent_id,
-                    item,
-                    source_event_id=progress.last_event_id,
-                )
+                item.observation_id in eligible_ids
+                and self.cognitive_runtime.has_consumed_observation(
+                    proposal.agent_id, item, source_event_id=progress.last_event_id)
                 for item in prior_observations
             )
-            if not consumed:
-                self.cognitive_runtime.process(proposal.agent_id, observations)
-                consumed = any(
-                    self.cognitive_runtime.has_consumed_observation(
-                        proposal.agent_id,
-                        item,
-                        source_event_id=progress.last_event_id,
-                    )
-                    for item in prior_observations
-                )
             if not consumed:
                 raise PermissionError("the prior step Observation was not consumed by L1 Perception")
         index = progress.next_step_index

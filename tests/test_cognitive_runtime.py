@@ -13,19 +13,24 @@ from cognitive_world.observation.observation import Observation
 from tests._trusted_observation_support import make_trusted_observation
 
 
-def test_observations_produce_cognition_state_and_percepts():
+def _real_input(owner, request_id):
+    from test_dialogue_runtime import make_dialogue
+    from cognitive_world.dialogue.runtime import DialogueRequest
+    service, _, processor, store, _, _ = make_dialogue(listener_id=owner)
+    service.submit(DialogueRequest(request_id, owner, "A received statement"))
+    observation, = store.get_by_observer(owner)
     runtime = CognitiveRuntime()
-    observation = make_trusted_observation(
-        "observation-1",
-        "agent-1",
-        "event-1",
-        {"seen": ["a change"]},
-    )
+    runtime._bind_observation_history(processor.event_history)
+    return runtime, observation
+
+
+def test_observations_produce_cognition_state_and_percepts():
+    runtime, observation = _real_input("agent-1", "event-1")
 
     state = runtime.process("agent-1", [observation])
 
     assert state.agent_id == "agent-1"
-    assert state.percept_ids == ["percept:observation-1"]
+    assert state.percept_ids == ["percept:" + observation.observation_id]
     assert runtime.working_memory_store.get("agent-1").percept_ids == state.percept_ids
 
 
@@ -37,7 +42,7 @@ def test_manual_or_other_agents_observations_are_not_ingested():
     state = runtime.process("agent-1", [manual, other])
 
     assert state.percept_ids == []
-    assert runtime.working_memory_store.get("agent-1").percept_ids == []
+    assert runtime.working_memory_store.get("agent-1") is None
 
 
 def test_existing_belief_and_goal_references_are_included():
@@ -74,18 +79,19 @@ def test_working_memory_is_updated_without_changing_existing_focus():
             context={"stage": "current"},
         )
     )
-    runtime = CognitiveRuntime(working_memory_store=working_memories)
+    runtime, observation = _real_input("agent-1", "event-2")
+    runtime.working_memory_store = working_memories
 
     state = runtime.process(
         "agent-1",
-        [make_trusted_observation("observation-2", "agent-1", "event-2", "new input")],
+        [observation],
     )
 
     assert working_memories.get("agent-1").percept_ids == [
         "percept:earlier",
-        "percept:observation-2",
+        "percept:" + observation.observation_id,
     ]
-    assert state.percept_ids == ["percept:observation-2"]
+    assert state.percept_ids == ["percept:" + observation.observation_id]
     assert state.focus == {"topic": ["existing"]}
 
 

@@ -100,6 +100,48 @@ Resolution
 Event
 ```
 
+### Natural-Language-Driven World Interaction (approved architectural requirement)
+
+Natural language is the player's primary interaction interface. Translating player intent into valid world interactions and communicating outcomes through evidence-grounded narrative is an architectural requirement, not an optional UX enhancement. The action-oriented diagram above is one branch, not a requirement that every question or observation create an Attempt or Event.
+
+- **Intent over command syntax:** players express goals, observations, questions and actions naturally. They need not understand internal APIs, LOD parameters, scheduling policy or simulation implementation.
+- **Context-sensitive interpretation:** proceed when intent is sufficiently clear, using only authorized context to resolve minor ambiguity. Clarify when remaining ambiguity could materially change the target, action or consequences. Lower interaction friction never permits unsupported target substitution or bypassing the existing clarification identity and validity checks.
+- **Evidence-grounded execution:** interpretation may propose actions, request computations and organize feedback, but cannot establish world facts, authorize disclosure or bypass applicable authoritative validation and Event processing.
+- **Experience-oriented fidelity adaptation:** the target design selects suitable computational fidelity from player intent and interaction requirements. Players request what to perceive or accomplish, not a compute level. This preserves the independent cognitive, perceptual and physical-computation axes; it does not claim an implemented shared coordinator. Higher fidelity grants neither more information permissions nor guaranteed discoveries.
+- **Truthful, informative feedback:** distinguish attempted actions, accepted requests/actions, authoritative world changes, observed information, uncertainty and unresolved results. Acceptance is not success; proposals, inferences and unverified outputs cannot be narrated as established facts. Keep confirmed facts and non-fact clarification/fallback feedback within their existing separate Presentation contracts.
+- **Player agency and optional narrative opportunities:** environmental cues, character behavior and discovered evidence may draw attention to consequential opportunities without forcing a predetermined route. Optional opportunities may genuinely be missed when the player does not pursue them; that does not license omission of required authoritative causal consequences or rewriting established history.
+- **Separation of interpretation and authority:** LLM interpretation remains separate from WorldState, owner cognition, causal validation, information authorization and EventProcessor. Interaction coordinates those capabilities; narrative representation and Presentation do not replace them.
+
+The conceptual responsibility flow is:
+
+```text
+Player intent -> contextual interpretation -> authorized computation/action proposals
+ -> authoritative validation and execution where applicable
+ -> evidence-grounded narrative feedback
+```
+
+This is not an API, schema or assertion of a complete production pipeline. The bounded installed player path remains as described in the system-structure section below and [DATA_CONTRACTS.md](DATA_CONTRACTS.md). General questions, goal-level orchestration, modality computation and intent-driven fidelity selection are not made executable by this principle. Narrative Intelligence suggests possibilities rather than forced outcomes; [hybrid Lazy World Expansion](#hybrid-lazy-world-expansion-selected-direction-acceptance-boundary-unresolved) retains its unresolved structure-acceptance boundary. Inspect existing production entry points before extending them; preserve WorldState, cognition, narrative and Presentation separation.
+
+#### Contextual interaction and bounded autonomous investigation (design consensus; not implemented as a general workflow)
+
+Free text remains available for arbitrary player intentions; displayed choices never define the complete set of permitted expressions or guarantee that every expression is executable. Clickable narrative objects, contextual shortcuts and action suggestions are complementary inputs that reduce typing. They must converge on the existing interpretation/proposal, decision and applicable Resolution/EventProcessor boundaries, rather than a parallel UI execution authority. A click establishes neither a world fact nor operation permission. A broad goal does not authorize major or irreversible actions by implication.
+
+**Default object click: express attention/observation intent -> use the minimum justified supported adjustment, if any -> observe -> return evidence-grounded feedback.** It is not an unconditional turn command, automatic investigation, pickup, opening or attack. If the target is adequately observable, do not reorient unnecessarily; a small gaze adjustment must not silently become a head/body turn. Where orientation, position and observation mechanisms exist, use them without inventing unsupported geometry; a UI highlight cannot turn or move an actor. If stronger reorientation or approach is required but not implied by the input, retain the distinction between requesting observation and authorizing that additional action. If a target is invisible, unreachable, unmaterialized or insufficiently evidenced, apply existing denial/limited-feedback rules or a separately authorized expansion path, without promising discovery or creating structure from the click. Subsequent explicit text may ask to inspect a lock, listen behind a wall or attempt opening; those examples approve no new mechanism.
+
+**Manner-sensitive observation:** preserve peripheral glance (no automatic formal body turn), brief glance (minimum gaze/attention adjustment), looking toward (attention and necessary gaze/head adjustment), explicit head turn, explicit body turn, close inspection (possibly more time/position/detail), and discreet peeking/watching (intended limited exposure where supported). These are semantic distinctions, not newly installed action classes. Conceptually separate attention, gaze, head orientation, body orientation, position/approach and perceptual computation. They may differ in duration, conspicuousness, exposure and causal effects; choose no stronger action than the expressed intent justifies. Unsupported mechanics remain explicitly unsupported, not silently substituted.
+
+Observation manner may request different perceptual effort: a peripheral glance can support coarse information, while sustained inspection can request more detail under available evidence/mechanisms. It grants no access, identification or discovery guarantee. Missing geometry/history/lighting stays unresolved; do not upgrade manner merely to obtain richer output or expose internal LOD controls. Discreet observation is not automatically undetectable, and overt observation is not automatically noticed: other characters' perception, inference and responses require their supported rules, capabilities, environment and authorized evidence. Text, clicks and shortcuts preserve these same distinctions and applicable execution boundaries.
+
+An interaction entry must be grounded in the player's current permitted context. Clickability does not prove that the character discovered, understood or may operate the referenced object. Coarser presentation may offer a scene, direction, salient object or observation entry; finer presentation may expose more specific objects/details only when supported computation, evidence and authorization permit. Unknown stays unknown. Highlighting, feedback and object lists must not enumerate the latent world or treat an LOD upgrade as an information grant. These examples are presentation granularity, not fixed levels or new DTO/schema fields. Cognitive, perceptual and physical-computation LOD retain separate responsibilities.
+
+**Long-lived goals are not unlimited execution permission.** The design permits low-risk, reversible investigation while the player temporarily does not intervene, but each autonomous round must have a strict bound. A prototype may experiment with 2–3 consecutive steps; that is not an architecture constant or an approved default. Every round reports meaningful evidence-backed progress and returns continuation control to the player; it must not automatically renew itself indefinitely. Pause early for a major clue, contradiction, increasing risk, a permission boundary, irreversible choice, insufficient evidence or goal completion. The player must be able to interrupt, redirect, pause or abandon investigation. Each new action re-evaluates current state, evidence, feasibility and constraints; low risk alone is not authorization. Later opportunities are new work, not restoration/retry of old actions. Interruption respects existing non-cancellable commit/recovery boundaries and does not undo committed facts.
+
+Cross-scene/time goal continuity is a product requirement, not a new durable task, Goal-write or resume contract. Current bounded Agent turns and caller-driven stepwise execution are partial foundations; they do not implement this player-goal investigation workflow. Action counts, risk criteria, pause triggers, continuation/interrupt semantics and any required persistence remain separately reviewable decisions. No general executor or automated player Agent is approved here.
+
+The [hybrid Lazy World Expansion direction](#hybrid-lazy-world-expansion-selected-direction-acceptance-boundary-unresolved) remains authoritative: prefer minimal runnable structure for the present need and add detail on demand, while allowing complete generation for special scenarios. A known object need not have materialized internals; a new goal cannot create facts satisfying the player's wishes. Seeds, hints, clues and authored content retain their own provenance and explicitly approved effect. Causal use, dependencies and potential downstream effects distinguish derived artifacts from accepted structure; current apparent irrelevance alone does not make accepted detail disposable. Initial acceptance versus materialization versus later formal change remain distinct, and structure acceptance authority is still unresolved. Narrative cues can lead toward consequential possibilities, but optional opportunities may be genuinely missed; do not force a return to a planned plot or omit required authoritative consequences.
+
+Narrative is not world truth; intent is not execution; a clickable entry is not authorization; Observation is not automatic Belief; candidate structure is not accepted structure. LOD is not disclosure authority, and goal persistence is not an action budget. Existing Safety, decision, Resolution, EventProcessor, owner cognition, Timeline, generation and recovery checks apply to all input forms. This consensus freezes no API, schema, coordinator or lifecycle and claims no production implementation.
+
 ## 1.4 Memory Is Not Chat History
 
 The system separates:
@@ -390,6 +432,8 @@ Observation does not modify WorldState or create facts. It is the only entry poi
 
 The Phase 12.0c-2 ingestion boundary is fail-closed: a manually constructed Observation or a record merely retrieved from ObservationStore is not trusted input. `CognitiveEvolutionEngine` validates source provenance and unchanged payload before forming event-driven proposals; `CognitiveRuntime` and the lower-level `PerceptionProcessor` validate provenance and observer ownership before forming Percepts. ObservationStore remains copy-isolated storage, not an authorization authority. Phase 12.0c-3 adds immutable `ObservableFact` and `EventTimeObservationContext` contracts. EventHandler defaults to producing no facts; EventProcessor issues event-bound facts only from explicit typed drafts after the trusted Event has been successfully applied, and EventHistory stores the associated evidence without authenticating it. Phase 12.0c-4 adds a narrow production path for a controlled room-light state transition. SimulationRuntime supplies the simulation clock and registered Agent identities; EventProcessor applies the update and captures registered observers' WorldState positions and typed sensory capabilities at the same synchronous post-update event boundary, with relevant environment conditions from that state. The Event timestamp is retained as descriptive source data and is not used as the simulation clock. A default-deny VisibilityPolicy issues a signed Observation only for a registered observer with known sight capability at the event location, when the resulting room state confirms the light is on. The Observation contains only the typed ObservableFact, never Event metadata. The legacy `process()` return remains `None`; `process_with_evidence()` remains available. EventTimeObservationContext labels its captured state as post-update. The in-process receipts guard ordinary misuse only; they are not a security boundary against malicious same-process code.
 
+Ordinary L1 now qualifies each Observation against an assembly-bound canonical EventHistory before Percept construction. Persistent runtimes verify the signed lineage and inherited prefix; an authoritative live in-memory history may instead establish current-process Event/evidence membership without claiming durable authenticity. Exact Event, processor evidence, fact and issuance-context bindings are checked through the existing observation policy. The issuer-bound Timeline and generation describe delivery, not original Event ownership or current action permission. Unproved ancestry, unavailable history or recovery-required history defers ingestion; a proven nonmember is ineligible. Neither case adds Percepts or receipts or changes the affected WorkingMemory. Mixed batches retain independently eligible work. A direct compatibility call without bound history now reports deferred qualification rather than silently ingesting. This is ordinary transient cognition, not B2 proof issuance or a new action authorization. See [the ordinary L1 result contract](DATA_CONTRACTS.md#ordinary-l1-per-observation-history-qualification).
+
 Phase 12.0c-R adds narrow in-process reliability markers to the existing EventHistory. EventProcessor reserves an Event ID before handler work, marks entry into the WorldState update boundary, then records the Event and evidence before Observation delivery. A repeated Event with matching source content reuses recorded evidence and never invokes the handler or applies its WorldUpdate again. A failure before WorldState application releases the reservation and can be retried; once application begins, failures are marked `RECOVERY_REQUIRED` and automatic replay is denied because WorldState has no rollback or durable transaction support. Observation delivery is marked pending before saves; retry reuses EventHistory evidence and regenerates the same observer/fact-scoped Observation IDs, so it does not reapply the Event. ObservationStore overwrites the same ID, making a repeated save idempotent for this path. These markers are process-local and do not provide crash recovery, durable atomicity, or cross-process coordination.
 
 `CognitiveRuntime` now keeps WorkingMemory percept references unique by stable `percept:{observation_id}` identity. Re-consuming the same Observation is a no-op for stored percept references; distinct Observation IDs remain distinct even when text/content matches, and Agent memories remain owner-scoped. CognitiveEvolutionEngine continues to produce proposals only; Belief/Goal writes still require the existing validator/applier, including stale-value checks. This does not make arbitrary external proposal application globally exactly-once.
@@ -643,6 +687,23 @@ Current world status, including:
 ### WorldState Authority
 
 WorldState is the authoritative source for the current world state.
+
+#### Entity identity continuity and epistemic disagreement (approved architectural principle)
+
+An entity's actual identity is determined by the authoritative world model and valid evidence, independently of what a player currently observes, a UI target reference or narrative wording. Within supported world state and mechanisms, preserve identity and state continuity: changing LOD, leaving sight/the current scene, or reappearing must not itself reconstruct or change identity. Do not merge or split entities merely to simplify target tracking, UI display or plot continuity. Legitimate identity/state changes still require their applicable world mechanisms and authority; this principle adds no new transition or persistence guarantee.
+
+Keep **authoritative entity identity**, **the observation target a player/NPC is currently tracking**, and **an evidence-based identity judgment** distinct. Reusing one observation target establishes interaction continuity only; it is not independent proof of who or what that target really is. More detailed observation may reveal identity clues, but a low-fidelity hypothesis must not silently become a confirmed fact. This principle does not require a separate target tracker or change the current canonical reference mapping.
+
+Players and NPCs can misidentify an object through incomplete evidence, observational error or mistaken inference; NPCs can deliberately deceive. CPU validation maintains only what authoritative state and valid evidence establish. Where an identity association is unsupported, retain unknown/unresolved rather than selecting an explanation, writing the player's interpretation into world truth, or revealing hidden truth to ensure the player understands correctly. This adds no implemented general misidentification, disguise or deception simulator.
+
+| Layer | Meaning and authority |
+|---|---|
+| World facts | State confirmed by the authoritative world model under applicable contracts |
+| Observation results | Limited evidence received through that subject's authorized observation path |
+| Character cognition | The NPC's owner-scoped judgments from its own information, experience and reasoning |
+| Player understanding | The player's interpretation of narrative, interactions and clues; not authoritative world state |
+
+These layers may disagree. Differences can shape later judgments, relationships, chosen actions and formal Events, providing real narrative causality through supported mechanisms. An Observation is not promoted to world truth by being received; an NPC Belief is not objective truth; player understanding is not WorldState. Cognition, relationship and world changes retain their separate evidence/governance, Resolution and EventProcessor boundaries where applicable. LOD and [hybrid Lazy World Expansion](#hybrid-lazy-world-expansion-selected-direction-acceptance-boundary-unresolved) must preserve accepted identities and commitments without granting knowledge or fabricating missing historical identity evidence. Neither this principle nor a narrative cue installs a new identity manager, schema or automatic cognitive revision.
 
 #### World Initialization
 
@@ -1108,6 +1169,20 @@ crash recovery, automatic/manual save policies, and dependency-safe data
 reclamation remain future work. Unsigned legacy EventHistory is not silently
 upgraded or restored as trusted.
 
+### Scheduled work responsibility (approved contract; no scheduling implementation change)
+
+A host-submitted `ScheduledEvent` contains an execution time and a constructed Event. Scheduling or enqueueing it is not formal commitment to EventHistory. The current architecture guarantees neither eventual execution of every item, automatic retry after budget exhaustion, nor survival across checkpoint restore. Queue membership must not be the sole guarantee that a necessary authoritative causal consequence will occur. This establishes no universal retry-or-discard policy and does not authorize arbitrary discard: each producer remains subject to its applicable approved contract; undefined producer responsibilities remain unresolved.
+
+A periodic Agent scheduling entry is an opportunity to decide under the applicable execution context, not a frozen action, ActionProposal or Attempt. A later `AutonomousWorldRunner` round creates a new opportunity rather than restoring an earlier one. Budget exhaustion carries no guarantee that every Agent receives an opportunity in every round, no automatic retry or fairness guarantee, and no new priority policy. A skipped opportunity must not be compensated by replaying an earlier action.
+
+`ScenarioSeedScheduler` records scheduling/deduplication state when it arranges a content-triggered wakeup. That state proves neither that Agent decision processing started nor that it completed. The current mechanism does not guarantee automatic compensation for a skipped wakeup. Reliable wakeup delivery would require a separately approved contract; this clarification introduces no compensation protocol, deduplication-key reopening or persistent pending-work mechanism.
+
+Committed-Event delivery retries remain separate from ScheduledEvent handling and Agent rescheduling. Their existing narrow checks for original request identity, committed Event evidence, current recipient/session authorization and other applicable requirements remain in force. Retrying delivery must not replay the committed world action. Existing arrival delivery may separately complete authorized local mechanism-observation Events; that does not repeat the original movement or broaden observation permissions.
+
+Budget exhaustion is not cancellation; cancellation is not invalidation. Truncating or terminating an opportunity is not safe deferral, which requires the applicable validity and context guarantees. Approximate computation is not permission to omit required authoritative processing. Confirmed Events, hard constraints and necessary causal consequences remain protected, and scheduling budgets cannot silently bypass that processing. Conversely, neither the ScheduledEvent type nor queue membership establishes that an item represents a mandatory consequence. No generalized task lifecycle, state machine, API or schema is defined here.
+
+The current SaveManager/RuntimeSnapshot contracts provide no general persistence of pending Runtime schedules. Reconstructing a new opportunity is distinct from restoring the identity and responsibility of an existing pending item. A specific recovery guarantee requires an explicitly approved contract; no pending-work journal, recovery queue or reconstruction protocol is added. See [existing recovery limits](DATA_CONTRACTS.md) and the [current scheduling limitations](REPOSITORY_STATUS.md#scheduled-work-responsibility-status-2026-10-25).
+
 ### Runtime write fencing (narrow in-process foundation)
 
 `SimulationRuntime` owns one `RuntimeWriteFence` for its process-local session.
@@ -1326,7 +1401,7 @@ Expansion
 
 ## Lazy Expansion
 
-The system does not generate all possibilities. Expansion happens only when relevant, nearby, important, or required by player interaction.
+The system does not generate all possibilities. Expansion happens only when relevant, nearby, important, or required by player interaction. This Event Tree exploration direction is distinct from [hybrid world-structure expansion](#hybrid-lazy-world-expansion-selected-direction-acceptance-boundary-unresolved); node pruning/deletion does not erase committed Events or accepted world structure.
 
 Event nodes support:
 
@@ -1547,7 +1622,7 @@ The three LOD axes are independently scheduled:
 
 A shared budget coordinator may account for total tick/time/compute limits and pass explicit per-axis budgets, but each axis retains its own policy, result, and upgrade reasons. Distance can inform perception and physical scheduling but is never the sole precision selector: proximity to collision, velocity, energy, constraint sensitivity, hazard, confidence interval, and consequence severity also matter. A high-impact or hard-constraint case requests an upgrade before adjudication. If the budget cannot satisfy it, the outcome is unresolved/deferred; lower precision cannot silently choose the favorable or less costly outcome. Confirmed Events and their required consequences are never dropped by an LOD downgrade.
 
-Canonical entity positions and orientations live in the authoritative world coordinate frame (initially a configured Cartesian 3D frame). A subject-centered local frame is a derived query projection: relative displacement is computed from canonical positions, and a polar/spherical form `(r, azimuth, elevation)` may be used for radial scheduling and presentation-facing spatial relations. A deterministic frame transform records origin, axes, handedness, units, and version. Changing the observing subject changes the projection origin and orientation; it never moves an entity. Multiple Agents may hold different local projections of the same world snapshot and tick. Simulation and collision use canonical coordinates or explicitly transformed values, never a cached projection whose origin can drift. Unknown/stale position stays unknown rather than being inferred from prose.
+Within an applicable geometric domain, canonical entity positions and orientations live in its authoritative coordinate frame (initially a configured Cartesian 3D frame); this does not require all potential world topology to share one global Euclidean embedding. A subject-centered local frame is a derived query projection: relative displacement is computed from canonical positions, and a polar/spherical form `(r, azimuth, elevation)` may be used for radial scheduling and presentation-facing spatial relations. A deterministic frame transform records origin, axes, handedness, units, and version. Changing the observing subject changes the projection origin and orientation; it never moves an entity. Multiple Agents may hold different local projections of the same world snapshot and tick. Simulation and collision use canonical coordinates or explicitly transformed values, never a cached projection whose origin can drift. Unknown/stale position stays unknown rather than being inferred from prose.
 
 For a horizontal slice of one canonical snapshot, subject and target positions `p_a=(x_a,y_a)` and `p_e=(x_e,y_e)`, and subject heading `phi_a`, the derived planar projection is `r=||p_e-p_a||` and `theta=wrap(atan2(y_e-y_a,x_e-x_a)-phi_a)`, with a declared normalization such as `[-pi,pi)`. Recompute it when the action subject changes; neither `r` nor `theta` is a second authoritative position. Height/elevation and full 3D constraints need their own applicable representation; planar distance alone cannot decide reachability or contact. Visual field of view is one perception condition, not a substitute for hearing, Memory or observation authorization. These equations specify an architectural projection, not a current transform API.
 
@@ -1560,6 +1635,80 @@ When low- and high-precision evaluations disagree, the low-precision result is a
 The current implementation does **not** provide canonical 3D position/orientation primitives, a general coordinate transform service, material/structure response models, generic collision/occlusion, continuous integration, three-axis LOD scheduling, an upgrade coordinator, or multi-body physical resolution. Current production adjudication remains the narrow door and known-passage slice described above. The approved implementation route is: (1) typed canonical 3D position/units plus pure coordinate transforms and round-trip/multi-observer tests; (2) deterministic spatial query and conservative collision candidate detection without writes; (3) one configured, bounded receiver-response model and collision Resolution proposal through EventProcessor; (4) independent per-axis budget contracts and deterministic upgrade/degrade rules; (5) optional simplified motion, only after replay determinism, state provenance, and save/restore contracts are established. Each phase must retain unresolved fallback outside supported model bounds.
 
 ---
+
+### Visual and auditory LOD mathematics (candidate models; uncalibrated)
+
+**Status:** the three independent LOD axes and authorization boundaries above remain approved principles. The equations below are candidate mathematical models and validation hypotheses, not calibrated probabilities, implemented propagation services, approved production classifiers, or frozen APIs/schemas. The broader meaning of simulation fidelity remains a maintainer terminology decision. Current visibility uses narrow event/location/sensory checks, not a general FOV/occlusion engine; no general acoustic propagation engine is installed. Observer sampling and historical payload preservation retain the existing [observation contract](DATA_CONTRACTS.md#18-phase-120c-shared-observable-facts-and-agent-perception-partial-120c-4-narrow-slice-implemented).
+
+#### Visual eligibility and quality
+
+Use one valid snapshot and coordinate frame: observer and target positions \(p_o,p_t\) in metres, \(r=\|p_t-p_o\|>0\), unit forward vector \(f\), and half-FOV angle \(\phi\in(0,\pi]\) in radians:
+
+\[
+\theta=\arccos\left(\operatorname{clip}\left[f\cdot\frac{p_t-p_o}{r},-1,1\right]\right),
+\qquad G_{\mathrm{FOV}}=\mathbf1[\theta\leq\phi].
+\]
+
+This is point-target geometric eligibility only. Extended targets require a target/frustum intersection rule. At zero distance direction is undefined: use an applicable near-field rule or return unsupported, never divide by zero. Geometry grants neither recognition nor disclosure authority.
+
+Let \(v\in[0,1]\) be the visible projected-area fraction. Missing reliable occlusion inputs mean unknown, not \(v=1\). For a planar target of transverse width \(s\), facing the observer, with \(s\ge0\) and \(r>0\) in the same length unit, its angular width in radians is
+
+\[
+\alpha=2\arctan\frac{s}{2r}.
+\]
+
+This geometry is not universal for arbitrary shapes. A candidate task-specific quality proxy is
+
+\[
+Q_k=G_{\mathrm{FOV}}\,v\,
+\frac{\alpha^{n_k}}{\alpha^{n_k}+a_k^{n_k}}\,h_k(C,L).
+\]
+
+Here \(k\) distinguishes detection, shape recognition and detail recognition; \(a_k>0\) is an angular scale in radians, \(n_k>0\) is dimensionless, \(C\) is explicitly defined dimensionless contrast, \(L\) is luminance in cd/m², and \(h_k\in[0,1]\) is a separately calibrated contrast/illumination response. With other inputs fixed inside model bounds, quality is nondecreasing in angular size and visible fraction; complete occlusion gives zero. Each task needs its own calibration. \(Q_k\) is not a probability without experimental calibration. Illumination response need not increase indefinitely: glare and adaptation may matter. Inverse-square intensity attenuation is not a general visual-recognition law.
+
+Computational fidelity may change query density, occlusion approximation or detail cost, not target geometry, physical illumination or information rights. Low-cost results require declared validity/error bounds and escalation conditions; missing historical geometry, unknown occlusion and computation failure cannot become full visibility.
+
+#### Auditory propagation and detection
+
+For a steady isotropic point source in a uniform lossless free field, outside the source/near-field region and within the declared model range,
+
+\[
+I(r)=\frac{W}{4\pi r^2},
+\qquad
+L_I=10\log_{10}(I/I_0),
+\qquad
+L_p=20\log_{10}(p_{\mathrm{rms}}/p_0).
+\]
+
+\(W\) is sound power in watts, \(I\) intensity in W/m², \(r>0\) distance in metres, and \(p_{\mathrm{rms}}\) RMS pressure in Pa. Common airborne references are \(I_0=10^{-12}\,\mathrm{W/m^2}\) and \(p_0=20\,\mu\mathrm{Pa}\). Pressure and intensity levels are distinct; relating them additionally requires the appropriate medium/wave assumptions, such as \(I=p_{\mathrm{rms}}^2/(\rho c)\) for a suitable progressive-wave approximation, with density \(\rho\) in kg/m³ and sound speed \(c\) in m/s. Logarithmic levels require positive intensity/pressure; zero is a limiting case, while negative or missing physical inputs are invalid or unknown. Doubling distance quarters intensity and, under these assumptions, reduces the corresponding level by about 6.02 dB. This is not a general indoor/reverberant or directional-source rule.
+
+A candidate finite-band extension is
+
+\[
+L_{S,b}(r)=L_{S,b}(r_0)-20\log_{10}(r/r_0)
+-\gamma_b(r-r_0)-A_{\mathrm{obs},b},
+\qquad r\ge r_0>0.
+\]
+
+\(b\) identifies the frequency band, \(L_{S,b}(r_0)\) its reference signal level, \(\gamma_b\ge0\) absorption in dB/m and \(A_{\mathrm{obs},b}\ge0\) supported obstruction loss in dB. Reflection, reverberation, coherent paths and multipath require separate applicable models. Do not directly sum dB as a general path-combination method.
+
+For the same bandwidth and time window, a candidate detection model is
+
+\[
+\mathrm{SNR}_b=L_{S,b}-L_{N,b},\qquad
+P_{\mathrm{det},b}=\sigma\left(\frac{\mathrm{SNR}_b-\eta_b}{\beta_b}\right),
+\quad \sigma(x)=\frac1{1+e^{-x}}.
+\]
+
+\(L_{N,b}\) is band noise level; \(\eta_b,\beta_b\) are in dB, with \(\beta_b>0\). Detection probability is a proposed calibrated use, not a validated prediction. Detection, direction estimation, source classification, speech intelligibility and semantic disclosure are separate outputs. SNR alone does not determine intelligibility. Physically audible content is not automatically authorized protected semantic content.
+
+Visual and auditory models may share verified distance/frame primitives but retain separate propagation, uncertainty and recognition models. Higher fidelity never expands permissions. Candidate results still require independent authorization before trusted Observation issuance and actual L1 acceptance; neither stage implies justified cognitive revision.
+
+#### Mathematical review and open decisions
+
+Future model validation must check zero/large distance and missing inputs, dimensions/unit conversions, FOV and threshold boundaries, distance-doubling behavior under stated assumptions, occlusion/illumination and noise changes, and no permission gain with higher fidelity. Loud noise does not imply intelligible speech; quiet speech in high noise must remain a separate detection/intelligibility case. A matching happy-path output does not prove low/high-fidelity equivalence. These are acceptance requirements, not executed tests.
+
+Calibration data, parameters, model ranges and whether an output is a proxy, probability or another measure remain undecided. Historical inputs must be verifiable; current WorldState or prose cannot fill missing past geometry. Model upgrades cannot silently reinterpret accepted historical evidence. Shared cost, priority, fairness and recovery semantics remain separate undecided coordinator work. [Reference-policy deviation models](SOCIAL_CAUSAL_DESIGN.md#reference-policy-deviation-candidate-mathematics-not-a-production-classifier) affect cognition-side decision modeling, not a fourth LOD axis or physical authority.
 
 # 11. World Creation
 
@@ -1586,6 +1735,41 @@ Lazy Expansion
 ```
 
 The system does not generate the entire world immediately.
+
+### Hybrid Lazy World Expansion (selected direction; acceptance boundary unresolved)
+
+**Maintainer-selected design direction, not a general production implementation:** first generate the minimum runnable structure needed for the current action, then add detail as perception, interaction and exploration require it. Special scenarios may instead be generated completely at once. Existing bounded content validation/installation remains limited to its declared scope; this direction does not freeze new APIs, schemas or admission permissions.
+
+World expansion determines what structure needs generation or materialization. LOD determines computation and precision for current work. Event Tree explores budgeted candidate alternatives, not formal world evolution; the present tree does not simulate future world outcomes. See the [existing candidate slice](DATA_CONTRACTS.md#13-event-tree-contract-candidate-exploration-slice). These responsibilities must not collapse into one level.
+
+#### Commitment and materialization are independent
+
+| Concept | Meaning and authority |
+|---|---|
+| Candidate | Temporary model-proposed structure, not accepted world truth |
+| Derived Artifact | Recomputable cache, path-search result or other non-authoritative calculation from valid inputs |
+| World Commitment | Accepted fact or structural relation constraining future simulation |
+| Materialized Structure | Structure concrete enough to support the applicable current simulation work |
+
+These are conceptual distinctions, not new record types, a Store or a lifecycle state machine. An area may be committed to exist before its interior is materialized. A computed artifact may be materialized for one calculation without becoming a permanent fact. Do not classify lifetime solely by whether a detail currently affects causality: decoration may later affect occlusion, fire, evidence or NPC choices. Examine actual use, dependencies and downstream consequences.
+
+Keep initial acceptance of undetermined structure, materialization under existing commitments, and formal changes to accepted structure separate. Ordinary regeneration must not silently overwrite accepted structure. Subsequent changes require legitimate world-change authority and traceability. **Whether initial structure acceptance uses EventProcessor or another mechanism compatible with existing authority is unresolved**; neither the term commitment nor a generated object grants a write path.
+
+LLMs propose within existing commitments and permitted scope. Deterministic validation must check consistency, connections, constraints and supported mechanisms before acceptance. Accepted structure may enter the formal world only under its applicable authority; normal actions still use Decision/Resolution/EventProcessor. Structure acceptance proves neither action success nor authorized Observation. Exhausted budget, generation failure and unavailable historical inputs mean unresolved/incomplete, not nonexistent structure or a guessed collision/physical outcome.
+
+#### Topology and local geometry
+
+A graph-based expansion direction can describe places/regions, typed connections, containment, doors, portals and rule-permitted non-Euclidean transitions. Local geometry and physical mechanisms are added where applicable. A connection alone establishes neither visibility, audibility, known Euclidean distance nor collision feasibility. Non-Euclidean spaces may use internally consistent local spatial models and explicit transitions, without requiring a single global Euclidean embedding.
+
+The Cartesian-3D direction in the physical section describes the applicable canonical geometric model and its observer projections; it does not require arbitrary Lazy World topology to have one global embedding. Cross-space geometric queries require explicit supported transforms/rules; unknown or inapplicable distance stays unknown. This qualification adds no coordinate service, portal solver or new transition authority.
+
+#### Seed, identity and Timeline continuity
+
+Retain World Seed as an expansion direction, not a promise of deterministic LLM output. A random seed alone cannot reproduce or authenticate accepted content. Accepted structures need suitable stable identities, sources, constraint bases and Timeline lineage through the applicable reviewed contracts.
+
+Accepted ancestor structures remain subject to existing verified inheritance rules. Children may legitimately diverge only in content not already determined by inherited commitments, or through separately authorized changes to existing structure. Restore must not regenerate accepted structure as disposable cache; repeated materialization must not replay committed effects. Model upgrades must not silently change accepted historical meanings. These requirements do not implement general graph persistence, dynamic loading or module lifecycle.
+
+The next design question is **potential-world determination and structure acceptance boundaries**: distinguish (1) existence determined, details unknown; (2) partly undetermined content constrained by prior commitments; and (3) existence itself undetermined. Decide what may be generated, what must already be fixed, and what makes a possibility a fact on a specific Timeline. Acceptance authority, supported persistence and materialization compatibility remain open; no journal, schema or universal retry policy is added. See [contract limits](DATA_CONTRACTS.md#lazy-expansion-commitment-and-recovery-boundaries-design-only).
 
 ### Gray Domain Beyond world content (authored preview; mechanisms not implemented)
 
@@ -2050,9 +2234,9 @@ Meaningful Side-Branch validation still occurs at registration; the lifecycle ad
 
 Phase 16 extends the existing Phase 13–15 chain for **new content while a world is running**: `ContentGenerator/LLM → GenerationProposal → ContentValidator → prepared ContentInstantiator plan → authorized System Event → EventProcessor → canonical WorldState → owner-scoped cognition/AgentRegistry → ready ScenarioInstance`. The same `ContentRegistry`, template models, instance receipts, P0 governance and lifecycle are reused. A generated template is a reusable definition; only an explicit installation request can create an instance. The generator receives no WorldState, EventFactory, installation permit, ResolutionDecision or cognition write access. `source_id` is a bounded audit label, not authentication; the installation record stores a proposal digest instead of raw provider output.
 
-Preparation checks template references, safety, IDs, collisions, actor cognition ownership, environment adapters and source shape without mutation. An installation Event with a private in-process preparation binding asks the existing EventProcessor for one `WorldContentBatch` update. `WorldState.apply_event` checks typed records and all collisions before updating its existing entity, location, environment and fact collections. This is one in-memory world commit, not a second store. The world installation record is first `world_installed`; only after existing cognition Stores and the template registry are populated does a second controlled Event add the `AVAILABLE` Scenario lifecycle state and mark the record `ready`. Runtime Agents are registered at the end; failure in finalization removes newly registered Agents so a pending instance cannot participate as a normal NPC. A failed generator or validator never reaches the first commit. Duplicate template and instance IDs are rejected.
+Preparation checks template references, safety, IDs, collisions, actor cognition ownership, environment adapters and source shape without mutation. An installation Event with a private in-process preparation binding asks the existing EventProcessor for one `WorldContentBatch` update. `WorldState.apply_event` checks typed records and all collisions before updating its existing entity, location, environment and fact collections. This is one in-memory world commit, not a second store. The world installation record is first `world_installed`; only after existing cognition Stores and the template registry are populated does a second controlled Event add the `AVAILABLE` Scenario lifecycle state and mark the record `ready`. Runtime Agents are registered at the end under the existing fence-then-registry lock order, holding membership through ready dispatch so another thread using AgentRegistry cannot enumerate the pre-ready batch. Cleanup is limited to registration slots proven absent before this request and still matching its Agents, and only when the exact ready Event is uncommitted and the world record remains pending. A committed ready Event followed by Observation-delivery failure retains Agents, cognition and AVAILABLE state, propagates the error and preserves observations_pending; no world rollback or automatic retry occurs. A failed generator or validator never reaches the first commit. Duplicate template and instance IDs are rejected.
 
-The two Events and the separate cognition/registry changes are **not a globally atomic or crash-durable transaction**. Failure after the first world commit leaves an explicit `world_installed` record requiring operator-directed recovery; the installation Event must not be replayed to repair it. The current synchronous runtime path is tested; concurrent hosts, durable recovery and live content migration need separate work. `ScenarioLifecycle` still requires an installed ready state before entry. Entry observation uses existing typed mechanisms and VisibilityPolicy; `EventSeed` remains an observation-gated attention hook, never an automatic Event. A new NPC still runs through owner-scoped Perception/Cognition/Decision → Attempt → Resolution → EventFactory/EventProcessor. Door and passage remain the only demonstrated deterministic causal domains; ordinary fictional conflict is permitted and unsupported methods remain unresolved.
+The standard Scenario codec explicitly admits the existing ContentInstallationRecord and WorldContentBatch records with field validation and symmetric decoding. Signed completed-installation checkpoint/restore preserves the exact records and inherited Event attestations; no existing signature purpose, payload fields or snapshot version changes. Template definitions remain host-provided, and this does not reconstruct arbitrary generated registries or lifecycle instance indexes. The two Events and the separate cognition/registry changes are **not a globally atomic or crash-durable transaction**. Failure after the first world commit leaves an explicit `world_installed` record requiring operator-directed recovery; the installation Event must not be replayed to repair it. The current synchronous runtime path is tested; concurrent hosts, durable recovery and live content migration need separate work. `ScenarioLifecycle` still requires an installed ready state before entry. Entry observation uses existing typed mechanisms and VisibilityPolicy; `EventSeed` remains an observation-gated attention hook, never an automatic Event. A new NPC still runs through owner-scoped Perception/Cognition/Decision → Attempt → Resolution → EventFactory/EventProcessor. Door and passage remain the only demonstrated deterministic causal domains; ordinary fictional conflict is permitted and unsupported methods remain unresolved.
 
 Narrative Causal Relevance and Meaningful Side-Branch remain registration and activation constraints for emphasized content, without turning ordinary atmosphere into mandatory Events or forcing a reward. The Phase 16 installer remains the only runtime content installation authority. Its multi-authority failure semantics are unchanged: after the first world batch, a provisioning failure leaves an explicit `world_installed` record for operator-directed recovery; there is no cross-process atomic transaction or automatic replay.
 
@@ -2205,7 +2389,7 @@ There is no durable message inbox. The utterance Event is part of EventHistory, 
 
 ### Candidate evidence review integration (local, optional)
 
-The existing `AgentDecision` pipeline generates bounded `ActionCandidate` records, evaluates them through an injectable evaluation policy, performs bounded review, selects one, and emits `ActionProposal`. An explicitly injected `EvidenceAwareEvaluationPolicy` reuses that evaluation seam: for each targeted candidate it builds an unsubmitted Attempt snapshot, accepts a bounded query proposal from a local host adapter, reads only that owner's authorized Observation evidence through `AuthorizedQuerySession`, verifies each returned fact ID was actually consumed into this turn's L1 situation, and parses a citation-checked analysis before making a small, bounded subjective score/uncertainty adjustment. This is candidate evaluation only; it does not confirm an effect, submit an Event, or change the deterministic Resolution policies. No external model transport is registered for this policy. The production default remains the prior deterministic evaluation unless a trusted host explicitly injects the local adapter.
+The existing `AgentDecision` pipeline generates bounded `ActionCandidate` records, evaluates them through an injectable evaluation policy, performs bounded review, selects one, and emits `ActionProposal`. An explicitly injected `EvidenceAwareEvaluationPolicy` reuses that evaluation seam: for each targeted candidate it builds an unsubmitted Attempt snapshot, accepts a bounded query proposal from a local host adapter, reads only that owner's authorized Observation evidence through `AuthorizedQuerySession`, verifies each returned fact ID was actually consumed into this turn's L1 situation, and parses a citation-checked analysis before making a small, bounded subjective score/uncertainty adjustment. This is candidate evaluation only; it does not confirm an effect, submit an Event, or change the deterministic Resolution policies. No external model transport is registered for this policy. A bare `AgentDecision` retains its deterministic evaluation policy unless a caller supplies an evidence-aware policy. In the canonical `SimulationRuntime` Agent-turn path, Runtime assembles a fresh owner/tick-bound `EvidenceAwareEvaluationPolicy` around the existing base policy and uses the deterministic local provider when neither the Runtime nor an existing evidence-aware policy supplies a provider. This local Runtime assembly does not configure an external model transport; see the Runtime assembly section below.
 
 The current Event Tree slice is a bounded **candidate-exploration tree**, not a simulated future world. `EventTreeExplorer` consumes the canonical AgentDecision trace, retains candidate/parent/source/evaluation links, expands only up to a fixed per-turn budget, and records the remaining candidate IDs as pruned. A branch is an alternative proposed action with subjective evaluation and uncertainty; it has no predicted or confirmed effect. `SimulationRuntime` stores the immutable snapshot only in its developer-facing `AgentRuntimeTurnRecord`. The tree does not select an action, call Resolution, update cognition, create an Event, or mutate WorldState/EventHistory. This is the first production-connected Event Tree capability, but it is not continuous branch-state simulation, outcome propagation, or a general planning system. `EventSeed` remains an observation-gated attention opportunity, not a tree branch or Event.
 
@@ -2414,3 +2598,34 @@ Stage 2.1 implements formal host-installed MemoryDecision authorization and fenc
 The D2 rule requires complete captured event-time environment evidence, co-location and known sight. A supported Observation with incomplete captured context may still be consumed but does not receive a durable proof. Existing snapshot and signed Event envelopes carry the new typed records; old Events and snapshots are not upgraded. This is not a claim that all environmental facts are observable or that the full v0.2 social-causality loop is complete.
 
 Stage 1.2 acceptance also covers this non-verbal proof through a real DPAPI-backed SaveManager publish, independent Windows process staging/activation, and parent/child fork restoration after parent-slot deletion and garbage collection. Stage 1.2.1 adds process-exit injection around D2 consumption, signing, canonical Store commit and SaveManager catalog publication; both commit/capture orderings are synchronized through RuntimeWriteFence, and a delayed old-generation issuer is rejected after RestoreCoordinator activation. The tested host explicitly reassembles Runtime dependencies and uses the built-in historical-rule registry. These tests do not establish OS power-loss durability, arbitrary host registry persistence, or D3–D9 socialization behavior.
+
+
+## Social physical room slice
+
+The opt-in runnable composition in `cognitive_world.examples.social_room` connects existing NPC candidate selection, addressed speech Events, owner L1 consumption, verified experience Memory, governed Goal creation and keyed-door Resolution. It is an executable bounded world, not a replacement interaction framework. Content names, the receiver's willingness to act and the proposed objective belong to explicitly injected room policies; generic cognition contains no room/NPC/door-to-Belief mapping.
+
+The new evidence comparator accepts only an exact typed claim about one identified source Event: property and subject must equal the independently consumed fact, the applicability tick must equal that Event tick, and scope must explicitly name that Event. It does not infer a physical prediction from prose or implement general interval truth. Formal speech, recipient Observation, consumption, comparison, policy acceptance and a later physical action remain distinct.
+
+See [the narrow social contract](SOCIAL_CAUSAL_DESIGN.md#social-physical-room-slice) and [persisted payload and Goal governance](DATA_CONTRACTS.md#social-experience-v1-and-goal-creation). This adds only a subset of D4/D5; generalized social credibility, D6 interval comparison, B4 expectation-based revision and a general physics engine remain outside the slice. The earlier Stage 2.1 limitations describe that baseline, not this opt-in addition.
+
+WorldState remains the only physical authority. The room reuses existing DoorState/key ownership and Resolution handlers; table/drawer location hierarchy is static content. It adds no pickup, drawer motion, collision or material solver. SaveManager and the existing strict host reconstruction retain signed state and owner-scoped experience; restoration supplies fresh current-state Observations before further action and never reconstructs historical consumption.
+
+
+## Owner specific social response slice
+
+The optional contrasting-receivers mode extends the existing social room, not the cognitive engine: one sender offers the same typed historical proposition to two separately addressed recipients. Each recipient's independently authorized and consumed evidence is compared through the existing SocialExperience/v1 verifier. Agreement with evidence remains separate from commitment to act. The room's version-2 content policy derives willingness from that owner's canonical Personality preference, then uses the existing governed Goal creation and action pipeline. It cannot change the evidence comparison or physical outcome.
+
+A directed exchange deliberately schedules the sender before the recipient on separate bounded ticks. Same-tick scheduling previously allowed actor-ID ordering to put the recipient turn before delivery. The host does not retry or force speech; it still schedules an independent recipient turn, and a recovery-required sender stops the exchange.
+
+Saved Personality, experiences and Goal links remain authoritative on restore; current host initialization flags cannot replace saved preferences. Source Event attestations and ancestral consumption proofs are verified rather than reissued. No new persisted schema, signature purpose, global reputation, non-rationality classifier, LOD coordinator or UI integration is introduced. See [social response scope](SOCIAL_CAUSAL_DESIGN.md#owner-specific-social-response-slice).
+
+
+## Consumed result Goal completion slice
+
+The opt-in social-room host now closes its declared objective through the existing cognition boundary. New Goals may carry a closed, version-1 completion condition in existing metadata: one explicit action target and one exact typed fact predicate/subject/value. This is configured content, not an inference from the Goal description or an LLM prediction. Legacy Goals without that condition are not upgraded. Status/priority updates cannot replace it.
+
+A later AgentTurn first performs ordinary qualified L1 intake, then the optional completion adapter verifies canonical signed B3 selection/result bindings and the final Attempt's exact Goal ID and target. Only a formally committed successful result whose matching fact was actually consumed by this owner can produce GoalUpdateProposal(completed). Existing validation, CognitiveUpdateApplier, GoalStore and Runtime fence perform the write. Delivery, selection, Resolution success alone and narrative output cannot complete the Goal. Failure, unmet conditions, missing evidence and governance refusal leave it active.
+
+The next decision rebuilds its Goal view. Room candidates and the conflict/opportunity scheduler use active Goals; completed objectives remain cognitive history rather than executable scheduler inputs. Duplicate review retains the completed state without another Goal write or world action. An uncertain Goal write freezes the existing recovery/capture boundary; no action replay or new recovery subsystem is introduced.
+
+Signed saved Goal state and its condition survive strict reconstruction and forks. An already completed Goal needs no historical consumption to be recreated. An active Goal saved after delivery but before consumption is not silently completed during restore: missing live evidence remains unresolved. There is no new persistent completion ledger, B4 revision protocol, general planner or independently durable policy-execution proof. See [exact conditions and limits](DATA_CONTRACTS.md#consumed-result-goal-completion) and [behavioral scope](SOCIAL_CAUSAL_DESIGN.md#goal-completion-in-the-room).

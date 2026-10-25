@@ -68,7 +68,9 @@ def cognitive_snapshot_codec() -> PersistedValueCodec:
     from cognitive_world.cognition.action_expectation_source import (
         ActionExpectationSourceBinding,NpcSelectedExpectation,PlayerExpectationAbsent,
     )
+    from cognitive_world.memory.social_experience import SocialExperience
     codec = PersistedValueCodec()
+    codec.register_type(SocialExperience)
     for value_type in (
         ActionExpectationRecord, ActionResultAssociation,
         ActionExpectationSourceBinding,NpcSelectedExpectation,PlayerExpectationAbsent,
@@ -670,6 +672,7 @@ def _validate_body(
     memory_revision_lineage: MemoryRevisionLineage | None = None,
     defer_memory_lineage: bool = False,
 ) -> None:
+    from cognitive_world.memory.social_experience import SocialExperience
     if len(body.stores) != len(_STORE_NAMES):
         raise ValueError("incomplete canonical cognition Store coverage")
     indexed: dict[str, dict[tuple[str, str], CognitiveRecordSnapshot]] = {}
@@ -758,6 +761,22 @@ def _validate_body(
                         raise PermissionError("B3 requires signed verification")
                     from cognitive_world.cognition.action_expectation import verify_signature
                     verify_signature(memory.content, trust)
+                elif memory.type.startswith("attributed_social_experience") or type(memory.content) is SocialExperience:
+                    from cognitive_world.memory.social_experience import (
+                        SOCIAL_MEMORY_TYPE, SocialExperience, verify_experience,
+                    )
+                    if memory.type != SOCIAL_MEMORY_TYPE or type(memory.content) is not SocialExperience:
+                        raise PermissionError("unsupported social experience payload")
+                    memory.content.__post_init__()
+                    expected_character = next((entry.character_id for entry in body.expected_agents
+                                               if entry.agent_id == memory.owner_id), None)
+                    if memory.content.character_id != expected_character:
+                        raise PermissionError("social experience Character grant differs from the manifest")
+                    if event_history is not None:
+                        if trust is None:
+                            raise PermissionError("social experience requires signed verification")
+                        verify_experience(memory, records={r.record_id: r.value for r in store.records},
+                            history=event_history, trust=trust, timeline_id=body.timeline_id, tick=body.simulation_tick)
                 elif memory.type.startswith("system_l1_"):
                     raise PermissionError("unknown L1 system record type")
                 elif isinstance(memory.content, SystemOnlyMemoryContent):

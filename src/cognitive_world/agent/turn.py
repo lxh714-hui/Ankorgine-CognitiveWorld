@@ -64,6 +64,8 @@ class AgentTurn:
     cognitive_belief_review: CognitiveBeliefReview = field(default_factory=CognitiveBeliefReview)
     cognitive_evolution_engine: CognitiveEvolutionEngine = field(default_factory=CognitiveEvolutionEngine)
     self_model_review_provider: object | None = None
+    social_experience_service: object | None = None
+    goal_completion_service: object | None = None
     cognitive_update_validator: CognitiveUpdateValidator = field(default_factory=CognitiveUpdateValidator)
     write_fence: RuntimeWriteFence | None = None
     action_expectation_issuer: object | None = field(default=None, repr=False, kw_only=True)
@@ -170,6 +172,18 @@ class AgentTurn:
                         cognitive_runtime=self.cognitive_runtime,
                         memory_store=cognition_context.memory_store,
                     )
+        if self.social_experience_service is not None:
+            from cognitive_world.memory.social_experience import SocialExperienceService
+            if type(self.social_experience_service) is not SocialExperienceService:
+                raise TypeError("social review requires the canonical evidence service")
+            self.social_experience_service.after_l1(cognition_context)
+            beliefs = cognition_context.get_beliefs()
+        if self.goal_completion_service is not None:
+            from cognitive_world.cognition.goal_completion import ConsumedResultGoalCompletion
+            if type(self.goal_completion_service) is not ConsumedResultGoalCompletion:
+                raise TypeError("Goal completion requires the canonical result adapter")
+            self.goal_completion_service.after_l1(cognition_context, self.cognitive_runtime)
+            goals = cognition_context.get_goals()
         memory_event_index = None
         verified_event_anchors = ()
         memory_event_index_unavailable = False
@@ -312,6 +326,9 @@ class AgentTurn:
                 review_cues.append(
                     f"Evidence uncertainty: {cognitive_review.uncertainty}"
                 )
+        if any(item["history"] == "undetermined" for item in
+               cognition_state.metadata.get("l1_ingestion", {}).get("items", ())):
+            review_cues.append("Some observations await history qualification; retain uncertainty.")
         if cognitive_review_failed:
             review_cues.append(
                 "Cognitive review was unavailable or rejected; retain the previous Beliefs and uncertainty."

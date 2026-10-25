@@ -184,6 +184,9 @@ class SimulationRuntime:
         if (type(self.agent_action_loop) is AgentActionLoop
                 and type(self.agent_action_loop.agent_turn) is AgentTurn):
             turn = self.agent_action_loop.agent_turn
+            turn.cognitive_runtime._bind_observation_history(
+                self.context.event_history, codec=self.event_processor.persistence_codec,
+                trust=self.event_processor.persistence_trust)
             trust = getattr(self.event_processor, "persistence_trust", None)
             codec = getattr(self.event_processor, "persistence_codec", None)
             if trust is not None and codec is not None:

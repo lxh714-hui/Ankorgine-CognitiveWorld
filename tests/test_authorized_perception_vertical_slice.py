@@ -89,7 +89,9 @@ def test_real_runtime_event_authorizes_only_qualified_agent_and_reaches_l1():
         near[0], observer_id="agent-near"
     )
     assert percept.observer_id == "agent-near"
-    cognitive_state = CognitiveRuntime().process("agent-near", near)
+    cognitive_runtime = CognitiveRuntime()
+    cognitive_runtime._bind_observation_history(context.event_history)
+    cognitive_state = cognitive_runtime.process("agent-near", near)
     assert cognitive_state.percept_ids == [percept.percept_id]
 
     evidence = context.event_history.get_processing_evidence("light-event-1")
@@ -97,7 +99,7 @@ def test_real_runtime_event_authorizes_only_qualified_agent_and_reaches_l1():
     assert evidence.event_time_context.simulation_time == 1
     assert evidence.event_time_context.event_timestamp == "not-the-simulation-clock"
     assert evidence.event_time_context.state_phase.value == "after_world_update"
-    assert evidence.event_time_context.observer_state_phase.value == "before_world_update"
+    assert evidence.event_time_context.observer_state_phase.value == "after_world_update"
     assert evidence.observable_facts[0].location_id == "room-a"
 
     # Runtime initialization is sealed. Later state changes must use a

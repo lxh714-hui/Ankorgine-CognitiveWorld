@@ -303,6 +303,9 @@ class PlayerDialogueService:
         self.context = context
         self.processor = processor
         self.action_loop = action_loop
+        action_loop.agent_turn.cognitive_runtime._bind_observation_history(
+            context.event_history, codec=processor.persistence_codec,
+            trust=processor.persistence_trust)
         self.cognition_context_provider = cognition_context_provider
         self.decision = decision
         self.interpretation_provider = interpretation_provider

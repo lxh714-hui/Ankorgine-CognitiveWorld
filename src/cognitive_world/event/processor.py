@@ -24,6 +24,7 @@ from cognitive_world.event.history import EventHistory
 from cognitive_world.event.persistence import make_persisted_event_record
 from cognitive_world.observation.observable import (
     EventProcessingEvidence,
+    EventStatePhase,
     FactValue,
     ObservableFactDraft,
     _issue_processing_evidence,
@@ -293,6 +294,7 @@ class EventProcessor:
                 fact_drafts,
                 simulation_time=simulation_time,
                 observer_positions=observer_positions,
+                observer_state_phase=EventStatePhase.AFTER_WORLD_UPDATE,
                 environment_conditions=environment_conditions,
                 environment_snapshot_complete=environment_snapshot_complete,
             )

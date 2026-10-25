@@ -61,6 +61,57 @@ Social Why findings may inform Where allocation under future `POST-MVP-02`/`POST
 
 The social implementation and restoration limits below remain in force. Current signed D1/D2 proof and D3 MemoryDecision foundations do not persist general social dynamics, dialogue queues or tree/provider tasks. Any later lifecycle persistence must use the existing canonical Memory/snapshot and verified ancestor contracts, not a new social authority Store. The roadmap's existing social deferrals and D3.2.4 open ancestor debt are not closed by this direction.
 
+## Reference-policy deviation (candidate mathematics; not a production classifier)
+
+“Non-rational” here means deviation relative to an explicitly justified reference policy, not a psychological diagnosis or an objectively false action. This is an uncalibrated modeling proposal, separate from current Emotion/Motivation modulation, candidate scores and the narrow BehaviorFeedback mechanism. Existing scores are not automatically calibrated utility. No Belief, Goal, SelfModel or world revision is authorized.
+
+The reference must use the NPC's applicable Beliefs and acquired information, stable Goals/preferences, risk attitude, time horizon, known constraints, exploration value, strategic deception and commitment costs. Incomplete information, legitimate preference change, deliberate sacrifice, value trade-offs and ordinary stochastic choice are not automatically non-rational. Missing reference support must allow “insufficient to classify”; omniscient world truth must not replace the owner's perspective.
+
+### Alternative A: normalized opportunity loss
+
+For a fixed, explicit finite candidate set \(A\), with comparable reference utility \(U(a)\), let \(U_{\max}=\max_A U\) and \(U_{\min}=\min_A U\). If \(U_{\max}>U_{\min}\),
+
+\[
+D_R(a)=\frac{U_{\max}-U(a)}{U_{\max}-U_{\min}}\in[0,1].
+\]
+
+Positive affine utility transformations preserve this score. It can assess one selected action, but depends on the candidate set and extreme options. LOD pruning may change the normalization range without changing behavior. If all utilities tie, report that the reference cannot distinguish; do not insert arbitrary epsilon to force classification. Low reference utility alone is not evidence of irrationality.
+
+### Alternative B: policy-distribution deviation
+
+With adequate samples from comparable contexts or explicit justified distributions over the same support,
+
+\[
+D_{\mathrm{TV}}=\frac12\sum_{a\in A}|\pi(a)-\pi_0(a)|\in[0,1].
+\]
+
+\(\pi\) and \(\pi_0\) are normalized actual/reference policies. This allows stochastic or exploratory references, but a single low-probability action does not establish distributional abnormality. Multiple defensible policies can differ; this score alone does not diagnose irrationality. Sampling support and context comparability require review and do not advance the blocked sample-count workstream.
+
+If a reference uses \(\pi_0(a)\propto\exp(U(a)/T)\), require \(T>0\) with a scale compatible with utility. Under \(U'=cU+d\), \(c>0\), scale \(T'=cT\) to preserve the distribution. No production softmax policy is approved here.
+
+### Candidate threshold, intensity and emotional input
+
+For a supported \(D\in[0,1]\), a candidate flag is \(D>\tau\), with intensity
+
+\[
+J=\left[\frac{\max(0,D-\tau)}{1-\tau}\right]^p,
+\qquad 0\le\tau<1,\quad p>0.
+\]
+
+The score is continuous at the threshold and nondecreasing above it; \(p>1\) can give a smooth first derivative there. \(\tau=1\) needs separate endpoint semantics and cannot be substituted into this formula. Reject out-of-range, NaN, infinite or otherwise invalid parameters. Threshold/exponent configuration needs explicit versioning, calibration and intended use; no production classifier or configuration schema is approved.
+
+A separate candidate behavior-generation hypothesis is
+
+\[
+\pi(a)\propto\exp\left(\frac{\widehat U(a)+\lambda H(a,e)}{T}\right).
+\]
+
+\(\widehat U\) is applicable scaled reference utility, \(e\) the owner's emotional state, \(H\) an explicitly defined emotional/impulsive action drive, \(\lambda\) its relative scale and \(T>0\) a compatible temperature. Their domains/scales and validation remain undecided. High emotion may cause little deviation; large deviation need not imply high emotion. If emotion reflects a legitimate preference change, revise the reference interpretation rather than pre-labeling the choice irrational.
+
+All candidates still pass existing authorization, supported mechanism checks, Resolution and EventProcessor. Intensity cannot determine physical effects or Belief truth. The model adds no cognitive revision authority; existing [three-axis boundaries](ARCHITECTURE.md#visual-and-auditory-lod-mathematics-candidate-models-uncalibrated) and B1/B2/B3 proof limits remain intact.
+
+Future deterministic/model-validation cases must include utility rescaling, equal and conflicting goals, candidate-set pruning, deliberate long-term sacrifice, incomplete owner Beliefs, high emotion/small deviation, low emotion/large deviation, threshold endpoints and invalid numbers. Historical score calibration cannot be silently reinterpreted after a model upgrade. Reference policy, data, parameters, use as a diagnostic versus a probability, and calibration acceptance remain maintainer decisions; no test result is claimed.
+
 ## Composed social entities and relations (proposed; not implemented)
 
 The ECS/declarative-composition direction in ARCHITECTURE.md and DATA_CONTRACTS.md also applies to future nonphysical entities. An organization may have stable identity, registered descriptive/resource/capability components and independently identified members/resources linked by typed relations. Membership, employment, resource ownership, physical containment, business obligation and structural composition are different contracts; an organization is not automatically the parent/owner of every related entity. Neither organizational membership nor a parent reference grants access to members' private cognition. The current Entity/Relationship records and GoalResourceDemand are partial foundations, not a general organization simulator or typed social relation graph.
@@ -217,3 +268,40 @@ Write: installed policy → authority-sealed decision → factory-issued request
 ### Revision and revocation resolution
 
 Authorization belongs to one immutable Memory revision: stable logical record ID, unique revision ID, and optional `supersedes_record_id`. A successor is a new canonical Memory ID, never an overwrite. Retrieval uses only the verified chain tip on the active Timeline; an accepted revocation revision has no active Character grant. Cycles, missing predecessors, conflicting tips on one Timeline, mismatched owners/sources, or an indeterminate tip deny that logical record. Parent and child resolve tips independently, so a child revision cannot alter its parent's authorization. This is the minimum lifecycle needed for D4, not implementation of D5 comparison.
+
+
+## Social physical room slice
+
+**Current opt-in implementation, narrow D4/D5 subset:** `SocialExperienceService` reviews one selected NPC's typed claim only after the recipient holds both exact signed L1 proof records. It reuses MemoryDecision/MemoryPersistence/MemoryStore, owner/Character association and signed snapshots. This supersedes the earlier baseline's blanket absence statement only for this explicitly supported slice; it is not full Socialization v0.2 or B4.
+
+The comparator checks exact Event-scoped typed equality, not narrative persuasion strength. Merely speaking is not recipient observation; recipient observation is not consumption; consumption is not understanding, agreement or truth. Unsupported scope/types/proofs produce no experience. A retained experience says only that one attributed claim agrees/disagrees with the recipient's independently consumed fact. It is not a universal trust score or objective relationship change.
+
+The explicit host policy can retain that assessment, propose an existing-Belief revision with its evidence, and propose a new Goal. Generic source/owner governance and stale-state checks remain mandatory. The room's configurable willingness-to-act policy demonstrates different subsequent decisions for the same verified experience; contradicted testimony and withholding acceptance need not produce the same Goal. Goal creation is separate from existing status/priority updates; its description is not silently rewritten.
+
+Run the source checkout with `py -3.14 run_social_room.py --save-root <new-directory>`. Each invocation creates an independent Timeline; reusing the save directory opens its existing trust root but does not automatically load an earlier checkpoint. The executable host supplies a room, two registered NPCs, a key tool, static table/drawer hierarchy and a keyed locked door. The first round selects speech and recipient evidence review; the next may select an actual key attempt. Installed Door Resolution uses authoritative tool ownership/door state and EventProcessor commits effects. In the missing-key variant the key remains in the drawer and the method text cannot supply ownership. Pickup and drawer opening are explicitly unsupported.
+
+A signed SaveManager checkpoint preserves the physical state, Belief/Goal values, consumption proofs, experience payload and Character links. The strict SocialRoomAssembler supplies content/policies and verified roster links; it does not regenerate accepted history. Child review reuses ancestor experience. Fresh authorized door observation supplies the resumed decision context, and a second-turn door change remains branch-local. This is a programmatic/CLI world; desktop dialogue integration and real-model semantic quality are not verified by this slice. Exact fields and compatibility are in [DATA_CONTRACTS](DATA_CONTRACTS.md#social-experience-v1-and-goal-creation).
+
+
+## Owner specific social response slice
+
+The source-checkout command `py -3.14 run_social_room.py --contrasting-receivers --save-root <directory>` runs an optional sender/two-recipient scene. The proposition and utterance text match, but each delivery remains its own recipient-bound formal Event and Observation; this is not a broadcast authorization shortcut.
+
+Both sighted recipients can retain the same supported SocialExperience while their saved Personality preferences lead one to create a Goal and try the keyed door and the other to wait. Their factual Beliefs can converge on the independently observed value without requiring identical action commitments. Counterfactual configuration verifies that the additional recipient can also acquire the Goal when its own preference is true; names/roles do not prescribe the outcome. A recipient lacking independent visual evidence can consume the addressed speech yet retain its prior Belief, have an insufficient assessment, and create no Goal. Contradicted evidence and a deferred Memory policy are separate cases; mere reception is never treated as agreement.
+
+Root `accept_testimony` remains an initialization convenience for the original recipient. RoomSocialPolicy/v2 copies owner preferences from canonical Personality, including on restore, instead of consulting that host switch during cognition. Host configuration changes cannot reinterpret a retained observed value or overwrite saved preferences. This is a content-specific willingness policy, not a calibrated general trust or non-rational behavior model.
+
+Each speech exchange offers one autonomous sender choice, lets it finish, then schedules the recipient on a later tick. This fixes the real recipient-ID ordering gap without modifying AgentScheduler, repeating a committed utterance or manufacturing consumption. The subsequent receiver-action round remains a normal AgentDecision → Attempt → Resolution → EventFactory → EventProcessor path.
+
+Signed checkpoint tests cover cold reconstruction of the saved parent, child and sibling forks, distinct physical suffixes, unchanged ancestor proof records and continuation from fresh authorized door observations. The assembler explicitly reinjects executable content/policies; it neither restores an old task permit nor replays historical speech. The diagnostic comparison/Goal summary is for developer acceptance, not a player-facing private-cognition projection. See [transient policy/diagnostic semantics](DATA_CONTRACTS.md#owner-specific-room-policy).
+
+
+## Goal completion in the room
+
+The room's new evidence-derived opening Goal explicitly declares an object target and the typed `environment_state / door_open = true` fact for that object. This door-specific declaration belongs to injected content; the generic adapter only compares an explicit fact condition. A selected action is bound to exactly one Goal through the existing signed B3 Attempt. Another Goal, even with the same fact condition, cannot claim that action's result.
+
+The runnable CLI schedules a bounded subsequent recipient round after the physical-action round. Actual owner L1 consumption of the committed result enables an existing governed status update to completed, and the following decision waits instead of reopening the door for that Goal. The CLI reports completed Goals before publishing its checkpoint; it is developer acceptance output, not private cognition sent to player chat. A successful action with an unmet condition, a formal failure or an uncommitted result does not complete the Goal. Delivery is not consumption and success is not necessarily objective fulfillment.
+
+Focused tests cover owner-bound completion, unrelated Goals, duplicate handling, governance refusal, uncertain-write capture freeze, legacy no-condition behavior, signed save/restore and separate parent/child/sibling states. The current qualified-address missing-key path has a separate existing B1 validation limitation: `object:ID` is compared directly to raw environment slot IDs and rejects before formal commitment. A supported bare-object-address fixture verifies a genuinely committed failure remains active; the qualified-address regression explicitly verifies noncommit and no completion. This limitation is recorded in [the debt table](DEVELOPMENT_ROADMAP.md#owner-specific-social-response-status), not hidden as a successful failure Event.
+
+General planning, multi-action fulfillment, completion from arbitrary current world conditions, automatic recovery of unconsumed results and historical completion-policy attestation remain outside this slice. [Condition and persistence details](DATA_CONTRACTS.md#consumed-result-goal-completion).

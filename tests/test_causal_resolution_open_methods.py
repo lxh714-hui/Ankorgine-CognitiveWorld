@@ -78,7 +78,9 @@ def test_non_door_open_method_runs_through_resolution_event_observation_and_perc
     authorized = observations.get_by_observer("agent-a")
     assert len(authorized) == 1
     assert authorized[0].has_trusted_provenance()
-    cognition = CognitiveRuntime().process("agent-a", authorized)
+    cognitive_runtime = CognitiveRuntime()
+    cognitive_runtime._bind_observation_history(processor.event_history)
+    cognition = cognitive_runtime.process("agent-a", authorized)
     assert f"percept:{authorized[0].observation_id}" in cognition.percept_ids
     with pytest.raises(PermissionError, match="initialization is closed"):
         world.load_location("agent-a", "elsewhere")
@@ -688,3 +690,41 @@ def test_partial_resolution_status_is_distinct_from_unresolved():
     assert result.confirmed is True
     assert result.success is False
     assert result.outcome.startswith("partial:")
+
+
+def test_stepwise_unknown_history_does_not_advance_or_consume_required_observation():
+    world = _route_world(two_routes=True)
+    clock = SimulationClock(1)
+    registry = AgentRegistry()
+    registry.register(RuntimeAgent("agent-a"))
+    store = ObservationStore()
+    processor = EventProcessor(
+        event_history=EventHistory(), world_state=world, simulation_clock=clock,
+        agent_registry=registry, observation_store=store)
+    cognition = CognitiveRuntime()
+    executor = StepwisePlanExecutor(
+        ActionResolutionFlow(MethodBasedResolutionEngine(world), world_state=world),
+        processor, world, cognitive_runtime=cognition)
+    proposal = ActionProposal(
+        "history-deferred", "agent-a", "reach C", ["route-1", "route-2"],
+        {"steps": [{"method": "walk through route 1", "target": "route-1"},
+                   {"method": "walk through route 2", "target": "route-2"}]})
+    first = executor.advance(proposal, simulation_tick=clock.capture())
+    context = CognitionContext.from_character(
+        Character("character-a", "agent-a", "personality-a"),
+        CognitionContainer(), MemoryStore(), observation_store=store)
+    observation, = context.get_observations()
+    assert observation.source_event_id == first.event.id
+    # First establish an ordinary receipt; it cannot bypass a later unknown result.
+    accepted = cognition.process("agent-a", (observation,))
+    assert accepted.percept_ids == ["percept:" + observation.observation_id]
+    before = cognition.working_memory_store.get("agent-a")
+    receipts = dict(cognition._l1_consumption_receipts)
+    processor.event_history.mark_recovery_required(first.event.id, "injected history failure")
+    with pytest.raises(PermissionError, match="not consumed"):
+        executor.advance(proposal, progress=first.progress, cognition_context=context,
+                         simulation_tick=clock.capture())
+    assert world.locations["agent-a"] == "B"
+    assert len(processor.event_history.get_events()) == 1
+    assert cognition.working_memory_store.get("agent-a") == before
+    assert cognition._l1_consumption_receipts == receipts
