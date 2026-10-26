@@ -20,7 +20,7 @@ from cognitive_world.resolution.action_flow import ActionResolutionFlow
 from cognitive_world.resolution.causal import MethodBasedResolutionEngine
 
 
-def run(path, scenario_id, *, observer_key=None):
+def run(path, scenario_id, *, observer_key=None, approach=False):
     from cognitive_world.safety.governance import UniversalSafetyGovernance
     registry = ContentRegistry(ContentValidator(UniversalSafetyGovernance()))
     proposal = parse_generation_proposal(Path(path).read_text(encoding="utf-8"))
@@ -52,6 +52,30 @@ def run(path, scenario_id, *, observer_key=None):
             processor.dispatch_with_evidence(event)
             for message in presentation.publish_event(event.id).messages:
                 print(message.content)
+    if approach:
+        # One explicitly requested existing passage step, never a generated move.
+        from cognitive_world.core.passage import PassageState
+        route = next((state for state in world.environment.values() if isinstance(state, PassageState)
+                      and state.source_location_id == world.locations.get(actor)), None)
+        if route is None:
+            raise ValueError("no installed passage supports this approach")
+        attempt = ActionPipeline().create_attempt(ActionProposal("approach", actor, "Walk", [route.passage_id],
+            {"method":"walk through the passage"}))
+        result, event = ActionResolutionFlow(MethodBasedResolutionEngine(world_state=world),
+            world_state=world, event_history=history).execute_with_result(attempt, simulation_tick=clock.capture())
+        if event is not None:
+            processor.dispatch_with_evidence(event)
+            for message in presentation.publish_event(event.id).messages:
+                print(message.content)
+        if event is not None and result.success:
+            for key, _, _, _ in template.objects:
+                query = SystemEventFactory().create(event_id=f"view:{key}:after-approach",
+                    event_type="object_observed", timestamp="", simulation_tick=clock.current_time,
+                    participants=[actor], changes=[{"entity_id":f"local:demo:object:{key}",
+                        "observer_id":actor,"precision":"detail"}])
+                processor.dispatch_with_evidence(query)
+                for message in presentation.publish_event(query.id).messages:
+                    print(message.content)
     # Offer the existing installed method, not a narrative assertion of success.
     for target, state in world.environment.items():
         from cognitive_world.core.door import DoorState
@@ -75,8 +99,9 @@ def main():
     parser.add_argument("content", type=Path)
     parser.add_argument("--scenario", required=True)
     parser.add_argument("--observer")
+    parser.add_argument("--approach", action="store_true")
     args = parser.parse_args()
-    run(args.content, args.scenario, observer_key=args.observer)
+    run(args.content, args.scenario, observer_key=args.observer, approach=args.approach)
 
 if __name__ == "__main__":
     main()

@@ -67,12 +67,16 @@ class LocationTemplate:
     template_id: str
     description: str
     mechanisms: tuple[MechanismTemplate, ...] = ()
+    observation_zone: object | None = None
 
     def __post_init__(self) -> None:
         _id(self.template_id)
         _text(self.description)
         if not isinstance(self.mechanisms, tuple) or any(type(x) is not MechanismTemplate for x in self.mechanisms):
             raise TypeError("mechanisms must be typed immutable definitions")
+        from cognitive_world.core.observation_range import ObservationZone
+        if self.observation_zone is not None and type(self.observation_zone) is not ObservationZone:
+            raise TypeError("location zone must use the exact versioned record")
         ids = [x.local_id for x in self.mechanisms]
         if len(ids) != len(set(ids)):
             raise ValueError("duplicate mechanism local ID")
@@ -180,6 +184,7 @@ class ObjectTemplate:
     description: str
     kind: str
     appearance: object
+    observation_policy: object | None = None
 
     def __post_init__(self):
         from cognitive_world.core.object_appearance import ObjectAppearance
@@ -188,3 +193,6 @@ class ObjectTemplate:
         if self.kind not in {"object", "tool"} or type(self.appearance) is not ObjectAppearance:
             raise ValueError("unsupported object definition")
         self.appearance.__post_init__()
+        from cognitive_world.core.observation_range import ObservationRangePolicy
+        if self.observation_policy is not None and type(self.observation_policy) is not ObservationRangePolicy:
+            raise TypeError("object range policy must use the exact versioned record")

@@ -85,6 +85,10 @@ class ContentValidator:
             for _, template_id, location_key in scenario.characters:
                 if template_id not in characters or location_key not in location_keys:
                     raise ValueError("missing CharacterTemplate or placement")
+            for _, tid in scenario.locations:
+                zone = locations[tid].observation_zone
+                if zone is not None and zone.frame_id not in location_keys:
+                    raise ValueError("observation frame is not a scenario location")
             object_keys = [row[0] for row in scenario.objects]
             if len(set(object_keys)) != len(object_keys) or set(object_keys) & (set(character_keys) | set(location_keys)):
                 raise ValueError("object local identity conflict")
@@ -92,6 +96,9 @@ class ContentValidator:
             for key, tid, place, owner in scenario.objects:
                 if tid not in objects or place not in refs or (owner is not None and owner not in {"actor:" + k for k in character_keys}):
                     raise ValueError("object placement or owner reference missing")
+                policy = objects[tid].observation_policy
+                if policy is not None and not set(policy.detail_observers).issubset(character_keys):
+                    raise ValueError("detail recipient is outside the scenario")
             for _, tid in scenario.locations:
                 for mechanism in locations[tid].mechanisms:
                     if mechanism.key_ref is not None and mechanism.key_ref not in object_keys:
@@ -259,11 +266,23 @@ class ContentInstantiator:
                 or agents.get(identity) is not None for identity in planned_ids):
             raise ValueError("content runtime identity conflict")
         object_locations = []
-        entities = [Entity(location.instance_id, "location") for location in locations]
+        from cognitive_world.core.observation_range import ObservationZone, ObservationRangePolicy
+        entities = []
+        for location in locations:
+            zone = self.registry.location(location.template_id).observation_zone
+            attributes = {} if zone is None else {"observation_zone": ObservationZone(
+                1, location_ids[zone.frame_id], zone.offset_m)}
+            entities.append(Entity(location.instance_id, "location", attributes=attributes))
         for key, tid, place, owner in scenario.objects:
             template = self.registry.object(tid)
             oid = object_ids[key]
-            entities.append(Entity(oid, template.kind, attributes={"appearance": template.appearance},
+            attributes = {"appearance": template.appearance}
+            policy = template.observation_policy
+            if policy is not None:
+                attributes["observation_policy"] = ObservationRangePolicy(1,
+                    policy.coarse_distance_m, policy.detail_distance_m,
+                    tuple(actor_ids[key] for key in policy.detail_observers))
+            entities.append(Entity(oid, template.kind, attributes=attributes,
                                    owner_id=None if owner is None else local_refs[owner]))
             object_locations.append((oid, local_refs[place]))
         environment: list[tuple[str, DoorState | PassageState]] = []

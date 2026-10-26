@@ -244,7 +244,8 @@ class EventProcessor:
             from cognitive_world.observation.object_projection import capture as capture_object
             for draft in fact_drafts:
                 if draft.fact_type == "object_appearance":
-                    conditions.extend(capture_object(world_state, draft.subject_ref))
+                    conditions.extend(capture_object(world_state, draft.subject_ref,
+                        observer_id=event.changes[0].get("observer_id") if event.changes else None))
                 if not isinstance(environment, Mapping):
                     break
                 if draft.predicate == "room_light_on" and draft.location_id:

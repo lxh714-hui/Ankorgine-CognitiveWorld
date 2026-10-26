@@ -1,0 +1,143 @@
+{
+  "schema_version": 3,
+  "content_type": "generation_proposal",
+  "characters": [
+    {
+      "template_id": "worker",
+      "description": "A person inspecting available objects",
+      "goal_descriptions": [
+        "Open the door if possible"
+      ],
+      "sensory_capabilities": [
+        "sight"
+      ],
+      "physical_capabilities": [
+        "manual_manipulation",
+        "locomotion"
+      ]
+    }
+  ],
+  "locations": [
+    {
+      "template_id": "far",
+      "description": "A declared point in one bounded observation domain",
+      "mechanisms": [
+        {
+          "local_id": "route",
+          "kind": "passage",
+          "destination_key": "near",
+          "initially_open": false,
+          "initially_locked": false,
+          "operable": true,
+          "key_ref": null
+        }
+      ],
+      "observation_zone": {
+        "version": 1,
+        "frame_id": "target",
+        "offset_m": 8
+      }
+    },
+    {
+      "template_id": "near",
+      "description": "A declared point in one bounded observation domain",
+      "mechanisms": [
+        {
+          "local_id": "route",
+          "kind": "passage",
+          "destination_key": "target",
+          "initially_open": false,
+          "initially_locked": false,
+          "operable": true,
+          "key_ref": null
+        }
+      ],
+      "observation_zone": {
+        "version": 1,
+        "frame_id": "target",
+        "offset_m": 1
+      }
+    },
+    {
+      "template_id": "target",
+      "description": "A declared point in one bounded observation domain",
+      "mechanisms": [],
+      "observation_zone": {
+        "version": 1,
+        "frame_id": "target",
+        "offset_m": 0
+      }
+    }
+  ],
+  "objects": [
+    {
+      "template_id": "keytool",
+      "description": "A small manufactured object",
+      "kind": "tool",
+      "appearance": {
+        "version": 1,
+        "shape": "small",
+        "detail": "notched",
+        "visible": true,
+        "detail_visible": true
+      },
+      "observation_policy": {
+        "version": 1,
+        "coarse_distance_m": 10,
+        "detail_distance_m": 2,
+        "detail_observers": [
+          "worker"
+        ]
+      }
+    }
+  ],
+  "scenarios": [
+    {
+      "template_id": "visit",
+      "description": "Inspect an object and attempt a door",
+      "locations": [
+        [
+          "far",
+          "far"
+        ],
+        [
+          "near",
+          "near"
+        ],
+        [
+          "target",
+          "target"
+        ]
+      ],
+      "characters": [
+        [
+          "worker",
+          "worker",
+          "far"
+        ],
+        [
+          "other",
+          "worker",
+          "near"
+        ]
+      ],
+      "entry_key": "far",
+      "exit_keys": [
+        "target"
+      ],
+      "event_seeds": [],
+      "side_branch": false,
+      "value_refs": [
+        "worker"
+      ],
+      "objects": [
+        [
+          "tool",
+          "keytool",
+          "location:target",
+          null
+        ]
+      ]
+    }
+  ]
+}
