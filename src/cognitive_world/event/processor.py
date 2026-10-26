@@ -70,6 +70,8 @@ class EventProcessor:
             self.persistence_codec, PersistedValueCodec
         ):
             raise TypeError("persistence_codec must be PersistedValueCodec")
+        from cognitive_world.event.object_observation import ObjectObservedHandler
+        self._handlers.setdefault("object_observed", ObjectObservedHandler())
         self._handlers.setdefault("resolution", ResolutionEffectsHandler())
         self._handlers.setdefault("world_norms_updated", WorldNormsUpdatedHandler())
         self._handlers.setdefault(
@@ -202,7 +204,7 @@ class EventProcessor:
             if not isinstance(update_request, WorldUpdate):
                 raise TypeError("EventHandler.handle must return a WorldUpdate")
 
-            fact_drafts = handler.observable_facts(event, update_request)
+            fact_drafts = handler.observable_facts_with_world_state(event, update_request, world_state)
             if not isinstance(fact_drafts, tuple) or any(
                 not isinstance(draft, ObservableFactDraft) for draft in fact_drafts
             ):
@@ -239,7 +241,10 @@ class EventProcessor:
             environment_snapshot_complete = (
                 getattr(world_state, "environment_snapshot_complete", False) is True
             )
+            from cognitive_world.observation.object_projection import capture as capture_object
             for draft in fact_drafts:
+                if draft.fact_type == "object_appearance":
+                    conditions.extend(capture_object(world_state, draft.subject_ref))
                 if not isinstance(environment, Mapping):
                     break
                 if draft.predicate == "room_light_on" and draft.location_id:

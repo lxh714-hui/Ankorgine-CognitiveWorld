@@ -7,7 +7,7 @@ import re
 from typing import Mapping, Protocol
 
 from .models import (CharacterTemplate, EventSeed, LocationTemplate,
-                     MechanismTemplate, ScenarioTemplate)
+                     MechanismTemplate, ScenarioTemplate, ObjectTemplate)
 from .pipeline import GenerationProposal
 
 
@@ -136,14 +136,14 @@ def _optional_id(value: object) -> str | None:
     return None if value is None else _id(value)
 
 
-def _mechanism(value: object) -> MechanismTemplate:
-    data = _object(value, {"local_id", "kind", "destination_key", "initially_open", "initially_locked", "operable"})
+def _mechanism(value: object, version=1) -> MechanismTemplate:
+    data = _object(value, {"local_id", "kind", "destination_key", "initially_open", "initially_locked", "operable"} | ({"key_ref"} if version == 2 else set()))
     kind = _id(data["kind"])
     if kind not in {"door", "passage"}:
         raise ContentGenerationError("no installed mechanism adapter")
     return MechanismTemplate(_id(data["local_id"]), kind, _optional_id(data["destination_key"]),
                              _boolean(data["initially_open"]), _boolean(data["initially_locked"]),
-                             _boolean(data["operable"]))
+                             _boolean(data["operable"]), _optional_id(data["key_ref"]) if version == 2 else None)
 
 
 def _character(value: object) -> CharacterTemplate:
@@ -153,10 +153,10 @@ def _character(value: object) -> CharacterTemplate:
                              _ids(data["physical_capabilities"]))
 
 
-def _location(value: object) -> LocationTemplate:
+def _location(value: object, version=1) -> LocationTemplate:
     data = _object(value, {"template_id", "description", "mechanisms"})
     return LocationTemplate(_id(data["template_id"]), _text(data["description"]),
-                            tuple(_mechanism(item) for item in _array(data["mechanisms"], MAX_MECHANISMS)))
+                            tuple(_mechanism(item, version) for item in _array(data["mechanisms"], MAX_MECHANISMS)))
 
 
 def _seed(value: object) -> EventSeed:
@@ -174,8 +174,8 @@ def _seed(value: object) -> EventSeed:
                      importance, _ids(data["follow_up_hooks"]), _texts(data["constraints"]))
 
 
-def _scenario(value: object) -> ScenarioTemplate:
-    data = _object(value, {"template_id", "description", "locations", "characters", "entry_key", "exit_keys", "event_seeds", "side_branch", "value_refs"})
+def _scenario(value: object, version=1) -> ScenarioTemplate:
+    data = _object(value, {"template_id", "description", "locations", "characters", "entry_key", "exit_keys", "event_seeds", "side_branch", "value_refs"} | ({"objects"} if version == 2 else set()))
     locations = tuple((_id(item[0]), _id(item[1])) if type(item) is list and len(item) == 2
                       else _invalid_reference() for item in _array(data["locations"], MAX_TEMPLATES))
     characters = tuple((_id(item[0]), _id(item[1]), _id(item[2])) if type(item) is list and len(item) == 3
@@ -184,7 +184,8 @@ def _scenario(value: object) -> ScenarioTemplate:
                             locations, characters, _id(data["entry_key"]),
                             _ids(data["exit_keys"]),
                             tuple(_seed(item) for item in _array(data["event_seeds"], MAX_SEEDS)),
-                            _boolean(data["side_branch"]), _ids(data["value_refs"]))
+                            _boolean(data["side_branch"]), _ids(data["value_refs"]),
+                            tuple(_placement(x) for x in _array(data["objects"], MAX_TEMPLATES)) if version == 2 else ())
 
 
 def _invalid_reference() -> tuple:
@@ -201,13 +202,15 @@ def parse_generation_proposal(raw: str) -> GenerationProposal:
     except (json.JSONDecodeError, UnicodeError) as exc:
         raise ContentGenerationError("provider returned malformed JSON") from exc
     _bounded_tree(data)
-    root = _object(data, {"schema_version", "content_type", "characters", "locations", "scenarios"})
-    if type(root["schema_version"]) is not int or root["schema_version"] != SCHEMA_VERSION or root["content_type"] != "generation_proposal":
+    version = data.get("schema_version") if type(data) is dict else None
+    root = _object(data, {"schema_version", "content_type", "characters", "locations", "scenarios"} | ({"objects"} if version == 2 else set()))
+    if type(root["schema_version"]) is not int or root["schema_version"] not in (1, 2) or root["content_type"] != "generation_proposal":
         raise ContentGenerationError("unsupported content schema version or type")
     proposal = GenerationProposal(
         tuple(_character(item) for item in _array(root["characters"], MAX_TEMPLATES)),
-        tuple(_location(item) for item in _array(root["locations"], MAX_TEMPLATES)),
-        tuple(_scenario(item) for item in _array(root["scenarios"], MAX_TEMPLATES)),
+        tuple(_location(item, version) for item in _array(root["locations"], MAX_TEMPLATES)),
+        tuple(_scenario(item, version) for item in _array(root["scenarios"], MAX_TEMPLATES)),
+        tuple(_object_template(x) for x in _array(root["objects"], MAX_TEMPLATES)) if version == 2 else (),
     )
     if not (proposal.characters or proposal.locations or proposal.scenarios):
         raise ContentGenerationError("content proposal contains no reusable definition")
@@ -267,3 +270,29 @@ class LLMContentGenerator:
         except Exception as exc:
             raise ContentGenerationUnavailable(f"content provider unavailable: {type(exc).__name__}") from exc
         return parse_generation_proposal(raw)
+
+
+def _local_ref(value, allowed):
+    if not isinstance(value, str) or ":" not in value:
+        raise ContentGenerationError("placement needs an explicit local namespace")
+    prefix, key = value.split(":", 1)
+    if prefix not in allowed:
+        raise ContentGenerationError("unsupported placement namespace")
+    _id(key)
+    return value
+
+
+def _placement(value):
+    if type(value) is not list or len(value) != 4:
+        raise ContentGenerationError("object placement needs key, template, location and optional owner")
+    return (_id(value[0]), _id(value[1]), _local_ref(value[2], {"location", "actor"}),
+            None if value[3] is None else _local_ref(value[3], {"actor"}))
+
+
+def _object_template(value):
+    from cognitive_world.core.object_appearance import ObjectAppearance
+    data = _object(value, {"template_id", "description", "kind", "appearance"})
+    a = _object(data["appearance"], {"version", "shape", "detail", "visible", "detail_visible"})
+    return ObjectTemplate(_id(data["template_id"]), _text(data["description"]), _id(data["kind"]),
+        ObjectAppearance(a["version"], _id(a["shape"]), _id(a["detail"]),
+                         _boolean(a["visible"]), _boolean(a["detail_visible"])))

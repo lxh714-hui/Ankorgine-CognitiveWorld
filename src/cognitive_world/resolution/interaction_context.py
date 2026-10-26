@@ -218,6 +218,7 @@ class InteractionStateAggregator:
         held_tool_ids = tuple(sorted(
             entity.id for entity in world_state.get_owned_entities(attempt.agent_id)
             if getattr(entity, "type", None) == "tool"
+            and world_state.locations.get(entity.id, attempt.agent_id) == attempt.agent_id
         ))
         if actor is not None:
             source_refs.append(f"world_state:entities:owned_tools:{attempt.agent_id}")
@@ -276,6 +277,7 @@ class InteractionStateAggregator:
             slots.extend((
                 WorldStateSlot("entities", tool_id, ("type",)),
                 WorldStateSlot("entities", tool_id, ("owner_id",)),
+                WorldStateSlot("locations", tool_id),
             ))
         unique_slots = tuple(dict.fromkeys(slots))[:32]
         slot_reads = tuple(

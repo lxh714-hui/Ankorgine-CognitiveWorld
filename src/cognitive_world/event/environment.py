@@ -271,7 +271,8 @@ class DoorResolutionHandler(EventHandler):
             raise ValueError("locked door transition requires its confirmed key")
         if not expected.is_locked and key_id is not None:
             raise ValueError("unlocked door transition must not claim a key use")
-        if key_id is not None and ((key := world_state.get_entity(key_id)) is None or key.type != "tool" or key.owner_id != actor_id):
+        if key_id is not None and ((key := world_state.get_entity(key_id)) is None or key.type != "tool" or key.owner_id != actor_id
+                or world_state.locations.get(key_id, actor_id) != actor_id):
             raise ValueError("required key is not an authoritative tool entity")
         return WorldUpdate("environment", "update", {door_id: state})
 

@@ -58,6 +58,10 @@ class MinimalComposer:
 
     @staticmethod
     def _render(item: VisibleInput) -> str | None:
+        if item.scope == "environment" and item.fact_type == "object_appearance":
+            shapes = {"small": "你看到一个小物体。", "box": "你看到一个盒状物体。", "flat": "你看到一个扁平物体。"}
+            details = {"notched": "细看可见物体边缘的凹齿。", "striped": "细看可见表面的条纹。", "plain": "细看可见平整的表面。"}
+            return shapes.get(item.value) if item.predicate == "object_shape" else details.get(item.value) if item.predicate == "object_detail" else None
         if (
             item.scope == "environment"
             and item.fact_type == "movement"

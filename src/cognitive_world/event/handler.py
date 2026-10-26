@@ -26,3 +26,7 @@ class EventHandler:
         are never interpreted as ObservableFacts automatically.
         """
         return ()
+
+    def observable_facts_with_world_state(self, event, update, world_state):
+        """Read-only pre-apply projection hook; default retains existing behavior."""
+        return self.observable_facts(event, update)

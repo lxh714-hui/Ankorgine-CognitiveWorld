@@ -1,0 +1,86 @@
+{
+  "schema_version": 2,
+  "content_type": "generation_proposal",
+  "characters": [
+    {
+      "template_id": "worker",
+      "description": "A person inspecting available objects",
+      "goal_descriptions": [
+        "Open the door if possible"
+      ],
+      "sensory_capabilities": [
+        "sight"
+      ],
+      "physical_capabilities": [
+        "manual_manipulation"
+      ]
+    }
+  ],
+  "locations": [
+    {
+      "template_id": "room",
+      "description": "An illuminated work room",
+      "mechanisms": [
+        {
+          "local_id": "door",
+          "kind": "door",
+          "destination_key": null,
+          "initially_open": false,
+          "initially_locked": true,
+          "operable": true,
+          "key_ref": "tool"
+        }
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "template_id": "keytool",
+      "description": "A small manufactured object",
+      "kind": "tool",
+      "appearance": {
+        "version": 1,
+        "shape": "small",
+        "detail": "notched",
+        "visible": true,
+        "detail_visible": true
+      }
+    }
+  ],
+  "scenarios": [
+    {
+      "template_id": "visit",
+      "description": "Inspect an object and attempt a door",
+      "locations": [
+        [
+          "room",
+          "room"
+        ]
+      ],
+      "characters": [
+        [
+          "worker",
+          "worker",
+          "room"
+        ]
+      ],
+      "entry_key": "room",
+      "exit_keys": [
+        "room"
+      ],
+      "event_seeds": [],
+      "side_branch": false,
+      "value_refs": [
+        "worker"
+      ],
+      "objects": [
+        [
+          "tool",
+          "keytool",
+          "actor:worker",
+          "actor:worker"
+        ]
+      ]
+    }
+  ]
+}

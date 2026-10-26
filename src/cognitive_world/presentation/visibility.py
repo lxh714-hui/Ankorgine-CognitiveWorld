@@ -143,6 +143,8 @@ class VisibilityFilter:
 
     @staticmethod
     def _scope_for(fact: ObservableFact) -> str | None:
+        if fact.fact_type == "object_appearance" and fact.predicate in {"object_shape", "object_detail"} and fact.location_id is not None:
+            return "environment"
         if fact.fact_type == "social_output" and fact.predicate == "utterance_delivered":
             return "dialogue"
         if fact.fact_type == "environment_state" and fact.location_id is not None:

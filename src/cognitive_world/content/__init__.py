@@ -2,7 +2,7 @@
 
 from .models import (CharacterTemplate, CharacterInstance, LocationTemplate,
                      LocationInstance, MechanismTemplate, ScenarioTemplate,
-                     ScenarioInstance, EventSeed)
+                     ScenarioInstance, EventSeed, ObjectTemplate)
 from .pipeline import (ContentGenerator, GenerationProposal, ContentValidator,
                        ContentRegistry, ContentInstantiator)
 from .seeds import SeedOpportunity, observed_seed_opportunities
@@ -18,7 +18,7 @@ from .expansion import (ContentExpansionNeed, ContentExpansionResult,
                         ContentNeedPolicy, ContentGeneratorFactory,
                         ProactiveContentExpansion)
 
-__all__ = ["CharacterTemplate", "CharacterInstance", "LocationTemplate",
+__all__ = ["ObjectTemplate", "CharacterTemplate", "CharacterInstance", "LocationTemplate",
            "LocationInstance", "MechanismTemplate", "ScenarioTemplate",
            "ScenarioInstance", "EventSeed", "ContentGenerator", "GenerationProposal",
            "ContentValidator", "ContentRegistry", "ContentInstantiator",

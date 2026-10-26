@@ -62,13 +62,16 @@ class VisibilityPolicy:
         if (
             not isinstance(event, Event)
             or not event.has_trusted_source()
-            or event.type not in {"room_light_changed", "resolution", "environment_state_observed", "dialogue_input", "dialogue_reply"}
+            or event.type not in {"room_light_changed", "resolution", "environment_state_observed", "dialogue_input", "dialogue_reply", "object_observed"}
             or not isinstance(evidence, EventProcessingEvidence)
             or not evidence.has_trusted_source(event)
             or not isinstance(observer_id, str)
             or not observer_id
         ):
             return False
+        if event.type == "object_observed":
+            from cognitive_world.observation.object_projection import allows_object_fact
+            return any(allows_object_fact(event, evidence, observer_id, f) for f in evidence.observable_facts)
         if _allows_door_open_failure(event, evidence, observer_id, event_history=event_history):
             return True
         context = evidence.event_time_context
@@ -213,7 +216,8 @@ class ObservationGenerator:
                 fact.has_trusted_source(event)
                 and fact.location_id == context.fact_location_id
                 and (
-                    _allows_door_open_failure(event, evidence, observer_id, fact, event_history)
+                    (fact.fact_type == "object_appearance" and _allows_object(event, evidence, observer_id, fact))
+                    or _allows_door_open_failure(event, evidence, observer_id, fact, event_history)
                     or
                     (event.type in {"dialogue_input", "dialogue_reply"} and fact.fact_type == ("social_input" if event.type == "dialogue_input" else "social_output") and fact.predicate == "utterance_delivered" and fact.subject_ref == observer_id and observer_id in event.participants and observer_id in {item[0] for item in context.observer_positions} and context.fact_location_id == fact.location_id and next((position for identity, position, _ in context.observer_positions if identity == observer_id), None) == fact.location_id and isinstance(fact.value, str))
                     or
@@ -262,3 +266,8 @@ class ObservationGenerator:
             )
             observations.append(observation)
         return tuple(observations)
+
+
+def _allows_object(event, evidence, observer_id, fact):
+    from cognitive_world.observation.object_projection import allows_object_fact
+    return allows_object_fact(event, evidence, observer_id, fact)

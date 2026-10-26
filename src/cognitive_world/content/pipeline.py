@@ -18,7 +18,7 @@ from cognitive_world.core.world_state import WorldState
 from cognitive_world.safety.governance import SafetyDisposition, SafetyInput, UniversalSafetyGovernance
 
 from .models import (CharacterInstance, CharacterTemplate, EventSeed, LocationInstance,
-                     LocationTemplate, ScenarioInstance, ScenarioTemplate)
+                     LocationTemplate, ScenarioInstance, ScenarioTemplate, ObjectTemplate)
 
 
 @dataclass(frozen=True)
@@ -26,6 +26,7 @@ class GenerationProposal:
     characters: tuple[CharacterTemplate, ...]
     locations: tuple[LocationTemplate, ...]
     scenarios: tuple[ScenarioTemplate, ...]
+    objects: tuple[ObjectTemplate, ...] = ()
 
 
 class ContentGenerator(Protocol):
@@ -52,10 +53,11 @@ class ContentValidator:
     def validate(self, proposal: GenerationProposal) -> None:
         if type(proposal) is not GenerationProposal:
             raise TypeError("generation requires a typed proposal")
+        objects = self._index(proposal.objects, ObjectTemplate)
         characters = self._index(proposal.characters, CharacterTemplate)
         locations = self._index(proposal.locations, LocationTemplate)
         scenarios = self._index(proposal.scenarios, ScenarioTemplate)
-        for template in (*characters.values(), *locations.values(), *scenarios.values()):
+        for template in (*characters.values(), *locations.values(), *scenarios.values(), *objects.values()):
             self._check_text(template.description)
         for character in characters.values():
             for goal in character.goal_descriptions:
@@ -83,6 +85,21 @@ class ContentValidator:
             for _, template_id, location_key in scenario.characters:
                 if template_id not in characters or location_key not in location_keys:
                     raise ValueError("missing CharacterTemplate or placement")
+            object_keys = [row[0] for row in scenario.objects]
+            if len(set(object_keys)) != len(object_keys) or set(object_keys) & (set(character_keys) | set(location_keys)):
+                raise ValueError("object local identity conflict")
+            refs = {"location:" + k for k in location_keys} | {"actor:" + k for k in character_keys}
+            for key, tid, place, owner in scenario.objects:
+                if tid not in objects or place not in refs or (owner is not None and owner not in {"actor:" + k for k in character_keys}):
+                    raise ValueError("object placement or owner reference missing")
+            for _, tid in scenario.locations:
+                for mechanism in locations[tid].mechanisms:
+                    if mechanism.key_ref is not None and mechanism.key_ref not in object_keys:
+                        raise ValueError("door key reference missing")
+                    if mechanism.key_ref is not None:
+                        template_id = next(row[1] for row in scenario.objects if row[0] == mechanism.key_ref)
+                        if objects[template_id].kind != "tool":
+                            raise ValueError("door key requires a tool object")
             seed_ids = [seed.seed_id for seed in scenario.event_seeds]
             if len(seed_ids) != len(set(seed_ids)):
                 raise ValueError("duplicate EventSeed ID")
@@ -119,6 +136,7 @@ class ContentValidator:
 class ContentRegistry:
     """Only validated template definitions, never live world or cognition state."""
     validator: ContentValidator
+    _objects: dict[str, ObjectTemplate] = field(default_factory=dict, init=False, repr=False)
     _characters: dict[str, CharacterTemplate] = field(default_factory=dict, repr=False)
     _locations: dict[str, LocationTemplate] = field(default_factory=dict, repr=False)
     _scenarios: dict[str, ScenarioTemplate] = field(default_factory=dict, repr=False)
@@ -134,7 +152,7 @@ class ContentRegistry:
     def register(self, proposal: GenerationProposal) -> None:
         self.validator.validate(proposal)
         groups = ((self._characters, proposal.characters), (self._locations, proposal.locations),
-                  (self._scenarios, proposal.scenarios))
+                  (self._scenarios, proposal.scenarios), (self._objects, proposal.objects))
         if any(item.template_id in target for target, items in groups for item in items):
             raise ValueError("template ID already registered")
         for target, items in groups:
@@ -145,7 +163,7 @@ class ContentRegistry:
         self.validator.validate(proposal)
         groups = ((self._characters, proposal.characters),
                   (self._locations, proposal.locations),
-                  (self._scenarios, proposal.scenarios))
+                  (self._scenarios, proposal.scenarios), (self._objects, proposal.objects))
         return any(items for _, items in groups) and all(
             target.get(item.template_id) == item
             for target, items in groups for item in items
@@ -156,7 +174,7 @@ class ContentRegistry:
         self.validator.validate(proposal)
         groups = ((self._characters, proposal.characters),
                   (self._locations, proposal.locations),
-                  (self._scenarios, proposal.scenarios))
+                  (self._scenarios, proposal.scenarios), (self._objects, proposal.objects))
         return any(
             item.template_id in target and target[item.template_id] != item
             for target, items in groups for item in items
@@ -167,8 +185,11 @@ class ContentRegistry:
         self.validator.validate(proposal)
         groups = ((self._characters, proposal.characters),
                   (self._locations, proposal.locations),
-                  (self._scenarios, proposal.scenarios))
+                  (self._scenarios, proposal.scenarios), (self._objects, proposal.objects))
         return any(item.template_id in target for target, items in groups for item in items)
+
+    def object(self, template_id):
+        return self._objects[template_id]
 
     def scenario(self, template_id: str) -> ScenarioTemplate:
         return self._scenarios[template_id]
@@ -209,6 +230,10 @@ class ContentInstantiator:
             f"{world_id}:{instance_id}:character:{key}",
             f"{world_id}:{instance_id}:agent:{key}", location_ids[location_key])
             for key, character_template_id, location_key in scenario.characters)
+        object_ids = {key: f"{world_id}:{instance_id}:object:{key}" for key, _, _, _ in scenario.objects}
+        actor_ids = {key: actor.agent_id for (key, _, _), actor in zip(scenario.characters, characters)}
+        local_refs = {**{"location:" + k: v for k, v in location_ids.items()},
+                      **{"actor:" + k: v for k, v in actor_ids.items()}}
         instance = ScenarioInstance(template_id, instance_id, world_id, locations, characters,
             location_ids[scenario.entry_key], tuple(location_ids[key] for key in scenario.exit_keys),
             scenario.event_seeds, scenario.side_branch, scenario.value_refs)
@@ -225,13 +250,29 @@ class ContentInstantiator:
                or cognition.get_self_model(character.agent_id) is not None
                or cognition.goal_store.get(character.agent_id) for character in characters):
             raise ValueError("character instance ID already exists")
+        if any(oid in existing_entities or oid in existing_locations or oid in existing_environment for oid in object_ids.values()):
+            raise ValueError("object instance ID already exists")
+        planned_ids = [*location_ids.values(), *actor_ids.values(), *object_ids.values(),
+                       *(mid for location in locations for mid in location.mechanism_ids)]
+        if len(set(planned_ids)) != len(planned_ids) or any(
+                identity in existing_entities or identity in existing_environment or identity in existing_locations
+                or agents.get(identity) is not None for identity in planned_ids):
+            raise ValueError("content runtime identity conflict")
+        object_locations = []
         entities = [Entity(location.instance_id, "location") for location in locations]
+        for key, tid, place, owner in scenario.objects:
+            template = self.registry.object(tid)
+            oid = object_ids[key]
+            entities.append(Entity(oid, template.kind, attributes={"appearance": template.appearance},
+                                   owner_id=None if owner is None else local_refs[owner]))
+            object_locations.append((oid, local_refs[place]))
         environment: list[tuple[str, DoorState | PassageState]] = []
         for location in locations:
             for mechanism, mid in zip(self.registry.location(location.template_id).mechanisms, location.mechanism_ids):
                 if mechanism.kind == "door":
                     state = DoorState(mid, location.instance_id, mechanism.initially_open,
-                                      mechanism.initially_locked, mechanism.operable)
+                                      mechanism.initially_locked, mechanism.operable,
+                                      None if mechanism.key_ref is None else object_ids[mechanism.key_ref])
                 else:
                     state = PassageState(mid, location.instance_id,
                         location_ids[mechanism.destination_key], mechanism.operable)
@@ -253,7 +294,7 @@ class ContentInstantiator:
             ScenarioPhase.AVAILABLE, instance.entry_location_id, instance.exit_location_ids,
             clock.capture().tick if clock is not None else None)
         return ContentInstallationPlan(instance, tuple(entities),
-            tuple((character.agent_id, character.location_id) for character in characters),
+            tuple((character.agent_id, character.location_id) for character in characters) + tuple(object_locations),
             tuple(environment), state_key, state, tuple(personalities),
             tuple(self_models), tuple(goals), tuple(runtime_agents))
 

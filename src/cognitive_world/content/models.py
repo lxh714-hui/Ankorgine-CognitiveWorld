@@ -44,11 +44,16 @@ class MechanismTemplate:
     initially_open: bool = False
     initially_locked: bool = False
     operable: bool = True
+    key_ref: str | None = None
 
     def __post_init__(self) -> None:
         _id(self.local_id)
         if self.kind not in {"door", "passage"}:
             raise ValueError("mechanism has no installed world adapter")
+        if self.key_ref is not None:
+            _id(self.key_ref)
+            if self.kind != "door":
+                raise ValueError("only the door adapter accepts a key reference")
         if self.kind == "passage":
             _id(self.destination_key)
         elif self.destination_key is not None:
@@ -112,6 +117,7 @@ class ScenarioTemplate:
     event_seeds: tuple[EventSeed, ...] = ()
     side_branch: bool = False
     value_refs: tuple[str, ...] = ()  # linked local character, mechanism or seed
+    objects: tuple[tuple[str, str, str, str | None], ...] = ()
 
     def __post_init__(self) -> None:
         _id(self.template_id)
@@ -119,7 +125,7 @@ class ScenarioTemplate:
         _id(self.entry_key)
         if type(self.side_branch) is not bool:
             raise TypeError("side_branch must be bool")
-        for values in (self.locations, self.characters, self.exit_keys, self.event_seeds, self.value_refs):
+        for values in (self.locations, self.characters, self.exit_keys, self.event_seeds, self.value_refs, self.objects):
             if not isinstance(values, tuple):
                 raise TypeError("scenario collections must be immutable tuples")
 
@@ -166,3 +172,19 @@ class ScenarioInstance:
         if type(world) is not WorldState or not isinstance(agent_id, str):
             raise TypeError("exit check requires canonical WorldState and actor ID")
         return world.locations.get(agent_id) in self.exit_location_ids
+
+
+@dataclass(frozen=True)
+class ObjectTemplate:
+    template_id: str
+    description: str
+    kind: str
+    appearance: object
+
+    def __post_init__(self):
+        from cognitive_world.core.object_appearance import ObjectAppearance
+        _id(self.template_id)
+        _text(self.description)
+        if self.kind not in {"object", "tool"} or type(self.appearance) is not ObjectAppearance:
+            raise ValueError("unsupported object definition")
+        self.appearance.__post_init__()

@@ -61,7 +61,9 @@ def test_unlocked_door_attempt_flows_through_resolution_processor_and_observatio
     assert len(generated) == 1
     assert generated[0].content.predicate == "door_open"
     assert generated[0].has_trusted_provenance()
-    cognition = CognitiveRuntime().process("agent-1", generated)
+    cognitive_runtime = CognitiveRuntime()
+    cognitive_runtime._bind_observation_history(processor.event_history)
+    cognition = cognitive_runtime.process("agent-1", generated)
     assert f"percept:{generated[0].observation_id}" in cognition.percept_ids
     processor.process(event, state)
     assert state.environment["door-1"].is_open is True

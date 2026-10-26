@@ -113,7 +113,9 @@ def test_production_event_to_player_chat_vertical_slice():
 
     # The same controlled observation still reaches the existing Agent L1 path.
     observed = context.observation_store.get_by_observer("agent-near")
-    cognition_state = CognitiveRuntime().process("agent-near", observed)
+    cognitive_runtime = CognitiveRuntime()
+    cognitive_runtime._bind_observation_history(context.event_history)
+    cognition_state = cognitive_runtime.process("agent-near", observed)
     assert cognition_state.percept_ids == [f"percept:{observed[0].observation_id}"]
 
 
