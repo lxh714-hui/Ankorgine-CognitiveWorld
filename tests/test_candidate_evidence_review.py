@@ -40,7 +40,9 @@ class Candidates:
 def test_authorized_evidence_changes_existing_candidate_ranking_without_world_effect():
     runtime = runtime_with_observations()
     observations = runtime.observation_store.get_by_observer("viewer")
-    cognition = CognitiveRuntime().process("viewer", observations)
+    cognitive_runtime = CognitiveRuntime()
+    cognitive_runtime._bind_observation_history(runtime.event_history)
+    cognition = cognitive_runtime.process("viewer", observations)
     context = DecisionContext(cognition_state=cognition, percepts=tuple(cognition.percepts))
     situation = DeterministicSituationAssessmentPolicy().assess(context)
     provider = LocalProvider()

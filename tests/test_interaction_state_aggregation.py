@@ -223,3 +223,26 @@ def test_resolution_uses_fresh_aggregation_after_trusted_world_change_without_wr
     assert len(runtime.event_history.get_events()) == 3
     assert runtime.observation_store.get_by_observer("actor-a")
     assert not hasattr(after, "world_state")
+
+
+@pytest.mark.parametrize("placement,expected", [
+    ("absent", ("key-a",)), ("held", ("key-a",)),
+    ("elsewhere", ()), ("explicit_none", ("key-a",)),
+])
+def test_targeted_tool_location_preserves_legacy_missing_and_explicit_values(placement, expected):
+    class NoFullLocations(WorldState):
+        @property
+        def locations(self):
+            raise AssertionError("must use bounded location reads")
+    world = NoFullLocations()
+    world.load_entity(Entity("actor-a", "character", physical_capabilities=("manual_manipulation",)))
+    world.load_entity(Entity("key-a", "tool", owner_id="actor-a"))
+    world.load_environment_data("door-a", DoorState("door-a", "room-a", False, False, True))
+    world.load_location("actor-a", "room-a")
+    if placement == "explicit_none":
+        with pytest.raises(ValueError):
+            world.load_location("key-a", None)
+    elif placement != "absent":
+        world.load_location("key-a", {"held": "actor-a", "elsewhere": "room-a"}[placement])
+    aggregate = InteractionStateAggregator().aggregate(_attempt(), world, SimulationClock().capture())
+    assert aggregate.physical.held_tool_ids == expected

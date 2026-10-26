@@ -219,7 +219,9 @@ class InteractionStateAggregator:
         held_tool_ids = tuple(sorted(
             entity.id for entity in world_state.get_owned_entities(attempt.agent_id)
             if getattr(entity, "type", None) == "tool"
-            and world_state.locations.get(entity.id, attempt.agent_id) == attempt.agent_id
+            and (not (location := world_state.read_state_slot(
+                WorldStateSlot("locations", entity.id))).present
+                 or location.value == attempt.agent_id)
         ))
         if actor is not None:
             source_refs.append(f"world_state:entities:owned_tools:{attempt.agent_id}")

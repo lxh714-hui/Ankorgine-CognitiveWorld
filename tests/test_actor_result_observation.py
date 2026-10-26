@@ -341,3 +341,28 @@ def test_untrusted_copy_of_source_event_cannot_publish():
         with pytest.raises(ValueError, match="intact Event from a controlled source"):
             processor.dispatch_with_evidence(forged)
     assert not history.get_events() and not store.all()
+
+
+@pytest.mark.parametrize("target", ["object:missing-door", "agent:door-1", "object:other-door", "object:object:door-1"])
+def test_qualified_failure_cannot_rebind_valid_lock_reads_to_another_target(target):
+    from cognitive_world.core.door import DoorState
+    from cognitive_world.decision import ActionPipeline, ActionProposal
+    from _trusted_event_support import FixedResolutionEngine
+    from cognitive_world.resolution.engine import ResolutionDecision
+    world, clock, history, store, fence, processor, flow = _fixture()
+    world.load_environment_data("other-door", DoorState("other-door", "door_contact", False, True, True))
+    with fence.operation():
+        result, _ = flow.execute_with_result(_attempt(), simulation_tick=clock.capture())
+        assert result.success is False
+        attempt = ActionPipeline().create_attempt(ActionProposal(
+            "different-target", "agent-1", "open", [target], {"method": "push the door"}))
+        # An intentionally incorrect controlled provider result retains the real
+        # door-1 lock reads, which cannot authorize a different requested object.
+        controlled = ActionResolutionFlow(FixedResolutionEngine(ResolutionDecision(
+            False, "failed", metadata=deepcopy(result.metadata))), world_state=world)
+        event = controlled.execute(attempt, simulation_tick=clock.capture())
+        with pytest.raises(PermissionError):
+            processor.dispatch_with_evidence(event)
+    assert not history.get_events() and not _results(store)
+    assert not world.environment["door-1"].is_open and not world.environment["other-door"].is_open
+    assert not history.requires_recovery() and not fence.recovery_required

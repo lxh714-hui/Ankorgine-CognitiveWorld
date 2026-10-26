@@ -19,7 +19,7 @@ from cognitive_world.core.world_state import WorldState
 from cognitive_world.decision import ActionProposal, AgentDecision, DecisionContext
 from cognitive_world.event.history import EventHistory
 from cognitive_world.observation import Observation, ObservationStore
-from tests._trusted_observation_support import make_trusted_observation
+from tests._l1_history_support import light_history
 
 
 class CapturingDecision(AgentDecision):
@@ -72,14 +72,8 @@ def make_pipeline():
     )
     self_models.add(self_model)
 
-    observations = ObservationStore()
-    observation = make_trusted_observation(
-        observation_id="observation-1",
-        observer_id="agent-1",
-        source_event_id="event-1",
-        content={"noticed": "the route"},
-    )
-    observations.add(observation)
+    history_context, observation = light_history("agent-1", "event-1")
+    observations = history_context.observation_store
     character = Character(
         id="character-1",
         agent_id="agent-1",
@@ -103,6 +97,7 @@ def make_pipeline():
         belief_store=stale_beliefs,
         goal_store=stale_goals,
     )
+    runtime._bind_observation_history(history_context.event_history)
     return (
         context,
         runtime,
@@ -116,7 +111,7 @@ def make_pipeline():
 
 
 def test_agent_turn_builds_complete_decision_context_and_proposal():
-    context, runtime, _, _, _, personality, belief, goal = make_pipeline()
+    context, runtime, _, _, observation, personality, belief, goal = make_pipeline()
     decision = CapturingDecision()
 
     proposal = AgentTurn(cognitive_runtime=runtime).execute(
@@ -127,7 +122,7 @@ def test_agent_turn_builds_complete_decision_context_and_proposal():
     assert isinstance(decision_context, DecisionContext)
     assert decision_context.cognition_state.agent_id == "agent-1"
     assert decision_context.cognition_state.percept_ids == (
-        "percept:observation-1",
+        "percept:" + observation.observation_id,
     )
     assert decision_context.personality.traits["caution"] == 0.8
     assert decision_context.self_model.owner_id == "agent-1"

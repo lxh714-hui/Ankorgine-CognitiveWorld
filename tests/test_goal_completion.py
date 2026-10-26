@@ -254,18 +254,39 @@ def test_unknown_or_malformed_conditions_are_rejected_by_creation_governance(pay
     assert not validation.accepted
 
 
-def test_qualified_address_failure_is_uncommitted_and_never_completes_goal():
+def test_qualified_address_failure_commits_private_result_and_feedback_without_completing_goal(tmp_path):
+    from cognitive_world.cognition.l1_instance import verify_instance_proof
     scene = make_room(key_available=False)
     scene.advance(speak=True)
     before = objective(scene)
     action, = scene.advance()
-    # Existing B1 failure validation compares a qualified target to a raw slot ID.
-    # Record this limitation instead of treating Resolution's failure as a commit.
-    assert action.failure_type == "PermissionError" and not action.event_committed
+    assert action.failure_type is None and action.event_committed
     assert action.execution.resolution.success is False
-    assert review(scene, action.execution.event.id).status == "uncommitted"
-    assert objective(scene) == before
-    assert not results(scene)
+    event = action.execution.event
+    original_target = "object:" + scene.definition.door
+    assert action.execution.attempt.target_refs == [original_target]
+    assert tuple(event.metadata["confirmed_attempt_failure"]["target_refs"]) == (original_target,)
+    rt = scene.runtime
+    assert len(results(scene)) == 1 and not rt.context.world_state.environment[scene.definition.door].is_open
+    assert review(scene, event.id).status == "action_failed" and objective(scene) == before
+    observation, = (o for o in rt.context.observation_store.get_by_observer(before.owner_id)
+                    if o.source_event_id == event.id and o.content.fact_type == "action_result")
+    assert observation.has_trusted_provenance() and observation.content.subject_ref == original_target
+    assert not any(o.source_event_id == event.id and o.content.fact_type == "action_result"
+        for o in rt.context.observation_store.get_by_observer(scene.definition.speaker))
+    feedback, = rt.behavior_feedback.history
+    assert feedback.target == original_target and feedback.event_id == event.id and feedback.penalty > 0
+    turn = rt.agent_action_loop.agent_turn
+    with rt.write_fence.operation():
+        proof = turn.l1_consumption_issuer.accept_owner_result(owner_id=before.owner_id,
+            observation=observation, cognitive_runtime=turn.cognitive_runtime, memory_store=scene.memory)
+    verify_instance_proof(proof, history=rt.context.event_history, trust=scene.trust,
+        checkpoint_timeline_id=rt.context.event_history.timeline_id, checkpoint_tick=rt.context.clock.current_time)
+    manager = SaveManager(tmp_path / "qualified-failure", trust=scene.trust, codec=cognitive_snapshot_codec())
+    saved = scene.save(manager)
+    assert manager.load_verified(saved.save_id, timeline_id=saved.timeline_id).metadata.save_id == saved.save_id
+    assert event.metadata["confirmed_attempt_failure"]["target_refs"] == (original_target,)
+    assert objective(scene) == before and len(results(scene)) == 1
 
 
 def test_existing_goal_without_condition_is_not_inferred_from_its_text(monkeypatch):

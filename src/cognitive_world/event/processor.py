@@ -263,12 +263,14 @@ class EventProcessor:
                         (f"action-result:{event.id}:location", world_state.get_location(source["owner_id"]))))
                 elif draft.fact_type == "action_result" and draft.predicate == "door_open_attempt_failed":
                     source = event.metadata["confirmed_attempt_failure"]
-                    door = environment[draft.subject_ref]
+                    from cognitive_world.core.interaction import InteractionReference
+                    address = InteractionReference.parse(draft.subject_ref)
+                    door = environment[address.identifier]
                     conditions.extend((
                         (f"action-result:{event.id}:owner", source["owner_id"]),
-                        (f"door:{door.door_id}:locked", door.is_locked),
-                        (f"door:{door.door_id}:open", door.is_open),
-                        (f"door:{door.door_id}:location", door.interaction_location_id),
+                        (f"door:{draft.subject_ref}:locked", door.is_locked),
+                        (f"door:{draft.subject_ref}:open", door.is_open),
+                        (f"door:{draft.subject_ref}:location", door.interaction_location_id),
                     ))
                 elif draft.predicate == "door_locked" and draft.subject_ref:
                     door = environment.get(draft.subject_ref)
@@ -369,11 +371,15 @@ class EventProcessor:
         if source is None or getattr(self.simulation_clock, "current_time", None) != event.simulation_tick:
             return None
         target = source["target_refs"][0]
-        door = world_state.environment.get(target)
+        from cognitive_world.core.interaction import InteractionReference
+        address = InteractionReference.parse(target)
+        if address.namespace != "object":
+            return None
+        door = world_state.get_environment_entry(address.identifier)
         owner = source["owner_id"]
         observers = self._capture_observers(world_state)
         if (world_state.get_entity(owner) is None
-                or not isinstance(door, DoorState) or door.door_id != target
+                or not isinstance(door, DoorState) or door.door_id != address.identifier
                 or door.is_locked is not True or door.is_open is not False
                 or not any(identity == owner and position == door.interaction_location_id
                            for identity, position, _ in observers)):
@@ -412,7 +418,13 @@ class EventProcessor:
                 raise PermissionError("reach failure does not match canonical geometry and policy")
             return
         target_refs = source["target_refs"]
-        target = target_refs[0]
+        from cognitive_world.core.interaction import InteractionReference
+        if len(target_refs) != 1:
+            raise PermissionError("confirmed door failure requires exactly one target")
+        address = InteractionReference.parse(target_refs[0])
+        if address.namespace != "object":
+            raise PermissionError("confirmed door failure requires an object target")
+        target = address.identifier
         reads = source["state_slot_reads"]
         lock_read = any(
             isinstance(item.get("slot"), Mapping)
@@ -424,7 +436,8 @@ class EventProcessor:
         door_state = world_state.environment.get(target)
         if ("door_locked" not in source["verified_conditions"]
                 or not lock_read
-                or getattr(door_state, "is_locked", None) is not True
+                or type(door_state) is not DoorState or door_state.door_id != target
+                or door_state.is_locked is not True
                 or any(not world_state.verify_state_slot_record(item, event_history=history)
                        for item in reads)):
             raise PermissionError("confirmed failure conditions are stale or lack authoritative state provenance")

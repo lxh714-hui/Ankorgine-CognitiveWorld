@@ -217,6 +217,10 @@ class BehaviorFeedbackSnapshot:
         refuses unknown or untrusted percept references.
         """
         from cognitive_world.observation.observable import EventProcessingEvidence
+        from cognitive_world.core.interaction import InteractionReference
+        address = InteractionReference.parse(target)
+        if address.namespace != "object":
+            return set()
 
         if not isinstance(source_refs, (tuple, list)) or not source_refs:
             return set()
@@ -241,7 +245,7 @@ class BehaviorFeedbackSnapshot:
                     recognized.add(ref)
                 elif isinstance(ref, str) and ref.startswith(f"percept:observation:{event_id}:"):
                     matching = next((fact for fact_id, fact in fact_refs.items()
-                                     if fact_id in ref and fact.subject_ref == target
+                                     if fact_id in ref and fact.subject_ref == address.identifier
                                      and f":{owner_id}:" in ref
                                      and any(observer == owner_id
                                              and position == fact.location_id

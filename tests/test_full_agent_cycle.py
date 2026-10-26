@@ -10,7 +10,7 @@ from cognitive_world.resolution.action_flow import ActionResolutionFlow
 from cognitive_world.resolution.result import ResolutionResult
 from cognitive_world.resolution.engine import ResolutionDecision
 from _trusted_event_support import FixedResolutionEngine as TrustedTestResolutionEngine, make_system_event
-from tests._trusted_observation_support import make_trusted_observation
+from tests._l1_history_support import light_history
 
 
 class ObservingDecision(AgentDecision):
@@ -62,21 +62,10 @@ class ConfirmedResolutionEngine(TrustedTestResolutionEngine):
 
 def test_full_agent_cycle_observes_decides_creates_event_then_applies_it():
     world_state = TrackingWorldState()
-    event_history = EventHistory()
-    source_event = make_system_event(
-        event_id="source_event_001", event_type="world_fact", timestamp="t1",
-        changes=[{"weather": "rain"}],
-    )
-    event_history.append(source_event)
-
-    observation = make_trusted_observation(
-        observation_id="observation_001",
-        observer_id="agent_001",
-        source_event_id=source_event.id,
-        content={"noticed": "rain"},
-    )
-    observation_store = ObservationStore()
-    observation_store.add(observation)
+    history_context, observation = light_history("agent_001", "source_event_001", world=world_state)
+    event_history = history_context.event_history
+    observation_store = history_context.observation_store
+    initial_apply_calls = list(world_state.apply_event_calls)
     character = Character(
         id="character_001",
         agent_id="agent_001",
@@ -104,15 +93,16 @@ def test_full_agent_cycle_observes_decides_creates_event_then_applies_it():
         ),
     )
 
+    loop.agent_turn.cognitive_runtime._bind_observation_history(event_history)
     world_before = dict(world_state.facts)
     history_before = event_history.get_events()
     event = loop.run_turn(agent, cognition_context, decision)
 
     # Cognition received the subject-scoped Observation; generation did not mutate world history.
-    assert decision.observations == ("percept:observation_001",)
+    assert decision.observations == ("percept:" + observation.observation_id,)
     assert world_state.facts == world_before
     assert event_history.get_events() == history_before
-    assert world_state.apply_event_calls == []
+    assert world_state.apply_event_calls == initial_apply_calls
 
     # The chain is traceable from proposal through Attempt and Resolution to Event.
     attempt = pipeline.attempt
@@ -129,7 +119,7 @@ def test_full_agent_cycle_observes_decides_creates_event_then_applies_it():
     processor.register_handler("resolution", RecordResolutionHandler())
     processor.process(event, world_state)
 
-    assert world_state.apply_event_calls == [(event.id, "facts")]
+    assert world_state.apply_event_calls == [*initial_apply_calls, (event.id, "facts")]
     assert world_state.facts["latest_event_id"] == event.id
     assert world_state.facts["latest_outcome"] == "attempt_observed"
     assert event_history.get_events() == (*history_before, event)

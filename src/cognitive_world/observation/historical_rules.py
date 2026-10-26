@@ -140,6 +140,10 @@ class _DoorOpenFailedOwnerResultV1:
         if source is None or not evidence.has_trusted_source(event) or owner_id != source["owner_id"]:
             raise PermissionError("not the original confirmed-failure owner")
         target = source["target_refs"][0]
+        from cognitive_world.core.interaction import InteractionReference
+        address = InteractionReference.parse(target)
+        if address.namespace != "object":
+            raise PermissionError("historical door result requires an object target")
         context = evidence.event_time_context
         conditions = dict(context.environment_conditions or ())
         positions = [p for owner, p, _ in context.observer_positions if owner == owner_id]
@@ -155,7 +159,7 @@ class _DoorOpenFailedOwnerResultV1:
                 or conditions.get(f"door:{target}:locked") is not True
                 or conditions.get(f"door:{target}:open") is not False
                 or conditions.get(f"door:{target}:location") != fact.location_id
-                or not any(r.get("slot") == {"collection": "environment", "record_id": target,
+                or not any(r.get("slot") == {"collection": "environment", "record_id": address.identifier,
                                              "path": ("is_locked",)}
                            and r.get("present") is True
                            and r.get("value_fingerprint") == _slot_fingerprint(True, True)

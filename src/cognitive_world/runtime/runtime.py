@@ -186,8 +186,8 @@ class SimulationRuntime:
             turn = self.agent_action_loop.agent_turn
             self.behavior_feedback._reach_context=(self.context.world_state,self.context.event_history)
             turn.cognitive_runtime._bind_observation_history(
-                self.context.event_history, codec=self.event_processor.persistence_codec,
-                trust=self.event_processor.persistence_trust)
+                self.context.event_history, codec=getattr(self.event_processor, "persistence_codec", None),
+                trust=getattr(self.event_processor, "persistence_trust", None))
             trust = getattr(self.event_processor, "persistence_trust", None)
             codec = getattr(self.event_processor, "persistence_codec", None)
             if trust is not None and codec is not None:

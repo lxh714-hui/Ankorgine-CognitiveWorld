@@ -154,6 +154,17 @@ def build_self_model_review_input(
         content = observation.content
         if hasattr(content, "source_event_id") and getattr(content, "source_event_id", None) != observation.source_event_id:
             continue
+        # Match the existing Belief-review semantic projection; the live fact
+        # and its processor credential remain inside the cognition boundary.
+        from cognitive_world.observation.observable import ObservableFact
+        if isinstance(content, ObservableFact):
+            content = {
+                "fact_type": content.fact_type,
+                "predicate": content.predicate,
+                "value": content.value,
+                "subject_ref": content.subject_ref,
+                "location_id": content.location_id,
+            }
         evidence.append(CognitiveEvidence(observation.observation_id, observation.source_event_id, content))
     if not evidence:
         return None

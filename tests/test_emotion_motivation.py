@@ -20,6 +20,7 @@ from cognitive_world.cognition.emotion_system import (
     DeterministicEmotionAppraisalPolicy,
 )
 from cognitive_world.cognition.runtime import CognitionState
+from tests._l1_history_support import qualified_turn
 from cognitive_world.decision import ActionProposal, DecisionContext
 from cognitive_world.core.entity import Entity
 from cognitive_world.observation import ObservationStore
@@ -89,7 +90,7 @@ def _runtime_observations():
     processor = EventProcessor()
     processor.register_handler("room_light_changed", RoomLightChangedHandler())
     SimulationRuntime(context=context, event_processor=processor).step()
-    return context.observation_store
+    return context
 
 
 def _turn_inputs(owner, observations, emotion, profile, *, goal_id="goal"):
@@ -102,7 +103,7 @@ def _turn_inputs(owner, observations, emotion, profile, *, goal_id="goal"):
         personality_id=owner, goal_ids=[goal_id], emotion_id=emotion.id,
     )
     cognition_context = CognitionContext.from_character(
-        character, container, MemoryStore(), observation_store=observations,
+        character, container, MemoryStore(), observation_store=observations.observation_store,
     )
     return RuntimeAgent(owner, character.id), cognition_context, container
 
@@ -117,7 +118,7 @@ def test_production_observation_updates_owner_emotion_and_next_turn_modulates():
     )
     decision = _Decision(agent.agent_id)
 
-    AgentTurn().execute(agent, context, decision, simulation_tick=SimulationClock(1).capture())
+    qualified_turn(observations).execute(agent, context, decision, simulation_tick=SimulationClock(1).capture())
 
     current = container.get_emotion("emotion:agent-near")
     assert current.levels["alertness"] == pytest.approx(0.6)
@@ -128,7 +129,7 @@ def test_production_observation_updates_owner_emotion_and_next_turn_modulates():
     assert container.get_goal("goal").priority == 0.5
 
     second = _Decision(agent.agent_id)
-    AgentTurn().execute(agent, context, second, simulation_tick=SimulationClock(2).capture())
+    qualified_turn(observations).execute(agent, context, second, simulation_tick=SimulationClock(2).capture())
     assert container.get_emotion("emotion:agent-near").levels["alertness"] == pytest.approx(0.6)
 
 
@@ -139,7 +140,7 @@ def test_same_fact_has_individual_and_goal_conditioned_reactions():
         "agent-near", observations,
         Emotion("e1", "agent-near", levels={}), first_profile,
     )
-    AgentTurn().execute(agent, context, _Decision(agent.agent_id), simulation_tick=SimulationClock(1).capture())
+    qualified_turn(observations).execute(agent, context, _Decision(agent.agent_id), simulation_tick=SimulationClock(1).capture())
     assert container.get_emotion("e1").levels["relief"] > 0
 
     # A second registered co-located observer has its own authored appraisal.
@@ -148,7 +149,7 @@ def test_same_fact_has_individual_and_goal_conditioned_reactions():
         Emotion("e-second", "agent-second", levels={}),
         _profile("agent-second", "concern"),
     )
-    AgentTurn().execute(second_agent, second_context, _Decision("agent-second"), simulation_tick=SimulationClock(1).capture())
+    qualified_turn(observations).execute(second_agent, second_context, _Decision("agent-second"), simulation_tick=SimulationClock(1).capture())
     assert second_container.get_emotion("e-second").levels["concern"] > 0
     assert second_container.get_emotion("e-second").levels != container.get_emotion("e1").levels
 
@@ -159,7 +160,7 @@ def test_same_fact_has_individual_and_goal_conditioned_reactions():
         _profile("agent-near", "relief", goal_id="different-goal"),
         goal_id="goal",
     )
-    AgentTurn().execute(agent2, context2, _Decision(agent2.agent_id), simulation_tick=SimulationClock(1).capture())
+    qualified_turn(observations).execute(agent2, context2, _Decision(agent2.agent_id), simulation_tick=SimulationClock(1).capture())
     assert container2.get_emotion("e2").levels == {}
 
 
@@ -206,7 +207,7 @@ def test_one_observation_can_activate_multiple_emotions_and_cap_at_one():
     agent, context, container = _turn_inputs(
         owner, observations, Emotion("e-multi", owner, levels={"alert": 0.9}), profile,
     )
-    AgentTurn().execute(agent, context, _Decision(owner), simulation_tick=SimulationClock(1).capture())
+    qualified_turn(observations).execute(agent, context, _Decision(owner), simulation_tick=SimulationClock(1).capture())
     levels = container.get_emotion("e-multi").levels
     assert levels["alert"] == 1.0
     assert levels["relief"] == 1.0
@@ -223,7 +224,7 @@ def test_simulation_time_drives_individual_recovery_without_fake_elapsed_time():
         owner, observations,
         Emotion("e-recovery", owner, levels={"calm": 0.8}, last_update_tick=0), profile,
     )
-    AgentTurn().execute(agent, context, _Decision(owner), simulation_tick=SimulationClock(1).capture())
+    qualified_turn(observations).execute(agent, context, _Decision(owner), simulation_tick=SimulationClock(1).capture())
     assert container.get_emotion("e-recovery").levels["calm"] == pytest.approx(0.4)
 
     regulated = EmotionProfile(
@@ -234,7 +235,7 @@ def test_simulation_time_drives_individual_recovery_without_fake_elapsed_time():
         owner, observations,
         Emotion("e-regulated", owner, levels={"calm": 0.8}, last_update_tick=0), regulated,
     )
-    AgentTurn().execute(agent2, context2, _Decision(owner), simulation_tick=SimulationClock(1).capture())
+    qualified_turn(observations).execute(agent2, context2, _Decision(owner), simulation_tick=SimulationClock(1).capture())
     assert container2.get_emotion("e-regulated").levels["calm"] == pytest.approx(0.2)
 
 
@@ -248,12 +249,12 @@ def test_emotion_update_validation_rejects_owner_time_and_old_state_conflicts():
     )
     decision = _Decision(agent.agent_id)
     # AgentTurn exercises the approved producer/validator/applier route.
-    AgentTurn().execute(agent, context, decision, simulation_tick=SimulationClock(1).capture())
+    qualified_turn(observations).execute(agent, context, decision, simulation_tick=SimulationClock(1).capture())
     assert container.get_emotion("e").last_update_tick == 1
     assert container.get_emotion("e").processed_sources == ("light-event-1",)
 
     with pytest.raises(ValueError):
-        AgentTurn().execute(agent, context, _Decision(agent.agent_id), simulation_tick=SimulationClock(0).capture())
+        qualified_turn(observations).execute(agent, context, _Decision(agent.agent_id), simulation_tick=SimulationClock(0).capture())
 
 
 def test_missing_individual_parameters_do_not_fabricate_emotional_reaction():
@@ -263,7 +264,7 @@ def test_missing_individual_parameters_do_not_fabricate_emotional_reaction():
         Emotion("e", "agent-near", levels={}),
         EmotionProfile(owner_id="agent-near"),
     )
-    AgentTurn().execute(agent, context, _Decision(agent.agent_id), simulation_tick=SimulationClock(1).capture())
+    qualified_turn(observations).execute(agent, context, _Decision(agent.agent_id), simulation_tick=SimulationClock(1).capture())
     assert container.get_emotion("e").levels == {}
 
 
