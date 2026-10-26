@@ -1,7 +1,8 @@
 """Process-local, owner-scoped feedback from committed action outcomes.
 
-This is a decision aid, not canonical cognition or a world fact. It is not
-included in cognitive snapshots and must be discarded on Runtime recovery.
+This is a decision aid, not canonical cognition or a world fact. Its history
+uses the separately signed feedback snapshot component; Runtime references
+are rebound during verified reconstruction, never persisted as credentials.
 """
 
 from dataclasses import dataclass, field
@@ -32,17 +33,20 @@ class BehaviorFailure:
     tick: int
     penalty: float
     consecutive_failures: int
+    consumption: object | None = None
 
 
 @dataclass
 class BehaviorFeedback:
-    """Bounded transient history; reads never mutate the stored penalty."""
+    """Bounded owner-scoped history; reads never mutate the stored penalty."""
 
     half_life_ticks: int = 8
     frustration_half_life_ticks: int = 4
     maximum_penalty: float = 0.6
     history: list[BehaviorFailure] = field(default_factory=list)
     _seen_events: set[str] = field(default_factory=set, repr=False)
+
+    _reach_context: object | None = field(default=None,init=False,repr=False,compare=False)
 
     def __post_init__(self) -> None:
         if type(self.half_life_ticks) is not int or self.half_life_ticks < 1:
@@ -70,14 +74,18 @@ class BehaviorFeedback:
             == (owner_id, action_type, target, method, conditions)), None)
         if prior is not None and tick < prior.tick:
             raise ValueError("failure time moved backwards")
-        previous = 0.0 if prior is None else self._decayed(prior, tick)
+        penalty, count = self._next_failure_weight(prior, tick)
         self.history.append(BehaviorFailure(
             owner_id, action_type, target, method, conditions, event_id, tick,
-            min(self.maximum_penalty, previous + 0.2),
-            1 if prior is None else prior.consecutive_failures + 1,
+            penalty, count,
         ))
         self._seen_events.add(event_id)
         return True
+
+    def _next_failure_weight(self, prior: BehaviorFailure | None, tick: int) -> tuple[float, int]:
+        previous = 0.0 if prior is None else self._decayed(prior, tick)
+        return (min(self.maximum_penalty, previous + 0.2),
+                1 if prior is None else prior.consecutive_failures + 1)
 
     def _decayed(self, item: BehaviorFailure, tick: int) -> float:
         if type(tick) is not int or tick < item.tick:
@@ -87,17 +95,27 @@ class BehaviorFeedback:
     def penalty_for(self, *, owner_id: str, action_type: str, target: str | None,
                     method: str, facts: tuple[object, ...],
                     source_refs: tuple[str, ...], tick: int) -> float:
+        from cognitive_world.decision.consumed_failure import reach_failure_applies, same_interaction_target
+        matches=[item for item in reversed(self.history) if item.consumption is not None
+            and (item.owner_id,item.action_type,item.method)==(owner_id,action_type,method)
+            and same_interaction_target(item.target,target)]
+        reach_penalty=0.
+        if matches:
+            if self._reach_context is None:raise PermissionError("feedback applicability context is unavailable")
+            world,history=self._reach_context
+            applicable=next((item for item in matches if reach_failure_applies(item,world,history)),None)
+            reach_penalty=0. if applicable is None else self._decayed(applicable,tick)
         conditions = _target_conditions(facts, target, source_refs)
         if not conditions:
-            return 0.0
+            return reach_penalty
         prior = next((item for item in reversed(self.history) if
             (item.owner_id, item.action_type, item.target, item.method, item.conditions)
             == (owner_id, action_type, target, method, conditions)), None)
-        return 0.0 if prior is None else self._decayed(prior, tick)
+        return max(reach_penalty,0.0 if prior is None else self._decayed(prior, tick))
 
     def frustration_for(self, owner_id: str, tick: int) -> float:
         """Bounded turn-local feeling signal; never a canonical Emotion update."""
-        prior = next((item for item in reversed(self.history) if item.owner_id == owner_id), None)
+        prior = next((item for item in reversed(self.history) if item.owner_id == owner_id and item.consumption is None), None)
         if prior is None:
             return 0.0
         if type(tick) is not int or tick < prior.tick:

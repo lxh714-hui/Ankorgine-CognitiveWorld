@@ -258,6 +258,7 @@ class SaveManager:
                         session_id=permit.session_id,
                         restore_generation=permit.restore_generation,
                         agent_ids=tuple(sorted(expected_ids)),
+                        memory_store=memory_store, trust=self.trust,
                     )
                     bundle = SnapshotBundleManifest.create(
                         world_checkpoint=world_bytes, cognitive_snapshot=cognitive_bytes,

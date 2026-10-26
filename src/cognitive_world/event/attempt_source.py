@@ -133,3 +133,19 @@ def confirmed_door_open_failure_source(event: object) -> Mapping[str, object] | 
             or any(c not in "0123456789abcdef" for c in fingerprint)):
         return None
     return source
+
+
+def confirmed_reach_failure_source(event: object):
+    """Exact new result category; the B1 locked-door rule is unchanged."""
+    if (not isinstance(event, Event) or not event.has_trusted_source("resolution")
+            or not verify_confirmed_failure_event(event)):
+        return None
+    source = event.metadata["confirmed_attempt_failure"]
+    if len(source["target_refs"]) != 1 or tuple(source["verified_conditions"]) != ("interaction_out_of_reach",):
+        return None
+    from cognitive_world.core.interaction import InteractionReference
+    try:
+        target = InteractionReference.parse(source["target_refs"][0])
+    except (TypeError, ValueError):
+        return None
+    return source if target.namespace == "object" else None

@@ -212,14 +212,14 @@ class EventProcessor:
                     "EventHandler.observable_facts must return a tuple of "
                     "ObservableFactDraft records"
                 )
-            if any(draft.fact_type == "action_result" and draft.predicate == "door_open_attempt_failed"
+            if any(draft.fact_type == "action_result" and draft.predicate in {"door_open_attempt_failed", "interaction_out_of_reach"}
                    for draft in fact_drafts):
                 raise PermissionError("door failure result facts are issued only by EventProcessor")
             if not event.has_trusted_source():
                 raise ValueError("Event was mutated during controlled processing")
             self._validate_physical_slot_reads(event, world_state, history)
             self._validate_confirmed_failure_source(event, world_state, history)
-            result = self._door_open_failure_draft(event, world_state)
+            result = self._reach_failure_draft(event, world_state) or self._door_open_failure_draft(event, world_state)
             if result is not None:
                 fact_drafts = (*fact_drafts, result)
         except Exception:
@@ -256,6 +256,11 @@ class EventProcessor:
                     door = environment.get(draft.subject_ref)
                     if isinstance(door, DoorState):
                         conditions.append((f"door:{draft.subject_ref}:open", door.is_open))
+                elif draft.fact_type == "action_result" and draft.predicate == "interaction_out_of_reach":
+                    source = event.metadata["confirmed_attempt_failure"]
+                    conditions.extend(((f"action-result:{event.id}:owner", source["owner_id"]),
+                        (f"action-result:{event.id}:out-of-reach", True),
+                        (f"action-result:{event.id}:location", world_state.get_location(source["owner_id"]))))
                 elif draft.fact_type == "action_result" and draft.predicate == "door_open_attempt_failed":
                     source = event.metadata["confirmed_attempt_failure"]
                     door = environment[draft.subject_ref]
@@ -342,6 +347,20 @@ class EventProcessor:
                     self.write_fence.mark_recovery_required()
             raise
 
+    def _reach_failure_draft(self, event, world_state):
+        from cognitive_world.event.attempt_source import confirmed_reach_failure_source
+        from cognitive_world.core.interaction import InteractionReference
+        source = confirmed_reach_failure_source(event)
+        if source is None or getattr(self.simulation_clock, "current_time", None) != event.simulation_tick:
+            return None
+        owner = source["owner_id"]
+        position = world_state.get_location(owner)
+        if not position or not any(identity == owner and location == position
+                for identity, location, _ in self._capture_observers(world_state)):
+            return None
+        return ObservableFactDraft("action_result", "interaction_out_of_reach", True,
+            subject_ref=InteractionReference.parse(source["target_refs"][0]).identifier, location_id=position)
+
     def _door_open_failure_draft(self, event: Event, world_state: WorldState):
         """Use already validated canonical failure evidence, never outcome prose."""
         from cognitive_world.event.attempt_source import confirmed_door_open_failure_source
@@ -375,6 +394,23 @@ class EventProcessor:
         if not event.has_trusted_source("resolution") or not verify_confirmed_failure_event(event):
             raise PermissionError("confirmed failure has no valid structured Attempt source")
         source = event.metadata["confirmed_attempt_failure"]
+        from cognitive_world.event.attempt_source import confirmed_reach_failure_source
+        reach_source = confirmed_reach_failure_source(event)
+        if reach_source is not None:
+            from cognitive_world.resolution.interaction_range import capture_reach
+            from cognitive_world.core.interaction import InteractionReference
+            target = InteractionReference.parse(source["target_refs"][0]).identifier
+            state = world_state.environment.get(target)
+            if type(state) is not DoorState:
+                raise PermissionError("unsupported reach failure target")
+            reach = capture_reach(world_state, source["owner_id"], target, state.interaction_location_id)
+            expected = tuple(world_state.read_state_slot(s, event_history=history).to_record() for s in reach.slots)
+            if (not reach.configured or reach.status != "out_of_reach"
+                    or len(source["state_slot_reads"]) != len(expected)
+                    or any(r not in source["state_slot_reads"] for r in expected)
+                    or any(not world_state.verify_state_slot_record(r, event_history=history) for r in expected)):
+                raise PermissionError("reach failure does not match canonical geometry and policy")
+            return
         target_refs = source["target_refs"]
         target = target_refs[0]
         reads = source["state_slot_reads"]

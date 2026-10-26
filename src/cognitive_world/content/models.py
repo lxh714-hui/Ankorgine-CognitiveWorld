@@ -45,6 +45,8 @@ class MechanismTemplate:
     initially_locked: bool = False
     operable: bool = True
     key_ref: str | None = None
+    interaction_policy: object | None = None
+    appearance_ref: str | None = None
 
     def __post_init__(self) -> None:
         _id(self.local_id)
@@ -54,6 +56,13 @@ class MechanismTemplate:
             _id(self.key_ref)
             if self.kind != "door":
                 raise ValueError("only the door adapter accepts a key reference")
+        from cognitive_world.core.interaction_range import InteractionRangePolicy
+        if self.interaction_policy is not None and (type(self.interaction_policy) is not InteractionRangePolicy or self.kind != "door"):
+            raise TypeError("only the installed door adapter supports the typed reach policy")
+        if self.appearance_ref is not None:
+            _id(self.appearance_ref)
+            if self.kind != "door":
+                raise ValueError("only the installed door has an object representation")
         if self.kind == "passage":
             _id(self.destination_key)
         elif self.destination_key is not None:

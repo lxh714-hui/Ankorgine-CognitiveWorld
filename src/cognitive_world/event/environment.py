@@ -258,7 +258,9 @@ class DoorResolutionHandler(EventHandler):
         if current != expected:
             raise ValueError("door state changed after causal assessment")
         actor_id, actor_location, key_id = effect["actor_id"], effect["actor_location"], effect["key_id"]
-        if not isinstance(actor_id, str) or world_state.locations.get(actor_id) != actor_location or actor_location != expected.interaction_location_id:
+        from cognitive_world.resolution.interaction_range import capture_reach
+        reach = capture_reach(world_state, actor_id, expected.door_id, expected.interaction_location_id)
+        if not isinstance(actor_id, str) or world_state.locations.get(actor_id) != actor_location or reach.status != "reachable":
             raise ValueError("actor is no longer at the confirmed door interaction location")
         actor = world_state.get_entity(actor_id)
         if actor is None:

@@ -140,6 +140,7 @@ class SnapshotBundleManifest:
                 session_id=cognitive.body.session_id,
                 restore_generation=cognitive.body.restore_generation,
                 agent_ids=tuple(sorted(cognitive.body.agent_ids)),
+                memory_store=isolated.memory_store, trust=trust,
             )
             version = _VERSION
             behavior_digest = sha256_hex(behavior_feedback_snapshot)
@@ -231,6 +232,7 @@ class SnapshotBundleManifest:
                 session_id=cognition_snapshot.body.session_id,
                 restore_generation=cognition_snapshot.body.restore_generation,
                 agent_ids=tuple(sorted(cognition_snapshot.body.agent_ids)),
+                memory_store=isolated.memory_store, trust=trust,
             )
         else:
             if behavior_feedback_snapshot is not None:

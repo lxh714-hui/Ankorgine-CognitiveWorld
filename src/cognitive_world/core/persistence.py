@@ -329,6 +329,7 @@ class PersistedValueCodec:
         self._names: dict[type, str] = {}
         from cognitive_world.core.observation_range import ObservationZone, ObservationRangePolicy
         from cognitive_world.core.object_appearance import ObjectAppearance
+        from cognitive_world.core.interaction_range import InteractionRangePolicy
         from cognitive_world.core.entity import Entity, SafetySubjectProfile
         from cognitive_world.core.event import Event
         from cognitive_world.core.attributed_claim import (
@@ -344,7 +345,7 @@ class PersistedValueCodec:
         from cognitive_world.world_norms.models import (
             GovernanceStatus, NormativeForce, NormRule, NormVersion, WorldNorms,
         )
-        for item in (ObservationZone, ObservationRangePolicy, ObjectAppearance, Entity, SafetySubjectProfile, Event, WorldUpdate, DoorState, PassageState,
+        for item in (InteractionRangePolicy, ObservationZone, ObservationRangePolicy, ObjectAppearance, Entity, SafetySubjectProfile, Event, WorldUpdate, DoorState, PassageState,
                      AttributedClaim, AttributedClaimDraft, ClaimPropertyContract, DialoguePayload,
                      EventProcessingEvidence, EventStatePhase, EventTimeObservationContext,
                      ObservableFact, ObservableFactDraft,

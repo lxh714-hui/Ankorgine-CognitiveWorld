@@ -39,7 +39,8 @@ class BehaviorFeedbackSnapshot:
     @staticmethod
     def capture(*, feedback: BehaviorFeedback, event_history: object,
                 timeline_id: str, simulation_tick: int, session_id: str,
-                restore_generation: int, agent_ids: tuple[str, ...]) -> bytes:
+                restore_generation: int, agent_ids: tuple[str, ...],
+                memory_store=None, trust=None) -> bytes:
         if type(feedback) is not BehaviorFeedback:
             raise TypeError("canonical BehaviorFeedback is required")
         if (not isinstance(timeline_id, str) or not timeline_id
@@ -50,7 +51,7 @@ class BehaviorFeedbackSnapshot:
                 or any(not isinstance(item, str) or not item for item in agent_ids)
                 or len(agent_ids) != len(set(agent_ids))):
             raise ValueError("invalid BehaviorFeedback snapshot binding")
-        BehaviorFeedbackSnapshot._validate_history(feedback, event_history, set(agent_ids), simulation_tick)
+        BehaviorFeedbackSnapshot._validate_history(feedback, event_history, set(agent_ids), simulation_tick, memory_store=memory_store, trust=trust)
         return _canonical(BehaviorFeedbackSnapshot._body(
             feedback, timeline_id, simulation_tick, session_id, restore_generation, agent_ids,
         ))
@@ -60,7 +61,7 @@ class BehaviorFeedbackSnapshot:
                            timeline_id: str, simulation_tick: int,
                            session_id: str | None = None,
                            restore_generation: int | None = None,
-                           agent_ids: tuple[str, ...]) -> VerifiedBehaviorFeedback:
+                           agent_ids: tuple[str, ...], memory_store=None, trust=None) -> VerifiedBehaviorFeedback:
         if not isinstance(payload, bytes):
             raise TypeError("BehaviorFeedback snapshot must be bytes")
         try:
@@ -72,7 +73,7 @@ class BehaviorFeedbackSnapshot:
                     "frustration_half_life_ticks", "maximum_penalty", "failures"}
         if not isinstance(value, dict) or set(value) != required:
             raise ValueError("malformed BehaviorFeedback snapshot fields")
-        if value["schema"] != _SCHEMA or value["version"] != _VERSION:
+        if value["schema"] != _SCHEMA or type(value["version"]) is not int or value["version"] not in (1,2):
             raise ValueError("unsupported BehaviorFeedback snapshot schema")
         if (value["timeline_id"] != timeline_id or value["simulation_tick"] != simulation_tick
                 or (session_id is not None and value["session_id"] != session_id)
@@ -87,6 +88,18 @@ class BehaviorFeedbackSnapshot:
         for row in failures:
             fields = {"owner_id", "action_type", "target", "method", "conditions", "event_id",
                       "tick", "penalty", "consecutive_failures"}
+            consumption = None
+            if value["version"] == 2:
+                from cognitive_world.decision.consumed_failure import ConsumedFailureBinding
+                if type(row) is not dict or type(row.get("record_version")) is not int or row["record_version"] not in (1,2):
+                    raise ValueError("unsupported feedback record version")
+                fields.add("record_version")
+                if row["record_version"] == 2:
+                    fields.add("consumption")
+                    payload=row.get("consumption")
+                    if type(payload) is not dict or set(payload)!={"version","proof_id"}:
+                        raise ValueError("malformed feedback consumption binding")
+                    consumption=ConsumedFailureBinding(**payload)
             if not isinstance(row, dict) or set(row) != fields:
                 raise ValueError("malformed BehaviorFailure record")
             if (row["owner_id"] not in agent_ids or type(row["tick"]) is not int
@@ -99,7 +112,7 @@ class BehaviorFeedbackSnapshot:
             record = BehaviorFailure(
                 row["owner_id"], row["action_type"], row["target"], row["method"],
                 tuple(tuple(pair) for pair in row["conditions"]), row["event_id"],
-                row["tick"], row["penalty"], row["consecutive_failures"],
+                row["tick"], row["penalty"], row["consecutive_failures"], consumption,
             )
             if (not record.owner_id or not record.action_type or not record.target
                     or not record.method or not record.event_id
@@ -118,7 +131,7 @@ class BehaviorFeedbackSnapshot:
             maximum_penalty=value["maximum_penalty"],
             history=records, _seen_events=set(event_ids),
         )
-        BehaviorFeedbackSnapshot._validate_history(feedback, event_history, set(agent_ids), simulation_tick)
+        BehaviorFeedbackSnapshot._validate_history(feedback, event_history, set(agent_ids), simulation_tick, memory_store=memory_store, trust=trust)
         return VerifiedBehaviorFeedback(
             feedback, "restored", value["timeline_id"], value["simulation_tick"],
             value["session_id"], value["restore_generation"], tuple(value["agent_ids"]),
@@ -134,8 +147,17 @@ class BehaviorFeedbackSnapshot:
             "event_id": item.event_id, "tick": item.tick,
             "penalty": item.penalty, "consecutive_failures": item.consecutive_failures,
         } for item in feedback.history]
+        version=2 if any(item.consumption is not None for item in feedback.history) else _VERSION
+        if version==2:
+            from cognitive_world.decision.consumed_failure import ConsumedFailureBinding
+            for item,row in zip(feedback.history,failures,strict=True):
+                row["record_version"]=1 if item.consumption is None else 2
+                if item.consumption is not None:
+                    if type(item.consumption) is not ConsumedFailureBinding:
+                        raise PermissionError("unsupported feedback consumption type")
+                    row["consumption"]={"version":item.consumption.version,"proof_id":item.consumption.proof_id}
         return {
-            "schema": _SCHEMA, "version": _VERSION, "timeline_id": timeline_id,
+            "schema": _SCHEMA, "version": version, "timeline_id": timeline_id,
             "simulation_tick": tick, "session_id": session_id,
             "restore_generation": generation, "agent_ids": sorted(agent_ids),
             "half_life_ticks": feedback.half_life_ticks,
@@ -145,7 +167,7 @@ class BehaviorFeedbackSnapshot:
 
     @staticmethod
     def _validate_history(feedback: BehaviorFeedback, event_history: object,
-                          agent_ids: set[str], simulation_tick: int) -> None:
+                          agent_ids: set[str], simulation_tick: int, *, memory_store=None, trust=None) -> None:
         from cognitive_world.event.attempt_source import verify_confirmed_failure_event
         get_event = getattr(event_history, "get_event", None)
         if not callable(get_event):
@@ -154,6 +176,14 @@ class BehaviorFeedbackSnapshot:
         for failure in feedback.history:
             if failure.owner_id not in agent_ids or type(failure.tick) is not int or not 0 <= failure.tick <= simulation_tick:
                 raise PermissionError("BehaviorFailure owner or time is outside snapshot scope")
+            if failure.consumption is not None:
+                from cognitive_world.decision.consumed_failure import verify_consumed_failure
+                if (type(failure.penalty) not in (int,float) or not 0<failure.penalty<=feedback.maximum_penalty
+                        or type(failure.consecutive_failures) is not int or failure.consecutive_failures<1):
+                    raise PermissionError("invalid consumed feedback score")
+                verify_consumed_failure(failure,history=event_history,memory_store=memory_store,trust=trust,tick=simulation_tick)
+                event_ids.append(failure.event_id)
+                continue
             event = get_event(failure.event_id)
             source = None if event is None else event.metadata.get("confirmed_attempt_failure")
             observed_conditions = BehaviorFeedbackSnapshot._observed_conditions(

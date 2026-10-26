@@ -40,6 +40,7 @@ class CausalWorldContext:
     unknown_fields: tuple[str, ...] = ()
     grounded_refs: tuple[str, ...] = ()
     slot_reads: tuple[WorldStateSlotRead, ...] = ()
+    interaction_reach: object | None = None
 
     def __post_init__(self) -> None:
         if not isinstance(self.actor_id, str) or not self.actor_id:
@@ -279,7 +280,17 @@ class InteractionStateAggregator:
                 WorldStateSlot("entities", tool_id, ("owner_id",)),
                 WorldStateSlot("locations", tool_id),
             ))
-        unique_slots = tuple(dict.fromkeys(slots))[:32]
+        reach = None
+        if type(target_state) is DoorState:
+            from cognitive_world.resolution.interaction_range import capture_reach
+            reach = capture_reach(world_state, attempt.agent_id, target_state.door_id,
+                                  target_state.interaction_location_id)
+            if reach.configured:
+                slots.extend(reach.slots)
+        unique_slots = tuple(dict.fromkeys(slots))
+        if len(unique_slots) > 32 and reach is not None and reach.configured:
+            raise ValueError("configured reach evidence exceeds the supported slot bound")
+        unique_slots = unique_slots[:32]
         slot_reads = tuple(
             world_state.read_state_slot(slot, event_history=event_history)
             for slot in unique_slots
@@ -298,6 +309,7 @@ class InteractionStateAggregator:
             unknown_fields=tuple(unknown),
             grounded_refs=tuple(sorted(grounded_refs)),
             slot_reads=slot_reads,
+            interaction_reach=reach,
         )
 
     def _cognitive_view(

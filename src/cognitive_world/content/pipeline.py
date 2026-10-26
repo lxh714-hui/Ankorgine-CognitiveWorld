@@ -101,6 +101,13 @@ class ContentValidator:
                     raise ValueError("detail recipient is outside the scenario")
             for _, tid in scenario.locations:
                 for mechanism in locations[tid].mechanisms:
+                    if mechanism.appearance_ref is not None:
+                        appearance = objects.get(mechanism.appearance_ref)
+                        if appearance is None:
+                            raise ValueError("mechanism appearance template missing")
+                        policy = appearance.observation_policy
+                        if policy is not None and not set(policy.detail_observers).issubset(character_keys):
+                            raise ValueError("mechanism detail recipient is outside scenario")
                     if mechanism.key_ref is not None and mechanism.key_ref not in object_keys:
                         raise ValueError("door key reference missing")
                     if mechanism.key_ref is not None:
@@ -296,6 +303,22 @@ class ContentInstantiator:
                     state = PassageState(mid, location.instance_id,
                         location_ids[mechanism.destination_key], mechanism.operable)
                 environment.append((mid, state))
+                if mechanism.interaction_policy is not None or mechanism.appearance_ref is not None:
+                    attributes = {}
+                    if mechanism.interaction_policy is not None:
+                        attributes["interaction_policy"] = mechanism.interaction_policy
+                    if mechanism.appearance_ref is not None:
+                        template = self.registry.object(mechanism.appearance_ref)
+                        attributes["appearance"] = template.appearance
+                        policy = template.observation_policy
+                        if policy is not None:
+                            attributes["observation_policy"] = ObservationRangePolicy(1,
+                                policy.coarse_distance_m, policy.detail_distance_m,
+                                tuple(actor_ids[key] for key in policy.detail_observers))
+                    # The physical mechanism and its observable representation
+                    # share one canonical identity; this is not a second object.
+                    entities.append(Entity(mid, mechanism.kind, attributes=attributes))
+                    object_locations.append((mid, location.instance_id))
         personalities, self_models, goals, runtime_agents = [], [], [], []
         for character in characters:
             template = self.registry.character(character.template_id)

@@ -51,6 +51,37 @@ def _allows_door_open_failure(event, evidence, observer_id, fact=None, event_his
     )
 
 
+def _allows_reach_failure(event, evidence, observer_id, fact=None, event_history=None):
+    from cognitive_world.event.attempt_source import confirmed_reach_failure_source
+    from cognitive_world.event.history import EventHistory, EventProcessingStatus
+    from cognitive_world.core.interaction import InteractionReference
+    source = confirmed_reach_failure_source(event)
+    if (source is None or observer_id != source["owner_id"]
+            or not isinstance(event_history, EventHistory) or event_history.requires_recovery()
+            or not isinstance(evidence, EventProcessingEvidence) or not evidence.has_trusted_source(event)):
+        return False
+    committed = event_history.get_event(event.id)
+    if (committed is None or committed._source_snapshot() != event._source_snapshot()
+            or event_history.get_processing_evidence(event.id) != evidence
+            or event_history.get_processing_status(event.id) not in {
+                EventProcessingStatus.OBSERVATIONS_PENDING, EventProcessingStatus.COMPLETE}):
+        return False
+    context = evidence.event_time_context
+    conditions = dict(context.environment_conditions or ())
+    target = InteractionReference.parse(source["target_refs"][0]).identifier
+    positions = [p for owner,p,_ in context.observer_positions if owner == observer_id]
+    if (context.simulation_time != event.simulation_tick or context.fact_location_id is None
+            or positions != [context.fact_location_id]
+            or conditions.get(f"action-result:{event.id}:owner") != observer_id
+            or conditions.get(f"action-result:{event.id}:out-of-reach") is not True
+            or conditions.get(f"action-result:{event.id}:location") != context.fact_location_id):
+        return False
+    return any(f.has_trusted_source(event) and f.fact_type == "action_result"
+        and f.predicate == "interaction_out_of_reach" and f.value is True
+        and f.subject_ref == target and f.location_id == context.fact_location_id
+        and (fact is None or fact == f) for f in evidence.observable_facts)
+
+
 @dataclass(frozen=True)
 class VisibilityPolicy:
     """First narrow perception rule: a registered agent sees a lit-room change."""
@@ -72,6 +103,8 @@ class VisibilityPolicy:
         if event.type == "object_observed":
             from cognitive_world.observation.object_projection import allows_object_fact
             return any(allows_object_fact(event, evidence, observer_id, f) for f in evidence.observable_facts)
+        if _allows_reach_failure(event, evidence, observer_id, event_history=event_history):
+            return True
         if _allows_door_open_failure(event, evidence, observer_id, event_history=event_history):
             return True
         context = evidence.event_time_context
@@ -218,6 +251,7 @@ class ObservationGenerator:
                 and (
                     (fact.fact_type == "object_appearance" and _allows_object(event, evidence, observer_id, fact))
                     or _allows_door_open_failure(event, evidence, observer_id, fact, event_history)
+                    or _allows_reach_failure(event, evidence, observer_id, fact, event_history)
                     or
                     (event.type in {"dialogue_input", "dialogue_reply"} and fact.fact_type == ("social_input" if event.type == "dialogue_input" else "social_output") and fact.predicate == "utterance_delivered" and fact.subject_ref == observer_id and observer_id in event.participants and observer_id in {item[0] for item in context.observer_positions} and context.fact_location_id == fact.location_id and next((position for identity, position, _ in context.observer_positions if identity == observer_id), None) == fact.location_id and isinstance(fact.value, str))
                     or
@@ -246,7 +280,9 @@ class ObservationGenerator:
                     source_timeline_id,
                     source_runtime_session_id,
                     source_runtime_generation,
-                    ("actor-owned confirmed locked-door execution result"
+                    ("actor-owned confirmed reach execution result"
+                     if fact.fact_type == "action_result" and fact.predicate == "interaction_out_of_reach" else
+                     "actor-owned confirmed locked-door execution result"
                      if fact.fact_type == "action_result" else
                      "co-located registered observer with known sight; room light on"),
                 )

@@ -419,6 +419,14 @@ class IsolatedRuntimeReconstructionFactory:
                 or issuer.trust is not trust
                 or issuer.fence is not inputs.write_fence):
             raise PermissionError("staged L1 proof issuer is not bound to reconstructed authorities")
+        feedback_context=runtime.behavior_feedback._reach_context
+        adapter=loop.agent_turn._consumed_failure_context
+        if (type(feedback_context) is not tuple or len(feedback_context)!=2
+                or feedback_context[0] is not inputs.world_state or feedback_context[1] is not inputs.event_history
+                or type(adapter) is not tuple or len(adapter)!=3
+                or adapter[0] is not runtime.behavior_feedback or adapter[1] is not issuer
+                or type(adapter[2]) is not frozenset or adapter[2]!=frozenset(e.id for e in inputs.event_history.get_events())):
+            raise PermissionError("staged consumed feedback is not bound to reconstructed authorities")
         if (loop.safety_governance is not context.safety_governance
                 or loop.action_pipeline.safety_governance is not context.safety_governance
                 or loop.action_resolution_flow.world_state is not inputs.world_state

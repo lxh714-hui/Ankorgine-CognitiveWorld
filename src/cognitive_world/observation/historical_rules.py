@@ -172,11 +172,81 @@ class _DoorOpenFailedOwnerResultV1:
 _DOOR_OPEN_FAILED_OWNER_RESULT_V1 = _DoorOpenFailedOwnerResultV1()
 
 
+@dataclass(frozen=True)
+class _InteractionOutOfReachOwnerResultV1:
+    rule_id: str = "interaction-out-of-reach-owner-result"
+    version: int = 1
+    source_event_type: str = "resolution"
+
+    def supports_source(self,event,evidence):
+        from cognitive_world.event.attempt_source import confirmed_reach_failure_source
+        return (confirmed_reach_failure_source(event) is not None and evidence.has_trusted_source(event)
+            and any(f.fact_type=="action_result" and f.predicate=="interaction_out_of_reach" for f in evidence.observable_facts))
+
+    def issue(self,event,evidence,owner_id,fact_id):
+        from cognitive_world.event.attempt_source import confirmed_reach_failure_source
+        from cognitive_world.core.interaction import InteractionReference
+        from cognitive_world.observation.observation import _OBSERVATION_RECEIPT_SEAL,_ObservationProvenance
+        source=confirmed_reach_failure_source(event)
+        if source is None or not evidence.has_trusted_source(event) or source["owner_id"]!=owner_id:
+            raise PermissionError("not the confirmed reach-failure owner")
+        target=InteractionReference.parse(source["target_refs"][0]).identifier
+        context=evidence.event_time_context;conditions=dict(context.environment_conditions or ())
+        fact=next((f for f in evidence.observable_facts if f.fact_id==fact_id),None)
+        positions=[p for owner,p,_ in context.observer_positions if owner==owner_id]
+        if (fact is None or not fact.has_trusted_source(event) or fact.fact_type!="action_result"
+            or fact.predicate!="interaction_out_of_reach" or fact.value is not True or fact.subject_ref!=target
+            or not fact.location_id or fact.location_id!=context.fact_location_id or positions!=[fact.location_id]
+            or context.simulation_time!=event.simulation_tick
+            or conditions.get(f"action-result:{event.id}:owner")!=owner_id
+            or conditions.get(f"action-result:{event.id}:out-of-reach") is not True
+            or conditions.get(f"action-result:{event.id}:location")!=fact.location_id
+            or len(source["state_slot_reads"])!=5
+            or any(r.get("present") is not True or not isinstance(r.get("value_fingerprint"),str)
+                or len(r["value_fingerprint"])!=64 for r in source["state_slot_reads"])):
+            raise PermissionError("historical reach result is not proven")
+        # Bind every historical read to its actual owner/target/coordinate node.
+        # Numeric reach itself was checked by the signed canonical processor;
+        # a fingerprint is not a substitute geometry value to re-evaluate later.
+        from cognitive_world.core.world_state import _slot_fingerprint
+        reads=source["state_slot_reads"]
+        index={}
+        for read in reads:
+            slot=read.get("slot",{})
+            key=(slot.get("collection"),slot.get("record_id"),tuple(slot.get("path",())))
+            if key in index:raise PermissionError("duplicate historical reach read")
+            index[key]=read
+        coordinates=[k[1] for k in index if k[0]=="entities" and k[2]==("attributes","observation_zone")]
+        target_nodes=[node for node in coordinates if node!=fact.location_id]
+        if len(target_nodes)!=1:raise PermissionError("historical target coordinate binding is unknown")
+        target_node=target_nodes[0]
+        expected={
+            ("entities",target,("attributes","interaction_policy")),
+            ("locations",owner_id,()),
+            ("environment",target,("interaction_location_id",)),
+            ("entities",fact.location_id,("attributes","observation_zone")),
+            ("entities",target_node,("attributes","observation_zone")),
+        }
+        fingerprint=source["attempt_fingerprint"]
+        if (set(index)!=expected
+            or index[("locations",owner_id,())]["value_fingerprint"]!=_slot_fingerprint(True,fact.location_id)
+            or index[("environment",target,("interaction_location_id",))]["value_fingerprint"]!=_slot_fingerprint(True,target_node)
+            or len(fingerprint)!=64 or any(c not in "0123456789abcdef" for c in fingerprint)):
+            raise PermissionError("historical reach source identities do not match")
+        observation=Observation(f"observation:{event.id}:{owner_id}:{fact.fact_id}",owner_id,event.id,fact)
+        fingerprint=sha256(repr((event._source_snapshot(),fact._snapshot(),context._snapshot(),owner_id,self.rule_id,self.version)).encode()).hexdigest()
+        object.__setattr__(observation,"_provenance",_ObservationProvenance(_OBSERVATION_RECEIPT_SEAL,observation._snapshot(),fingerprint))
+        return observation
+
+
+_REACH_FAILURE_V1 = _InteractionOutOfReachOwnerResultV1()
+
+
 class HistoricalObservationRuleRegistry:
     """Explicit trusted configuration mapping versioned identities to verifiers."""
 
     def __init__(self, rules: Iterable[HistoricalObservationRule] | None = None) -> None:
-        configured = (_ROOM_LIGHT_ON_COLOCATED_SIGHT_V1, _DOOR_OPEN_FAILED_OWNER_RESULT_V1) if rules is None else tuple(rules)
+        configured = (_ROOM_LIGHT_ON_COLOCATED_SIGHT_V1, _DOOR_OPEN_FAILED_OWNER_RESULT_V1, _REACH_FAILURE_V1) if rules is None else tuple(rules)
         by_identity: dict[tuple[str, int], HistoricalObservationRule] = {}
         by_event: dict[str, list[HistoricalObservationRule]] = {}
         for rule in configured:

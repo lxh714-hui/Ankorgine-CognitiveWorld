@@ -137,13 +137,15 @@ def _optional_id(value: object) -> str | None:
 
 
 def _mechanism(value: object, version=1) -> MechanismTemplate:
-    data = _object(value, {"local_id", "kind", "destination_key", "initially_open", "initially_locked", "operable"} | ({"key_ref"} if version in (2, 3) else set()))
+    data = _object(value, {"local_id", "kind", "destination_key", "initially_open", "initially_locked", "operable"} | ({"key_ref"} if version in (2, 3, 4) else set()) | ({"interaction_policy", "appearance_ref"} if version == 4 else set()))
     kind = _id(data["kind"])
     if kind not in {"door", "passage"}:
         raise ContentGenerationError("no installed mechanism adapter")
     return MechanismTemplate(_id(data["local_id"]), kind, _optional_id(data["destination_key"]),
                              _boolean(data["initially_open"]), _boolean(data["initially_locked"]),
-                             _boolean(data["operable"]), _optional_id(data["key_ref"]) if version in (2, 3) else None)
+                             _boolean(data["operable"]), _optional_id(data["key_ref"]) if version in (2, 3, 4) else None,
+                             _interaction_policy(data["interaction_policy"]) if version == 4 else None,
+                             _optional_id(data["appearance_ref"]) if version == 4 else None)
 
 
 def _character(value: object) -> CharacterTemplate:
@@ -154,10 +156,10 @@ def _character(value: object) -> CharacterTemplate:
 
 
 def _location(value: object, version=1) -> LocationTemplate:
-    data = _object(value, {"template_id", "description", "mechanisms"} | ({"observation_zone"} if version == 3 else set()))
+    data = _object(value, {"template_id", "description", "mechanisms"} | ({"observation_zone"} if version in (3, 4) else set()))
     return LocationTemplate(_id(data["template_id"]), _text(data["description"]),
                             tuple(_mechanism(item, version) for item in _array(data["mechanisms"], MAX_MECHANISMS)),
-                            _zone(data["observation_zone"]) if version == 3 else None)
+                            _zone(data["observation_zone"]) if version in (3, 4) else None)
 
 
 def _seed(value: object) -> EventSeed:
@@ -176,7 +178,7 @@ def _seed(value: object) -> EventSeed:
 
 
 def _scenario(value: object, version=1) -> ScenarioTemplate:
-    data = _object(value, {"template_id", "description", "locations", "characters", "entry_key", "exit_keys", "event_seeds", "side_branch", "value_refs"} | ({"objects"} if version in (2, 3) else set()))
+    data = _object(value, {"template_id", "description", "locations", "characters", "entry_key", "exit_keys", "event_seeds", "side_branch", "value_refs"} | ({"objects"} if version in (2, 3, 4) else set()))
     locations = tuple((_id(item[0]), _id(item[1])) if type(item) is list and len(item) == 2
                       else _invalid_reference() for item in _array(data["locations"], MAX_TEMPLATES))
     characters = tuple((_id(item[0]), _id(item[1]), _id(item[2])) if type(item) is list and len(item) == 3
@@ -186,7 +188,7 @@ def _scenario(value: object, version=1) -> ScenarioTemplate:
                             _ids(data["exit_keys"]),
                             tuple(_seed(item) for item in _array(data["event_seeds"], MAX_SEEDS)),
                             _boolean(data["side_branch"]), _ids(data["value_refs"]),
-                            tuple(_placement(x) for x in _array(data["objects"], MAX_TEMPLATES)) if version in (2, 3) else ())
+                            tuple(_placement(x) for x in _array(data["objects"], MAX_TEMPLATES)) if version in (2, 3, 4) else ())
 
 
 def _invalid_reference() -> tuple:
@@ -204,14 +206,14 @@ def parse_generation_proposal(raw: str) -> GenerationProposal:
         raise ContentGenerationError("provider returned malformed JSON") from exc
     _bounded_tree(data)
     version = data.get("schema_version") if type(data) is dict else None
-    root = _object(data, {"schema_version", "content_type", "characters", "locations", "scenarios"} | ({"objects"} if version in (2, 3) else set()))
-    if type(root["schema_version"]) is not int or root["schema_version"] not in (1, 2, 3) or root["content_type"] != "generation_proposal":
+    root = _object(data, {"schema_version", "content_type", "characters", "locations", "scenarios"} | ({"objects"} if version in (2, 3, 4) else set()))
+    if type(root["schema_version"]) is not int or root["schema_version"] not in (1, 2, 3, 4) or root["content_type"] != "generation_proposal":
         raise ContentGenerationError("unsupported content schema version or type")
     proposal = GenerationProposal(
         tuple(_character(item) for item in _array(root["characters"], MAX_TEMPLATES)),
         tuple(_location(item, version) for item in _array(root["locations"], MAX_TEMPLATES)),
         tuple(_scenario(item, version) for item in _array(root["scenarios"], MAX_TEMPLATES)),
-        tuple(_object_template(x, version) for x in _array(root["objects"], MAX_TEMPLATES)) if version in (2, 3) else (),
+        tuple(_object_template(x, version) for x in _array(root["objects"], MAX_TEMPLATES)) if version in (2, 3, 4) else (),
     )
     if not (proposal.characters or proposal.locations or proposal.scenarios):
         raise ContentGenerationError("content proposal contains no reusable definition")
@@ -292,12 +294,12 @@ def _placement(value):
 
 def _object_template(value, version=2):
     from cognitive_world.core.object_appearance import ObjectAppearance
-    data = _object(value, {"template_id", "description", "kind", "appearance"} | ({"observation_policy"} if version == 3 else set()))
+    data = _object(value, {"template_id", "description", "kind", "appearance"} | ({"observation_policy"} if version in (3, 4) else set()))
     a = _object(data["appearance"], {"version", "shape", "detail", "visible", "detail_visible"})
     return ObjectTemplate(_id(data["template_id"]), _text(data["description"]), _id(data["kind"]),
         ObjectAppearance(a["version"], _id(a["shape"]), _id(a["detail"]),
                          _boolean(a["visible"]), _boolean(a["detail_visible"])),
-        _range_policy(data["observation_policy"]) if version == 3 else None)
+        _range_policy(data["observation_policy"]) if version in (3, 4) else None)
 
 
 def _zone(value):
@@ -315,3 +317,11 @@ def _range_policy(value):
     data = _object(value, {"version", "coarse_distance_m", "detail_distance_m", "detail_observers"})
     return ObservationRangePolicy(data["version"], data["coarse_distance_m"], data["detail_distance_m"],
         _ids(data["detail_observers"]))
+
+
+def _interaction_policy(value):
+    if value is None:
+        return None
+    from cognitive_world.core.interaction_range import InteractionRangePolicy
+    data = _object(value, {"version", "maximum_distance_m"})
+    return InteractionRangePolicy(data["version"], data["maximum_distance_m"])

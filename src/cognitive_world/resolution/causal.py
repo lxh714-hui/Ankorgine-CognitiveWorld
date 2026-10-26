@@ -658,7 +658,8 @@ class DoorCausalAssessmentPolicy:
         location = context.actor_location
         if context.actor_id != attempt.agent_id or context.physical_capabilities is None or location is None:
             return CausalAssessment(AssessmentStatus.INSUFFICIENT_INFORMATION, "actor capability or position is unknown", missing_evidence=("actor_entity", "actor_location"))
-        if location != raw.interaction_location_id:
+        reach = context.interaction_reach
+        if (reach is None or not reach.configured) and location != raw.interaction_location_id:
             return CausalAssessment(AssessmentStatus.INFEASIBLE, "actor is not at the door interaction location")
         params = attempt.parameters
         method = params.get("method")
@@ -674,6 +675,16 @@ class DoorCausalAssessmentPolicy:
             return CausalAssessment(AssessmentStatus.INSUFFICIENT_INFORMATION, "suggested effect has no installed door rule", missing_evidence=(f"state_transition_unsupported:{semantic_effect_type}",))
         if semantic_effect_type is None and (not _contains_operation(method_text) or _contains_negation(method_text)):
             return CausalAssessment(AssessmentStatus.INSUFFICIENT_INFORMATION, "method is not covered by an installed causal rule", missing_evidence=("method_rule",))
+        reach = context.interaction_reach
+        if reach is not None and reach.configured:
+            if reach.status == "unknown":
+                return CausalAssessment(AssessmentStatus.INSUFFICIENT_INFORMATION,
+                    "interaction geometry is unknown", missing_evidence=("interaction_geometry",))
+            if reach.status == "out_of_reach":
+                return CausalAssessment(AssessmentStatus.INFEASIBLE, "actor is out of reach",
+                    failure_conditions=("interaction_out_of_reach",),
+                    failure_source_refs=context.source_refs,
+                    failure_state_slot_reads=tuple(r for r in context.slot_reads if r.slot in reach.slots))
         if raw.is_open:
             return CausalAssessment(
                 AssessmentStatus.INFEASIBLE, "door is already open",
@@ -707,14 +718,14 @@ class DoorCausalAssessmentPolicy:
             "expected": raw,
             "state": changed,
             "actor_id": attempt.agent_id,
-            "actor_location": raw.interaction_location_id,
+            "actor_location": context.actor_location,
             "key_id": raw.key_id if raw.is_locked and has_key else None,
         }
         proposal = PhysicalEffectProposal.from_context(
             attempt, context, effect,
             verified_conditions=(
                 "target_state_matches",
-                "actor_at_interaction_location",
+                "interaction_within_reach" if reach is not None and reach.configured else "actor_at_interaction_location",
                 "method_supported",
                 "manual_manipulation_available",
                 *(("required_tool_owned",) if raw.is_locked and has_key else ()),
@@ -1069,7 +1080,9 @@ class MethodBasedResolutionEngine(ResolutionEngine):
                 != (context.target.door_id, context.target.interaction_location_id,
                     context.target.hand_operable, context.target.key_id)
                 or context.target.is_open
-                or context.actor_location != context.target.interaction_location_id
+                or payload.get("actor_location") != context.actor_location
+                or (context.interaction_reach.status != "reachable" if context.interaction_reach is not None
+                    and context.interaction_reach.configured else context.actor_location != context.target.interaction_location_id)
                 or "manual_manipulation" not in (context.physical_capabilities or ())
             ):
                 return False

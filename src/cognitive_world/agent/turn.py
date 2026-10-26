@@ -64,6 +64,7 @@ class AgentTurn:
     cognitive_belief_review: CognitiveBeliefReview = field(default_factory=CognitiveBeliefReview)
     cognitive_evolution_engine: CognitiveEvolutionEngine = field(default_factory=CognitiveEvolutionEngine)
     self_model_review_provider: object | None = None
+    _consumed_failure_context: object | None = field(default=None,repr=False)
     social_experience_service: object | None = None
     goal_completion_service: object | None = None
     cognitive_update_validator: CognitiveUpdateValidator = field(default_factory=CognitiveUpdateValidator)
@@ -158,14 +159,12 @@ class AgentTurn:
         )
         beliefs = cognition_context.get_beliefs()
         goals = cognition_context.get_goals()
-        cognition_state = self.cognitive_runtime.process(
-            agent.agent_id,
-            observations,
-            beliefs=beliefs,
-            goals=goals,
-        )
+        from cognitive_world.decision.consumed_failure import process_with_feedback
+        cognition_state = process_with_feedback(self,cognition_context,observations,beliefs=beliefs,goals=goals)
         if self.l1_consumption_issuer is not None:
             for observation in observations:
+                if getattr(observation.content,"predicate",None)=="interaction_out_of_reach":
+                    continue  # consumed-result adapter owns this protected proof lifecycle
                 if f"percept:{observation.observation_id}" in cognition_state.percept_ids:
                     self.l1_consumption_issuer.issue_after_l1(
                         owner_id=agent.agent_id, observation=observation,

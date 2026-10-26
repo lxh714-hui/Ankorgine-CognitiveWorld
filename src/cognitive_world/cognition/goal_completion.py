@@ -1,4 +1,4 @@
-"""Narrow completion of a declared Goal from its own consumed formal result.
+"""Narrow completion from an explicit state or actor-action evidence condition.
 
 No planner, world writer, result ledger or free-text goal interpretation lives here.
 Conditions are data in existing Goal metadata; authority comes from existing B3
@@ -21,10 +21,19 @@ class GoalCompletionCondition:
     subject_ref: str
     expected_value: str | bool | int | float
     version: int = 1
+    completion_kind: str = "actor_action"
 
     def __post_init__(self):
-        if type(self.version) is not int or self.version != 1:
+        if type(self.version) is not int or self.version not in (1, 2):
             raise ValueError("unsupported Goal completion condition version")
+        if (self.completion_kind not in ("actor_action", "state")
+                or (self.version == 1 and self.completion_kind != "actor_action")):
+            raise ValueError("unsupported Goal completion semantics")
+        # State commitments concern state evidence, never another actor's private result.
+        if self.completion_kind == "state" and self.fact_type != "environment_state":
+            raise ValueError("state completion requires typed environment-state evidence")
+        if self.version == 2 and InteractionReference.parse(self.target_ref).identifier != self.subject_ref:
+            raise ValueError("completion target and fact subject must match")
         for value in (self.target_ref, self.fact_type, self.predicate, self.subject_ref):
             if not isinstance(value, str) or not value or len(value) > 1024:
                 raise ValueError("completion references must be bounded explicit identities")
@@ -36,12 +45,17 @@ class GoalCompletionCondition:
             raise ValueError("completion requires a known finite typed scalar")
 
     def as_value(self):
-        return asdict(self)
+        value = asdict(self)
+        if self.version == 1:
+            value.pop("completion_kind")
+        return value
 
     @classmethod
     def from_value(cls, value):
-        if type(value) is not dict or set(value) != {
-                "target_ref", "fact_type", "predicate", "subject_ref", "expected_value", "version"}:
+        fields = {"target_ref", "fact_type", "predicate", "subject_ref", "expected_value", "version"}
+        if type(value) is dict and value.get("version") == 2:
+            fields.add("completion_kind")
+        if type(value) is not dict or set(value) != fields:
             raise ValueError("unsupported Goal completion condition shape")
         return cls(**value)
 
@@ -102,6 +116,20 @@ class ConsumedResultGoalCompletion:
                 if goal is None or COMPLETION_KEY not in goal.metadata:
                     continue
                 outcomes.append(self._review(context, cognitive_runtime, goal, record.event_id, records))
+            # State commitments require this owner's authorized consumed fact,
+            # independently of who caused it or whether they had a B3 expectation.
+            for goal in context.get_goals():
+                try:
+                    condition = GoalCompletionCondition.from_value(goal.metadata.get(COMPLETION_KEY))
+                except (TypeError, ValueError):
+                    continue
+                if condition.completion_kind != "state" or goal.goal_id not in actor.goal_ids:
+                    continue
+                for event_id in dict.fromkeys(o.source_event_id for o in context.get_observations()):
+                    outcome = self._review(context, cognitive_runtime, goal, event_id, records)
+                    outcomes.append(outcome)
+                    if outcome.status in ("completed", "already_completed", "inactive"):
+                        break
             return tuple(outcomes)
 
     def review(self, context, cognitive_runtime, *, goal_id, event_id):
@@ -133,27 +161,32 @@ class ConsumedResultGoalCompletion:
         event = rt.context.event_history.get_event(event_id)
         if event is None:
             return result("uncommitted")
-        associations = [r for r in records.values()
-                        if type(r) is ActionResultAssociation and r.event_id == event_id
-                        and r.owner_id == goal.owner_id]
-        if len(associations) != 1:
-            return result("unresolved_result")
-        expected = records.get(associations[0].expectation_id)
-        if type(expected) is not ActionExpectationRecord or expected.origin != "npc":
-            return result("unbound_goal")
-        snapshot = json.loads(expected.attempt_json)
-        if (snapshot[5].get("goal_id") != goal.goal_id
-                or snapshot[4] != [condition.target_ref]):
-            return result("unbound_goal")
         if goal.status == "completed" and event_id in goal.source_refs:
             return result("already_completed")
         if goal.status != "active":
             return result("inactive")
-        summary = event.changes[0] if event.changes else {}
-        if not isinstance(summary, dict) or type(summary.get("success")) is not bool:
-            return result("unresolved_result")
-        if not summary["success"]:
-            return result("action_failed")
+        if condition.completion_kind == "actor_action":
+            associations = [r for r in records.values()
+                            if type(r) is ActionResultAssociation and r.event_id == event_id
+                            and r.owner_id == goal.owner_id]
+            if len(associations) != 1:
+                return result("unresolved_result")
+            expected = records.get(associations[0].expectation_id)
+            if type(expected) is not ActionExpectationRecord or expected.origin != "npc":
+                return result("unbound_goal")
+            snapshot = json.loads(expected.attempt_json)
+            if (snapshot[5].get("goal_id") != goal.goal_id
+                    or snapshot[4] != [condition.target_ref]):
+                return result("unbound_goal")
+            summary = event.changes[0] if event.changes else {}
+            if not isinstance(summary, dict) or type(summary.get("success")) is not bool:
+                return result("unresolved_result")
+            if not summary["success"]:
+                return result("action_failed")
+        elif event.has_trusted_source("resolution"):
+            summary = event.changes[0] if event.changes else {}
+            if not isinstance(summary, dict) or summary.get("success") is not True:
+                return result("action_failed")
         evidence = rt.context.event_history.get_processing_evidence(event_id)
         if evidence is None or not evidence.has_trusted_source(event):
             return result("unresolved_result")
@@ -163,6 +196,21 @@ class ConsumedResultGoalCompletion:
         if len(facts) != 1:
             return result("success_condition_unresolved")
         fact = facts[0]
+        if condition.completion_kind == "state":
+            # Historical intake is not evidence that an old state still holds.
+            # Use canonical processing order (not ticks, which may tie), and
+            # require the owner's consumed fact to be the current projection.
+            latest = None
+            for candidate in rt.context.event_history.get_events():
+                processed = rt.context.event_history.get_processing_evidence(candidate.id)
+                if processed is None or not processed.has_trusted_source(candidate):
+                    return result("unresolved_result")
+                if any(f.has_trusted_source(candidate) and f.fact_type == condition.fact_type
+                        and f.predicate == condition.predicate and f.subject_ref == condition.subject_ref
+                        for f in processed.observable_facts):
+                    latest = candidate.id
+            if latest != event_id:
+                return result("superseded_state_evidence")
         consumed = next((o for o in context.get_observations()
                          if o.observer_id == goal.owner_id and o.source_event_id == event_id
                          and o.has_trusted_provenance() and o.content == fact

@@ -184,6 +184,7 @@ class SimulationRuntime:
         if (type(self.agent_action_loop) is AgentActionLoop
                 and type(self.agent_action_loop.agent_turn) is AgentTurn):
             turn = self.agent_action_loop.agent_turn
+            self.behavior_feedback._reach_context=(self.context.world_state,self.context.event_history)
             turn.cognitive_runtime._bind_observation_history(
                 self.context.event_history, codec=self.event_processor.persistence_codec,
                 trust=self.event_processor.persistence_trust)
@@ -202,6 +203,9 @@ class SimulationRuntime:
                     trust=trust, fence=self.write_fence,
                 )
             )
+            if turn.l1_consumption_issuer is not None:
+                turn._consumed_failure_context=(self.behavior_feedback,turn.l1_consumption_issuer,
+                    frozenset(e.id for e in self.context.event_history.get_events()))
         if (type(self.event_processor) is EventProcessor
                 and self.event_processor.persistence_trust is not None
                 and self.cognition_context_provider is not None
@@ -845,6 +849,12 @@ class SimulationRuntime:
                 or not execution.resolution._has_valid_confirmation(execution.attempt)
                 or not verify_confirmed_failure_event(event, attempt=execution.attempt)
                 or self.context.event_history.get_event(event.id) != event):
+            return
+        from cognitive_world.event.attempt_source import confirmed_reach_failure_source
+        if confirmed_reach_failure_source(event) is not None:
+            # AgentTurn applies this category only after actual qualified L1
+            # and verified consumption-proof publication. Delivery alone must
+            # never seed the legacy in-line lock-feedback writer.
             return
         try:
             self._record_behavior_failure(owner_id, execution, observations, tick, event)
