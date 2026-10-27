@@ -197,5 +197,11 @@ class PhysicalTransitionHandler(EventHandler):
         entity = replace(entity, state=state)
         return WorldUpdate("entities", "update", {entity.id: entity})
 
+    def observable_facts_with_world_state(self, event, update, world_state):
+        from .observation import result_draft
+
+        draft = result_draft(event, location_id=world_state.get_location(event.changes[1]["actor_id"]))
+        return () if draft is None else (draft,)
+
     def __init__(self, processor):
         self.processor = processor

@@ -100,6 +100,8 @@ class VisibilityPolicy:
             or not observer_id
         ):
             return False
+        if _allows_physical_result(event, evidence, observer_id, event_history=event_history):
+            return True
         if event.type == "object_observed":
             from cognitive_world.observation.object_projection import allows_object_fact
             return any(allows_object_fact(event, evidence, observer_id, f) for f in evidence.observable_facts)
@@ -252,6 +254,7 @@ class ObservationGenerator:
                     (fact.fact_type == "object_appearance" and _allows_object(event, evidence, observer_id, fact))
                     or _allows_door_open_failure(event, evidence, observer_id, fact, event_history)
                     or _allows_reach_failure(event, evidence, observer_id, fact, event_history)
+                    or _allows_physical_result(event, evidence, observer_id, fact, event_history)
                     or
                     (event.type in {"dialogue_input", "dialogue_reply"} and fact.fact_type == ("social_input" if event.type == "dialogue_input" else "social_output") and fact.predicate == "utterance_delivered" and fact.subject_ref == observer_id and observer_id in event.participants and observer_id in {item[0] for item in context.observer_positions} and context.fact_location_id == fact.location_id and next((position for identity, position, _ in context.observer_positions if identity == observer_id), None) == fact.location_id and isinstance(fact.value, str))
                     or
@@ -280,7 +283,9 @@ class ObservationGenerator:
                     source_timeline_id,
                     source_runtime_session_id,
                     source_runtime_generation,
-                    ("actor-owned confirmed reach execution result"
+                    ("actor-owned committed Boolean transition result/v1"
+                     if fact.fact_type == "action_result" and fact.predicate == "boolean_transition_applied" else
+                     "actor-owned confirmed reach execution result"
                      if fact.fact_type == "action_result" and fact.predicate == "interaction_out_of_reach" else
                      "actor-owned confirmed locked-door execution result"
                      if fact.fact_type == "action_result" else
@@ -307,3 +312,8 @@ class ObservationGenerator:
 def _allows_object(event, evidence, observer_id, fact):
     from cognitive_world.observation.object_projection import allows_object_fact
     return allows_object_fact(event, evidence, observer_id, fact)
+
+
+def _allows_physical_result(event, evidence, observer_id, fact=None, event_history=None):
+    from cognitive_world.physics.observation import allows_result
+    return allows_result(event, evidence, observer_id, fact, event_history)

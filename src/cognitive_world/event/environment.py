@@ -383,6 +383,14 @@ class ResolutionEffectsHandler(EventHandler):
             return self._passage.handle_with_world_state(event, world_state)
         raise LookupError("no installed Resolution effect adapter supports this effect")
 
+    def observable_facts_with_world_state(self, event, update, world_state):
+        if (len(event.changes) == 2 and isinstance(event.changes[1], Mapping)
+                and event.changes[1].get("effect_type") == "physical_state_transition_v1"):
+            from cognitive_world.physics.adapter import PhysicalTransitionHandler
+            return PhysicalTransitionHandler(self.processor).observable_facts_with_world_state(
+                event, update, world_state)
+        return self.observable_facts(event, update)
+
     def observable_facts(self, event: Event, update: WorldUpdate):
         if len(event.changes) > 1 and isinstance(event.changes[1], Mapping):
             if event.changes[1].get("effect_type") == "door_state_changed":

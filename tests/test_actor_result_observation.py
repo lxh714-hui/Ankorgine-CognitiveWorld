@@ -366,3 +366,167 @@ def test_qualified_failure_cannot_rebind_valid_lock_reads_to_another_target(targ
     assert not history.get_events() and not _results(store)
     assert not world.environment["door-1"].is_open and not world.environment["other-door"].is_open
     assert not history.requires_recovery() and not fence.recovery_required
+
+
+
+@pytest.mark.parametrize("qualified", [False, True], ids=["bare", "object-qualified"])
+def test_missing_key_room_commits_failure_preserving_each_address_form(qualified):
+    from test_goal_completion import make_room, objective, results
+    from cognitive_world.examples.social_room import RoomDefinition, RoomCandidates
+    from cognitive_world.cognition.goal_completion import GoalCompletionCondition
+    from cognitive_world.event.attempt_source import verify_confirmed_failure_event
+
+    definition = RoomDefinition()
+    target = ("object:" if qualified else "") + definition.door
+    scene = make_room(
+        key_available=False,
+        goal_completion=GoalCompletionCondition(
+            target, "environment_state", "door_open", definition.door, True
+        ),
+    )
+
+    class AddressedCandidates(RoomCandidates):
+        def generate(self, situation):
+            return tuple(
+                replace(c, target=target) if c.target else c
+                for c in super().generate(situation)
+            )
+
+    scene.runtime.agent_decision.candidate_policy = AddressedCandidates(
+        scene.definition
+    )
+    scene.advance(speak=True)
+    goal = objective(scene)
+    world = scene.runtime.context.world_state
+    before = (world.environment, world.entities, world.locations)
+    assert world.get_entity(definition.key).owner_id is None
+    assert world.get_location(definition.key) == definition.drawer
+    (action,) = scene.advance()
+    assert action.failure_type is None and action.event_committed
+    assert (
+        action.execution.resolution.confirmed
+        and action.execution.resolution.success is False
+    )
+    attempt, event = action.execution.attempt, action.execution.event
+    assert attempt.agent_id == definition.receiver and attempt.target_refs == [target]
+    assert tuple(event.metadata["confirmed_attempt_failure"]["target_refs"]) == (
+        target,
+    )
+    assert (
+        event.metadata["confirmed_attempt_failure"]["method"]
+        == attempt.parameters["method"]
+    )
+    assert verify_confirmed_failure_event(event, attempt=attempt)
+    assert len(results(scene)) == 1
+    assert (world.environment, world.entities, world.locations) == before
+    evidence = scene.runtime.context.event_history.get_processing_evidence(event.id)
+    assert evidence.has_trusted_source(event)
+    (observation,) = (
+        o
+        for o in scene.runtime.context.observation_store.get_by_observer(
+            definition.receiver
+        )
+        if o.source_event_id == event.id and o.content.fact_type == "action_result"
+    )
+    assert (
+        observation.content.subject_ref == target
+        and observation.has_trusted_provenance()
+    )
+    assert (
+        observation.content.predicate == "door_open_attempt_failed"
+        and observation.content.value is True
+    )
+    assert not any(
+        o.source_event_id == event.id and o.content.fact_type == "action_result"
+        for o in scene.runtime.context.observation_store.get_by_observer(
+            definition.speaker
+        )
+    )
+    assert objective(scene) == goal and goal.status == "active"
+    assert not scene.runtime.write_fence.recovery_required
+
+
+@pytest.mark.parametrize("qualified", [False, True], ids=["bare", "object-qualified"])
+def test_failure_reference_stale_lock_reads_reject_and_next_action_still_commits(
+    qualified,
+):
+    from cognitive_world.core.door import DoorState
+    from cognitive_world.decision import ActionPipeline, ActionProposal
+
+    world, clock, history, store, fence, processor, flow = _fixture()
+    # Canonical initialization supplies a real held key for a later, explicit unlock.
+    world.load_entity(Entity("key-1", "tool", owner_id="agent-1"))
+    world.load_location("key-1", "agent-1")
+    world.load_environment_data(
+        "door-2", DoorState("door-2", "door_contact", False, False, True)
+    )
+    target = ("object:" if qualified else "") + "door-1"
+
+    def prepare(target, method, **parameters):
+        attempt = ActionPipeline().create_attempt(
+            ActionProposal(
+                "address-check",
+                "agent-1",
+                "open",
+                [target],
+                {"method": method, **parameters},
+            )
+        )
+        return flow.execute_with_result(attempt, simulation_tick=clock.capture())
+
+    with fence.operation():
+        result, failed = prepare(target, "push the door")
+        assert result.confirmed and not result.success
+        opened, opening = prepare(
+            target, "use key to unlock and open the door", tools=["key-1"]
+        )
+        assert opened.success
+        processor.dispatch_with_evidence(opening)
+        before = (
+            world.environment,
+            world.entities,
+            world.locations,
+            history.get_events(),
+            store.all(),
+        )
+        with pytest.raises(PermissionError, match="stale or lack authoritative"):
+            processor.dispatch_with_evidence(failed)
+        assert (
+            world.environment,
+            world.entities,
+            world.locations,
+            history.get_events(),
+            store.all(),
+        ) == before
+        assert history.get_event(failed.id) is None and not history.requires_recovery()
+        assert not fence.recovery_required and not _results(store)
+        fresh, event = prepare("object:door-2", "push the door")
+        assert fresh.success
+        processor.dispatch_with_evidence(event)
+    assert len(history.get_events()) == 2 and world.environment["door-2"].is_open
+    assert not _results(store)
+
+
+@pytest.mark.parametrize("target", ["object:", "agent:", "object:missing-door"])
+def test_malformed_or_unknown_address_has_no_confirmed_failure_or_world_change(target):
+    from cognitive_world.decision import ActionPipeline, ActionProposal
+
+    world, clock, history, store, fence, processor, flow = _fixture()
+    before = (world.entities, world.locations, world.environment)
+    with fence.operation():
+        attempt = ActionPipeline().create_attempt(
+            ActionProposal(
+                "invalid-reference",
+                "agent-1",
+                "open",
+                [target],
+                {"method": "push the door"},
+            )
+        )
+        result, event = flow.execute_with_result(
+            attempt, simulation_tick=clock.capture()
+        )
+        assert not result.confirmed and event is None
+    assert (world.entities, world.locations, world.environment) == before
+    assert not history.get_events() and not store.all()
+    assert not history.requires_recovery() and not fence.recovery_required

@@ -414,13 +414,14 @@ def test_event_retry_is_idempotent_and_creates_no_new_observation(monkeypatch):
     with runtime.write_fence.operation():
         _, event = host.prepare()
         first = runtime.event_processor.dispatch_with_evidence(event)
+        observations = runtime.context.observation_store.all()
         repeated = runtime.event_processor.dispatch_with_evidence(event)
+    assert runtime.context.observation_store.all() == observations
     assert first == repeated and applied == [event.id]
     assert len(runtime.context.event_history.get_events()) == 3 and host.value()
-    assert (
-        runtime.context.event_history.get_processing_evidence(event.id).observable_facts
-        == ()
-    )
+    facts = runtime.context.event_history.get_processing_evidence(event.id).observable_facts
+    assert len(facts) == 1 and facts[0].predicate == "boolean_transition_applied"
+    assert len(observations) == 1 and observations[0].content == facts[0]
 
 
 def test_old_generation_candidate_does_not_gain_new_commit_authority():
