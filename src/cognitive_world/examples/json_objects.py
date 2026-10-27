@@ -91,6 +91,20 @@ def run(path, scenario_id, *, observer_key=None, approach=False):
             for message in presentation.publish_event(event.id).messages:
                 print(message.content)
         print("Committed door result:", result.success if event is not None else "unresolved")
+    # Developer diagnostics only: these are not authorized player observations.
+    # The same content-defined operation can use a different compatible engine.
+    from cognitive_world.physics.adapter import StateTransitionResolutionEngine
+    physical_flow = ActionResolutionFlow(StateTransitionResolutionEngine(world, history),
+        world_state=world, event_history=history)
+    for entity in world.entities.values():
+        for rule in entity.attributes.get("physical_rules", ()):
+            attempt = ActionPipeline().create_attempt(ActionProposal("physical:"+rule.rule_id,
+                actor, "Interact", ["object:"+entity.id],
+                {"method":"operate the installed control", "physical_operation":rule.operation}))
+            result, event = physical_flow.execute_with_result(attempt, simulation_tick=clock.capture())
+            if event is not None:
+                processor.dispatch_with_evidence(event)
+            print("Committed physical transition:", result.success if event is not None else "unresolved")
     return context
 
 

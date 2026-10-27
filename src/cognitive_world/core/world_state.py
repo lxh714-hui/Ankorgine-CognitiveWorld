@@ -265,6 +265,9 @@ class WorldState:
         """Load a relationship without retaining its external reference."""
         self._ensure_initialization_open()
         key = (relationship.source, relationship.target)
+        from cognitive_world.core.physical import PhysicalRelation,validate_physical_world
+        if type(relationship) is PhysicalRelation:
+            validate_physical_world(self._entities,self._locations,{**self._relationships,key:relationship})
         self._relationships[key] = deepcopy(relationship)
         self._record_initialization("relationships", key, self._relationships[key])
 
@@ -409,6 +412,8 @@ class WorldState:
             raise ValueError("timeline_id must be a non-empty string")
         if not callable(getattr(trust, "sign", None)) or not callable(getattr(trust, "verify", None)):
             raise TypeError("trust must expose sign and verify")
+        from cognitive_world.core.physical import validate_physical_world
+        validate_physical_world(self._entities, self._locations, self._relationships)
         codec = codec or PersistedValueCodec()
         event_history_state = event_history.export_persisted_state(timeline_id=timeline_id)
         # Verify every timeline segment before signing the checkpoint body.
@@ -564,6 +569,8 @@ class WorldState:
             _initialization_sealed=body["initialization_sealed"],
             _world_norms=deepcopy(body["world_norms"]),
         )
+        from cognitive_world.core.physical import validate_physical_world
+        validate_physical_world(restored._entities,restored._locations,restored._relationships)
         actual_slots: dict[WorldStateSlot, tuple[bool, object]] = {}
         for collection, values in (
             ("entities", restored._entities), ("locations", restored._locations),
@@ -764,11 +771,24 @@ class WorldState:
             new_locations.update(dict(batch.locations))
             new_environment.update(dict(batch.environment))
             new_facts[batch.record_key] = batch.record
+            from cognitive_world.core.physical import PhysicalRelation,validate_physical_world
+            if set(update.metadata) - {"physical_relations"}:raise ValueError("unsupported installation metadata")
+            relations=update.metadata.get("physical_relations",())
+            if type(relations) is not tuple or any(type(r) is not PhysicalRelation for r in relations):
+                raise TypeError("typed installation relations required")
+            new_relationships=deepcopy(self._relationships)
+            for relation in relations:
+                key=(relation.source,relation.target)
+                if key in new_relationships:raise ValueError("relationship identity conflict")
+                new_relationships[key]=relation
+            validate_physical_world(new_entities,new_locations,new_relationships)
             new_origins = dict(self._slot_origins)
             self._record_event_slot_changes("entities", self._entities, new_entities, event.id, new_origins)
             self._record_event_slot_changes("locations", self._locations, new_locations, event.id, new_origins)
             self._record_event_slot_changes("environment", self._environment, new_environment, event.id, new_origins)
             self._record_event_slot_changes("facts", self._facts, new_facts, event.id, new_origins)
+            self._record_event_slot_changes("relationships",self._relationships,new_relationships,event.id,new_origins)
+            self._relationships=new_relationships
             self._entities, self._locations = new_entities, new_locations
             self._environment, self._facts = new_environment, new_facts
             self._slot_origins = new_origins
@@ -815,6 +835,10 @@ class WorldState:
         if update.operation == "set":
             staged.clear()
         staged.update(copied_payload)
+        from cognitive_world.core.physical import validate_physical_world
+        validate_physical_world(staged if update.target_id=="entities" else self._entities,
+            staged if update.target_id=="locations" else self._locations,
+            staged if update.target_id=="relationships" else self._relationships)
         new_origins = dict(self._slot_origins)
         self._record_event_slot_changes(
             update.target_id, target, staged, event.id, new_origins

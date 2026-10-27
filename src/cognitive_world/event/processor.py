@@ -73,6 +73,8 @@ class EventProcessor:
         from cognitive_world.event.object_observation import ObjectObservedHandler
         self._handlers.setdefault("object_observed", ObjectObservedHandler())
         self._handlers.setdefault("resolution", ResolutionEffectsHandler())
+        if type(self._handlers["resolution"]) is ResolutionEffectsHandler:
+            self._handlers["resolution"].processor=self
         self._handlers.setdefault("world_norms_updated", WorldNormsUpdatedHandler())
         self._handlers.setdefault(
             "environment_state_observed", EnvironmentStateObservedHandler()
@@ -81,6 +83,9 @@ class EventProcessor:
     def register_handler(self, event_type: str, handler: EventHandler) -> None:
         """Register a handler for an event type."""
         self._handlers[event_type] = handler
+        from cognitive_world.event.environment import ResolutionEffectsHandler
+        if type(handler) is ResolutionEffectsHandler:
+            handler.processor=self
 
     @contextmanager
     def _write_scope(self, event: Event):

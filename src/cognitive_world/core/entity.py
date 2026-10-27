@@ -46,6 +46,17 @@ class Entity:
     safety_profile: SafetySubjectProfile | None = None
 
     def __post_init__(self) -> None:
+        from cognitive_world.core.physical import PhysicalStateSet,PhysicalTransitionRule
+        if "physical" in self.state:
+            physical=self.state["physical"]
+            if type(physical) is not PhysicalStateSet or physical.entity_id!=self.id:
+                raise ValueError("invalid physical state identity/type")
+            physical.__post_init__()
+        if "physical_rules" in self.attributes:
+            rules=self.attributes["physical_rules"]
+            if type(rules) is not tuple or any(type(r) is not PhysicalTransitionRule for r in rules):
+                raise ValueError("typed physical rules required")
+            for rule in rules:rule.__post_init__()
         if self.sensory_capabilities is not None:
             if not isinstance(self.sensory_capabilities, tuple) or any(
                 not isinstance(item, str) or not item for item in self.sensory_capabilities

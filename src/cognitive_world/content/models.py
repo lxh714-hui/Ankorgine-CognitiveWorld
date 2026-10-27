@@ -131,6 +131,8 @@ class ScenarioTemplate:
     side_branch: bool = False
     value_refs: tuple[str, ...] = ()  # linked local character, mechanism or seed
     objects: tuple[tuple[str, str, str, str | None], ...] = ()
+    physical_relations: tuple = ()
+    physical_rules: tuple = ()
 
     def __post_init__(self) -> None:
         _id(self.template_id)
@@ -138,7 +140,7 @@ class ScenarioTemplate:
         _id(self.entry_key)
         if type(self.side_branch) is not bool:
             raise TypeError("side_branch must be bool")
-        for values in (self.locations, self.characters, self.exit_keys, self.event_seeds, self.value_refs, self.objects):
+        for values in (self.locations, self.characters, self.exit_keys, self.event_seeds, self.value_refs, self.objects, self.physical_relations, self.physical_rules):
             if not isinstance(values, tuple):
                 raise TypeError("scenario collections must be immutable tuples")
 
@@ -194,8 +196,13 @@ class ObjectTemplate:
     kind: str
     appearance: object
     observation_policy: object | None = None
+    physical_state: object | None = None
 
     def __post_init__(self):
+        from cognitive_world.core.physical import PhysicalStateSet
+        if self.physical_state is not None:
+            if type(self.physical_state) is not PhysicalStateSet:raise TypeError("typed physical state required")
+            self.physical_state.__post_init__()
         from cognitive_world.core.object_appearance import ObjectAppearance
         _id(self.template_id)
         _text(self.description)

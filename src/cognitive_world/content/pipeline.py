@@ -93,6 +93,8 @@ class ContentValidator:
             if len(set(object_keys)) != len(object_keys) or set(object_keys) & (set(character_keys) | set(location_keys)):
                 raise ValueError("object local identity conflict")
             refs = {"location:" + k for k in location_keys} | {"actor:" + k for k in character_keys}
+            from .physical import validate_refs
+            validate_refs(scenario,refs | {"object:"+key for key in object_keys})
             for key, tid, place, owner in scenario.objects:
                 if tid not in objects or place not in refs or (owner is not None and owner not in {"actor:" + k for k in character_keys}):
                     raise ValueError("object placement or owner reference missing")
@@ -335,10 +337,15 @@ class ContentInstantiator:
         state = ScenarioRuntimeState(world_id, instance_id, template_id,
             ScenarioPhase.AVAILABLE, instance.entry_location_id, instance.exit_location_ids,
             clock.capture().tick if clock is not None else None)
+        from .physical import materialize
+        local_refs.update({"object:"+key:value for key,value in object_ids.items()})
+        planned_locations=tuple((character.agent_id,character.location_id) for character in characters)+tuple(object_locations)
+        entities,relations=materialize(entities,scenario,self.registry,local_refs,
+            {**world.locations,**dict(planned_locations)},world.entities)
         return ContentInstallationPlan(instance, tuple(entities),
             tuple((character.agent_id, character.location_id) for character in characters) + tuple(object_locations),
             tuple(environment), state_key, state, tuple(personalities),
-            tuple(self_models), tuple(goals), tuple(runtime_agents))
+            tuple(self_models), tuple(goals), tuple(runtime_agents),relations)
 
     def instantiate(self, template_id: str, instance_id: str, world_id: str, *,
                     world: WorldState, cognition: CognitionContainer,
@@ -353,6 +360,8 @@ class ContentInstantiator:
             world.load_environment_data(key, value)
         for actor_id, location_id in plan.locations:
             world.load_location(actor_id, location_id)
+        for relation in plan.relations:
+            world.load_relationship(relation)
         for personality in plan.personalities:
             cognition.add_personality(personality)
         for self_model in plan.self_models:
@@ -384,3 +393,4 @@ class ContentInstallationPlan:
     self_models: tuple[SelfModel, ...]
     goals: tuple[Goal, ...]
     agents: tuple[RuntimeAgent, ...]
+    relations: tuple = ()

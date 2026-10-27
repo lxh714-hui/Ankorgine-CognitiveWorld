@@ -1,0 +1,227 @@
+{
+  "schema_version": 5,
+  "content_type": "generation_proposal",
+  "characters": [
+    {
+      "template_id": "worker",
+      "description": "A person inspecting available objects",
+      "goal_descriptions": [],
+      "sensory_capabilities": [
+        "sight"
+      ],
+      "physical_capabilities": [
+        "manual_manipulation",
+        "locomotion"
+      ]
+    }
+  ],
+  "locations": [
+    {
+      "template_id": "far",
+      "description": "A declared point in one bounded observation domain",
+      "mechanisms": [],
+      "observation_zone": null
+    }
+  ],
+  "objects": [
+    {
+      "template_id": "panel",
+      "description": "A small manufactured object",
+      "kind": "tool",
+      "appearance": {
+        "version": 1,
+        "shape": "small",
+        "detail": "notched",
+        "visible": true,
+        "detail_visible": true
+      },
+      "observation_policy": null,
+      "physical_state": {
+        "version": 1,
+        "properties": [
+          {
+            "definition": {
+              "version": 1,
+              "name": "open",
+              "value_type": "boolean"
+            },
+            "value": false
+          }
+        ]
+      }
+    },
+    {
+      "template_id": "handle",
+      "description": "A small manufactured object",
+      "kind": "tool",
+      "appearance": {
+        "version": 1,
+        "shape": "small",
+        "detail": "notched",
+        "visible": true,
+        "detail_visible": true
+      },
+      "observation_policy": null,
+      "physical_state": {
+        "version": 1,
+        "properties": [
+          {
+            "definition": {
+              "version": 1,
+              "name": "operable",
+              "value_type": "boolean"
+            },
+            "value": true
+          }
+        ]
+      }
+    },
+    {
+      "template_id": "latch",
+      "description": "A small manufactured object",
+      "kind": "tool",
+      "appearance": {
+        "version": 1,
+        "shape": "small",
+        "detail": "notched",
+        "visible": true,
+        "detail_visible": true
+      },
+      "observation_policy": null,
+      "physical_state": {
+        "version": 1,
+        "properties": [
+          {
+            "definition": {
+              "version": 1,
+              "name": "engaged",
+              "value_type": "boolean"
+            },
+            "value": false
+          }
+        ]
+      }
+    }
+  ],
+  "scenarios": [
+    {
+      "template_id": "visit",
+      "description": "Inspect an object and attempt a door",
+      "locations": [
+        [
+          "far",
+          "far"
+        ]
+      ],
+      "characters": [
+        [
+          "worker",
+          "worker",
+          "far"
+        ]
+      ],
+      "entry_key": "far",
+      "exit_keys": [
+        "far"
+      ],
+      "event_seeds": [],
+      "side_branch": false,
+      "value_refs": [
+        "worker"
+      ],
+      "objects": [
+        [
+          "panel",
+          "panel",
+          "location:far",
+          null
+        ],
+        [
+          "handle",
+          "handle",
+          "location:far",
+          null
+        ],
+        [
+          "latch",
+          "latch",
+          "location:far",
+          null
+        ]
+      ],
+      "physical_relations": [
+        {
+          "source": "object:handle",
+          "target": "object:panel",
+          "kinds": [
+            "part_of",
+            "attached_to"
+          ]
+        },
+        {
+          "source": "object:latch",
+          "target": "object:panel",
+          "kinds": [
+            "part_of"
+          ]
+        },
+        {
+          "source": "object:handle",
+          "target": "object:latch",
+          "kinds": [
+            "controls"
+          ]
+        }
+      ],
+      "physical_rules": [
+        {
+          "target_ref": "object:handle",
+          "version": 1,
+          "rule_id": "operate-assembly",
+          "operation": "operate",
+          "receiver_id": "object:panel",
+          "property_name": "open",
+          "expected": false,
+          "replacement": true,
+          "capability": "manual_manipulation",
+          "conditions": [
+            {
+              "entity_id": "object:handle",
+              "property_name": "operable",
+              "value": true
+            },
+            {
+              "entity_id": "object:latch",
+              "property_name": "engaged",
+              "value": false
+            }
+          ],
+          "relations": [
+            {
+              "source": "object:handle",
+              "target": "object:panel",
+              "kinds": [
+                "part_of",
+                "attached_to"
+              ]
+            },
+            {
+              "source": "object:latch",
+              "target": "object:panel",
+              "kinds": [
+                "part_of"
+              ]
+            },
+            {
+              "source": "object:handle",
+              "target": "object:latch",
+              "kinds": [
+                "controls"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

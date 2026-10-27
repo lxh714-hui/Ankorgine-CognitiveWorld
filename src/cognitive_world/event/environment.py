@@ -374,6 +374,9 @@ class ResolutionEffectsHandler(EventHandler):
         if not isinstance(event.changes[1], Mapping):
             raise ValueError("Resolution effect must be a typed mapping")
         effect_type = event.changes[1].get("effect_type")
+        if effect_type == "physical_state_transition_v1":
+            from cognitive_world.physics.adapter import PhysicalTransitionHandler
+            return PhysicalTransitionHandler(self.processor).handle_with_world_state(event,world_state)
         if effect_type == "door_state_changed":
             return self._door.handle_with_world_state(event, world_state)
         if effect_type == "actor_location_changed":

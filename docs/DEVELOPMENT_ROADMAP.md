@@ -474,3 +474,12 @@ Consumed reach feedback now uses the existing nonverbal proof capability and Beh
 ### Next bounded work: physical mechanisms and LOD
 
 Extend one actual physical mechanism or authorized observation task at a time, with formal state provenance, deterministic behavioral contrast and restore/fork tests. The current reach model uses explicit one-dimensional shared-domain coordinates, not occlusion or general geometry. Exact intent/method matching does not cover semantic paraphrases. Feedback history retention and repeated historical verification need scale measurements before larger worlds; this is performance debt, not a claim of a demonstrated V1 correctness failure. Checkpoint-only durability, missing historical consumption deferral and separate visible desktop acceptance remain explicit limits. No shared LOD coordinator or generalized learning is authorized by this milestone.
+
+
+## Minimal physical contract follow-up
+
+Completed a bounded portion of the entity representation foundation: [typed physical state/relations and JSON v5](DATA_CONTRACTS.md#physical-state-and-transition-contracts-v1-json-v5), pure v1 boolean-transition model substitution, independent formal commit revalidation, and signed checkpoint/branch tests. This does not complete general ECS or the broader physics/LOD roadmap.
+
+Next meaningful slice: select one installed transition result, define its narrowly authorized observable projection, and let an existing NPC/player interaction path propose that operation from qualified evidence. Keep model declarations and choice policy separate from causal adjudication. Do not expose the current internal rule/state dictionary to the player to create apparent integration.
+
+Deferred debt: exact co-location is a bounded reach assumption, not a geometry service; numeric declarations do not implement force/material response or conversion; physical relation kinds do not yet support detach/transfer/continuous propagation; v5 remains subject to the existing small proposal budget. Choose separate validated contracts and deterministic evidence before extending those capabilities. Physical result Observation/B2 eligibility, generalized Goal comparison, backend model disagreement, performance scaling and installation-intermediate recovery need their own justified slices. No unified LOD coordinator, new persistence guarantee or generic plugin lifecycle is implied.

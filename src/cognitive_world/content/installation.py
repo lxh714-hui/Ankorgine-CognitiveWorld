@@ -122,6 +122,12 @@ class _RuntimeContentHandler(EventHandler):
             raise PermissionError("installation Event has no matching authorized preparation")
         payload = pending[1]
         if event.type == "runtime_content_installed":
+            relations=()
+            if type(payload) is tuple and len(payload)==2:
+                payload,relations=payload
+                from cognitive_world.core.physical import PhysicalRelation
+                if type(relations) is not tuple or any(type(r) is not PhysicalRelation for r in relations):
+                    raise TypeError("typed installation relations required")
             if type(payload) is not WorldContentBatch:
                 raise TypeError("installation requires an isolated world batch")
             record = payload.record
@@ -131,7 +137,8 @@ class _RuntimeContentHandler(EventHandler):
                                        "template_id": record.template_id,
                                        "proposal_digest": record.proposal_digest}]):
                 raise PermissionError("installation Event does not match the prepared content")
-            return WorldUpdate("runtime_content", "install", deepcopy(payload))
+            return WorldUpdate("runtime_content", "install", deepcopy(payload),
+                {} if not relations else {"physical_relations":relations})
         if event.type == "runtime_content_ready":
             if type(payload) is not tuple or len(payload) != 3:
                 raise TypeError("completion requires a prepared scenario state")
@@ -220,7 +227,7 @@ class RuntimeContentInstaller:
             timestamp="", simulation_tick=tick,
             changes=[{"world_id": world_id, "instance_id": instance_id,
                       "template_id": template_id, "proposal_digest": digest}])
-        self._dispatch(event, batch)
+        self._dispatch(event, (batch,plan.relations) if plan.relations else batch)
         # No Agent is registered until all its owner-scoped cognition is ready.
         # A failure here leaves an explicit world_installed record for manual
         # recovery; it must never be silently retried as a fresh world Event.
