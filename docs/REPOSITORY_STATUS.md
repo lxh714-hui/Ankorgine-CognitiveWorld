@@ -758,3 +758,37 @@ The first full suite passed (1844 passed, 9 skipped, 127.13s, exit 0). A later d
 
 
 Final full verification after the Presentation assertion and formatting: **1844 passed, 9 skipped, 121.77s, exit 0**. All nine skips require explicit local Ollama integration/evaluation opt-ins: cognitive review, dialogue, embedding-model probe, physical effects, two insight probes, insight protocol, insight semantic evaluation and insight-unit semantic review. The desktop terminal-state case passed in these runs; its intermittent root cause is still unestablished and no lifecycle fix is claimed.
+
+
+## Typed contextual Belief matching increment
+
+Based on checkpoint b91cb50, this increment adds no durable record/schema or physical adapter change. ContextualBeliefRule/v1 and ContextualBeliefBinding/v1 are transient, bounded, opt-in decision contracts. Actual owner-qualified consumption and exact canonical history/fact binding are required before an existing governed Belief can influence the matching target/action/method. An unchanged history frontier plus bounded evidence age is the conservative applicability condition. Unsupported, ambiguous, tool-bearing, unrelated and stale matches contribute no typed score.
+
+Real-component regressions demonstrate no revision from mere delivery, governance refusal, missing history, wrong-owner or invalid-provenance intake, and uncommitted failure. Actual revision changes selection from Open to Move in an otherwise identical decision with no BehaviorFeedback scoring; the selected movement and subsequent opening use the ordinary formal action/event path. Later movement and opening evidence revise the Belief without turning the earlier failure into a universal claim. Unrelated commitments remain unchanged. Signed restore preserves the Belief and old signatures without manufacturing consumption or transient views.
+
+This does not add general learning or B4, new B2 eligibility, new codecs, Bundle versions, replay/recovery guarantees or player-facing private cognition. The prior intermittent desktop terminal-state failure remains unresolved; no lifecycle fix is claimed.
+
+
+### Contextual Belief verification
+
+All pytest commands used `PYTHONDONTWRITEBYTECODE=1`, a fresh external `$taskTmp`, `-p no:cacheprovider` and `-B`. No existing temporary directories/resources were removed.
+
+```powershell
+py -3.14 -B -m pytest tests/test_contextual_belief.py -q -rs -p no:cacheprovider --basetemp $taskTmp --tb=short
+py -3.14 -B -m pytest tests/test_contextual_belief.py tests/test_cognitive_causality.py tests/test_agent_turn.py tests/test_l1_history.py tests/test_consumed_physical_feedback.py tests/test_physical_result_observation.py tests/test_decision_cognition_snapshot.py tests/test_runtime_reconstruction.py tests/test_runtime_write_fence.py tests/test_save_restore_end_to_end.py tests/test_cognitive_validation.py tests/test_cognitive_update_apply.py -q -rs -p no:cacheprovider --basetemp $taskTmp --tb=short
+py -3.14 -B -m pytest tests/test_contextual_belief.py tests/test_autonomous_agent_decision.py tests/test_decision_context_pipeline.py -q -rs -p no:cacheprovider --basetemp $taskTmp --tb=short
+py -3.14 -B -m pytest tests/test_contextual_belief.py tests/test_runtime_write_fence.py tests/test_cognitive_causality.py -q -rs -p no:cacheprovider --basetemp $taskTmp --tb=short
+py -3.14 -B -m pytest -q -rs -p no:cacheprovider --basetemp $taskTmp --tb=short
+```
+
+Actual intermediate results: initial focused run 9 passed/2 failed (1.21s, exit 1): the fixture used a nonexistent GoalStore.all method and incorrectly expected an unbound protected feedback intake to continue; the test now retains the existing PermissionError and no-mutation guarantees. Corrected focused run: 11 passed (1.32s, exit 0). Expanded tests exposed a test-host link error (14 passed/1 failed, 1.66s, exit 1): worker Belief references had been assigned to a bystander. Owner-specific host linking corrected it, with no snapshot validation relaxation; 15 passed (1.93s, exit 0), then 16 passed after governance rejection coverage (1.98s, exit 0). One regression command named nonexistent test_cognitive_update_validation.py and ran no tests (exit 4); the corrected command above ran 194 passed/1 skipped (36.99s, exit 0). Provider projection/decision tests: 48 passed (2.19s, exit 0). Initial full suite: 1861 passed/9 skipped (147.76s, exit 0). After the final unchanged-Belief movement test and snapshot read-fence refinement, focused cognition/fence tests passed 36/1 skipped (2.61s, exit 0). The skip requires explicit local Ollama review opt-in. These are newly executed results, not historical baseline counts.
+
+
+The next full run caught an actual integration regression introduced by the new read fence: 1859 passed/3 failed/9 skipped (148.47s, exit 1). Empty-rule compatibility paths had incorrectly entered snapshot_scope, breaking an existing stale-generation lexical fallback and two permitted direct read-only AgentTurn uses without a captured permit. The fix confines fenced derivation to enabled contextual rules; missing/stale read permission defers only the new typed view. It does not issue a new permit, weaken a writer or clear recovery. The original failing tests plus all contextual tests passed unchanged (21 passed, 2.60s, exit 0):
+
+```powershell
+py -3.14 -B -m pytest tests/test_contextual_belief.py tests/test_memory_event_index.py::test_agent_turn_falls_back_to_lexical_results_if_runtime_generation_changes_mid_query tests/test_memory_write_fence.py::test_normal_agent_turn_binds_canonical_memory_and_keeps_personality_immutable tests/test_runtime_reconstruction.py::test_restored_runtime_keeps_same_goal_id_owner_scoped_in_agent_turn -q -rs -p no:cacheprovider --basetemp $taskTmp --tb=short
+```
+
+
+Final verification after the compatibility correction: **1862 passed, 9 skipped, 145.34s, exit 0** using the complete-suite command above. The final new-file selection passed **18 tests, 2.11s, exit 0**. The nine skips remain explicit local Ollama integration/evaluation opt-ins (cognitive review, dialogue, embedding model, physical effects, two insight probes, insight protocol, insight semantic evaluation and insight-unit review). No real model or visible desktop acceptance was performed. Six-file in-memory compilation and Python 3.10 syntax parsing, added local anchors and both Git whitespace checks passed; this is not Python 3.10 runtime validation. An engineering-only decision trace confirmed Open base 0.90 plus typed contextual -0.25 = 0.65 versus Move 0.80 with BehaviorFeedback absent. These diagnostics do not enter player Presentation.

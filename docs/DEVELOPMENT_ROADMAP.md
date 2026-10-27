@@ -490,3 +490,10 @@ Deferred debt: exact co-location is a bounded reach assumption, not a geometry s
 Completed the first owner-private Boolean transition result -> canonical processing evidence -> authorized Observation -> actual ordinary AgentTurn/L1 slice. This supersedes the preceding projection prerequisite only for `boolean_transition_applied`; B2 eligibility remains deferred. [Contract](DATA_CONTRACTS.md#committed-boolean-result-observation).
 
 Next bounded task: propose one installed operation from the owner's qualified decision context and verify a subsequent behavioral difference without exposing internal state/rule dictionaries. General physical perception, player rendering, geometry/FOV/occlusion, numeric dynamics and shared LOD coordination remain future work. The unresolved desktop terminal-state diagnostic remains separate; no lifecycle fix has been claimed.
+
+
+### Typed contextual cognition increment
+
+Implemented a narrow, transient typed Belief-to-action matcher on existing governed records, with exact source/consumption qualification and unchanged-history applicability. Actual reach failure -> Belief revision -> approach -> open is tested independently of BehaviorFeedback ranking; later evidence replaces the contextual judgment. [Contract](DATA_CONTRACTS.md#typed-contextual-belief-decision-view).
+
+Remaining work: define selective dependency-based applicability before retaining a judgment across intervening Events; separately justify tool-sensitive and multi-target matching, positive physical outcome semantics and durable inference policies. Current views are not restored consumption authority, and host configuration is explicitly reinstalled. No generalized B4, shared LOD coordinator or new persistence guarantee is implied.

@@ -106,6 +106,8 @@ class SituationBelief:
     claim: str
     confidence: float
     source_refs: tuple[str, ...]
+    contextual_binding: Any = None
+    structured_judgment: bool = False
 
 
 @dataclass(frozen=True)
@@ -408,7 +410,9 @@ class DeterministicSituationAssessmentPolicy:
                 confidence = max(0.0, min(1.0, float(confidence)))
             claim = _text(" ".join(_text_atoms(belief.content))[:MAX_TEXT_CHARS]) or "[belief content unavailable]"
             beliefs.append(SituationBelief(
-                belief.belief_id, claim, confidence, tuple(belief.source_refs)
+                belief.belief_id, claim, confidence, tuple(belief.source_refs),
+                next((b for b in context.contextual_beliefs if b.matches_belief(belief)), None),
+                isinstance(belief.content, Mapping) and "fact_type" in belief.content,
             ))
             if confidence < 0.5:
                 uncertainties.append(f"Belief {belief.belief_id} is held with limited confidence.")
@@ -874,12 +878,13 @@ class OpenAICompatibleDecisionProvider:
         max_candidates: int,
         max_output_chars: int,
     ) -> str:
+        from cognitive_world.decision.contextual_belief import model_belief_view
         view = {
             "observed_facts": [fact.__dict__ for fact in situation.observed_facts],
             "authorized_target_refs": situation.authorized_target_refs,
             "working_memory": situation.working_memory,
             "personal_memories": [memory.__dict__ for memory in situation.memories],
-            "subjective_beliefs": [belief.__dict__ for belief in situation.beliefs],
+            "subjective_beliefs": [model_belief_view(belief) for belief in situation.beliefs],
             "known_capabilities": situation.capabilities,
             "limitations": situation.limitations,
             "preferences": situation.personality_preferences,
@@ -1024,7 +1029,7 @@ class DeterministicActionEvaluationPolicy:
             factors["long_term_memory_relevance"] = min(0.15, 0.05 * memory_matches)
             belief_matches = sum(
                 bool(candidate_tokens & _tokens(belief.claim)) * min(1.0, belief.confidence)
-                for belief in situation.beliefs
+                for belief in situation.beliefs if not belief.structured_judgment
             )
             factors["subjective_belief_alignment"] = min(0.1, 0.05 * belief_matches)
             limitation_matches = sum(

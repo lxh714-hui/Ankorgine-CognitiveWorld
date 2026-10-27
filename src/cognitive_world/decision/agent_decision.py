@@ -179,6 +179,8 @@ class AgentDecision:
             raise ValueError("evaluation policy returned an incomplete evaluation batch")
         if review_policy.should_review(situation, evaluations):
             evaluations = review_policy.reassess(situation, candidates, evaluations)
+        from cognitive_world.decision.contextual_belief import adjust_evaluations
+        evaluations = adjust_evaluations(situation, candidates, evaluations)
         feedback = getattr(self, "behavior_feedback", None)
         if feedback is not None:
             evaluations = feedback.adjust(

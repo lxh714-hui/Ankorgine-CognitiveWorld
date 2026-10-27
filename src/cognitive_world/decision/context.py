@@ -29,11 +29,21 @@ class DecisionContext:
     motivation_assessment: Any = None
     decision_modulation: Any = None
 
+    contextual_beliefs: tuple[Any, ...] = field(default_factory=tuple)
+
     def __post_init__(self) -> None:
         raw_state = self.cognition_state
         owner_id = getattr(raw_state, "agent_id", None)
         if not isinstance(owner_id, str) or not owner_id:
             raise ValueError("DecisionContext requires a cognition owner")
+
+        from cognitive_world.decision.contextual_belief import ContextualBeliefBinding
+        if (type(self.contextual_beliefs) is not tuple or any(
+                type(item) is not ContextualBeliefBinding
+                or item.owner_id != owner_id
+                or not any(item.matches_belief(b) for b in self.beliefs)
+                for item in self.contextual_beliefs)):
+            raise PermissionError("contextual Beliefs require qualified owner-bound issuance")
 
         records = {
             "personality": self.personality,

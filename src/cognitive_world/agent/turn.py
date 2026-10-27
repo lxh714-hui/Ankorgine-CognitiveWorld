@@ -60,6 +60,7 @@ class AgentTurn:
     emotion_appraisal_policy: object = field(default_factory=DeterministicEmotionAppraisalPolicy)
     decision_modulation_policy: object = field(default_factory=DeterministicDecisionModulationPolicy)
     emotion_update_validator: EmotionUpdateValidator = field(default_factory=EmotionUpdateValidator)
+    contextual_belief_rules: tuple = ()
     cognitive_review_provider: object | None = None
     cognitive_belief_review: CognitiveBeliefReview = field(default_factory=CognitiveBeliefReview)
     cognitive_evolution_engine: CognitiveEvolutionEngine = field(default_factory=CognitiveEvolutionEngine)
@@ -134,6 +135,8 @@ class AgentTurn:
             raise TypeError("agent must be a RuntimeAgent")
         if not isinstance(cognition_context, CognitionContext):
             raise TypeError("cognition_context must be a CognitionContext")
+        from cognitive_world.decision.contextual_belief import validate_rules
+        validate_rules(self.contextual_belief_rules)
         agent_context = agent.get_context()
         if agent.agent_id != cognition_context.owner_id:
             raise ValueError(
@@ -367,7 +370,23 @@ class AgentTurn:
                 }
                 current_working_memory.percept_ids = [
                     pid for pid in current_working_memory.percept_ids if pid not in deferred_ids]
+            from cognitive_world.decision.contextual_belief import derive_bindings
+            contextual = ()
+            if self.contextual_belief_rules:
+                from contextlib import nullcontext
+                read_scope = (nullcontext() if self.write_fence is None
+                              else self.write_fence.snapshot_scope())
+                try:
+                    with read_scope:
+                        contextual = derive_bindings(self.cognitive_runtime, agent.agent_id, beliefs,
+                            observations, self.contextual_belief_rules,
+                            None if simulation_tick is None else simulation_tick.tick)
+                except PermissionError:
+                    # A stale/missing read capability grants no typed judgment;
+                    # preserve existing independent lexical/compatibility work.
+                    contextual = ()
             return DecisionContext(
+                contextual_beliefs=contextual,
                 cognition_state=cognition_state,
                 personality=cognition_context.get_personality(),
                 self_model=cognition_context.get_self_model(),
@@ -530,6 +549,7 @@ class AgentTurn:
             raise TypeError("decision_modulation_policy must provide assess(context)")
         motivation, modulation = assess(decision_input)
         decision_input = DecisionContext(
+            contextual_beliefs=decision_input.contextual_beliefs,
             cognition_state=decision_input.cognition_state,
             personality=decision_input.personality,
             self_model=decision_input.self_model,
