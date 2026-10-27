@@ -2694,3 +2694,19 @@ An opt-in, transient decision extension now derives `ContextualBeliefBinding/v1`
 Host-provided `ContextualBeliefRule/v1` definitions declare an exact fact type/predicate/Boolean selector, bounded subjective score adjustment and evidence age. The generic decision layer matches the exact target, action type and method; tool-bearing, ambiguous or unsupported matches add nothing. Applicability requires an unchanged canonical history frontier and an unexpired evidence tick. Any intervening Event conservatively invalidates applicability, including unrelated Events. The Belief remains historical; it does not become a permanent claim about an object.
 
 The real regression uses existing reach failure, qualified consumption, CognitiveBeliefReview, Validator/Applier, then AgentDecision and the ordinary action loop to approach and open. A fixed-context A/B comparison varies only governed Belief and demonstrates the action difference with BehaviorFeedback scoring absent. Later movement/open observations can revise the existing Belief through the same review path; they do not automatically receive the first failure's applicability. This is not general B4, planning or physical learning. [Contract](DATA_CONTRACTS.md#typed-contextual-belief-decision-view).
+
+## 首个受治理的物品拿取纵切（已实现，有限范围）
+
+`items.take` 将经过验证的请求、有限只读物理视图和 `TakePolicy/v1` 交给可替换模型；模型不持有 WorldState 写权限。政策引用已有类型化 Boolean 物性及角色能力，不依赖物品名称。宿主须显式装配政策和 Resolution engine；尚未接入桌面自由输入的自动路由。
+
+支持已注册 character（兼容既有 agent 身份）在同一规范地点取得独立、符合政策、当前无人持有的物品。所有权不是默认拿取权限：owner_id 及一致的 owned_by 保持不变；物品规范位置改为角色身份，并添加 held_by，角色位置不变。part_of、attached_to 和容器内物品不在范围内，不会被隐式拆离。
+
+Resolution 候选绑定原 Attempt、配置和实际读取的状态来源；EventProcessor 在受保护提交边界重新验证相关依赖和全体当前持有关系的缺席。WorldState 先准备并验证完整的位置／关系映射，再联合发布并将两者来源绑定到同一 Event。竞争候选过期时拒绝，不补写失败事件、不重算、不自动重试；无关变化不自动使候选失效。这是现有围栏内的逻辑联合转移，不是跨 Store 或进程崩溃事务。
+
+成功提交后，原行动者可取得私有 item_taken 结果，经既有 Observation、历史资格和实际 L1 消费链处理；仅交付不等于消费，不会自动修订 Belief 或 Goal，也不向玩家 Presentation 添加默认披露。历史交付验证原 Event，不根据当前世界重算成功。容器、搜索、容量、死亡掉落、放下及所有权转移仍未实现。
+
+### 拿取失败候选的裁定上下文（有界修复）
+
+新生成的成功与失败拿取候选都携带 TakeAdjudicationContext/v1。提交前统一核对原 Attempt、规范政策内容身份、读取值及来源、完整相关类型化关系集合和持有条件，不重新调用 provider 或对原 Attempt 重跑裁定。原上下文仍有效的失败才可提交无效果事件；政策或相关依赖已变化则拒绝候选，新独立请求另行裁定。无关世界变化不构成全局失效。历史恢复仅验证原签名记录及上下文绑定，不用当前配置或状态重裁过去。
+
+专用拿取引擎保留早期上下文校验；共享 live 合约不再依赖引擎子类。EventFactory 从受控 Resolution 的原 Attempt 捕获现有显式操作身份（action_type=take、parameters.item_operation=take），并将身份、Attempt 指纹、owner 和 tick 绑定到进程内来源凭据。字段只标识操作，不单独授予世界写入权限。Factory 与 EventProcessor 新事件 apply 前共用验证器要求拿取上下文，后续 handler 独立复核当前政策、状态来源及完整关系。身份不来自 outcome 文本、任意 Event metadata 标签或转移对象的存在性。已记录的当前／祖先事件先复用原证据；历史读取不补造 live 来源绑定，也不能把历史签名本身当作新的执行许可。

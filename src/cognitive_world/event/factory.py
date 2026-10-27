@@ -127,8 +127,44 @@ class EventFactory:
             metadata=metadata,
             simulation_tick=simulation_tick,
         )
-        event._issue_source_receipt("resolution")
+        # Bind the confirmed Attempt's declared operation independently of
+        # optional Event metadata. Only immutable primitive values are retained;
+        # the source receipt remains process-local and is never serialized.
+        operation = parameters.get("item_operation")
+        from cognitive_world.items.take import is_registered_take_operation
+        if is_registered_take_operation(action_type, operation) and (
+            type(action_type) is not str or type(operation) is not str
+        ):
+            raise PermissionError("registered take identity requires canonical string values")
+        origin = (1, snapshot[0], actor_id, action_type,
+                  operation if type(operation) is str else None,
+                  attempt_fingerprint, simulation_tick)
+        event._issue_source_receipt("resolution", live_resolution_origin=origin)
+        validate_live_resolution_entry(event)
         return event
+
+
+def validate_live_resolution_entry(event: Event) -> None:
+    """Live source authority, distinct from verification of committed history."""
+    origin = event._trusted_live_resolution_origin()
+    if origin is None:
+        raise PermissionError("historical Resolution evidence cannot authorize a new apply")
+    version, attempt_id, owner_id, action_type, operation, fingerprint, tick = origin
+    if (version != 1 or attempt_id != event.cause
+            or attempt_id != event.metadata.get("attempt_id")
+            or fingerprint != event.metadata.get("attempt_fingerprint")
+            or tick != event.simulation_tick):
+        raise PermissionError("live Resolution origin binding mismatch")
+    from cognitive_world.items.take import is_registered_take_operation, validate_adjudication_event
+    if is_registered_take_operation(action_type, operation):
+        try:
+            context = validate_adjudication_event(event)
+        except (KeyError, TypeError, ValueError) as exc:
+            raise PermissionError("live take requires its supported adjudication context") from exc
+        if context.attempt_snapshot[1] != owner_id:
+            raise PermissionError("live take owner differs from the confirmed Attempt")
+    elif "take_adjudication_context" in event.metadata:
+        raise PermissionError("take context does not identify the confirmed live operation")
 
 
 @dataclass

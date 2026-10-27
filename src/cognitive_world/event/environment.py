@@ -367,6 +367,9 @@ class ResolutionEffectsHandler(EventHandler):
     def handle_with_world_state(self, event: Event, world_state: WorldState) -> WorldUpdate:
         if not event.has_trusted_source("resolution"):
             raise PermissionError("Resolution effects require a controlled Event")
+        if "take_adjudication_context" in event.metadata:
+            from cognitive_world.items.take import validate_current_adjudication
+            validate_current_adjudication(event, self.processor, world_state)
         if len(event.changes) == 1:
             _validate_resolution_summary(event, effect_present=False)
             return WorldUpdate("environment", "update", {})
@@ -374,6 +377,9 @@ class ResolutionEffectsHandler(EventHandler):
         if not isinstance(event.changes[1], Mapping):
             raise ValueError("Resolution effect must be a typed mapping")
         effect_type = event.changes[1].get("effect_type")
+        if effect_type == "item_take_v1":
+            from cognitive_world.items.take import ItemTakeHandler
+            return ItemTakeHandler(self.processor).handle_with_world_state(event, world_state)
         if effect_type == "physical_state_transition_v1":
             from cognitive_world.physics.adapter import PhysicalTransitionHandler
             return PhysicalTransitionHandler(self.processor).handle_with_world_state(event,world_state)
@@ -384,6 +390,10 @@ class ResolutionEffectsHandler(EventHandler):
         raise LookupError("no installed Resolution effect adapter supports this effect")
 
     def observable_facts_with_world_state(self, event, update, world_state):
+        if (len(event.changes) == 2 and isinstance(event.changes[1], Mapping)
+                and event.changes[1].get("effect_type") == "item_take_v1"):
+            from cognitive_world.items.take import ItemTakeHandler
+            return ItemTakeHandler(self.processor).observable_facts_with_world_state(event, update, world_state)
         if (len(event.changes) == 2 and isinstance(event.changes[1], Mapping)
                 and event.changes[1].get("effect_type") == "physical_state_transition_v1"):
             from cognitive_world.physics.adapter import PhysicalTransitionHandler

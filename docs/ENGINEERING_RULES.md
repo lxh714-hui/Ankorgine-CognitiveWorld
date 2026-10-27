@@ -634,3 +634,14 @@ Follow the [authoritative identity-continuity principle](ARCHITECTURE.md#entity-
 - Preserve closed codec registration, scalar/unit constraints and cross-record validation at capture/restore. Unknown types/versions, missing endpoints, composition cycles, ownership/possession inconsistency and stale candidate bindings must fail closed. New domain records fit existing envelopes; never upgrade/re-sign legacy history to make a model work.
 - Newly issued failed Boolean candidates must retain their captured preconditions through the existing pre-commit read guard. Reject changed reads before an empty update or history append; do not retry, backdate a replacement result or upgrade legacy historical failures. Keep already committed history immutable, and test unrelated changes, duplicate delivery and signed restore independently.
 - Keep reach, physical transitions, perception, cognition and Presentation separate. The new transition handler emits no new player-visible facts; adding such facts later requires a justified typed projection and its existing authorization path. Retain L1, B2, Goal, Timeline and Runtime fence regressions. [Contract](DATA_CONTRACTS.md#physical-state-and-transition-contracts-v1-json-v5).
+
+## 物品拿取的有限安全规则
+
+- 模型只能接收有限只读值，不得持有世界写权限、签章或历史追加能力；返回成功不构成授权。适配器与提交处理器独立验证候选。
+- 拿取不得隐式转移所有权、拆离结构、遍历容器或改变角色位置。不得用两次普通更新模拟位置和 held_by 的原子发布。
+- 负向持有条件在当前规范关系集合中重新检查；已有状态值按原来源验证。过期候选在 apply 前拒绝，不产生假失败历史；apply 后不确定写入遵守既有恢复冻结。
+- 宿主未装配政策或恢复后缺少装配时失败关闭，不能推断配置。关系视图最多支持 16 条相关类型化关系，超出返回不支持；当前扫描不是通用关系索引。
+
+- 成功和无效果失败的拿取候选必须保留并在 apply 前复核同一裁定上下文。不能以只验证已存在的状态槽代替政策及完整关系负向条件检查；不能让过期失败事件进入正式历史。保留有效无效果失败、新独立请求与过期候选拒绝三者的区别。新上下文值只使用已批准的闭合版本，历史验证不得调用当前世界或 provider 重演裁定。
+
+- 新拿取的必需上下文必须在共享 live 边界执行，不能仅依赖专用 Resolution 子类。依据已确认原 Attempt 的显式注册操作，而非 outcome 文本或任意 metadata 识别。当前历史证据可支持获准的交付／消费，不是新的世界执行许可；进程内 live 来源绑定不得序列化成历史授权凭据。

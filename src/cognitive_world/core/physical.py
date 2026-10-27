@@ -296,3 +296,35 @@ class CandidateStateDelta:
             raise ValueError("invalid candidate state identity")
         self.expected.__post_init__()
         self.replacement.__post_init__()
+
+
+@dataclass(frozen=True)
+class PossessionTransition:
+    """Closed v1 joint location/holding delta; never a write capability."""
+    version: int
+    item_id: str
+    actor_id: str
+    expected_location: str
+    expected_owner: str | None
+    expected_relation: PhysicalRelation | None
+    relation: PhysicalRelation
+
+    def __post_init__(self):
+        version(self.version)
+        for value in (self.item_id, self.actor_id, self.expected_location):
+            identity(value)
+        if self.expected_owner is not None:
+            identity(self.expected_owner)
+        if self.item_id == self.actor_id or type(self.relation) is not PhysicalRelation:
+            raise ValueError("invalid possession transition endpoints")
+        self.relation.__post_init__()
+        prior = self.expected_relation
+        if prior is not None:
+            if type(prior) is not PhysicalRelation:
+                raise TypeError("typed prior relation required")
+            prior.__post_init__()
+            if (prior.source, prior.target) != (self.item_id, self.actor_id) or "held_by" in prior.kinds:
+                raise ValueError("invalid prior possession relation")
+        expected_kinds = (() if prior is None else prior.kinds) + ("held_by",)
+        if (self.relation.source, self.relation.target, self.relation.kinds) != (self.item_id, self.actor_id, expected_kinds):
+            raise ValueError("take must add only the holding kind")

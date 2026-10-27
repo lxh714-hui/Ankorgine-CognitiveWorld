@@ -151,6 +151,18 @@ def verify_and_restore_event_records(
         # The durable signature authenticates the historical processor result.
         # Only after that verification may the process-local source seal be rebuilt.
         event._issue_source_receipt(attestation["event_source"])
+        from cognitive_world.core.physical import PossessionTransition
+        if any(isinstance(change, dict) and (
+                change.get("effect_type") == "item_take_v1"
+                or type(change.get("transition")) is PossessionTransition)
+                for change in event.changes):
+            # Authenticate first, then check this new closed historical effect.
+            # Never re-evaluate old eligibility against the restored world.
+            from cognitive_world.items.take import validate_event
+            validate_event(event)
+        if "take_adjudication_context" in event.metadata:
+            from cognitive_world.items.take import validate_adjudication_event
+            validate_adjudication_event(event)
         if event.dialogue_payload is not None:
             from cognitive_world.core.attributed_claim import validate_claim_for_event
             validate_claim_for_event(event.dialogue_payload.claim, event=event)

@@ -792,3 +792,29 @@ py -3.14 -B -m pytest tests/test_contextual_belief.py tests/test_memory_event_in
 
 
 Final verification after the compatibility correction: **1862 passed, 9 skipped, 145.34s, exit 0** using the complete-suite command above. The final new-file selection passed **18 tests, 2.11s, exit 0**. The nine skips remain explicit local Ollama integration/evaluation opt-ins (cognitive review, dialogue, embedding model, physical effects, two insight probes, insight protocol, insight semantic evaluation and insight-unit review). No real model or visible desktop acceptance was performed. Six-file in-memory compilation and Python 3.10 syntax parsing, added local anchors and both Git whitespace checks passed; this is not Python 3.10 runtime validation. An engineering-only decision trace confirmed Open base 0.90 plus typed contextual -0.25 = 0.65 versus Move 0.80 with BehaviorFeedback absent. These diagnostics do not enter player Presentation.
+
+## 受治理 item-take 窄纵切
+
+实现独立 items.take 模型与宿主政策、PossessionTransition/v1 联合状态转移、提交时依赖复核，以及原 actor 私有 item_taken Observation。生产接口由宿主显式装配，尚无桌面自动动作路由；不新增 Belief／Goal 自动修订、容器或所有权转移。
+
+新增 tests/test_item_take.py 通过真实安装、Attempt、Resolution、EventProcessor、L1、签名恢复和分叉验证正常与负向路径；本轮实际验证结果见交付报告，不沿用历史全套计数。宿主政策重装配、关系扫描性能及 checkpoint-only 崩溃恢复限制仍保留；没有自动安装续跑或跨 Store 回滚保证。
+
+本轮验证：新增拿取测试 24 passed；相关组合 297 passed（44.07s）；完整集 1886 passed、9 skipped（163.58s），退出码均为 0。九项跳过均为显式本地 Ollama 集成／评估 opt-in，没有执行真实模型或可见桌面验收。新增／修改 Python 文件通过内存编译及 Python 3.10 语法解析，未执行 Python 3.10 运行验证。
+
+### 拿取审查修复：失败候选与对抗性回归
+
+已按批准的最小增量增加 TakeAdjudicationContext/v1 metadata，成功和失败候选均在 apply 前验证原政策、Attempt 和实际依赖，修复旧失败在政策改变或新增结构后仍入历史的问题。原有效失败保持无效果语义；不重算、不重试、不改写旧记录。扩展类型正确但语义错误的 provider 回归，以及冷恢复后的联合状态、私有历史交付、实际 L1 与重复消费断言。未改变 PossessionTransition/v1、codec 类型允许集、签名算法或 Bundle 版本。
+
+本轮实际验证：修复前政策替换／新增 attached_to／新增 part_of 三项回归均复现（3 failed，0.53s，exit 1）；修复后的 P2 与有效失败对照为 4 passed（0.47s），增强恶意候选与冷恢复为 6 passed（1.99s）。相关组合 310 passed（38.43s），完整集 1899 passed、9 skipped（143.31s），最终成功命令均 exit 0。九项跳过仍为显式本地 Ollama 集成／评估 opt-in；无真实模型或可见桌面验收。修改的四份 Python 文件通过内存编译及 Python 3.10 语法解析，不代表 Python 3.10 运行验证。
+
+### 拿取上下文入口修复
+
+新拿取 resolve 在裁定返回后强制要求闭合上下文，并绑定实际 Attempt、政策和 tick；成功效果 handler 同样拒绝缺上下文的新 apply。历史读取不使用该新操作入口，继续按原签名载荷验证无上下文旧记录，不补造、不重签。修正 reads 文档为值摘要、存在性及来源绑定，不包含原始状态值。未改 PossessionTransition/v1、codec 允许集、签名算法、Bundle 或历史记录。
+
+本轮实际验收：修复前两项漏上下文回归均复现（2 failed，0.55s，exit 1）；修复后两项通过（2 passed，0.49s），包括畸形／不匹配上下文的入口组合为 7 passed（0.51s）。定向组合 227 passed（33.00s）；完整集仅运行一次，1906 passed、9 skipped（132.98s），成功命令均 exit 0。修复前在仓库外保存的成功／失败两条无上下文原签名链，经修复后的验证专用 trust 验证及逐字节重序列化通过，未调用新拿取裁定或签名签发。九项跳过仍为显式本地 Ollama opt-in。修改的两份 Python 文件通过内存编译及 Python 3.10 语法解析，未执行 Python 3.10 运行或可见桌面验收。
+
+### 通用拿取共享 live 入口修复
+
+EventFactory 从经确认的原 Attempt 绑定显式操作身份；共享验证器在 Factory 和 EventProcessor 新事件 apply 前要求注册拿取的闭合上下文，覆盖通用宿主策略与直接 Factory。已有 handler 仍复核政策、值摘要、来源及完整相关关系。进程内来源绑定不被 codec 序列化；历史读取与已记录事件交付不补造绑定，不改变旧签名语义。历史记录的有效性不自动授权在另一历史中新执行。未增持久字段、codec 类型、签名算法或 Bundle 版本。
+
+本轮实际验收：修复前通用 Flow／直接 Factory 的失败缺上下文及结构变化复现为 4 failed、2 passed（0.68s，exit 1）；修复后该选择 6 passed（0.60s），拿取矩阵 85 passed（4.43s），扩大回归 449 passed（71.17s）。首轮全套 1947 passed、9 skipped（147.44s）后，追加对照发现非原生字符串身份被丢弃的问题；新增回归先复现（1 failed，0.53s，exit 1），修正为明确拒绝后最终定向组合 450 passed（72.89s），最终全套 1948 passed、9 skipped（143.96s）。本轮因此执行了两次全套，首轮不是最终生产版本验收；成功命令均 exit 0。旧两条无上下文原签名链只读验证和逐字节重序列化通过，未重新裁定／签发历史签名。九项跳过仍为显式本地 Ollama 集成／评估 opt-in。五份 Python 文件通过内存编译及 Python 3.10 语法解析，未执行 Python 3.10 运行、真实模型或可见桌面验收。

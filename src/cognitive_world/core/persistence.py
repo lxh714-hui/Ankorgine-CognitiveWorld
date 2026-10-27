@@ -331,7 +331,7 @@ class PersistedValueCodec:
         from cognitive_world.core.object_appearance import ObjectAppearance
         from cognitive_world.core.interaction_range import InteractionRangePolicy
         from cognitive_world.core.physical import (PhysicalPropertyDefinition,PhysicalValue,PhysicalStateSet,PhysicalRelation,PhysicalCondition,PhysicalTransitionRule)
-        from cognitive_world.core.physical import CandidateStateDelta
+        from cognitive_world.core.physical import CandidateStateDelta, PossessionTransition
         from cognitive_world.core.entity import Entity, SafetySubjectProfile
         from cognitive_world.core.event import Event
         from cognitive_world.core.attributed_claim import (
@@ -347,7 +347,7 @@ class PersistedValueCodec:
         from cognitive_world.world_norms.models import (
             GovernanceStatus, NormativeForce, NormRule, NormVersion, WorldNorms,
         )
-        for item in (PhysicalPropertyDefinition,PhysicalValue,PhysicalStateSet,PhysicalRelation,PhysicalCondition,PhysicalTransitionRule,CandidateStateDelta,InteractionRangePolicy, ObservationZone, ObservationRangePolicy, ObjectAppearance, Entity, SafetySubjectProfile, Event, WorldUpdate, DoorState, PassageState,
+        for item in (PhysicalPropertyDefinition,PhysicalValue,PhysicalStateSet,PhysicalRelation,PhysicalCondition,PhysicalTransitionRule,CandidateStateDelta, PossessionTransition,InteractionRangePolicy, ObservationZone, ObservationRangePolicy, ObjectAppearance, Entity, SafetySubjectProfile, Event, WorldUpdate, DoorState, PassageState,
                      AttributedClaim, AttributedClaimDraft, ClaimPropertyContract, DialoguePayload,
                      EventProcessingEvidence, EventStatePhase, EventTimeObservationContext,
                      ObservableFact, ObservableFactDraft,
@@ -390,11 +390,11 @@ class PersistedValueCodec:
                 raise TypeError(f"unregistered persisted record: {type(value).__qualname__}")
             from cognitive_world.core.physical import (
                 PhysicalPropertyDefinition, PhysicalValue, PhysicalStateSet, PhysicalRelation,
-                PhysicalCondition, PhysicalTransitionRule, CandidateStateDelta,
+                PhysicalCondition, PhysicalTransitionRule, CandidateStateDelta, PossessionTransition,
             )
             if type(value) in (PhysicalPropertyDefinition, PhysicalValue, PhysicalStateSet,
                                PhysicalRelation, PhysicalCondition, PhysicalTransitionRule,
-                               CandidateStateDelta):
+                               CandidateStateDelta, PossessionTransition):
                 value.__post_init__()
             record_fields = fields(value)
             # Memory/v1 predates the explicit schema and provenance fields.

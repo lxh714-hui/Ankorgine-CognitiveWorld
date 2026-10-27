@@ -2322,3 +2322,29 @@ Derivation holds the existing Runtime snapshot fence when bound and reuses L1His
 Exact target namespace/identity, action type and method are required; this first matcher does not support tool-bearing candidates. One unambiguous eligible binding contributes adjustment multiplied by that Belief's existing confidence. Multiple matching Beliefs do not accumulate an ambiguous preference. The central AgentDecision path applies this factor after ordinary review and before the separate BehaviorFeedback adapter. Structured Observation-shaped judgments are not counted by the legacy lexical Belief-alignment factor, including unsupported contextual matches; free-text legacy Beliefs retain their existing heuristic behavior.
 
 Belief changes still use CognitiveBeliefReview -> BeliefUpdateProposal -> CognitiveUpdateValidator -> CognitiveUpdateApplier -> existing BeliefStore. No binding, receipt or rule is serialized. Existing bounded JSON content and source metadata, cognition snapshot, codecs, signatures, B2 and Bundle versions remain unchanged. Restore preserves the governed Belief but creates no consumption receipt or matching view; missing evidence/receipt defers matching. Any new Event, changed physical conditions or expired age prevents the old binding from controlling a newly assembled decision. This deliberately conservative policy may omit useful old knowledge; selective dependency invalidation and durable contextual inference semantics remain future work.
+
+## Item-take 联合效果与历史兼容
+
+新增闭合 `PossessionTransition/v1`：version、item_id、actor_id、expected_location、expected_owner、expected_relation、relation。最后两项是类型化 PhysicalRelation（前者允许缺席）；新关系只能在原种类集合上增加 held_by，端点必须精确对应物品与行动者。位置与关系作为一次 item_possession/take 更新共同验证和发布。
+
+`item_take_v1` 效果携带该转移、闭合 TakePolicy/v1（eligibility_property、capability）、expected_no_holder=true、状态槽 reads、原 Attempt snapshot 和 tick。原 Attempt 指纹、目标、动作及因果来源须一致。已有值使用状态槽来源与新鲜度验证；无人持有是对提交时规范关系集合的负向检查，不补造历史来源记录。未知版本／类型失败关闭。PossessionTransition 显式加入现有闭合 codec，恢复在签名验证后检查该效果绑定；不改变旧记录、签名算法或外层 Bundle 版本。旧程序不认识新类型时拒绝，不作静默降级。
+
+受信任处理证据中的 action_result/item_taken=true 只描述该 Event 的持有结果，subject 是物品、location 是原地点，仅原 actor 获准；不宣称所有权改变。普通 L1 receipt 不是 B2 持久消费证明。重复交付不重复世界变化或逻辑消费。
+
+政策是宿主显式装配的运行配置，未新增政策持久化／自动恢复协议；恢复后新请求必须重新安装政策。历史结果按原签名效果及处理证据验证，不依赖当前政策或当前物品位置。检查点保留已提交联合状态；apply 后正式历史写入不确定仍触发现有 recovery-required，禁止后续保护写入和 checkpoint，不自动回滚或续跑。
+
+### TakeAdjudicationContext/v1（新候选）
+
+经维护者批准，在现有 Event.metadata 的 take_adjudication_context 项中保存闭合版本化值：version=1、attempt_snapshot、policy、policy_fingerprint、reads、relations、expected_no_holder、tick。policy 使用 TakePolicy/v1 的完整规范内容；指纹为带 TakePolicy/v1 契约标记的规范 JSON SHA256，不使用对象身份或进程内缓存。相同规范内容是同一政策身份；这不是政策安装／卸载 epoch。
+
+reads 保存现有状态槽的值摘要（value_fingerprint）、存在性（present）、来源分类及来源事件绑定（最多 128 项），不包含原始状态槽值；relations 是排序、去重、最多 16 条的相关 PhysicalRelation 快照。expected_no_holder 描述原裁定的持有条件：成功必须为 true；已经持有而失败的合法请求可为 false。不为缺席关系伪造来源，提交前从规范当前集合重新检查关系与持有条件。相同终值但来源事件变化仍按读取绑定拒绝。
+
+成功与失败候选在进入 apply 前共用资格复核；成功路径仍保留原转移校验。失败仍是无效果 Resolution，不产生拿取成功事实，也不改为新成功或新失败。结构新增、政策替换／缺失及相关读取／来源变化导致确定性拒绝；无关变化不自动使候选失效。
+
+该新增项沿用现有 metadata codec 和签名包络，不新增 codec 类型、不改变 PossessionTransition/v1、签名算法或 Bundle 版本。当前 reader 对存在但未知／畸形的上下文失败关闭。既有无此字段的历史记录保留原义，不补造上下文、不重签，也不宣称旧记录已通过本次新复核。历史读取只检查原事件与上下文的一致绑定，不查询当前政策或世界来重算结果。
+
+新提交与历史读取分开：专用引擎继续验证裁定返回值；共享 EventFactory／EventProcessor live 验证器依据经确认的原 Attempt 的显式操作身份统一要求上下文，覆盖通用宿主策略、直接 Factory 及 process／process_with_evidence／dispatch_with_evidence。缺失、未知版本或错误的 Attempt／政策／tick 绑定在新 apply 前拒绝；依赖新鲜度仍由已有 handler 独立复核，不能以字段缺席推断新提交是 legacy。
+
+进程内来源凭据增加不序列化的 live Resolution origin/v1 绑定：版本、原 Attempt ID、owner、action_type、显式 item_operation（或无）、Attempt 指纹（普通兼容操作可无）及裁定 tick。它由 EventFactory 从已确认原快照产生，使用不可变原始值，并受现有 Event 来源封印保护；不是调用方提供的 metadata 标签。注册拿取身份复用既有 take/take 操作合约，非操作许可本身；命中该身份但使用非原生字符串表示时明确拒绝，不能把它丢弃成无操作后跳过上下文。其他操作不被全局要求携带拿取上下文。
+
+EventProcessor 只在新事件分支、进入 apply 前核验此来源绑定；已记录且匹配的当前／祖先事件复用已有证据。签名历史恢复不重建 live 绑定：历史事件仍可验证、观察、消费，但未属于当前规范历史的历史事件不能据此获得新的 apply 权限。绑定位于私有来源凭据中，既有 codec 不编码它；未新增持久字段或允许类型，未改签名算法、PossessionTransition/v1 或 Bundle 版本，不重写／重签旧记录。检查点仍不承诺恢复尚未提交的 live 候选。

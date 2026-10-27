@@ -52,6 +52,7 @@ class EventProcessor:
     persistence_trust: PersistenceTrust | None = None
     persistence_codec: PersistedValueCodec | None = None
     action_expectations: object | None = field(default=None, init=False, repr=False)
+    take_policy: object | None = field(default=None, kw_only=True)
     write_fence: RuntimeWriteFence | None = None
 
     def __post_init__(self) -> None:
@@ -198,6 +199,9 @@ class EventProcessor:
             seal_initialization()
 
         try:
+            if event.has_trusted_source("resolution"):
+                from cognitive_world.event.factory import validate_live_resolution_entry
+                validate_live_resolution_entry(event)
             try:
                 handler = self._handlers[event.type]
             except KeyError:

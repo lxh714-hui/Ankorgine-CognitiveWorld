@@ -19,6 +19,7 @@ class _EventSourceReceipt:
     seal: object
     source: str
     snapshot: tuple[object, ...]
+    live_resolution_origin: tuple[object, ...] | None = None
 
 
 @dataclass
@@ -61,12 +62,27 @@ class Event:
             deepcopy(self.dialogue_payload),
         )
 
-    def _issue_source_receipt(self, source: str) -> None:
+    def _issue_source_receipt(
+        self, source: str, *, live_resolution_origin: tuple[object, ...] | None = None
+    ) -> None:
         if source not in {"resolution", "system"}:
             raise ValueError("unsupported Event source")
+        if live_resolution_origin is not None and (
+            source != "resolution" or type(live_resolution_origin) is not tuple
+            or len(live_resolution_origin) != 7
+            or type(live_resolution_origin[0]) is not int or live_resolution_origin[0] != 1
+            or any(value is not None and type(value) not in {str, int}
+                   for value in live_resolution_origin)
+        ):
+            raise ValueError("invalid live Resolution origin")
         self._source_receipt = _EventSourceReceipt(
-            _EVENT_SOURCE_SEAL, source, self._source_snapshot()
+            _EVENT_SOURCE_SEAL, source, self._source_snapshot(), live_resolution_origin
         )
+
+    def _trusted_live_resolution_origin(self) -> tuple[object, ...] | None:
+        if not self.has_trusted_source("resolution"):
+            return None
+        return self._source_receipt.live_resolution_origin
 
     def has_trusted_source(self, source: str | None = None) -> bool:
         receipt = self._source_receipt

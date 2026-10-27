@@ -717,6 +717,38 @@ class WorldState:
             if old_present != new_present or old_fingerprint != new_fingerprint:
                 origins[slot] = _SlotOrigin("event", new_present, new_fingerprint, event_id)
 
+    def prepare_possession_transition(self, transition):
+        """Read-only staging shared by pre-apply validation and final publication."""
+        from cognitive_world.core.physical import PossessionTransition, PhysicalRelation, validate_physical_world
+        if type(transition) is not PossessionTransition:
+            raise TypeError("closed possession transition required")
+        transition.__post_init__()
+        t = transition
+        item, actor = self._entities.get(t.item_id), self._entities.get(t.actor_id)
+        if (item is None or actor is None or actor.type not in {"character", "agent"}
+                or item.type in {"character", "agent", "location"}
+                or item.id != t.item_id or actor.id != t.actor_id
+                or item.owner_id != t.expected_owner
+                or self._locations.get(t.item_id) != t.expected_location
+                or self._locations.get(t.actor_id) != t.expected_location
+                or self._entities.get(t.expected_location) is None
+                or self._entities[t.expected_location].type != "location"):
+            raise PermissionError("possession identities/location/owner changed or unsupported")
+        for relation in self._relationships.values():
+            if type(relation) is not PhysicalRelation:
+                continue
+            if relation.source == t.item_id and "held_by" in relation.kinds:
+                raise PermissionError("item already has a holder")
+            if t.item_id in (relation.source, relation.target) and set(relation.kinds) & {"part_of", "attached_to"}:
+                raise PermissionError("structured items are unsupported")
+        if self._relationships.get((t.item_id, t.actor_id)) != t.expected_relation:
+            raise PermissionError("destination relation changed")
+        locations, relations = deepcopy(self._locations), deepcopy(self._relationships)
+        locations[t.item_id] = t.actor_id
+        relations[(t.item_id, t.actor_id)] = t.relation
+        validate_physical_world(self._entities, locations, relations)
+        return locations, relations
+
     def apply_event(self, event: Event, update: WorldUpdate) -> None:
         """Apply an update only inside EventProcessor's scoped commit capability.
 
@@ -732,6 +764,16 @@ class WorldState:
             raise TypeError("update must be a WorldUpdate")
         if not permit_matches(self, event, update):
             raise PermissionError("WorldState events can only be applied by EventProcessor")
+
+        if update.target_id == "item_possession":
+            if update.operation != "take" or update.metadata:
+                raise ValueError("unsupported possession operation")
+            locations, relations = self.prepare_possession_transition(update.payload)
+            origins = dict(self._slot_origins)
+            self._record_event_slot_changes("locations", self._locations, locations, event.id, origins)
+            self._record_event_slot_changes("relationships", self._relationships, relations, event.id, origins)
+            self._locations, self._relationships, self._slot_origins = locations, relations, origins
+            return
 
         if update.target_id == "runtime_content":
             from cognitive_world.content.installation import (ContentInstallationRecord,
