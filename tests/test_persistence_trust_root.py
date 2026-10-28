@@ -89,3 +89,58 @@ def test_replacing_key_ring_with_another_local_root_does_not_trust_old_signature
     shutil.copyfile(second_path, first_path)
     replacement = WindowsDpapiPersistenceTrust.open(first_path)
     assert not replacement.verify("purpose", b"payload", signature)
+
+
+@pytest.mark.parametrize("location", ["envelope", "ring"])
+@pytest.mark.parametrize("version", [True, 1.0])
+def test_dpapi_version_requires_an_integer_not_numeric_equality(tmp_path, location, version):
+    path = tmp_path / "trust.json"
+    trust = WindowsDpapiPersistenceTrust.initialize(path)
+    signature = trust.sign("synthetic-purpose", b"synthetic-payload")
+    if location == "envelope":
+        envelope = json.loads(signature)
+        envelope["version"] = version
+        assert not trust.verify("synthetic-purpose", b"synthetic-payload", json.dumps(envelope).encode())
+    else:
+        ring = json.loads(path.read_bytes())
+        ring["version"] = version
+        path.write_text(json.dumps(ring), encoding="utf-8")
+        original = path.read_bytes()
+        with pytest.raises(ValueError): WindowsDpapiPersistenceTrust.open(path)
+        with pytest.raises(ValueError): trust.sign("synthetic-purpose", b"synthetic-payload")
+        assert not trust.verify("synthetic-purpose", b"synthetic-payload", signature)
+        assert path.read_bytes() == original
+
+
+@pytest.mark.parametrize("phase", ["protect", "unprotect"])
+def test_dpapi_crypto_failure_does_not_rebuild_root(tmp_path, monkeypatch, phase):
+    path = tmp_path / "trust.json"
+    def fail(cls, value): raise OSError("injected DPAPI failure")
+    if phase == "protect":
+        monkeypatch.setattr(WindowsDpapiPersistenceTrust, "_protect", classmethod(fail))
+        with pytest.raises(OSError): WindowsDpapiPersistenceTrust.initialize(path)
+        assert not path.exists()
+    else:
+        trust = WindowsDpapiPersistenceTrust.initialize(path)
+        signature = trust.sign("synthetic", b"payload")
+        original = path.read_bytes()
+        monkeypatch.setattr(WindowsDpapiPersistenceTrust, "_unprotect", classmethod(fail))
+        with pytest.raises(OSError): WindowsDpapiPersistenceTrust.open(path)
+        with pytest.raises(OSError): trust.sign("synthetic", b"payload")
+        assert not trust.verify("synthetic", b"payload", signature)
+        assert path.read_bytes() == original
+
+
+def test_concurrent_dpapi_initialization_has_one_winner(tmp_path):
+    from concurrent.futures import ThreadPoolExecutor
+    path = tmp_path / "trust.json"
+    def initialize(_):
+        try:
+            WindowsDpapiPersistenceTrust.initialize(path)
+            return True
+        except FileExistsError: return False
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        assert sum(pool.map(initialize, range(8))) == 1
+    trust = WindowsDpapiPersistenceTrust.open(path)
+    signature = trust.sign("synthetic", b"payload")
+    assert WindowsDpapiPersistenceTrust.open(path).verify("synthetic", b"payload", signature)

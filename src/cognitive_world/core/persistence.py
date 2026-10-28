@@ -137,6 +137,7 @@ class WindowsDpapiPersistenceTrust:
             required = {"format", "version", "algorithm", "key_id", "purpose", "signature"}
             if (not isinstance(envelope, dict) or set(envelope) != required
                     or envelope["format"] != self._FORMAT
+                    or type(envelope["version"]) is not int
                     or envelope["version"] != self._VERSION
                     or envelope["algorithm"] != self._ALGORITHM
                     or envelope["purpose"] != purpose
@@ -204,6 +205,7 @@ class WindowsDpapiPersistenceTrust:
         if (not isinstance(value, dict) or set(value) != {
                 "format", "version", "algorithm", "active_key_id", "keys"
             } or value["format"] != "cognitive-world-dpapi-key-ring"
+                or type(value["version"]) is not int
                 or value["version"] != 1 or value["algorithm"] != self._ALGORITHM
                 or not isinstance(value["active_key_id"], str)
                 or not isinstance(value["keys"], list) or not value["keys"]):
