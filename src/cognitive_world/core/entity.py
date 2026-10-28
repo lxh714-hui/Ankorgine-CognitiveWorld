@@ -46,6 +46,12 @@ class Entity:
     safety_profile: SafetySubjectProfile | None = None
 
     def __post_init__(self) -> None:
+        from cognitive_world.core.life import LifeState
+        if "life" in self.state:
+            life = self.state["life"]
+            if type(life) is not LifeState:
+                raise ValueError("typed LifeState required")
+            life.__post_init__()
         from cognitive_world.core.physical import PhysicalStateSet,PhysicalTransitionRule
         if "physical" in self.state:
             physical=self.state["physical"]

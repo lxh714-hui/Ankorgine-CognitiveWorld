@@ -55,6 +55,8 @@ class EventProcessor:
     take_policy: object | None = field(default=None, kw_only=True)
     write_fence: RuntimeWriteFence | None = None
 
+    life_authority: object | None = field(default=None, repr=False, kw_only=True)
+
     def __post_init__(self) -> None:
         # Keep legacy construction usable while ensuring this processor always
         # has the same EventHistory-based replay guard used by Runtime callers.
@@ -201,7 +203,7 @@ class EventProcessor:
         try:
             if event.has_trusted_source("resolution"):
                 from cognitive_world.event.factory import validate_live_resolution_entry
-                validate_live_resolution_entry(event)
+                validate_live_resolution_entry(event, self.life_authority)
             try:
                 handler = self._handlers[event.type]
             except KeyError:

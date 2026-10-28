@@ -163,6 +163,21 @@ def verify_and_restore_event_records(
         if "take_adjudication_context" in event.metadata:
             from cognitive_world.items.take import validate_adjudication_event
             validate_adjudication_event(event)
+        for effect in event.changes[1:]:
+            if type(effect) is dict and effect.get("effect_type") in ("life_transition_v1", "life_transition_v2"):
+                from cognitive_world.resolution.life import validate_effect
+                if len(event.changes) != 2:
+                    raise PermissionError("historical life effect has additional effects")
+                try:
+                    snapshot = effect["authorization"]["body"]["attempt"]
+                    validate_effect(effect, snapshot, event.simulation_tick)
+                    from cognitive_world.resolution.life import verify_bound_recipients
+                    verify_bound_recipients(effect, trust, event_id=event.id)
+                    if (snapshot[0] != event.cause
+                            or event.changes[0] != {"success": True, "outcome": "life state changed"}):
+                        raise PermissionError("historical life result binding mismatch")
+                except (KeyError, TypeError, IndexError, ValueError) as exc:
+                    raise PermissionError("invalid historical life binding") from exc
         if event.dialogue_payload is not None:
             from cognitive_world.core.attributed_claim import validate_claim_for_event
             validate_claim_for_event(event.dialogue_payload.claim, event=event)
