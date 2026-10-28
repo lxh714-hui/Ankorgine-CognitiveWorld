@@ -64,25 +64,13 @@ prompt templates. Public research may inform independently designed ideas.
 Dependencies and models retain
 their own licenses; CognitiveWorld cannot license rights it does not hold.
 
-## CLA process: manual and not yet finalized
-
-[CLA.md](CLA.md) and [CCLA.md](CCLA.md) are unexecuted legal-review drafts.
-There is no configured CLA Bot, automated signature verification or enforced
-GitHub CLA check in the inspected worktree. A PR is not a signature. Contributions
-requiring a CLA/CCLA **must not merge before the applicable agreement is finalized,
-signed and verified**, including signatory authority and covered scope. This is a
-manual policy, not technical enforcement. The private signing/contact channel
-remains to be established; do not publish identity/signature records in PRs.
-
-### Public repository administration TODO
+## Public repository administration TODO
 
 This is the record for new public-repository administration work, not a second
 engine/MVP roadmap. Reference these IDs rather than duplicating their status.
 
 | ID | Status / priority | Dependency and reason | Acceptance |
 |---|---|---|---|
-| PUBLIC-01 | OPEN / P0 before external contributions | Steward identity and legal/privacy review unfinished | Confirm rights holders, final forms, signers, scope and secure contact/signature records |
-| PUBLIC-02 | TODO / P1 before automated merge claims | Depends on PUBLIC-01 and repository admin access; no CLA automation exists | Configure required verification, test amended PRs and corporate scope; missing authorization must not pass |
 | PUBLIC-03 | OPEN / P0 before public release | Existing/migrated resources and dependency/model notices need review | Establish ownership/permission, required notices and approved release scope |
 | PUBLIC-04 | DEFERRED / P2 | Competition-specific restrictions would require independent legal/license strategy | If pursued, separately assess AGPL incompatibility; never disguise non-compete terms as unchanged AGPL |
 
@@ -92,7 +80,6 @@ Timeline ancestry debt or unfreeze D3.2.4.
 ## Licensing and identity
 
 The selected code license is **AGPL-3.0-only**, with the unchanged GNU text in
-[LICENSE](LICENSE). CLA grants may support separate commercial licensing only
-for rights actually granted; they do not revoke existing AGPL rights or prohibit
-compliant competition. [TRADEMARKS.md](TRADEMARKS.md) is a separate draft brand
-policy. Opening a PR does not transfer copyright or execute an agreement.
+[LICENSE](LICENSE). Opening a PR does not transfer copyright.
+
+Contact: ankorgine@outlook.com

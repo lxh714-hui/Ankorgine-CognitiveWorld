@@ -17,5 +17,4 @@ resources, model weights or external contributions. Such material retains its
 own applicable license and notice requirements. The project's chosen license
 is AGPL-3.0-only; it cannot grant rights the project does not hold.
 
-CLA, CCLA and trademark-policy drafts remain drafts, not signed agreements or
-claims of registered trademarks. See CONTRIBUTING.md and THIRD_PARTY_NOTICES.md.
+See CONTRIBUTING.md and THIRD_PARTY_NOTICES.md.

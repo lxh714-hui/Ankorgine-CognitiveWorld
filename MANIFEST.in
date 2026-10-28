@@ -1,4 +1,4 @@
-include README.md LICENSE AGENTS.md CLA.md CCLA.md CONTRIBUTING.md TRADEMARKS.md
+include README.md LICENSE AGENTS.md CONTRIBUTING.md
 include PROVENANCE.md THIRD_PARTY_NOTICES.md
 recursive-include docs *.md
 recursive-include tests *.py

@@ -60,6 +60,8 @@ flowchart LR
 
 当前重点是可运行、可验证的小型世界。新增物理纵切使用可替换的声明式布尔规则，数值物性声明尚不等于数值动力学；距离观察和交互采用显式配置的一维共享坐标域。它们不是完整 3D、FOV、遮挡或通用物理引擎。行为反馈按明确行动与方法匹配，不等于通用学习或 Belief 修订。
 
+当前已实现操作特定的生命状态转换及接收者授权绑定；完整的死亡观察／L1 消费链和死亡后自动物品处置仍未完成。这不构成完整死亡生命周期，也不提供通用契约准入、通用冲突仲裁、补偿、全局 exactly-once 或跨 Store 崩溃原子性。
+
 恢复以已发布 checkpoint 为准。命令行与生产组件回归覆盖不替代完整可见桌面或真实模型验收。声明最低 Python 3.10；本轮验证环境为 Python 3.14.7，未重新验证所有受支持版本。
 
 ## 环境与启动
@@ -97,9 +99,13 @@ $env:COGNITIVEWORLD_INPUT_UNDERSTANDING_TIMEOUT = '8.0'
 
 社会化示例在指定目录创建本地签名存档；请为独立实验使用不同目录。示例是开发宿主，不是完整桌面玩法。
 
+`--contrasting-receivers` 展示面对同一陈述时，不同行动偏好如何导致不同的行为。最终终端汇总本身不证明接收者获得了不同证据，也不证明完整的信息隔离。
+
 ## 验证与测试
 
 本次物理里程碑发布复验（Python 3.14.7）：定向回归 **339 passed，0 skipped，0 failed**（55.61 秒）；完整回归 **1832 passed，9 skipped，0 failed**（148.17 秒）。9 项跳过为显式启用的本地模型、嵌入或语义评估。另完成 16 个 Python 文件编译检查及上述三个命令行示例；未进行真实模型或可见桌面验收。
+
+以上数字及检查范围均为该里程碑的历史报告，不代表当前工作区已经通过完整测试套件。最近一次只读发布审查未运行 pytest。
 
 本地完整回归命令：
 
@@ -122,7 +128,7 @@ $env:COGNITIVEWORLD_INPUT_UNDERSTANDING_TIMEOUT = '8.0'
 
 ## 许可证
 
-项目代码采用 **AGPL-3.0-only**，见 [LICENSE](LICENSE)。依赖、模型和外部材料保留各自许可；参见 [PROVENANCE.md](PROVENANCE.md)、[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) 和 [贡献说明](CONTRIBUTING.md)。[CLA](CLA.md)、[CCLA](CCLA.md) 与 [商标政策](TRADEMARKS.md) 仍为待审草稿，不是已签协议。
+项目代码采用 **AGPL-3.0-only**，见 [LICENSE](LICENSE)。依赖、模型和外部材料保留各自许可；参见 [PROVENANCE.md](PROVENANCE.md)、[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) 和 [贡献说明](CONTRIBUTING.md)。
 
 <a id="english"></a>
 
@@ -171,6 +177,8 @@ These are responsibility boundaries; individual product and simulation entry poi
 
 The new physics slice uses replaceable declarative Boolean rules; numerical property declarations do not imply numerical dynamics. Configured distance uses a one-dimensional shared coordinate domain, not general 3D, FOV or occlusion. Exact action/method feedback is not generalized learning or semantic Belief revision.
 
+The current implementation includes an operation-specific life-state transition and recipient-authorization binding. The complete death-observation/L1-consumption path and automatic death-related item disposition remain unfinished. This is not a complete death lifecycle and does not provide generic contract admission, generic conflict arbitration, compensation, global exactly-once execution or cross-store crash atomicity.
+
 Durability begins at a published checkpoint. Production-component tests and CLI demos do not replace complete visible-desktop or real-model acceptance. Package metadata declares Python 3.10 minimum; this review used Python 3.14.7 and did not revalidate every supported interpreter.
 
 ## Installation and Usage
@@ -208,9 +216,13 @@ In the physics example, an installed handle rule checks the latch and changes th
 
 The social demo writes signed local saves to the chosen directory; use separate directories for independent runs. These are developer hosts.
 
+`--contrasting-receivers` demonstrates how different action preferences can lead to different behavior under the same reported statement. The final terminal summary alone does not demonstrate that receivers obtained different evidence or prove complete information isolation.
+
 ## Validation and Testing
 
 Publication verification for this physics milestone used Python 3.14.7: **339 focused tests passed, 0 skipped, 0 failed in 55.61 seconds**; the **full suite had 1832 passed, 9 skipped, 0 failed in 148.17 seconds**. The nine skips require explicit local-model, embedding or semantic-evaluation opt-ins. Compilation checks covered 16 Python files, and all three CLI examples above completed successfully. Live-model and visible-desktop acceptance were not run.
+
+These numbers and verification scopes are historical reports for that milestone; they do not establish that the current working tree has passed the complete suite. The latest read-only release audit did not run pytest.
 
 To run the full local suite:
 
@@ -233,7 +245,9 @@ Next work extends real physical mechanisms and authorized perceptual LOD one tes
 
 ## License
 
-Project code uses **AGPL-3.0-only**; see [LICENSE](LICENSE). Dependencies, models and external material retain their own license conditions. See [PROVENANCE.md](PROVENANCE.md), [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and [CONTRIBUTING.md](CONTRIBUTING.md). [CLA](CLA.md), [CCLA](CCLA.md) and [TRADEMARKS](TRADEMARKS.md) remain drafts, not signed agreements.
+Project code uses **AGPL-3.0-only**; see [LICENSE](LICENSE). Dependencies, models and external material retain their own license conditions. See [PROVENANCE.md](PROVENANCE.md), [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and [CONTRIBUTING.md](CONTRIBUTING.md).
+
+Contact: ankorgine@outlook.com
 
 ## AI-assistance Notice / AI 协助声明
 
