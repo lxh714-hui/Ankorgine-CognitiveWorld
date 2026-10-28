@@ -157,3 +157,85 @@ def test_default_platform_paths_are_user_scoped(tmp_path, monkeypatch):
     assert calls == [tmp_path / ".local/share/CognitiveWorld/social-room-hmac-v1.json",
                      tmp_path / "Library/Application Support/CognitiveWorld/social-room-hmac-v1.json"]
     assert all(saves not in path.parents for path in calls)
+
+
+@pytest.mark.parametrize("method", ["initialize", "open"])
+def test_windows_backend_error_never_selects_file_hmac(tmp_path, monkeypatch, method):
+    from cognitive_world.core.persistence import WindowsDpapiPersistenceTrust
+    if method == "open": (tmp_path / "trust.json").write_text("existing")
+    def fail(cls, path): raise OSError("injected selected backend error")
+    def forbidden(*args, **kwargs): pytest.fail("selected backend was replaced")
+    monkeypatch.setattr(WindowsDpapiPersistenceTrust, method, classmethod(fail))
+    monkeypatch.setattr(FileHmacTrust, "initialize", forbidden)
+    monkeypatch.setattr(FileHmacTrust, "open", forbidden)
+    with pytest.raises(OSError): open_demo_trust(tmp_path, platform="win32")
+
+
+@pytest.mark.skipif(os.name != "posix", reason="real POSIX publication and directory fsync boundary")
+@pytest.mark.parametrize("point", ["write", "flush", "file_fsync", "link", "directory_fsync", "cleanup_before", "cleanup_after", "final_open"])
+def test_posix_initialization_failure_preserves_publication_identity(tmp_path, monkeypatch, point):
+    import stat
+    from cognitive_world.examples import persistence_trust as module
+    path = tmp_path / "private" / "key.json"
+    original_fsync, original_link, original_unlink = os.fsync, os.link, os.unlink
+    original_fdopen = os.fdopen
+    from contextlib import contextmanager
+    from types import SimpleNamespace
+    @contextmanager
+    def fdopen(fd, mode):
+        with original_fdopen(fd, mode) as stream:
+            def write(data):
+                if point == "write": raise OSError("injected write failure")
+                return stream.write(data)
+            def flush():
+                if point == "flush": raise OSError("injected flush failure")
+                return stream.flush()
+            yield SimpleNamespace(write=write, flush=flush, fileno=stream.fileno)
+    captured = []
+    def fsync(fd):
+        directory = stat.S_ISDIR(os.fstat(fd).st_mode)
+        if (point == "directory_fsync" and directory) or (point == "file_fsync" and not directory):
+            if path.exists(): captured.append(path.read_bytes())
+            raise OSError("injected fsync failure")
+        return original_fsync(fd)
+    def link(*args, **kwargs):
+        if point == "link": raise OSError("injected publication failure")
+        return original_link(*args, **kwargs)
+    def unlink(*args, **kwargs):
+        if point == "cleanup_before":
+            captured.append(path.read_bytes())
+            raise OSError("injected pre-cleanup failure")
+        result = original_unlink(*args, **kwargs)
+        if point == "cleanup_after":
+            captured.append(path.read_bytes())
+            raise OSError("injected post-cleanup failure")
+        return result
+    def fail_open(cls, file):
+        captured.append(path.read_bytes())
+        raise OSError("injected final validation failure")
+    with monkeypatch.context() as patch:
+        if point in ("write", "flush"): patch.setattr(module.os, "fdopen", fdopen)
+        patch.setattr(module.os, "fsync", fsync)
+        patch.setattr(module.os, "link", link)
+        patch.setattr(module.os, "unlink", unlink)
+        if point == "final_open": patch.setattr(FileHmacTrust, "open", classmethod(fail_open))
+        with pytest.raises(OSError): FileHmacTrust.initialize(path)
+    published = point not in ("write", "flush", "file_fsync", "link")
+    assert path.exists() is published
+    if not published:
+        assert not list(path.parent.iterdir())
+        FileHmacTrust.initialize(path)
+        assert FileHmacTrust.open(path).sign("synthetic", b"payload")
+        return
+    assert path.read_bytes() == captured[0]
+    if point == "cleanup_before":
+        assert path.stat().st_nlink == 2
+        with pytest.raises(PermissionError): FileHmacTrust.open(path)
+    else:
+        assert path.stat().st_nlink == 1
+        trust = FileHmacTrust.open(path)
+        signature = trust.sign("synthetic", b"payload")
+        assert FileHmacTrust.open(path).verify("synthetic", b"payload", signature)
+    original = path.read_bytes()
+    with pytest.raises(FileExistsError): FileHmacTrust.initialize(path)
+    assert path.read_bytes() == original

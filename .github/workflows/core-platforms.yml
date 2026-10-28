@@ -1,0 +1,167 @@
+name: Core platforms
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+  PYTHONUTF8: "1"
+  QT_QPA_PLATFORM: offscreen
+
+jobs:
+  linux:
+    name: Ubuntu / Python ${{ matrix.python }} / CLI + full suite
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.10", "3.14"]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install test-only dependencies
+        run: python -m pip install pytest pytest-qt 'PySide6>=6.7'
+      - name: Install libraries for offscreen Qt tests
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends libegl1 libopengl0
+      - name: POSIX trust acceptance
+        shell: bash
+        run: |
+          home_root="$(mktemp -d "$RUNNER_TEMP/cw-trust-home-XXXXXX")"
+          export HOME="$home_root"
+          test_root="$(mktemp -d "$RUNNER_TEMP/cw-trust-tests-XXXXXX")"
+          set +e
+          python -B -m pytest tests/test_example_trust.py -q -rs -p no:cacheprovider --basetemp "$test_root" --tb=short
+          code=$?
+          echo "POSIX trust pytest exit code: $code"
+          exit "$code"
+      # -S excludes installed test/desktop and runner site-packages.
+      # These deterministic CLI commands receive no model/API secrets.
+      - name: Standard-library CLI / position and detail
+        shell: bash
+        run: |
+          home_root="$(mktemp -d "$RUNNER_TEMP/cw-position-home-XXXXXX")"
+          export HOME="$home_root"
+          set +e
+          echo "Command: python -B -S run_json_objects.py examples/data/position_observation.json --scenario visit --approach"
+          python -B -S run_json_objects.py examples/data/position_observation.json --scenario visit --approach
+          code=$?
+          echo "Position CLI exit code: $code (no save expected)"
+          exit "$code"
+      - name: Standard-library CLI / physical assembly
+        shell: bash
+        run: |
+          home_root="$(mktemp -d "$RUNNER_TEMP/cw-physical-home-XXXXXX")"
+          export HOME="$home_root"
+          set +e
+          echo "Command: python -B -S run_json_objects.py examples/data/physical_assembly.json --scenario visit"
+          python -B -S run_json_objects.py examples/data/physical_assembly.json --scenario visit
+          code=$?
+          echo "Physical CLI exit code: $code (no save expected)"
+          exit "$code"
+      - name: Standard-library CLI / contrasting receivers and signed save
+        shell: bash
+        run: |
+          home_root="$(mktemp -d "$RUNNER_TEMP/cw-social-home-XXXXXX")"
+          export HOME="$home_root"
+          save_root="$(mktemp -d "$RUNNER_TEMP/cw-social-save-XXXXXX")"
+          set +e
+          echo "Command: python -B -S run_social_room.py --save-root $save_root --contrasting-receivers"
+          python -B -S run_social_room.py --save-root "$save_root" --contrasting-receivers
+          code=$?
+          echo "Social CLI exit code: $code"
+          if [ "$code" -ne 0 ]; then exit "$code"; fi
+          set -e
+          test -d "$save_root/saves"
+          test -n "$(find "$save_root/saves" -type f -print -quit)"
+          echo "Signed save files created; no keys or saves uploaded. Final summaries do not prove information isolation."
+      - name: Complete pytest suite
+        shell: bash
+        run: |
+          home_root="$(mktemp -d "$RUNNER_TEMP/cw-full-home-XXXXXX")"
+          export HOME="$home_root"
+          test_root="$(mktemp -d "$RUNNER_TEMP/cw-full-tests-XXXXXX")"
+          set +e
+          python -B -m pytest -q -rs -p no:cacheprovider --basetemp "$test_root" --tb=short
+          code=$?
+          echo "Ubuntu full-suite pytest exit code: $code"
+          exit "$code"
+
+  macos:
+    name: macOS / Python 3.14 / native POSIX trust + cold restore
+    runs-on: macos-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+      - name: Check actual macOS host
+        run: python -c "import os, sys; assert sys.platform == 'darwin' and os.name == 'posix'; print(sys.version); print('Native macOS filesystem tests; not platform simulation')"
+      - name: Install test-only dependencies
+        run: python -m pip install pytest
+      - name: Native POSIX publication, permissions and cold restoration
+        shell: bash
+        run: |
+          # Resolve the runner's temporary location, not a caller trust path.
+          # macOS /var aliases must not be mistaken for approved trust symlinks.
+          work_root="$(python -c 'import os; print(os.path.realpath(os.environ["RUNNER_TEMP"]))')"
+          home_root="$(mktemp -d "$work_root/cw-macos-test-home-XXXXXX")"
+          export HOME="$home_root"
+          test_root="$(mktemp -d "$work_root/cw-macos-tests-XXXXXX")"
+          set +e
+          python -B -m pytest tests/test_example_trust.py tests/test_runtime_reconstruction.py tests/test_runtime_write_fence.py tests/test_social_perspective.py tests/test_social_physical_slice.py -q -rs -p no:cacheprovider --basetemp "$test_root" --tb=short
+          code=$?
+          echo "Native macOS trust/cold-restore pytest exit code: $code"
+          exit "$code"
+      - name: Standard-library social CLI / isolated native macOS save
+        shell: bash
+        run: |
+          work_root="$(python -c 'import os; print(os.path.realpath(os.environ["RUNNER_TEMP"]))')"
+          home_root="$(mktemp -d "$work_root/cw-macos-cli-home-XXXXXX")"
+          export HOME="$home_root"
+          save_root="$(mktemp -d "$work_root/cw-macos-cli-save-XXXXXX")"
+          echo "Command: python -B -S run_social_room.py --save-root $save_root --contrasting-receivers"
+          set +e
+          python -B -S run_social_room.py --save-root "$save_root" --contrasting-receivers
+          code=$?
+          echo "Native macOS social CLI exit code: $code"
+          if [ "$code" -ne 0 ]; then exit "$code"; fi
+          set -e
+          test -d "$save_root/saves"
+          test -n "$(find "$save_root/saves" -type f -print -quit)"
+          echo "Save files created; summaries alone do not prove different evidence or complete information isolation. No keys or saves uploaded."
+
+  windows:
+    name: Windows / Python 3.14 / DPAPI + recovery regressions
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+      - name: Install test-only dependencies
+        run: python -m pip install pytest pytest-qt 'PySide6>=6.7'
+      - name: DPAPI, no fallback, signed history, cold restore and fences
+        shell: pwsh
+        run: |
+          $testRoot = Join-Path $env:RUNNER_TEMP ('cw-windows-tests-' + [guid]::NewGuid().ToString('N'))
+          python -B -m pytest tests/test_example_trust.py tests/test_persistence_trust_root.py tests/test_save_restore_end_to_end.py tests/test_runtime_reconstruction.py tests/test_runtime_write_fence.py tests/test_life_state.py tests/test_life_transition.py tests/test_death_recipient_binding.py -q -rs -p no:cacheprovider --basetemp $testRoot --tb=short
+          $code = $LASTEXITCODE
+          Write-Output "Windows targeted pytest exit code: $code"
+          exit $code
