@@ -1457,6 +1457,12 @@ This is a per-turn rebuild and bounded-result slice, not a general-purpose retri
 
 BeliefUpdateProposal and GoalUpdateProposal describe candidate changes. CognitiveUpdateValidator returns a sealed ValidationResult only when source references and Agent ownership pass. CognitiveUpdateApplier requires that matching accepted result and verifies the stored prior value before updating the respective authoritative Store. Proposal creation alone does not change stored cognition.
 
+### Hypotheses, evidence and fact qualification
+
+A hypothesis is a subjective possibility, not a new persisted record type defined here. Rule compatibility, evidential credibility and admission to canonical world facts have separate meanings; [the architecture principle](ARCHITECTURE.md#cognitive-governance-three-independent-judgments) defines their responsibilities. A compatible hypothesis is not thereby true, and an incompatible imagined outcome is not itself an executed world effect. Preserve the semantic distinction between imagination, intention, Attempt, committed outcome, authorized Observation, actual consumption and interpretation without inventing status fields or retrofitting old records.
+
+Existing source/owner validation authorizes only the supported cognitive change, not the truth of a Belief. An Observation's authorized issuance does not imply actual L1 consumption or that the character's interpretation is correct. Where a review claims consumption-backed support, retain the existing exact fact/Event, owner, history, consumption and governance requirements; do not promote an ordinary receipt to durable proof. Unverified subjective influence, when supported by an applicable policy, must remain distinguishable from that evidential support. This principle introduces no new signature payload, persistence schema, compatibility reinterpretation or authority for directly updating WorldState.
+
 ## Cognitive LOD (Approved Design, Not Implemented)
 
 Cognitive LOD is a compute-scheduling policy, not another cognition Store or data authority. Every precision mode reads and updates the existing canonical cognition state under existing Store governance. It may vary reasoning granularity, cadence, and resource allocation based on NPC importance, player demand, event relevance, and available cognition budget. It may not discard confirmed important Events, create unrecorded experience during precision upgrades, alter WorldState, or grant Event-confirmation authority. It is distinct from Causal LOD and does not alter L1–L5; Emotion and Motivation remain cross-layer modulators.
@@ -2348,3 +2354,35 @@ reads 保存现有状态槽的值摘要（value_fingerprint）、存在性（pre
 进程内来源凭据增加不序列化的 live Resolution origin/v1 绑定：版本、原 Attempt ID、owner、action_type、显式 item_operation（或无）、Attempt 指纹（普通兼容操作可无）及裁定 tick。它由 EventFactory 从已确认原快照产生，使用不可变原始值，并受现有 Event 来源封印保护；不是调用方提供的 metadata 标签。注册拿取身份复用既有 take/take 操作合约，非操作许可本身；命中该身份但使用非原生字符串表示时明确拒绝，不能把它丢弃成无操作后跳过上下文。其他操作不被全局要求携带拿取上下文。
 
 EventProcessor 只在新事件分支、进入 apply 前核验此来源绑定；已记录且匹配的当前／祖先事件复用已有证据。签名历史恢复不重建 live 绑定：历史事件仍可验证、观察、消费，但未属于当前规范历史的历史事件不能据此获得新的 apply 权限。绑定位于私有来源凭据中，既有 codec 不编码它；未新增持久字段或允许类型，未改签名算法、PossessionTransition/v1 或 Bundle 版本，不重写／重签旧记录。检查点仍不承诺恢复尚未提交的 live 候选。
+
+
+## LifeTransition v1 host operation - A/B implementation
+
+Explicit Entity.state["life"] contains closed LifeState/v1 (version=1, value alive or dead); absence remains unsupported. The closed codec registers this value without adding Entity fields or changing Bundle versions. Legacy entities lacking life state retain their representation.
+
+The trusted host constructs and installs LifeTransitionAuthority on one canonical EventProcessor and explicitly supplies it to EventFactory. It authorizes an exact frozen Attempt for life_transition with one entity target and alive_to_dead parameters. The ephemeral host HMAC binds the exact Attempt, LifeTransition/v1 contract, target, state-slot values/origins, Timeline, captured tick, nonce and sole life write set. The Runtime permit is retained only in process-local authority bookkeeping, never serialized. This is an operation-specific trusted-host capability boundary, not protection against arbitrary hostile Python in the same process or generic G1/G2 admission.
+
+LifeTransitionEngine creates a confirmed Resolution candidate without writing state. Factory and Processor both invoke operation-specific validation; the effect handler repeats validation and constructs the replacement from the current Entity, changing only its life state. No captured Entity is republished. Missing/revoked/foreign/stale authorization, changed state origin, extra effects and unsupported transitions are rejected before apply. Independent item changes survive. Historical decoding validates the original closed effect after existing signature verification, not the ephemeral authorization key or current world; recorded replay reuses original evidence and foreign historical Resolution cannot authorize a new apply. No original signatures are regenerated.
+
+The operation emits no new Observation facts in this A/B stage. Formal history is not recipient knowledge. Recipient-scoped death evidence and actual L1 consumption remain unimplemented; no B2 eligibility is added. Dead does not imply item disposition, entity removal, scheduling shutdown or revival. Existing post-apply uncertain-write recovery and checkpoint-only durability remain unchanged. Full life-specific cold checkpoint/fork acceptance is not claimed by signed Event decoding alone.
+
+
+## Life transition rejection and recovery acceptance
+
+The operation-specific A/B acceptance now includes permanent Factory-bypass fault injection with genuine Resolution confirmation and source binding, independently rejected at EventProcessor before apply. Missing/malformed authorization, different Attempt/operation/Timeline/tick/write-set, forged signature, failed/no-effect shapes, unsupported requests, already-dead independent requests, authorization revocation and changed life-state origins are covered. Rejection snapshots include canonical state, life-slot provenance, history and Observations; the controlled provider is called once without re-adjudication. Existing LifeState tests cover invalid type/value/version and closed codec behavior.
+
+Life-specific SaveManager checkpoints now undergo real cold Runtime reconstruction. Tests forbid historical adjudication, re-signing and duplicate WorldState application; compare original signed records and item/location/relationship state; fork living and dead checkpoints with existing APIs; verify inherited result identity, sibling isolation, no inherited authority and rejection of parent authorization in a child. Uncertain post-apply append prevents a real checkpoint and further protected execution. This supersedes the earlier unverified cold-checkpoint/branch limitation only for the tested LifeTransition/v1 A/B path.
+
+No recipient death facts or L1 consumption are implemented or inferred. Generic G1/G2, compensation, global single-use, lifecycle scheduling, search, item disposition and cross-Store crash atomicity remain unsupported. Validation uses deterministic trusted fixtures on Python 3.14, not real-model, desktop or power-loss acceptance.
+
+
+## Life-transition recipient binding at formal submission
+
+New host authorizations issue life_transition_v2 effects containing the existing signed DeathRecipientBinding/v1 value inside the closed authorization body. The dedicated durable PersistenceTrust purpose binds predicted Event ID, exact Attempt fingerprint, target, alive-to-dead transition and the canonical finite recipient set; the outer ephemeral operation signature also covers that value. Host authorization is operation-specific, not generic admission. Invalid membership, encoding, signature, version or occurrence binding fails closed. Factory and Processor independently validate before apply, and pre-commit revocation retains the existing refusal behavior. Unrelated operations require no recipient binding.
+
+The original life_transition_v1 remains an explicit historical-only compatibility path. New live submissions cannot use it. Its original signed bytes are neither upgraded nor re-signed and contain no recipient eligibility. V2 history verifies the separate authorization-purpose signature under existing durable trust after Event attestation verification, independently of the lost temporary operation key. No codec type, Bundle version, global signature algorithm or historical identity changes.
+
+This milestone creates no death Observation, L1 evidence or delivery capability. Recipient membership does not imply registration, visibility, actual delivery or consumption. Post-commit ordinary operation revocation leaves recorded evidence immutable; no dynamic delivery revocation is added. G2 authoritative-state dependency validation remains distinct from cognition and from contract admission. Existing cold-restore/fork, no-reapply and uncertain-write boundaries remain required.
+
+
+Contact: ankorgine@outlook.com

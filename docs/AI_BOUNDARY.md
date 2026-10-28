@@ -367,3 +367,5 @@ AI provides intelligence. The World Core provides reality.
 > AI may interpret the world, but it does not own the world.
 
 > AI may propose possibilities, but only the system can create reality.
+
+Contact: ankorgine@outlook.com

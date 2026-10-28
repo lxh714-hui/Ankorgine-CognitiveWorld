@@ -334,6 +334,13 @@ Never solve a temporary problem by damaging the permanent architecture.
 - Evolution orchestration creates proposals only; it does not apply them.
 - SelfModel has a narrow, opt-in governed runtime evolution path for tentative owner-scoped entries derived from newly L1-consumed trusted Observations; it is not a general identity rewrite. Personality remains without a governed runtime evolution path and must not be described as evolving.
 
+### Independent cognitive and world qualification
+
+- Apply [the three independent judgments](ARCHITECTURE.md#cognitive-governance-three-independent-judgments): a rule-compatible idea is not proven true, accepted cognition is not a world fact, and evidence is not a write capability.
+- Never use model plausibility/confidence, repetition or keyword overlap as independent factual validation. Retain subjective influence as subjective; do not weaken typed matching or evidence-consumption gates to make an unverified hypothesis applicable.
+- Do not purge mistaken/impossible thoughts merely because their imagined outcome violates a world rule. Reject incompatible claimed world effects at the applicable boundary; cognitive writes still require their existing supported policy and governance. An unsupported mechanism must retain its existing unresolved/deferred behavior, not receive a fabricated successful outcome.
+- Keep proposed actions on the existing Attempt/Resolution/EventProcessor path. A false Belief may motivate a valid attempt and real consequences, but cannot create the alleged source event or rewrite its evidence. Hypothesis influence cannot grant information access, current action permission, a new persistent record type or a recovery bypass.
+
 ## Memory Authorization
 
 - `MemoryProposal` is the only candidate model. Compatibility aliases must not create a parallel representation.
@@ -645,3 +652,6 @@ Follow the [authoritative identity-continuity principle](ARCHITECTURE.md#entity-
 - 成功和无效果失败的拿取候选必须保留并在 apply 前复核同一裁定上下文。不能以只验证已存在的状态槽代替政策及完整关系负向条件检查；不能让过期失败事件进入正式历史。保留有效无效果失败、新独立请求与过期候选拒绝三者的区别。新上下文值只使用已批准的闭合版本，历史验证不得调用当前世界或 provider 重演裁定。
 
 - 新拿取的必需上下文必须在共享 live 边界执行，不能仅依赖专用 Resolution 子类。依据已确认原 Attempt 的显式注册操作，而非 outcome 文本或任意 metadata 识别。当前历史证据可支持获准的交付／消费，不是新的世界执行许可；进程内 live 来源绑定不得序列化成历史授权凭据。
+
+
+Contact: ankorgine@outlook.com

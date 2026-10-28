@@ -793,6 +793,13 @@ py -3.14 -B -m pytest tests/test_contextual_belief.py tests/test_memory_event_in
 
 Final verification after the compatibility correction: **1862 passed, 9 skipped, 145.34s, exit 0** using the complete-suite command above. The final new-file selection passed **18 tests, 2.11s, exit 0**. The nine skips remain explicit local Ollama integration/evaluation opt-ins (cognitive review, dialogue, embedding model, physical effects, two insight probes, insight protocol, insight semantic evaluation and insight-unit review). No real model or visible desktop acceptance was performed. Six-file in-memory compilation and Python 3.10 syntax parsing, added local anchors and both Git whitespace checks passed; this is not Python 3.10 runtime validation. An engineering-only decision trace confirmed Open base 0.90 plus typed contextual -0.25 = 0.65 versus Move 0.80 with BehaviorFeedback absent. These diagnostics do not enter player Presentation.
 
+
+## Cognitive governance principle synchronization
+
+Documentation-only clarification: rule compatibility, cognitive credibility and world-fact qualification are independent. Eligible unverified hypotheses and mistaken beliefs may influence supported decisions; they cannot directly commit world changes or turn an imagined source into history. This formalizes [the architectural boundary](ARCHITECTURE.md#cognitive-governance-three-independent-judgments), not a new implementation.
+
+The existing contextual matcher, physical result validation/Observation, qualified L1 and governed existing-Belief review remain narrow capabilities with their documented evidence and applicability requirements. No universal natural-language compatibility checker, calibrated confidence model or comprehensive irrational-cognition mechanism is claimed. Existing test history and NO-GO decisions remain unchanged. No production code, tests, JSON/schema, signatures, persistence, README or runtime behavior changed in this synchronization; no tests were run for this documentation-only task.
+
 ## 受治理 item-take 窄纵切
 
 实现独立 items.take 模型与宿主政策、PossessionTransition/v1 联合状态转移、提交时依赖复核，以及原 actor 私有 item_taken Observation。生产接口由宿主显式装配，尚无桌面自动动作路由；不新增 Belief／Goal 自动修订、容器或所有权转移。
@@ -818,3 +825,30 @@ Final verification after the compatibility correction: **1862 passed, 9 skipped,
 EventFactory 从经确认的原 Attempt 绑定显式操作身份；共享验证器在 Factory 和 EventProcessor 新事件 apply 前要求注册拿取的闭合上下文，覆盖通用宿主策略与直接 Factory。已有 handler 仍复核政策、值摘要、来源及完整相关关系。进程内来源绑定不被 codec 序列化；历史读取与已记录事件交付不补造绑定，不改变旧签名语义。历史记录的有效性不自动授权在另一历史中新执行。未增持久字段、codec 类型、签名算法或 Bundle 版本。
 
 本轮实际验收：修复前通用 Flow／直接 Factory 的失败缺上下文及结构变化复现为 4 failed、2 passed（0.68s，exit 1）；修复后该选择 6 passed（0.60s），拿取矩阵 85 passed（4.43s），扩大回归 449 passed（71.17s）。首轮全套 1947 passed、9 skipped（147.44s）后，追加对照发现非原生字符串身份被丢弃的问题；新增回归先复现（1 failed，0.53s，exit 1），修正为明确拒绝后最终定向组合 450 passed（72.89s），最终全套 1948 passed、9 skipped（143.96s）。本轮因此执行了两次全套，首轮不是最终生产版本验收；成功命令均 exit 0。旧两条无上下文原签名链只读验证和逐字节重序列化通过，未重新裁定／签发历史签名。九项跳过仍为显式本地 Ollama 集成／评估 opt-in。五份 Python 文件通过内存编译及 Python 3.10 语法解析，未执行 Python 3.10 运行、真实模型或可见桌面验收。
+
+
+## Life transition A/B working-tree increment
+
+PARTIAL: typed LifeState/v1 and an explicit host-authorized alive-to-dead operation now enter existing Resolution, Factory and Processor paths. Exact target/Attempt/contract/state-origin binding and independent pre-apply checks restrict the effect to the current target life state; ownership, possession, locations and unrelated state are preserved. Permanent tests cover successful formal commit, invalid generic-engine submissions, authorization revocation, stale provenance, preserved independent item changes, signed Event verification/replay and uncertain append recovery.
+
+This is not complete death acceptance: recipient evidence, actual L1 death consumption and life-specific complete cold checkpoint/branch acceptance remain outstanding. Generic G1/G2, compensation, item disposition, search, lifecycle scheduling, global single-use and cross-Store crash atomicity remain NO-GO. Test execution results are reported separately; implementation does not imply these future guarantees.
+
+Current A/B verification: initial new tests 11 failed (0.31s), corrected new selection 11 passed (0.16s); initial combined selection 120 passed (5.09s); final expanded selection 183 passed (9.05s); final full suite 1974 passed, 9 skipped (149.77s), exit 0. Nine skips are explicit local Ollama integration/evaluation opt-ins. No real model or visible desktop acceptance. Life-specific complete cold checkpoint/fork and all rejection-matrix combinations remain unverified; status is NOT READY for complete A/B acceptance.
+
+
+## Life transition adversarial and recovery acceptance
+
+Acceptance hardening changes tests only; production authorization, permits, history identities and recovery behavior are unchanged. The permanent matrix exercises real Processor rejection with Factory validation disabled only inside a scoped test seam, retaining genuine confirmation/source bindings. Real SaveManager cold restore and child/sibling reconstruction now cover life-state and held-item invariance, original signed-history preservation, no historical adjudication/re-sign/apply, no inherited host authority and rejected cross-branch execution. A real checkpoint is rejected after uncertain life append. No death Observation or L1 evidence is added.
+
+Initial test-authoring failures were a reserved pytest parameter name (collection error, 0.30s), then an unsupported empty-Agent checkpoint fixture (30 passed, 1 failed, 0.74s). The fixture now uses controlled content installation and supported Runtime assembly; no production restriction was relaxed. Subsequent transition runs passed 31 tests (1.72s; expanded assertions 2.03s), final life-state/transition selection passed 43 tests (2.24s); combined Factory/Processor/fence/physics/item-take/reconstruction/save-restore selection passed 255 tests (43.20s). These are current executions, not prior baseline counts. Full-suite result follows after completion.
+
+Final full-suite acceptance on the final test/source state: 1991 passed, 9 skipped, 173.62s, exit 0. All runs used Python 3.14 -B, PYTHONDONTWRITEBYTECODE=1, disabled pytest cache and a fresh external basetemp. Skips remain the nine explicit local Ollama integration/evaluation opt-ins. Scope verdict: READY WITH DOCUMENTED DEBT for this operation-specific A/B acceptance only; no real-model, visible desktop, Python 3.10 runtime or power-loss acceptance. The earlier NOT READY entry records the prior stage and is superseded only for the adversarial and checkpoint/Timeline gaps verified here.
+
+
+## Recipient-binding formal submission integration
+
+The previously standalone recipient signature is now mandatory for new life_transition_v2 submissions at both Factory and Processor. An explicit legacy v1 historical branch preserves original signed records without granting recipient access. A genuine pre-change signed v1 fixture was captured through the original operation before implementation changes. Negative cases run with and without the Factory early check, retaining controlled Resolution/source evidence and checking state/provenance/history/Observation/provider-count/recovery invariants. No production bypass switch was added.
+
+This milestone excludes death Observation generation and L1 consumption; full C-stage evidence remains NOT READY. Generic admission, arbitration, lifecycle, inventory, search, compensation and stronger recovery remain unimplemented. Test results for this integration are recorded after final execution.
+
+Formal recipient-binding milestone verification: initial life/binding/state selection 57 passed (2.13s); new independent-guard matrix 79 passed (2.30s); combined item/physics/fence/reconstruction/save-restore selection 291 passed (44.74s); final focused selection with nonempty-recipient cold restore 79 passed (2.39s). Final full suite: 2027 passed, 9 skipped, 169.47s, exit 0. Nine skips remain explicit local Ollama opt-ins; no real model, GUI, Python 3.10 runtime or power-loss acceptance. Compilation, Python 3.10 syntax parsing and Git whitespace checks passed. The formal-submission milestone is READY WITH DOCUMENTED DEBT; full Observation/L1 C-stage remains NOT READY and outside this milestone.

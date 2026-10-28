@@ -498,8 +498,14 @@ Implemented a narrow, transient typed Belief-to-action matcher on existing gover
 
 Remaining work: define selective dependency-based applicability before retaining a judgment across intervening Events; separately justify tool-sensitive and multi-target matching, positive physical outcome semantics and durable inference policies. Current views are not restored consumption authority, and host configuration is explicitly reinstalled. No generalized B4, shared LOD coordinator or new persistence guarantee is implied.
 
+
+Within the existing contextual cognition direction, remaining design work includes distinguishing rule compatibility from subjective credibility and world-fact admission for hypotheses outside supported typed domains. General natural-language compatibility checks, confidence calibration and handling of impossible/irrational cognitive content need explicit policy, uncertainty and negative-case validation; they are not implemented by documenting the principle. Preserve existing B4, sample-count, learning and other NO-GO boundaries; do not treat this as approval for a general hypothesis engine. See [cognitive governance](ARCHITECTURE.md#cognitive-governance-three-independent-judgments).
+
 ## 物品交互进展与后续边界
 
 已实现首个同地点、独立、无人持有物品的受治理拿取：数据配置资格、纯模型候选、位置／held_by 联合提交、原 actor 私有结果和普通 L1。签名检查点与分叉继续使用既有机制。尚待后续任务：产品输入路由、宿主政策自动重装配契约、关系查询性能；容器／搜索／放下／容量／死亡掉落／所有权转移不属于本次能力。不得将本纵切称为通用库存或物理引擎。
 
 拿取纵切已补齐失败候选的政策与负向关系上下文复核，并扩展类型正确的错误候选、完整冷恢复状态及实际 L1 消费回归。该修复不增加规划、库存、自动恢复或新认知修订；宿主政策装配与 checkpoint-only 崩溃限制继续适用。
+
+
+Contact: ankorgine@outlook.com

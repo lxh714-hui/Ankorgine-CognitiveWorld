@@ -1,5 +1,11 @@
 # Social Causality: Persuasion and Cross-Agent Goal Conflict
 
+## Mistaken beliefs as social causes
+
+Under [cognitive governance](ARCHITECTURE.md#cognitive-governance-three-independent-judgments), the objective is not universal correctness of character beliefs. An NPC may falsely suspect another character of stealing a key. That suspicion may motivate a confrontation or other action; a relationship consequence may become real only through its supported governed/world-transition path. The suspicion does not establish that theft occurred, authorize hidden information, or retroactively manufacture evidence. Understanding, believing, acting and the resulting consequences remain distinct.
+
+Information asymmetry, uncertainty, imagination, error and deliberate deception can therefore be sources of emergent causality. A false premise can cause real consequences without becoming the historical fact that supposedly justified them. This is an approved architectural principle, not a new theft/relationship rule or a claim that arbitrary suspicion, irrationality and social consequences are fully simulated. Existing social slices, typed comparisons, write boundaries and future-work restrictions below remain in force.
+
 ## B3 association does not establish actor knowledge
 
 [B3](DATA_CONTRACTS.md#b3-immutable-expectation-and-authoritative-result-association)
@@ -305,3 +311,5 @@ The runnable CLI schedules a bounded subsequent recipient round after the physic
 Focused tests cover owner-bound completion, unrelated Goals, duplicate handling, governance refusal, uncertain-write capture freeze, legacy no-condition behavior, signed save/restore and separate parent/child/sibling states. The earlier qualified-address missing-key path rejected before commitment because a routing reference was compared directly with raw environment slot IDs. This historical limitation was repaired in `c74f354`, already included in the published physics baseline. Both the bare and `object:ID` forms now have real room regressions for committed failure, unchanged physical state, the original actor/target/method binding and owner-private B1 delivery; the Goal remains active. Original signed target text is preserved while canonical lookup uses the existing InteractionReference parser. [The debt table](DEVELOPMENT_ROADMAP.md#owner-specific-social-response-status) marks this item closed; no historical records are rewritten or re-signed.
 
 General planning, multi-action fulfillment, completion from arbitrary current world conditions, automatic recovery of unconsumed results and historical completion-policy attestation remain outside this slice. [Condition and persistence details](DATA_CONTRACTS.md#consumed-result-goal-completion).
+
+Contact: ankorgine@outlook.com

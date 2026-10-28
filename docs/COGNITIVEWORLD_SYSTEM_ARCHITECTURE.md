@@ -148,3 +148,5 @@ WorldState、EventHistory 与受管的角色认知各有已定义的快照／来
 CW Core 拥有世界真相、角色认知、因果裁定、正式事件、安全、WorldNorms 及存档／时间线权威；产品网关和宿主负责装配已验证世界、配置 Runtime 与策略、调度异步任务及把受限结果交给客户端。桌面 UI 负责交互、导航和展开状态，通过稳定的只读 DTO 消费展示，不能导入或修改 WorldState、EventHistory、认知 Store 或存档内部对象。Core 与 Qt 解耦；宿主私有的装配能力不进入客户端 DTO。公共 WorldNorms 投影只暴露准许公开的规则，不把隐藏规则或规则知识自动写给玩家角色和 NPC。详见 [ARCHITECTURE.md](ARCHITECTURE.md#unified-cwcwui-product-boundary)、[DATA_CONTRACTS.md](DATA_CONTRACTS.md#client-dto-and-asynchronous-operation-contracts-approved-constraint-implementation-partial)。
 
 桌面的序章与初始授权事实按队列动画展示，但保持各自来源；滚动跟随只影响阅读位置。管理操作须经独立确认：内置包隐藏只写本机界面偏好，运行实例丢弃通过会话关闭和写入栅栏且保留存档，手动存档删除通过 SaveManager 的签名目录与依赖保留；通用持久实例级联删除尚无正式目录支持。UI 将自由文本交给异步应用边界，并分别接收已授权事实、澄清、展示用叙述、进度和错误的有限 DTO；提交受理不代表行动成功。世界档案和导航属于客户端交互，但当前档案／状态页面不构成通用 EventHistory 浏览器，也不能由界面条目倒推角色已知内容。Worldbook 的正式编辑界面与其 Core 数据契约尚未确立，不能因 UI 有档案入口便假定已连接世界书。领域层回答世界发生了什么，应用层回答当前请求能访问和提交什么，Presentation 回答特定接收者可以看到什么；UI 展示的句子既不能产生事实，也不能自动启动角色认知生命周期。见 [DATA_CONTRACTS.md](DATA_CONTRACTS.md#current-anchor-desktop-host-contract)、[ARCHITECTURE.md](ARCHITECTURE.md#unified-cwcwui-product-boundary)。
+
+Contact: ankorgine@outlook.com

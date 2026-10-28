@@ -143,3 +143,5 @@ These prohibitions constrain design and review. They do not install new behavior
 | [DEVELOPMENT_ROADMAP.md](DEVELOPMENT_ROADMAP.md) | Planned work and dependencies; the historical compact roadmap is not a competing authority. |
 
 Future contracts must state which principle they enforce, what evidence authorizes each transition, what remains unknown, and how supported records survive or deliberately do not survive restore. Doctrine establishes the constraints; detailed contracts establish the executable permission and evidence scope.
+
+Contact: ankorgine@outlook.com

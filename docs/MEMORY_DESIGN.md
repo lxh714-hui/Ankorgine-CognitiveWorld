@@ -588,3 +588,5 @@ Scenario lifecycle state and `EventSeed` definitions are world/content records, 
 ## Phase 16 dynamic character cognition
 
 Runtime installation prepares fresh Personality, SelfModel and Goal records for each new CharacterInstance, then places them in the existing owner Stores. A new Agent is registered only after its owner cognition is prepared. No Memory, Belief, Emotion, Relationship, injury, DecisionContext or private experience is copied from the CharacterTemplate or another instance. The installation Event is a world-content admission record, not a character's perceived experience; the EventProcessor produces no automatic Observation for it. Only subsequently authorized entry/environment or causal Observations may reach L1 and later Memory governance. Provider output and installation audit labels must never be treated as character knowledge or player-facing narration.
+
+Contact: ankorgine@outlook.com

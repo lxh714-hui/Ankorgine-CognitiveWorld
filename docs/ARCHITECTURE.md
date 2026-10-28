@@ -15,6 +15,8 @@ source ID/digest. Source-bound cognition uses v5; unbound historical B3 remains
 ambiguous. No Runtime capability is serialized and no second Store is created.
 
 
+The [Meta-Contracts authority](META_CONTRACTS.md) defines approved shared admission, physical, causal and governance boundaries. Its G1, G2 state-dependency, independent contract-admission and G-3 rules define governance-owned required sources and closure, maintainer-signed admission with trusted-host key updates, and current-state governed compensation. Its status matrix separates normative requirements from verified mechanisms and outstanding acceptance; it does not replace detailed contracts or establish runtime conformance.
+
 Version: 1.0
 
 The [CognitiveWorld Core Doctrine](COGNITIVEWORLD_CORE_DOCTRINE.md) defines the foundational invariants behind this architecture: independent world authority, owner-scoped cognition, reconstructed action context, validated execution, evidence-governed revision and need-based computation. The doctrine is the conceptual foundation; this document and the detailed contracts retain their specific responsibilities and implementation limits. Its unified feedback lifecycle is an objective, not a newly implemented capability.
@@ -357,6 +359,18 @@ Long-term memory is stored in a structured form and preserves important events a
 #### Belief
 
 Belief represents a character's cognition of the world. A character's belief may differ from the actual WorldState.
+
+#### Cognitive governance: three independent judgments
+
+Approved architectural principle: keep **rule compatibility**, **cognitive credibility**, and **world-fact qualification** independent. The aim is to govern the consequences of cognition, not to eliminate every mistaken Belief or imaginative thought.
+
+- **Rule compatibility:** determine whether a proposed world claim or executable effect is compatible with applicable hard constraints and declared capabilities. A contradiction cannot be accepted as a valid world-state claim or authorized executable effect. The occurrence of that thought in a character's cognition is a different matter: impossible or irrational ideas may remain subjective cognitive/narrative content unless an explicit applicable constraint prohibits them. A character's mistaken intention is not permission to bypass a hard rule. Distinguish attempting an allowed action whose desired outcome cannot succeed from asserting that the impossible outcome occurred.
+- **Cognitive credibility:** assess what this character has reason to believe from its own information and applicable interpretation policy. A rule-compatible, plausible hypothesis may remain unverified. Eligible uncertainty, imagination and mistaken interpretations may influence attention, risk, Goals, information-seeking or action selection without becoming established facts. Model confidence, plausibility, repetition and lexical similarity are not independent factual evidence; subjective confidence is not calibrated truth probability.
+- **World-fact qualification:** only applicable authorized, validated formal world-transition mechanisms can commit canonical changes. Neither compatibility, confidence nor supporting evidence substitutes for source, owner, information authorization, history, Runtime and EventProcessor requirements. Cognitive governance acceptance authorizes the supported cognitive update; it does not certify its content as objective truth.
+
+The conceptual lifecycle is hypothesis/interpretation/intention or action-candidate generation (possibly by an LLM) -> applicable compatibility and cognitive governance -> eligible subjective influence -> ActionProposal/Attempt -> Resolution -> valid formal Event submission and EventProcessor commit -> recipient-authorized Observation -> actual qualified consumption -> supported cognitive review/revision -> later decisions. These are responsibility boundaries, not a new universal API or schema. Imagined events, intended actions, attempted actions, committed outcomes, received evidence and interpretations remain distinguishable. Revision cannot retroactively rewrite the source facts, evidence or historical authorization.
+
+Current implementation is narrower than this principle. Typed contextual Belief matching handles exact owner-consumed, history-qualified confirmed-failure bindings with bounded scope/age; formal physical candidate revalidation, private physical-result Observations, ordinary L1 qualification and opt-in existing-Belief Validator/Applier review provide real separate boundaries. The contextual matcher intentionally gives unsupported/ambiguous matches no typed score; the principle does not relax that gate or add a hypothesis write path. General compatibility checking for arbitrary natural-language hypotheses, calibrated credibility and comprehensive handling of impossible or irrational cognitive content remain incomplete. This is not a complete scientific cognition model or a claim to eliminate LLM hallucinations. [Current typed matching contract](DATA_CONTRACTS.md#typed-contextual-belief-decision-view).
 
 #### Goal
 
@@ -2710,3 +2724,6 @@ Resolution 候选绑定原 Attempt、配置和实际读取的状态来源；Even
 新生成的成功与失败拿取候选都携带 TakeAdjudicationContext/v1。提交前统一核对原 Attempt、规范政策内容身份、读取值及来源、完整相关类型化关系集合和持有条件，不重新调用 provider 或对原 Attempt 重跑裁定。原上下文仍有效的失败才可提交无效果事件；政策或相关依赖已变化则拒绝候选，新独立请求另行裁定。无关世界变化不构成全局失效。历史恢复仅验证原签名记录及上下文绑定，不用当前配置或状态重裁过去。
 
 专用拿取引擎保留早期上下文校验；共享 live 合约不再依赖引擎子类。EventFactory 从受控 Resolution 的原 Attempt 捕获现有显式操作身份（action_type=take、parameters.item_operation=take），并将身份、Attempt 指纹、owner 和 tick 绑定到进程内来源凭据。字段只标识操作，不单独授予世界写入权限。Factory 与 EventProcessor 新事件 apply 前共用验证器要求拿取上下文，后续 handler 独立复核当前政策、状态来源及完整关系。身份不来自 outcome 文本、任意 Event metadata 标签或转移对象的存在性。已记录的当前／祖先事件先复用原证据；历史读取不补造 live 来源绑定，也不能把历史签名本身当作新的执行许可。
+
+
+Contact: ankorgine@outlook.com
