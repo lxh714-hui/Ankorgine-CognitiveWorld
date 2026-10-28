@@ -66,6 +66,8 @@ flowchart LR
 
 ## 环境与启动
 
+核心模拟源码经 import 检查未发现第三方运行时依赖；下列三个确定性 CLI 示例已用 `-S` 禁用 site-packages 验证，可直接从仓库根目录运行，不需要 API Key 或 Ollama。此范围不包括 Qt 桌面、可选模型／embedding 服务或 pytest 测试工具。
+
 以下为 Windows PowerShell 示例。Core 不要求 Qt；桌面依赖通过可选项安装。
 
 ```powershell
@@ -96,6 +98,16 @@ $env:COGNITIVEWORLD_INPUT_UNDERSTANDING_TIMEOUT = '8.0'
 ```
 
 物理示例由 handle 的已安装规则检查 latch 条件并改变 panel 的布尔状态；调整 JSON 中的前提或关系即可改变裁定。
+
+标准库运行方式（仓库根目录；Windows 使用 `py -3.14`，macOS/Linux 使用可用的 Python 3.10+，本轮仅实际验证 Windows Python 3.14）：
+
+```sh
+python3 -B -S run_json_objects.py examples/data/position_observation.json --scenario visit --approach
+python3 -B -S run_json_objects.py examples/data/physical_assembly.json --scenario visit
+python3 -B -S run_social_room.py --save-root /tmp/cognitiveworld-social-new-run --contrasting-receivers
+```
+
+请为每次独立实验指定尚未使用的存档目录。Windows 示例继续在该目录使用原有 DPAPI `trust.json`，初始化失败不降级。Linux 文件 HMAC 根位于 `~/.local/share/CognitiveWorld/social-room-hmac-v1.json`；macOS 位于 `~/Library/Application Support/CognitiveWorld/social-room-hmac-v1.json`，不存入仓库或存档。POSIX 要求密钥目录 0700、文件 0600、当前用户所有且无符号链接。文件密钥未加密，不等同于 DPAPI；同用户恶意进程不在保护范围内。保留原信任根才能恢复原存档；缺失、损坏或替换不会自动修复或重签历史。有既有存档但缺根时拒绝初始化。该选择仅适用于 CLI 示例，未改桌面宿主。
 
 社会化示例在指定目录创建本地签名存档；请为独立实验使用不同目录。示例是开发宿主，不是完整桌面玩法。
 
@@ -192,6 +204,8 @@ $python = Join-Path $PWD '.venv\Scripts\python.exe'
 & $python -m anchor_desktop
 ```
 
+The core simulation and the three selected deterministic CLI examples run on the Python standard library alone. The imports were checked and the examples were run with `-S` to disable site-packages. This excludes the Qt desktop, optional model/embedding integrations and pytest tooling. No API key or Ollama is needed for these examples.
+
 Core does not require Qt. For local-model input interpretation, explicitly select the provider and an installed chat model before launching:
 
 ```powershell
@@ -213,6 +227,16 @@ Deterministic examples need no model:
 ```
 
 In the physics example, an installed handle rule checks the latch and changes the panel's Boolean state. Adjusting JSON preconditions or relations changes the adjudicated result.
+
+From the checkout root, use these standard-library-only commands (replace `python3` with `py -3.14` on Windows):
+
+```sh
+python3 -B -S run_json_objects.py examples/data/position_observation.json --scenario visit --approach
+python3 -B -S run_json_objects.py examples/data/physical_assembly.json --scenario visit
+python3 -B -S run_social_room.py --save-root /tmp/cognitiveworld-social-new-run --contrasting-receivers
+```
+
+Choose a fresh save directory for each independent experiment. Windows retains the existing DPAPI `trust.json` in that directory, with no fallback on failure. Linux uses `~/.local/share/CognitiveWorld/social-room-hmac-v1.json`; macOS uses `~/Library/Application Support/CognitiveWorld/social-room-hmac-v1.json`, outside saves and the checkout. POSIX requires owner-only directory/file modes 0700/0600 and rejects symlinks. File keys are unencrypted and are not equivalent to DPAPI protection; neither protects against malicious same-user code. Keep the original root to restore its saves. Missing, corrupt or replaced keys do not trigger repair or historical re-signing; existing demo data without its root blocks initialization. This adapter affects the CLI example, not the desktop host. Only Windows Python 3.14 was actually exercised here; real macOS/Linux execution and Python 3.10 runtime validation remain open.
 
 The social demo writes signed local saves to the chosen directory; use separate directories for independent runs. These are developer hosts.
 

@@ -221,7 +221,8 @@ def test_restore_and_sibling_fork_keep_personality_judgments_and_ancestor_proofs
     assert proofs(sibling_scene) == before
 
 
-def test_contrasting_receivers_source_entrypoint_runs(tmp_path):
+def test_contrasting_receivers_source_entrypoint_runs(tmp_path, monkeypatch):
+    monkeypatch.setenv("HOME", str(tmp_path / "isolated-home"))
     result = subprocess.run(
         [sys.executable, "run_social_room.py", "--contrasting-receivers", "--save-root", str(tmp_path / "demo")],
         cwd=Path(__file__).resolve().parents[1], capture_output=True, text=True, timeout=30)

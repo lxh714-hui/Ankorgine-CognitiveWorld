@@ -435,7 +435,7 @@ def dependency_manifest():
 
 def main():
     import argparse
-    from cognitive_world.core.persistence import WindowsDpapiPersistenceTrust
+    from cognitive_world.examples.persistence_trust import open_demo_trust
     from cognitive_world.cognition.snapshot import cognitive_snapshot_codec
     from cognitive_world.runtime.save_manager import SaveManager
     parser = argparse.ArgumentParser(description=__doc__)
@@ -443,9 +443,7 @@ def main():
     parser.add_argument("--contrasting-receivers", action="store_true")
     args = parser.parse_args()
     args.save_root.mkdir(parents=True, exist_ok=True)
-    key_path = args.save_root / "trust.json"
-    trust = (WindowsDpapiPersistenceTrust.open(key_path) if key_path.exists()
-             else WindowsDpapiPersistenceTrust.initialize(key_path))
+    trust = open_demo_trust(args.save_root)
     definition = (RoomDefinition(additional_receivers=(
         RecipientDefinition("cautious-investigator", False),))
         if args.contrasting_receivers else RoomDefinition())

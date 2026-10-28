@@ -2385,4 +2385,10 @@ The original life_transition_v1 remains an explicit historical-only compatibilit
 This milestone creates no death Observation, L1 evidence or delivery capability. Recipient membership does not imply registration, visibility, actual delivery or consumption. Post-commit ordinary operation revocation leaves recorded evidence immutable; no dynamic delivery revocation is added. G2 authoritative-state dependency validation remains distinct from cognition and from contract admission. Existing cold-restore/fork, no-reapply and uncertain-write boundaries remain required.
 
 
+## Social CLI host file-trust provisioning
+
+The social-room CLI retains the existing Windows DPAPI save-root identity. On Linux/macOS only, its host adapter provisions a random 32-byte file key in the user application-data directory and delegates purpose-bound signing to existing HmacPersistenceTrust. FileHmacTrust.initialize is explicit creation; open/sign/verify never create or replace a root. New demo provisioning is allowed only for an empty save directory when no user root exists. Existing history requires the original key; bad or unavailable roots fail closed. This is not a new Bundle, Event, signature or recovery contract and changes no desktop trust selection.
+
+POSIX traversal uses directory descriptors and no-follow opens; the final directory is current-user-owned 0700 and the regular, single-link key file is 0600. A fully written key is published with a non-overwriting hard link; concurrent initializers cannot replace a winner. Each operation reopens the key, so removal/corruption cannot be hidden by a cached signer. A valid different key cannot verify original signatures. The file is unencrypted and provides filesystem-permission protection only, not DPAPI-equivalent protection, cross-device key management, rotation or protection from same-user malicious code. Checkpoint-only durability remains unchanged.
+
 Contact: ankorgine@outlook.com

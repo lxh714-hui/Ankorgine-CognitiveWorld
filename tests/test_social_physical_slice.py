@@ -317,7 +317,8 @@ def test_completed_door_and_social_state_survive_second_published_checkpoint(tmp
     assert social_records(restored) == social_records(scene)
 
 
-def test_source_checkout_entrypoint_runs_and_publishes_real_save(tmp_path):
+def test_source_checkout_entrypoint_runs_and_publishes_real_save(tmp_path, monkeypatch):
+    monkeypatch.setenv("HOME", str(tmp_path / "isolated-home"))
     import subprocess
     import sys
     from pathlib import Path
