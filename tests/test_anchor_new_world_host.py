@@ -832,10 +832,11 @@ def test_unlisted_candidate_handle_does_not_enter_resolution():
 
 
 @pytest.mark.parametrize("world_id", ("clockwork-library", "rain-harbor"))
-def test_desktop_read_only_observation_uses_thin_authorized_projection(world_id):
+def test_desktop_read_only_observation_uses_thin_authorized_projection(world_id, tmp_path):
     gateway = DesktopProductGateway(
         PACKAGES, trust_supplier=lambda: HmacPersistenceTrust(b"desktop-observe-key" * 4),
         input_understanding_provider=CandidateInteractionInterpreter(observe=True),
+        saves_root=tmp_path / "saves",
     )
     try:
         gateway.begin_world(world_id)
@@ -855,10 +856,11 @@ def test_desktop_read_only_observation_uses_thin_authorized_projection(world_id)
         gateway.close()
 
 
-def test_desktop_gateway_continues_the_issued_clarification():
+def test_desktop_gateway_continues_the_issued_clarification(tmp_path):
     gateway = DesktopProductGateway(
         PACKAGES, trust_supplier=lambda: HmacPersistenceTrust(b"desktop-clarification-key" * 3),
         input_understanding_provider=CandidateInteractionInterpreter(clarify=True),
+        saves_root=tmp_path / "saves",
     )
     try:
         gateway.begin_world("rain-harbor")
@@ -1159,10 +1161,11 @@ def test_distinct_packages_start_and_submit_through_real_async_event_chain(world
         session.close()
 
 
-def test_product_gateway_exposes_only_bounded_status_and_authorized_display():
+def test_product_gateway_exposes_only_bounded_status_and_authorized_display(tmp_path):
     gateway = DesktopProductGateway(
         PACKAGES, trust_supplier=lambda: HmacPersistenceTrust(b"product-gateway-test-key" * 2),
         input_understanding_provider=GroundedActionInterpreter(),
+        saves_root=tmp_path / "saves",
     )
     try:
         gateway.begin_world("rain-harbor")
@@ -1193,7 +1196,7 @@ def _wait_for_entry(gateway):
     return status
 
 
-def test_failed_world_entry_leaves_no_active_session_and_allows_retry():
+def test_failed_world_entry_leaves_no_active_session_and_allows_retry(tmp_path):
     attempts = 0
 
     def trust_supplier():
@@ -1203,7 +1206,7 @@ def test_failed_world_entry_leaves_no_active_session_and_allows_retry():
             raise PermissionError("test trust unavailable")
         return HmacPersistenceTrust(b"retry-test-key" * 4)
 
-    gateway = DesktopProductGateway(PACKAGES, trust_supplier=trust_supplier)
+    gateway = DesktopProductGateway(PACKAGES, trust_supplier=trust_supplier, saves_root=tmp_path / "saves")
     try:
         gateway.begin_world("clockwork-library")
         assert _wait_for_entry(gateway).state == "failed"
@@ -1283,7 +1286,7 @@ def test_save_permission_failure_preserves_active_world_and_retry_succeeds(tmp_p
         gateway.close()
 
 
-def test_late_old_world_result_cannot_commit_after_world_switch():
+def test_late_old_world_result_cannot_commit_after_world_switch(tmp_path):
     started, release, returned = Event(), Event(), Event()
 
     class DelayedInterpreter(GroundedActionInterpreter):
@@ -1297,6 +1300,7 @@ def test_late_old_world_result_cannot_commit_after_world_switch():
     gateway = DesktopProductGateway(
         PACKAGES, trust_supplier=lambda: HmacPersistenceTrust(b"switch-test-key" * 4),
         input_understanding_provider=DelayedInterpreter(),
+        saves_root=tmp_path / "saves",
     )
     try:
         gateway.begin_world("clockwork-library")
