@@ -40,6 +40,7 @@ class AgentDecision:
     conflict_opportunity_scheduler: Any = None
     simulation_tick: int | None = None
     behavior_feedback: BehaviorFeedback | None = None
+    reference_epsilon: float | None = None
 
     def has_custom_autonomous_policies(self) -> bool:
         """Report whether a caller supplied a non-default policy strategy."""
@@ -51,6 +52,7 @@ class AgentDecision:
         )
         return (
             getattr(self, "conflict_opportunity_scheduler", None) is not None
+            or getattr(self, "reference_epsilon", None) is not None
             or any(getattr(self, name, default) != default for name, default in defaults)
         )
 
@@ -174,7 +176,31 @@ class AgentDecision:
                 raise PermissionError("scheduler returned a finding for another Agent")
             situation = replace(situation, scheduler_findings=findings)
 
-        evaluations = evaluation_policy.evaluate(situation, candidates)
+        epsilon = getattr(self, "reference_epsilon", None)
+        reference = None
+        if epsilon is not None:
+            if type(epsilon) not in (int, float) or not math.isfinite(epsilon) or epsilon < 0:
+                raise ValueError("reference epsilon must be finite and non-negative")
+            if type(review_policy) is not BoundedDecisionReviewPolicy:
+                raise PermissionError("reference policy requires a compatible review policy")
+            from cognitive_world.decision.evidence_review import EvidenceAwareEvaluationPolicy
+            if type(evaluation_policy) is DeterministicActionEvaluationPolicy:
+                evaluations = evaluation_policy.evaluate(situation, candidates)
+                reference = evaluation_policy.evaluate_reference(situation, candidates)
+            elif type(evaluation_policy) is EvidenceAwareEvaluationPolicy:
+                evaluations, reference, _snapshots = evaluation_policy.evaluate_with_reference(situation, candidates)
+            else:
+                raise PermissionError("reference policy requires a compatible evaluator")
+            if (not isinstance(reference, tuple) or len(reference) != len(candidates)
+                    or len({item.candidate_id for item in reference}) != len(candidates)
+                    or {item.candidate_id for item in reference} != candidate_ids
+                    or any(type(item.score) not in (int, float) or not math.isfinite(item.score) for item in reference)):
+                raise ValueError("reference evaluation is incomplete or invalid")
+            reference_situation = replace(situation, impulse_bias=0.0, impulse_ceiling=0.0)
+            if review_policy.should_review(reference_situation, reference):
+                reference = review_policy.reassess(reference_situation, candidates, reference)
+        else:
+            evaluations = evaluation_policy.evaluate(situation, candidates)
         if not isinstance(evaluations, tuple) or len(evaluations) != len(candidates):
             raise ValueError("evaluation policy returned an incomplete evaluation batch")
         if review_policy.should_review(situation, evaluations):
@@ -186,6 +212,12 @@ class AgentDecision:
             evaluations = feedback.adjust(
                 situation, candidates, evaluations, tick=self.simulation_tick,
             )
+        if reference is not None:
+            reference = adjust_evaluations(reference_situation, candidates, reference)
+            if feedback is not None:
+                reference = feedback.adjust(
+                    reference_situation, candidates, reference, tick=self.simulation_tick,
+                )
         if not evaluations or any(
             isinstance(item.score, bool)
             or not isinstance(item.score, (int, float))
@@ -196,8 +228,21 @@ class AgentDecision:
         evaluation_by_id = {item.candidate_id: item for item in evaluations}
         if set(evaluation_by_id) != candidate_ids:
             raise ValueError("candidate evaluations do not correspond to this candidate batch")
+        eligible = candidates
+        if reference is not None:
+            if (not isinstance(reference, tuple) or len(reference) != len(candidates)
+                    or len({item.candidate_id for item in reference}) != len(candidates)
+                    or {item.candidate_id for item in reference} != candidate_ids
+                    or any(type(item.score) not in (int, float) or not math.isfinite(item.score) for item in reference)):
+                raise ValueError("reference review is incomplete or invalid")
+            by_reference = {item.candidate_id: float(item.score) for item in reference}
+            best = max(by_reference.values())
+            eligible = tuple(candidate for candidate in candidates
+                             if best - by_reference[candidate.candidate_id] <= epsilon)
+            if not eligible:
+                raise ValueError("reference evaluation has no eligible candidate")
         selected = min(
-            candidates,
+            eligible,
             key=lambda candidate: (-float(evaluation_by_id[candidate.candidate_id].score), candidate.candidate_id),
         )
         from cognitive_world.cognition.action_expectation import capture_selection_time, bind_selection

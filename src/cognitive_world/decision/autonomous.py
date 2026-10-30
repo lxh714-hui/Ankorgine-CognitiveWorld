@@ -948,6 +948,11 @@ def _tokens(text: str) -> frozenset[str]:
 class DeterministicActionEvaluationPolicy:
     """Stable, explainable subjective candidate ranking; never predicts success."""
 
+    def evaluate_reference(self, situation: SituationAssessment, candidates: tuple[ActionCandidate, ...]) -> tuple[CandidateEvaluation, ...]:
+        """Evaluate the same candidates without impulse, leaving other inputs unchanged."""
+        from dataclasses import replace
+        return self.evaluate(replace(situation, impulse_bias=0.0, impulse_ceiling=0.0), candidates)
+
     def evaluate(
         self, situation: SituationAssessment, candidates: tuple[ActionCandidate, ...]
     ) -> tuple[CandidateEvaluation, ...]:
