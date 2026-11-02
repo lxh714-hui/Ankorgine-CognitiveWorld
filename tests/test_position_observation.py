@@ -215,3 +215,106 @@ def test_runnable_json_host_approaches_via_committed_passage_then_observes(capsy
               if f.predicate=="actor_arrived"]
     assert len(arrivals)==1
     assert context.world_state.get_entity("local:demo:object:tool").owner_id is None
+
+
+def test_detail_event_cannot_be_presented_through_another_observer_view():
+    from copy import deepcopy
+    from cognitive_world.observation.generator import VisibilityPolicy
+    from cognitive_world.presentation.perspective import PerspectiveResolver
+
+    data = document()
+    data["scenarios"][0]["characters"][0][2] = "near"
+    scene = Scene(data)
+    owner_a = "world:one:agent:worker"
+    owner_b = "world:one:agent:other"
+    near = "world:one:location:near"
+    assert scene.world.locations[owner_a] == scene.world.locations[owner_b] == near
+    policy = scene.world.get_entity(scene.target).attributes["observation_policy"]
+    assert owner_a in policy.detail_observers and owner_b not in policy.detail_observers
+
+    detail, event = scene.observe("worker", "detail")
+    assert detail == ("细看可见物体边缘的凹齿。",)
+    evidence = scene.history.get_processing_evidence(event.id)
+    assert scene.history.get_event(event.id) == event
+    assert evidence is not None and evidence.has_trusted_source(event)
+    observation_a, = scene.store.get_by_observer(owner_a)
+    assert observation_a.source_event_id == event.id
+    assert observation_a.content.predicate == "object_detail"
+    assert observation_a.has_trusted_provenance()
+    assert VisibilityPolicy().allows(event, evidence, owner_a)
+    assert not VisibilityPolicy().allows(event, evidence, owner_b)
+    assert scene.store.get_by_observer(owner_b) == ()
+
+    # B has the same proximity and sight, but its own detail request is only coarse.
+    coarse, _ = scene.observe("other", "detail")
+    assert coarse == ("你看到一个小物体。",)
+    assert all(o.source_event_id != event.id for o in scene.store.get_by_observer(owner_b))
+    before_world = deepcopy((dict(scene.world.entities), dict(scene.world.locations), dict(scene.world.environment)))
+    before_history = scene.history.get_events()
+    before_observations = scene.store.all()
+
+    def pipeline_for(owner, label):
+        context = RuntimeContext(scene.clock, scene.world, scene.history,
+            agent_registry=scene.agents, observation_store=scene.store,
+            player_session=PlayerSessionBinding("session:" + label, "player:" + label,
+                PlayerMode.ROLEPLAY, controlled_agent_id=owner))
+        perspective = PerspectiveResolver(context).resolve()
+        assert perspective.observer_id == owner and perspective.has_trusted_resolution()
+        return PresentationPipeline.for_runtime(context, InMemoryChatOutputGateway(context))
+
+    assert pipeline_for(owner_b, "b").publish_event(event.id).messages == ()
+    assert tuple(m.content for m in pipeline_for(owner_a, "a").publish_event(event.id).messages) == detail
+    assert (dict(scene.world.entities), dict(scene.world.locations), dict(scene.world.environment)) == before_world
+    assert scene.history.get_events() == before_history
+    assert scene.store.all() == before_observations
+    assert scene.history.get_processing_evidence(event.id) == evidence
+
+
+@pytest.mark.parametrize("distance, expected_worker", [
+    (2, "细看可见物体边缘的凹齿。"),
+    (2.000001, "你看到一个小物体。"),
+])
+def test_detail_distance_boundary_preserves_authorization_and_world(distance, expected_worker):
+    from copy import deepcopy
+
+    data = document()
+    for location in data["locations"][:2]:
+        location["observation_zone"]["offset_m"] = distance
+    scene = Scene(data)
+    before = deepcopy((dict(scene.world.entities), dict(scene.world.locations),
+                       dict(scene.world.environment)))
+    worker, worker_event = scene.observe("worker")
+    other, other_event = scene.observe("other")
+    assert worker == (expected_worker,)
+    assert other == ("你看到一个小物体。",)
+    worker_facts = scene.history.get_processing_evidence(worker_event.id).observable_facts
+    other_facts = scene.history.get_processing_evidence(other_event.id).observable_facts
+    assert any(f.predicate == ("object_detail" if distance == 2 else "object_shape") for f in worker_facts)
+    assert all(f.predicate != "object_detail" for f in other_facts)
+    assert (dict(scene.world.entities), dict(scene.world.locations),
+            dict(scene.world.environment)) == before
+
+
+@pytest.mark.parametrize("distance, visible", [(10, True), (10.000001, False)])
+def test_coarse_distance_boundary(distance, visible):
+    from copy import deepcopy
+
+    data = document()
+    data["locations"][0]["observation_zone"]["offset_m"] = distance
+    scene = Scene(data)
+    before = deepcopy((dict(scene.world.entities), dict(scene.world.locations),
+                       dict(scene.world.environment)))
+    messages, event = scene.observe(precision="coarse")
+    facts = scene.history.get_processing_evidence(event.id).observable_facts
+    observations = [o for o in scene.store.get_by_observer("world:one:agent:worker")
+                    if o.source_event_id == event.id]
+    if visible:
+        assert messages == ("你看到一个小物体。",)
+        assert any(f.predicate == "object_shape" for f in facts)
+        assert any(o.content.predicate == "object_shape" for o in observations)
+    else:
+        assert messages == ()
+        assert not any(f.predicate in {"object_shape", "object_detail"} for f in facts)
+        assert observations == []
+    assert (dict(scene.world.entities), dict(scene.world.locations),
+            dict(scene.world.environment)) == before

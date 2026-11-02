@@ -1481,3 +1481,56 @@ def test_generic_noncanonical_take_identity_cannot_be_erased():
         valid, event = prepare(h)
         assert valid.confirmed and not valid.success
         rt.event_processor.dispatch_with_evidence(event)
+
+
+def test_take_processor_independently_rejects_stale_policy_without_factory_validation(monkeypatch):
+    import cognitive_world.event.factory as factory_module
+    from cognitive_world.items.take import TakePolicy
+
+    h = make_host()
+    rt = h.runtime
+    with rt.write_fence.operation():
+        with monkeypatch.context() as patch:
+            patch.setattr(factory_module, "validate_live_resolution_entry", lambda *args: None)
+            result, event = prepare(h)
+        assert result.success and event.has_trusted_source("resolution")
+        rt.event_processor.take_policy = TakePolicy(1, "open", "absent_capability")
+        before = take_snapshot(h)
+        item_location = rt.context.world_state.get_location(h.panel)
+        before_observations = rt.context.observation_store.all()
+        with pytest.raises(PermissionError, match="take policy changed or is not installed"):
+            rt.event_processor.dispatch_with_evidence(event)
+        assert take_snapshot(h) == before
+        assert rt.context.world_state.get_location(h.panel) == item_location
+        assert rt.context.world_state.get_location(h.panel) != h.owner
+        assert rt.context.observation_store.all() == before_observations
+        assert not rt.context.event_history.requires_recovery()
+        assert not rt.write_fence.recovery_required
+
+
+def test_take_event_copy_preserves_binding_and_cannot_duplicate_or_alter_commit():
+    h = make_host()
+    rt = h.runtime
+    history = rt.context.event_history
+    with rt.write_fence.operation():
+        result, event = prepare(h)
+        assert result.success and event.has_trusted_source("resolution")
+        intact = deepcopy(event)
+        altered = deepcopy(event)
+        altered.metadata["attempt_id"] = "different-attempt"
+        assert intact.has_trusted_source("resolution")
+        assert not altered.has_trusted_source("resolution")
+        before = take_snapshot(h)
+        with pytest.raises(ValueError, match="intact Event"):
+            rt.event_processor.dispatch_with_evidence(altered)
+        assert take_snapshot(h) == before
+        evidence = rt.event_processor.dispatch_with_evidence(intact)
+        after = take_snapshot(h)
+        assert rt.context.world_state.get_location(h.panel) == h.owner
+        assert history.get_event(event.id) == event
+        assert history.get_processing_evidence(event.id) == evidence
+        assert rt.event_processor.dispatch_with_evidence(event) == evidence
+        assert take_snapshot(h) == after
+        with pytest.raises(ValueError, match="intact Event"):
+            rt.event_processor.dispatch_with_evidence(altered)
+        assert take_snapshot(h) == after

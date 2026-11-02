@@ -530,3 +530,67 @@ def test_malformed_or_unknown_address_has_no_confirmed_failure_or_world_change(t
     assert (world.entities, world.locations, world.environment) == before
     assert not history.get_events() and not store.all()
     assert not history.requires_recovery() and not fence.recovery_required
+
+
+def test_partial_multi_recipient_delivery_retries_by_observation_id(monkeypatch):
+    world, clock, history, store, fence, processor, flow = _fixture(locked=False)
+    add = store.add
+    resolve = flow.resolution_engine.resolve
+    apply_event = type(world).apply_event
+    save_calls = []
+    resolution_calls = []
+    apply_calls = []
+    failed = False
+
+    def count_resolution(attempt):
+        resolution_calls.append(attempt.id)
+        return resolve(attempt)
+
+    def count_apply(instance, event, update):
+        apply_calls.append(event.id)
+        return apply_event(instance, event, update)
+
+    def fail_second_delivery_once(observation):
+        nonlocal failed
+        save_calls.append((observation.observer_id, observation.observation_id))
+        if len(save_calls) == 2 and not failed:
+            failed = True
+            raise OSError("second recipient unavailable")
+        add(observation)
+
+    monkeypatch.setattr(flow.resolution_engine, "resolve", count_resolution)
+    monkeypatch.setattr(type(world), "apply_event", count_apply)
+    monkeypatch.setattr(store, "add", fail_second_delivery_once)
+    with fence.operation():
+        attempt = _attempt()
+        result, event = flow.execute_with_result(attempt, simulation_tick=clock.capture())
+        assert result.success and event is not None
+        with pytest.raises(RuntimeError, match="Observation delivery failed"):
+            processor.dispatch_with_evidence(event)
+        assert failed and len(save_calls) == 2
+        first_owner, first_id = save_calls[0]
+        second_owner, second_id = save_calls[1]
+        assert {first_owner, second_owner} == {"agent-1", "other"}
+        assert history.get_events() == (event,)
+        evidence = history.get_processing_evidence(event.id)
+        assert evidence is not None and evidence.has_trusted_source(event)
+        assert history.get_processing_status(event.id) is EventProcessingStatus.OBSERVATIONS_PENDING
+        assert world.environment["door-1"].is_open
+        first, = store.get_by_observer(first_owner)
+        assert first.observation_id == first_id and first.source_event_id == event.id
+        assert first.has_trusted_provenance() and first.content.predicate == "door_open"
+        assert store.get_by_observer(second_owner) == ()
+        assert resolution_calls == [attempt.id] and apply_calls == [event.id]
+
+        assert processor.dispatch_with_evidence(event) == evidence
+        assert history.get_processing_status(event.id) is EventProcessingStatus.COMPLETE
+        assert save_calls == [(first_owner, first_id), (second_owner, second_id),
+                              (first_owner, first_id), (second_owner, second_id)]
+        assert resolution_calls == [attempt.id] and apply_calls == [event.id]
+        assert history.get_events() == (event,) and world.environment["door-1"].is_open
+        for owner, expected_id in ((first_owner, first_id), (second_owner, second_id)):
+            observation, = store.get_by_observer(owner)
+            assert observation.observation_id == expected_id
+            assert observation.source_event_id == event.id and observation.has_trusted_provenance()
+            assert observation.content.predicate == "door_open"
+        assert len(store.all()) == 2

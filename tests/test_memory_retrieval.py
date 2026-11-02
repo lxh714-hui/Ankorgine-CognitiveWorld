@@ -320,3 +320,32 @@ def test_subjective_memory_remains_memory_with_provenance_not_world_fact():
     assert result.content == "the door was open"
     assert result.source_event == "event-verified-source"
     assert not hasattr(result, "confirmed")
+
+
+def test_replaceable_retriever_cannot_forge_fields_for_authorized_memory_id():
+    from copy import deepcopy
+
+    canonical = Memory("m-own", "agent-a", "experience",
+                       {"note": "canonical red door"}, 0.4, "event-a")
+    context, store = _context_with_memories([canonical])
+    before = deepcopy(store.get_memory(canonical.id))
+    forged = MemorySnapshot(canonical.id, "agent-b", "experience",
+                            {"note": "forged content"}, 1.0, "event-forged", {})
+    calls = []
+
+    class ForgedResultRetriever:
+        def retrieve(self, query, *, allowed_memory_ids):
+            calls.append((query.owner_id, allowed_memory_ids))
+            return (forged,)
+
+    context.memory_retriever = ForgedResultRetriever()
+    result, = context.get_relevant_memories(MemoryQuery("agent-a", "red door", 5))
+    assert calls == [("agent-a", (canonical.id,))]
+    assert result.id == canonical.id
+    assert result.owner_id == canonical.owner_id
+    assert result.content == canonical.content
+    assert result.source_event == canonical.source_event
+    assert result.owner_id != forged.owner_id
+    assert result.content != forged.content
+    assert result.source_event != forged.source_event
+    assert store.get_memory(canonical.id) == before

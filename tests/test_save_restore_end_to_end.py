@@ -2261,3 +2261,56 @@ def test_shared_ancestor_survives_parent_and_sibling_slot_deletion_orders(
         memories[name].id for name in ("a", "b", "c")
     }
     assert store.get_memory(memories["s"].id) is None
+
+
+def test_adjudicated_door_append_failure_recovers_from_verified_checkpoint(tmp_path, monkeypatch):
+    from cognitive_world.event.history import EventProcessingStatus
+    from test_runtime_reconstruction import FakeTrust
+
+    trust = FakeTrust()
+    manager = SaveManager(tmp_path / "saves", trust=trust)
+    original, cognition, memory = _live_runtime(trust)
+    history = original.context.event_history
+    world = original.context.world_state
+    observed = _observe_door(original, "event:before-append-failure")
+    context = original.cognition_context_provider(original.context.agent_registry.get(AGENT_ID))
+    saved = manager.create_manual_save(runtime=original, cognition=cognition,
+        memory_store=memory, agent_contexts=(context,))
+    assert not world.environment[DOOR_ID].is_open and history.get_events() == (observed,)
+    assert manager.load_verified(saved.save_id, timeline_id=PARENT).bundle_manifest.timeline_id == PARENT
+    staged = manager.stage_restore(saved.save_id, timeline_id=PARENT, active_runtime=original,
+        assembler=DoorRuntimeAssembler(trust), dependencies=_dependency_manifest(),
+        new_timeline_id="timeline:append-failure-recovery")
+    assert staged.runtime.write_fence.frozen
+
+    slot = ActiveRuntimeSlot(original)
+    failed_events = []
+    def fail_append(event, **kwargs):
+        assert world.environment[DOOR_ID].is_open
+        failed_events.append(event)
+        raise OSError("injected history append failure")
+    monkeypatch.setattr(history, "append", fail_append)
+    original.context.agent_scheduler.schedule_agent(AGENT_ID, original.context.clock.current_time + 1)
+    original.start()
+    original.step()
+    assert len(failed_events) == 1
+    event = failed_events[0]
+    assert world.environment[DOOR_ID].is_open
+    assert history.get_events() == (observed,) and history.get_event(event.id) is None
+    assert history.get_processing_status(event.id) is EventProcessingStatus.RECOVERY_REQUIRED
+    assert history.requires_recovery() and original.write_fence.recovery_required
+    assert original.write_fence.frozen
+    with pytest.raises(PermissionError):
+        original.event_processor.dispatch_with_evidence(event)
+
+    restored = RestoreCoordinator(slot).activate(staged)
+    assert not restored.context.world_state.environment[DOOR_ID].is_open
+    assert restored.context.event_history.get_events() == (observed,)
+    assert not restored.context.event_history.requires_recovery()
+    assert original.write_fence.retired and original.write_fence.recovery_required
+    with pytest.raises(PermissionError):
+        original.event_processor.dispatch_with_evidence(event)
+    reobserved = _observe_door(restored, "event:after-recovery-observation")
+    new_event = _open_door_in_turn(restored)
+    assert restored.context.world_state.environment[DOOR_ID].is_open
+    assert [item.id for item in restored.context.event_history.get_events()] == [observed.id, reobserved.id, new_event.id]
