@@ -1,0 +1,1358 @@
+{
+    "retained_occurrence_ids":  [
+                                    1,
+                                    2,
+                                    3,
+                                    4,
+                                    5,
+                                    6,
+                                    8,
+                                    9,
+                                    10,
+                                    11,
+                                    14,
+                                    15,
+                                    16,
+                                    17,
+                                    18,
+                                    19,
+                                    20,
+                                    22,
+                                    24,
+                                    25,
+                                    31,
+                                    32,
+                                    34,
+                                    38,
+                                    40,
+                                    41,
+                                    44,
+                                    46,
+                                    48,
+                                    49,
+                                    51,
+                                    52,
+                                    54,
+                                    57,
+                                    58,
+                                    59,
+                                    60,
+                                    61,
+                                    62,
+                                    67,
+                                    74,
+                                    85,
+                                    91,
+                                    97,
+                                    98
+                                ],
+    "after_sha256":  {
+                         "docs/COGNITIVEWORLD_CORE_DOCTRINE.md":  "d48676e0c9b82b876d8cb01ec4c8b244cab672163e131a9cb9d9ce6b84add323",
+                         "docs/MEMORY_DESIGN.md":  "ed5b74259333146a2e2dcabc74a1fad15d1ababf77745b73b27c8e9512706077",
+                         "docs/ENGINEERING_RULES.md":  "5d0e1d1491f1324a97e85e3a3080c7e72c7e189ab4ada3198c036bba7026da62",
+                         "docs/DATA_CONTRACTS.md":  "3db9fd64624107b410d08854b5f0e60aa7c060191ef0d3b0ff89c916e7cd4916",
+                         "docs/AI_BOUNDARY.md":  "0cea2f2daee5da2de37275ac92722d12621caece3b0a452dd9be0d11d5821e8d",
+                         "docs/REPOSITORY_STATUS.md":  "dc83e98ac3d471ab67cfaecf09f436b389ab2f7f631cad2302ebd6598211f864",
+                         "docs/DEVELOPMENT_ROADMAP.md":  "00e7b8eb24e4b830359ef5207469f89922c086e829230f39f6d2cf8f7cac24fb",
+                         "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md":  "62f131c841e781a907113e0fbb418de7ea6b5d682ebfdd56fd75f21ca7e42129",
+                         "docs/SOCIAL_CAUSAL_DESIGN.md":  "e3dbd64a0b4f4706c33af1f36dc959645160fde524c6e654a28bf05f5b68269f"
+                     },
+    "modified_files":  [
+                           "docs/AI_BOUNDARY.md",
+                           "docs/COGNITIVEWORLD_CORE_DOCTRINE.md",
+                           "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                           "docs/DATA_CONTRACTS.md",
+                           "docs/DEVELOPMENT_ROADMAP.md",
+                           "docs/ENGINEERING_RULES.md",
+                           "docs/MEMORY_DESIGN.md",
+                           "docs/REPOSITORY_STATUS.md",
+                           "docs/SOCIAL_CAUSAL_DESIGN.md"
+                       ],
+    "before_sha256":  {
+                          "docs/COGNITIVE_EXECUTION_FEEDBACK_REVIEW.md":  "554dc5a3c133d7d55faca235ea331b8fb93d1baca6d86565957691d57e65d7c0",
+                          "docs/REPOSITORY_STATUS.md":  "0b6e39d244fc44148ae8d45eab03b57b1ecacdbcb3c0fa642d91043b560f1170",
+                          "docs/COGNITIVEWORLD_CORE_DOCTRINE.md":  "11d4350a7e07bc9a0ff89da46bbda8400ae6948f4a3e1c3505522272cd943c5d",
+                          "README.md":  "8e318805789f0092531170d6de7a6eaef467c3ca36889586f8bad90ade8b7cb2",
+                          "docs/ARCHITECTURE.md":  "d111ce446dcdf8a16182dc465f42a851177a569547b3a0cfc6519d6e8653f751",
+                          "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md":  "04a872e053db37302277e81724d5fce0e41557bf03ab16d0e8477fc97996e524",
+                          "CONTRIBUTING.md":  "5de489dab02f165276de012bf3de24690105a9db3b474ed47c7dabed4aae3261",
+                          "docs/ENGINEERING_RULES.md":  "cc8a35926aa9a556af6aae08ec778285d2e43d334af9d4449c8e0faa34de584d",
+                          "docs/DATA_CONTRACTS.md":  "d2a5bc0bc7d88d9dd1364244418e1699c3e81ef897b8650259f1368804a7d3f8",
+                          "docs/AI_BOUNDARY.md":  "08abe94f205b6bddae4b1e092e8b757bf6b3d92346a03354921f1f4f67b92a3b",
+                          "docs/META_CONTRACTS.md":  "1a24ebadbd2889d4edaffe0fee30aac1c9b67914954fc91f6d43f9a9c93d0e10",
+                          "docs/MEMORY_DESIGN.md":  "b51315ea8f6c9418686a39b451e3ae28343669d76eab70bfbd256375ba139c27",
+                          "AGENTS.md":  "203123473a4b514d89ec999e04c20191262da1481922b7e045678a3906b30874",
+                          "docs/SOCIAL_CAUSAL_DESIGN.md":  "4bd79c4419e1a3f7ab47c5d247784161067d743da844fee55e3044732a63c12e",
+                          "docs/DEVELOPMENT_ROADMAP.md":  "675d72f676374c8c8450c69e2ec509a6a41158127e9da33ec5d29334ece27033"
+                      },
+    "approved_occurrence_ids":  [
+                                    7,
+                                    12,
+                                    13,
+                                    21,
+                                    23,
+                                    26,
+                                    27,
+                                    28,
+                                    29,
+                                    30,
+                                    33,
+                                    35,
+                                    36,
+                                    37,
+                                    39,
+                                    42,
+                                    43,
+                                    45,
+                                    47,
+                                    50,
+                                    53,
+                                    55,
+                                    56,
+                                    63,
+                                    64,
+                                    65,
+                                    66,
+                                    68,
+                                    69,
+                                    70,
+                                    71,
+                                    72,
+                                    73,
+                                    75,
+                                    76,
+                                    77,
+                                    78,
+                                    79,
+                                    80,
+                                    81,
+                                    82,
+                                    83,
+                                    84,
+                                    86,
+                                    87,
+                                    88,
+                                    89,
+                                    90,
+                                    92,
+                                    93,
+                                    94,
+                                    95,
+                                    96,
+                                    99
+                                ],
+    "label_improvement_ids":  [
+                                  21,
+                                  26,
+                                  27,
+                                  28,
+                                  29,
+                                  30,
+                                  33,
+                                  35,
+                                  43,
+                                  45,
+                                  47,
+                                  53,
+                                  55,
+                                  56
+                              ],
+    "changes":  [
+                    {
+                        "absolute":  50667,
+                        "line":  520,
+                        "file":  "docs/ENGINEERING_RULES.md",
+                        "old":  "[authoritative identity-continuity principle](ARCHITECTURE.md#entity-identity-continuity-and-epistemic-disagreement-approved-architectural-principle)",
+                        "new":  "[authoritative identity-continuity principle](architecture/WORLD_MODEL.md#arch-source-57)",
+                        "id":  83,
+                        "column":  12,
+                        "destinations":  [
+                                             {
+                                                 "label":  "authoritative identity-continuity principle",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-57",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-57",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  992,
+                        "line":  18,
+                        "file":  "docs/DEVELOPMENT_ROADMAP.md",
+                        "old":  "[approved interaction direction](ARCHITECTURE.md#contextual-interaction-and-bounded-autonomous-investigation-design-consensus-not-implemented-as-a-general-workflow)",
+                        "new":  "[approved interaction direction](architecture/INTERACTION_AND_PRESENTATION.md#arch-source-10)",
+                        "id":  71,
+                        "column":  5,
+                        "destinations":  [
+                                             {
+                                                 "label":  "approved interaction direction",
+                                                 "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-10",
+                                                 "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                 "anchor":  "arch-source-10",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  2857,
+                        "line":  26,
+                        "file":  "docs/DEVELOPMENT_ROADMAP.md",
+                        "old":  "[visual/auditory models](ARCHITECTURE.md#visual-and-auditory-lod-mathematics-candidate-models-uncalibrated)",
+                        "new":  "[Candidate models](architecture/PERCEPTION.md#arch-source-114), [visual eligibility and quality](architecture/PERCEPTION.md#arch-source-115), [auditory propagation and detection](architecture/PERCEPTION.md#arch-source-116), [mathematical review and open decisions](architecture/PERCEPTION.md#arch-source-117)",
+                        "id":  72,
+                        "column":  5,
+                        "destinations":  [
+                                             {
+                                                 "label":  "Candidate models",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-114",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-114",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "visual eligibility and quality",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-115",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-115",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "auditory propagation and detection",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-116",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-116",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "mathematical review and open decisions",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-117",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-117",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  8823,
+                        "line":  339,
+                        "file":  "docs/ENGINEERING_RULES.md",
+                        "old":  "[the three independent judgments](ARCHITECTURE.md#cognitive-governance-three-independent-judgments)",
+                        "new":  "[the three independent judgments](architecture/COGNITION.md#arch-source-31)",
+                        "id":  80,
+                        "column":  9,
+                        "destinations":  [
+                                             {
+                                                 "label":  "the three independent judgments",
+                                                 "href":  "architecture/COGNITION.md#arch-source-31",
+                                                 "file":  "docs/architecture/COGNITION.md",
+                                                 "anchor":  "arch-source-31",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  44531,
+                        "line":  497,
+                        "file":  "docs/ENGINEERING_RULES.md",
+                        "old":  "[visual/auditory equations](ARCHITECTURE.md#visual-and-auditory-lod-mathematics-candidate-models-uncalibrated)",
+                        "new":  "[Candidate models](architecture/PERCEPTION.md#arch-source-114), [visual eligibility and quality](architecture/PERCEPTION.md#arch-source-115), [auditory propagation and detection](architecture/PERCEPTION.md#arch-source-116), [mathematical review and open decisions](architecture/PERCEPTION.md#arch-source-117)",
+                        "id":  81,
+                        "column":  8,
+                        "destinations":  [
+                                             {
+                                                 "label":  "Candidate models",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-114",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-114",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "visual eligibility and quality",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-115",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-115",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "auditory propagation and detection",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-116",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-116",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "mathematical review and open decisions",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-117",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-117",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  45695,
+                        "line":  500,
+                        "file":  "docs/ENGINEERING_RULES.md",
+                        "old":  "[hybrid expansion](ARCHITECTURE.md#hybrid-lazy-world-expansion-selected-direction-acceptance-boundary-unresolved)",
+                        "new":  "[Expansion direction](architecture/WORLD_MODEL.md#arch-source-119), [commitment and materialization](architecture/WORLD_MODEL.md#arch-source-120), [topology and local geometry](architecture/WORLD_MODEL.md#arch-source-121), [seed, identity and Timeline continuity](architecture/WORLD_MODEL.md#arch-source-122)",
+                        "id":  82,
+                        "column":  9,
+                        "destinations":  [
+                                             {
+                                                 "label":  "Expansion direction",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-119",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-119",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "commitment and materialization",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-120",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-120",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "topology and local geometry",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-121",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-121",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "seed, identity and Timeline continuity",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-122",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-122",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  3448,
+                        "line":  28,
+                        "file":  "docs/DEVELOPMENT_ROADMAP.md",
+                        "old":  "[hybrid Lazy World Expansion direction](ARCHITECTURE.md#hybrid-lazy-world-expansion-selected-direction-acceptance-boundary-unresolved)",
+                        "new":  "[Expansion direction](architecture/WORLD_MODEL.md#arch-source-119), [commitment and materialization](architecture/WORLD_MODEL.md#arch-source-120), [topology and local geometry](architecture/WORLD_MODEL.md#arch-source-121), [seed, identity and Timeline continuity](architecture/WORLD_MODEL.md#arch-source-122)",
+                        "id":  73,
+                        "column":  25,
+                        "destinations":  [
+                                             {
+                                                 "label":  "Expansion direction",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-119",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-119",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "commitment and materialization",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-120",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-120",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "topology and local geometry",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-121",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-121",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "seed, identity and Timeline continuity",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-122",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-122",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  52862,
+                        "line":  761,
+                        "file":  "docs/DATA_CONTRACTS.md",
+                        "old":  "[selected hybrid expansion direction](ARCHITECTURE.md#hybrid-lazy-world-expansion-selected-direction-acceptance-boundary-unresolved)",
+                        "new":  "[Expansion direction](architecture/WORLD_MODEL.md#arch-source-119), [commitment and materialization](architecture/WORLD_MODEL.md#arch-source-120), [topology and local geometry](architecture/WORLD_MODEL.md#arch-source-121), [seed, identity and Timeline continuity](architecture/WORLD_MODEL.md#arch-source-122)",
+                        "id":  63,
+                        "column":  5,
+                        "destinations":  [
+                                             {
+                                                 "label":  "Expansion direction",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-119",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-119",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "commitment and materialization",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-120",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-120",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "topology and local geometry",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-121",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-121",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "seed, identity and Timeline continuity",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-122",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-122",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  54923,
+                        "line":  769,
+                        "file":  "docs/DATA_CONTRACTS.md",
+                        "old":  "[perceptual mathematics](ARCHITECTURE.md#visual-and-auditory-lod-mathematics-candidate-models-uncalibrated)",
+                        "new":  "[Candidate models](architecture/PERCEPTION.md#arch-source-114), [visual eligibility and quality](architecture/PERCEPTION.md#arch-source-115), [auditory propagation and detection](architecture/PERCEPTION.md#arch-source-116), [mathematical review and open decisions](architecture/PERCEPTION.md#arch-source-117)",
+                        "id":  64,
+                        "column":  11,
+                        "destinations":  [
+                                             {
+                                                 "label":  "Candidate models",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-114",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-114",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "visual eligibility and quality",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-115",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-115",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "auditory propagation and detection",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-116",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-116",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "mathematical review and open decisions",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-117",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-117",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  79848,
+                        "line":  1155,
+                        "file":  "docs/DATA_CONTRACTS.md",
+                        "old":  "[identity-continuity principle](ARCHITECTURE.md#entity-identity-continuity-and-epistemic-disagreement-approved-architectural-principle)",
+                        "new":  "[identity-continuity principle](architecture/WORLD_MODEL.md#arch-source-57)",
+                        "id":  65,
+                        "column":  5,
+                        "destinations":  [
+                                             {
+                                                 "label":  "identity-continuity principle",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-57",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-57",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  88264,
+                        "line":  445,
+                        "file":  "docs/DEVELOPMENT_ROADMAP.md",
+                        "old":  "[narrow completion loop](ARCHITECTURE.md#consumed-result-goal-completion-slice)",
+                        "new":  "[narrow completion loop](architecture/COGNITION.md#arch-source-185)",
+                        "id":  75,
+                        "column":  64,
+                        "destinations":  [
+                                             {
+                                                 "label":  "narrow completion loop",
+                                                 "href":  "architecture/COGNITION.md#arch-source-185",
+                                                 "file":  "docs/architecture/COGNITION.md",
+                                                 "anchor":  "arch-source-185",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  91161,
+                        "line":  454,
+                        "file":  "docs/DEVELOPMENT_ROADMAP.md",
+                        "old":  "[entity-composition direction](ARCHITECTURE.md#json-objects-and-bounded-visual-projection-implemented-narrow-slice)",
+                        "new":  "[JSON objects and world state](architecture/WORLD_MODEL.md#arch-source-186), [authorized visual projection](architecture/PERCEPTION.md#arch-source-186-part-2)",
+                        "id":  76,
+                        "column":  393,
+                        "destinations":  [
+                                             {
+                                                 "label":  "JSON objects and world state",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-186",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-186",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "authorized visual projection",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-186-part-2",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-186-part-2",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  99690,
+                        "line":  502,
+                        "file":  "docs/DEVELOPMENT_ROADMAP.md",
+                        "old":  "[cognitive governance](ARCHITECTURE.md#cognitive-governance-three-independent-judgments)",
+                        "new":  "[cognitive governance](architecture/COGNITION.md#arch-source-31)",
+                        "id":  77,
+                        "column":  604,
+                        "destinations":  [
+                                             {
+                                                 "label":  "cognitive governance",
+                                                 "href":  "architecture/COGNITION.md#arch-source-31",
+                                                 "file":  "docs/architecture/COGNITION.md",
+                                                 "anchor":  "arch-source-31",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  2254,
+                        "line":  125,
+                        "file":  "docs/ENGINEERING_RULES.md",
+                        "old":  "[contextual interaction and bounded investigation](ARCHITECTURE.md#contextual-interaction-and-bounded-autonomous-investigation-design-consensus-not-implemented-as-a-general-workflow)",
+                        "new":  "[contextual interaction and bounded investigation](architecture/INTERACTION_AND_PRESENTATION.md#arch-source-10)",
+                        "id":  79,
+                        "column":  5,
+                        "destinations":  [
+                                             {
+                                                 "label":  "contextual interaction and bounded investigation",
+                                                 "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-10",
+                                                 "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                 "anchor":  "arch-source-10",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  6930,
+                        "line":  61,
+                        "file":  "docs/REPOSITORY_STATUS.md",
+                        "old":  "[Design consensus](ARCHITECTURE.md#contextual-interaction-and-bounded-autonomous-investigation-design-consensus-not-implemented-as-a-general-workflow)",
+                        "new":  "[Design consensus](architecture/INTERACTION_AND_PRESENTATION.md#arch-source-10)",
+                        "id":  87,
+                        "column":  1,
+                        "destinations":  [
+                                             {
+                                                 "label":  "Design consensus",
+                                                 "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-10",
+                                                 "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                 "anchor":  "arch-source-10",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  8385,
+                        "line":  67,
+                        "file":  "docs/REPOSITORY_STATUS.md",
+                        "old":  "[candidate visual/auditory mathematics](ARCHITECTURE.md#visual-and-auditory-lod-mathematics-candidate-models-uncalibrated)",
+                        "new":  "[Candidate models](architecture/PERCEPTION.md#arch-source-114), [visual eligibility and quality](architecture/PERCEPTION.md#arch-source-115), [auditory propagation and detection](architecture/PERCEPTION.md#arch-source-116), [mathematical review and open decisions](architecture/PERCEPTION.md#arch-source-117)",
+                        "id":  88,
+                        "column":  30,
+                        "destinations":  [
+                                             {
+                                                 "label":  "Candidate models",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-114",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-114",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "visual eligibility and quality",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-115",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-115",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "auditory propagation and detection",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-116",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-116",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "mathematical review and open decisions",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-117",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-117",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  8659,
+                        "line":  67,
+                        "file":  "docs/REPOSITORY_STATUS.md",
+                        "old":  "[selected hybrid Lazy World Expansion direction](ARCHITECTURE.md#hybrid-lazy-world-expansion-selected-direction-acceptance-boundary-unresolved)",
+                        "new":  "[Expansion direction](architecture/WORLD_MODEL.md#arch-source-119), [commitment and materialization](architecture/WORLD_MODEL.md#arch-source-120), [topology and local geometry](architecture/WORLD_MODEL.md#arch-source-121), [seed, identity and Timeline continuity](architecture/WORLD_MODEL.md#arch-source-122)",
+                        "id":  89,
+                        "column":  304,
+                        "destinations":  [
+                                             {
+                                                 "label":  "Expansion direction",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-119",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-119",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "commitment and materialization",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-120",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-120",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "topology and local geometry",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-121",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-121",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "seed, identity and Timeline continuity",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-122",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-122",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  106,
+                        "line":  5,
+                        "file":  "docs/SOCIAL_CAUSAL_DESIGN.md",
+                        "old":  "[cognitive governance](ARCHITECTURE.md#cognitive-governance-three-independent-judgments)",
+                        "new":  "[cognitive governance](architecture/COGNITION.md#arch-source-31)",
+                        "id":  96,
+                        "column":  7,
+                        "destinations":  [
+                                             {
+                                                 "label":  "cognitive governance",
+                                                 "href":  "architecture/COGNITION.md#arch-source-31",
+                                                 "file":  "docs/architecture/COGNITION.md",
+                                                 "anchor":  "arch-source-31",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  19041,
+                        "line":  117,
+                        "file":  "docs/SOCIAL_CAUSAL_DESIGN.md",
+                        "old":  "[three-axis boundaries](ARCHITECTURE.md#visual-and-auditory-lod-mathematics-candidate-models-uncalibrated)",
+                        "new":  "[Candidate models](architecture/PERCEPTION.md#arch-source-114), [visual eligibility and quality](architecture/PERCEPTION.md#arch-source-115), [auditory propagation and detection](architecture/PERCEPTION.md#arch-source-116), [mathematical review and open decisions](architecture/PERCEPTION.md#arch-source-117)",
+                        "id":  99,
+                        "column":  228,
+                        "destinations":  [
+                                             {
+                                                 "label":  "Candidate models",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-114",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-114",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "visual eligibility and quality",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-115",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-115",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "auditory propagation and detection",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-116",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-116",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "mathematical review and open decisions",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-117",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-117",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  5989,
+                        "line":  57,
+                        "file":  "docs/REPOSITORY_STATUS.md",
+                        "old":  "[approved principle](ARCHITECTURE.md#entity-identity-continuity-and-epistemic-disagreement-approved-architectural-principle)",
+                        "new":  "[approved principle](architecture/WORLD_MODEL.md#arch-source-57)",
+                        "id":  86,
+                        "column":  5,
+                        "destinations":  [
+                                             {
+                                                 "label":  "approved principle",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-57",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-57",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  9972,
+                        "line":  75,
+                        "file":  "docs/REPOSITORY_STATUS.md",
+                        "old":  "[approved responsibility clarification](ARCHITECTURE.md#scheduled-work-responsibility-approved-contract-no-scheduling-implementation-change)",
+                        "new":  "[approved responsibility clarification](architecture/EXECUTION.md#arch-source-80)",
+                        "id":  90,
+                        "column":  5,
+                        "destinations":  [
+                                             {
+                                                 "label":  "approved responsibility clarification",
+                                                 "href":  "architecture/EXECUTION.md#arch-source-80",
+                                                 "file":  "docs/architecture/EXECUTION.md",
+                                                 "anchor":  "arch-source-80",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  166648,
+                        "line":  799,
+                        "file":  "docs/REPOSITORY_STATUS.md",
+                        "old":  "[the architectural boundary](ARCHITECTURE.md#cognitive-governance-three-independent-judgments)",
+                        "new":  "[the architectural boundary](architecture/COGNITION.md#arch-source-31)",
+                        "id":  95,
+                        "column":  309,
+                        "destinations":  [
+                                             {
+                                                 "label":  "the architectural boundary",
+                                                 "href":  "architecture/COGNITION.md#arch-source-31",
+                                                 "file":  "docs/architecture/COGNITION.md",
+                                                 "anchor":  "arch-source-31",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  2773,
+                        "line":  74,
+                        "file":  "docs/MEMORY_DESIGN.md",
+                        "old":  "[hybrid cognition loop](ARCHITECTURE.md#hybrid-cognition-execution-levels-architectural-direction-unified-policy-not-implemented)",
+                        "new":  "[hybrid cognition loop](architecture/COGNITION.md#arch-source-50)",
+                        "id":  84,
+                        "column":  14,
+                        "destinations":  [
+                                             {
+                                                 "label":  "hybrid cognition loop",
+                                                 "href":  "architecture/COGNITION.md#arch-source-50",
+                                                 "file":  "docs/architecture/COGNITION.md",
+                                                 "anchor":  "arch-source-50",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  1728,
+                        "line":  123,
+                        "file":  "docs/ENGINEERING_RULES.md",
+                        "old":  "[Natural-Language-Driven World Interaction requirement](ARCHITECTURE.md#natural-language-driven-world-interaction-approved-architectural-requirement)",
+                        "new":  "[Natural-language interaction requirement](architecture/INTERACTION_AND_PRESENTATION.md#arch-source-9), [contextual interaction and bounded investigation](architecture/INTERACTION_AND_PRESENTATION.md#arch-source-10)",
+                        "id":  78,
+                        "column":  14,
+                        "destinations":  [
+                                             {
+                                                 "label":  "Natural-language interaction requirement",
+                                                 "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-9",
+                                                 "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                 "anchor":  "arch-source-9",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "contextual interaction and bounded investigation",
+                                                 "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-10",
+                                                 "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                 "anchor":  "arch-source-10",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  137561,
+                        "line":  650,
+                        "file":  "docs/REPOSITORY_STATUS.md",
+                        "old":  "[scope](ARCHITECTURE.md#consumed-result-goal-completion-slice)",
+                        "new":  "[scope](architecture/COGNITION.md#arch-source-185)",
+                        "id":  92,
+                        "column":  623,
+                        "destinations":  [
+                                             {
+                                                 "label":  "scope",
+                                                 "href":  "architecture/COGNITION.md#arch-source-185",
+                                                 "file":  "docs/architecture/COGNITION.md",
+                                                 "anchor":  "arch-source-185",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  141361,
+                        "line":  665,
+                        "file":  "docs/REPOSITORY_STATUS.md",
+                        "old":  "[architecture](ARCHITECTURE.md#json-objects-and-bounded-visual-projection-implemented-narrow-slice)",
+                        "new":  "[JSON objects and world state](architecture/WORLD_MODEL.md#arch-source-186), [authorized visual projection](architecture/PERCEPTION.md#arch-source-186-part-2)",
+                        "id":  93,
+                        "column":  770,
+                        "destinations":  [
+                                             {
+                                                 "label":  "JSON objects and world state",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-186",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-186",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "authorized visual projection",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-186-part-2",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-186-part-2",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  144152,
+                        "line":  678,
+                        "file":  "docs/REPOSITORY_STATUS.md",
+                        "old":  "[Architecture](ARCHITECTURE.md#position-driven-observation-precision-bounded-implementation)",
+                        "new":  "[Architecture](architecture/PERCEPTION.md#arch-source-187)",
+                        "id":  94,
+                        "column":  53,
+                        "destinations":  [
+                                             {
+                                                 "label":  "Architecture",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-187",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-187",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  15147,
+                        "line":  118,
+                        "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                        "old":  "[ARCHITECTURE.md](ARCHITECTURE.md#worldbook-layer)",
+                        "new":  "[Worldbook layer](architecture/INTERACTION_AND_PRESENTATION.md#arch-source-43)",
+                        "id":  43,
+                        "column":  329,
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-43",
+                                                 "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                 "anchor":  "arch-source-43",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  15907,
+                        "line":  122,
+                        "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                        "old":  "[ARCHITECTURE.md](ARCHITECTURE.md#narrative-causal-relevance-planned)",
+                        "new":  "[Narrative causal relevance (planned)](architecture/INTERACTION_AND_PRESENTATION.md#arch-source-140)",
+                        "id":  45,
+                        "column":  378,
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-140",
+                                                 "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                 "anchor":  "arch-source-140",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  16781,
+                        "line":  126,
+                        "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                        "old":  "[ARCHITECTURE.md](ARCHITECTURE.md#trusted-player-presentation-and-chat-output-phase-120d-narrow-slice)",
+                        "new":  "[Trusted player presentation](architecture/INTERACTION_AND_PRESENTATION.md#arch-source-85)",
+                        "id":  47,
+                        "column":  303,
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-85",
+                                                 "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                 "anchor":  "arch-source-85",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  12300,
+                        "line":  96,
+                        "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                        "old":  "[ARCHITECTURE.md](ARCHITECTURE.md#hybrid-physical-engine-and-independent-lod-axes-approved-design-not-implemented)",
+                        "new":  "[ARCHITECTURE.md](architecture/WORLD_SIMULATION.md#arch-source-113)",
+                        "id":  37,
+                        "column":  292,
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/WORLD_SIMULATION.md#arch-source-113",
+                                                 "file":  "docs/architecture/WORLD_SIMULATION.md",
+                                                 "anchor":  "arch-source-113",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  13433,
+                        "line":  102,
+                        "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                        "old":  "[ARCHITECTURE.md](ARCHITECTURE.md#hybrid-physical-engine-and-independent-lod-axes-approved-design-not-implemented)",
+                        "new":  "[ARCHITECTURE.md](architecture/WORLD_SIMULATION.md#arch-source-113)",
+                        "id":  39,
+                        "column":  282,
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/WORLD_SIMULATION.md#arch-source-113",
+                                                 "file":  "docs/architecture/WORLD_SIMULATION.md",
+                                                 "anchor":  "arch-source-113",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  14681,
+                        "line":  114,
+                        "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                        "old":  "[ARCHITECTURE.md](ARCHITECTURE.md#hybrid-physical-engine-and-independent-lod-axes-approved-design-not-implemented)",
+                        "new":  "[ARCHITECTURE.md](architecture/WORLD_SIMULATION.md#arch-source-113)",
+                        "id":  42,
+                        "column":  422,
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/WORLD_SIMULATION.md#arch-source-113",
+                                                 "file":  "docs/architecture/WORLD_SIMULATION.md",
+                                                 "anchor":  "arch-source-113",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  17828,
+                        "line":  132,
+                        "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                        "old":  "[ARCHITECTURE.md](ARCHITECTURE.md#hybrid-physical-engine-and-independent-lod-axes-approved-design-not-implemented)",
+                        "new":  "[ARCHITECTURE.md](architecture/WORLD_SIMULATION.md#arch-source-113)",
+                        "id":  50,
+                        "column":  235,
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/WORLD_SIMULATION.md#arch-source-113",
+                                                 "file":  "docs/architecture/WORLD_SIMULATION.md",
+                                                 "anchor":  "arch-source-113",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  12882,
+                        "line":  83,
+                        "file":  "docs/COGNITIVEWORLD_CORE_DOCTRINE.md",
+                        "old":  "[hybrid cognition](ARCHITECTURE.md#hybrid-cognition-execution-levels-architectural-direction-unified-policy-not-implemented)",
+                        "new":  "[hybrid cognition](architecture/COGNITION.md#arch-source-50)",
+                        "id":  12,
+                        "column":  10,
+                        "destinations":  [
+                                             {
+                                                 "label":  "hybrid cognition",
+                                                 "href":  "architecture/COGNITION.md#arch-source-50",
+                                                 "file":  "docs/architecture/COGNITION.md",
+                                                 "anchor":  "arch-source-50",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  13008,
+                        "line":  83,
+                        "file":  "docs/COGNITIVEWORLD_CORE_DOCTRINE.md",
+                        "old":  "[independent LOD and spatial design](ARCHITECTURE.md#hybrid-physical-engine-and-independent-lod-axes-approved-design-not-implemented)",
+                        "new":  "[independent LOD and spatial design](architecture/WORLD_SIMULATION.md#arch-source-113)",
+                        "id":  13,
+                        "column":  136,
+                        "destinations":  [
+                                             {
+                                                 "label":  "independent LOD and spatial design",
+                                                 "href":  "architecture/WORLD_SIMULATION.md#arch-source-113",
+                                                 "file":  "docs/architecture/WORLD_SIMULATION.md",
+                                                 "anchor":  "arch-source-113",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  3076,
+                        "line":  103,
+                        "file":  "docs/AI_BOUNDARY.md",
+                        "old":  "[system architecture](ARCHITECTURE.md#hybrid-cognition-execution-levels-architectural-direction-unified-policy-not-implemented)",
+                        "new":  "[system architecture](architecture/COGNITION.md#arch-source-50)",
+                        "id":  7,
+                        "column":  5,
+                        "destinations":  [
+                                             {
+                                                 "label":  "system architecture",
+                                                 "href":  "architecture/COGNITION.md#arch-source-50",
+                                                 "file":  "docs/architecture/COGNITION.md",
+                                                 "anchor":  "arch-source-50",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  19529,
+                        "line":  140,
+                        "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                        "old":  "[ARCHITECTURE.md](ARCHITECTURE.md#runtime-write-fencing-narrow-in-process-foundation)",
+                        "new":  "[Runtime write fencing](architecture/EXECUTION.md#arch-source-81)",
+                        "id":  53,
+                        "column":  495,
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/EXECUTION.md#arch-source-81",
+                                                 "file":  "docs/architecture/EXECUTION.md",
+                                                 "anchor":  "arch-source-81",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  20110,
+                        "line":  142,
+                        "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                        "old":  "[ARCHITECTURE.md](ARCHITECTURE.md#timeline-save-slots-and-live-sessions-lifecycle-contract-backend-partial)",
+                        "new":  "[Save slots and timeline lifecycle](architecture/PERSISTENCE.md#arch-source-137)",
+                        "id":  55,
+                        "column":  362,
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/PERSISTENCE.md#arch-source-137",
+                                                 "file":  "docs/architecture/PERSISTENCE.md",
+                                                 "anchor":  "arch-source-137",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  20218,
+                        "line":  142,
+                        "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                        "old":  "[ARCHITECTURE.md](ARCHITECTURE.md#timeline-aware-eventhistory-and-runtime-recovery-boundary)",
+                        "new":  "[Timeline EventHistory and recovery](architecture/PERSISTENCE.md#arch-source-175)",
+                        "id":  56,
+                        "column":  470,
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/PERSISTENCE.md#arch-source-175",
+                                                 "file":  "docs/architecture/PERSISTENCE.md",
+                                                 "anchor":  "arch-source-175",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  11892,
+                        "line":  94,
+                        "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                        "old":  "[ARCHITECTURE.md](ARCHITECTURE.md#hybrid-physical-engine-and-independent-lod-axes-approved-design-not-implemented)",
+                        "new":  "[ARCHITECTURE.md](architecture/WORLD_SIMULATION.md#arch-source-113)",
+                        "id":  36,
+                        "column":  164,
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/WORLD_SIMULATION.md#arch-source-113",
+                                                 "file":  "docs/architecture/WORLD_SIMULATION.md",
+                                                 "anchor":  "arch-source-113",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  293392,
+                        "line":  2256,
+                        "file":  "docs/DATA_CONTRACTS.md",
+                        "old":  "[Scope](ARCHITECTURE.md#position-driven-observation-precision-bounded-implementation)",
+                        "new":  "[Scope](architecture/PERCEPTION.md#arch-source-187)",
+                        "id":  70,
+                        "column":  592,
+                        "destinations":  [
+                                             {
+                                                 "label":  "Scope",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-187",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-187",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  4845,
+                        "line":  60,
+                        "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                        "old":  "[ARCHITECTURE.md](ARCHITECTURE.md#observation-layer)",
+                        "new":  "[Observation and L1 provenance](architecture/PERCEPTION.md#arch-source-37)",
+                        "id":  21,
+                        "column":  267,
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-37",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-37",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  5901,
+                        "line":  64,
+                        "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                        "old":  "[ARCHITECTURE.md](ARCHITECTURE.md#hybrid-cognition-execution-levels-architectural-direction-unified-policy-not-implemented)",
+                        "new":  "[ARCHITECTURE.md](architecture/COGNITION.md#arch-source-50)",
+                        "id":  23,
+                        "column":  256,
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/COGNITION.md#arch-source-50",
+                                                 "file":  "docs/architecture/COGNITION.md",
+                                                 "anchor":  "arch-source-50",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  112211,
+                        "line":  1462,
+                        "file":  "docs/DATA_CONTRACTS.md",
+                        "old":  "[the architecture principle](ARCHITECTURE.md#cognitive-governance-three-independent-judgments)",
+                        "new":  "[the architecture principle](architecture/COGNITION.md#arch-source-31)",
+                        "id":  66,
+                        "column":  195,
+                        "destinations":  [
+                                             {
+                                                 "label":  "the architecture principle",
+                                                 "href":  "architecture/COGNITION.md#arch-source-31",
+                                                 "file":  "docs/architecture/COGNITION.md",
+                                                 "anchor":  "arch-source-31",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  284394,
+                        "line":  2224,
+                        "file":  "docs/DATA_CONTRACTS.md",
+                        "old":  "[architecture](ARCHITECTURE.md#consumed-result-goal-completion-slice)",
+                        "new":  "[architecture](architecture/COGNITION.md#arch-source-185)",
+                        "id":  68,
+                        "column":  690,
+                        "destinations":  [
+                                             {
+                                                 "label":  "architecture",
+                                                 "href":  "architecture/COGNITION.md#arch-source-185",
+                                                 "file":  "docs/architecture/COGNITION.md",
+                                                 "anchor":  "arch-source-185",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  289087,
+                        "line":  2241,
+                        "file":  "docs/DATA_CONTRACTS.md",
+                        "old":  "[Architecture](ARCHITECTURE.md#json-objects-and-bounded-visual-projection-implemented-narrow-slice)",
+                        "new":  "[JSON objects and world state](architecture/WORLD_MODEL.md#arch-source-186), [authorized visual projection](architecture/PERCEPTION.md#arch-source-186-part-2)",
+                        "id":  69,
+                        "column":  417,
+                        "destinations":  [
+                                             {
+                                                 "label":  "JSON objects and world state",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-186",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-186",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "authorized visual projection",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-186-part-2",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-186-part-2",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  7081,
+                        "line":  68,
+                        "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                        "old":  "[ARCHITECTURE.md](ARCHITECTURE.md#reusable-content-generation-principle-planned)",
+                        "new":  "[Reusable content generation (planned)](architecture/WORLD_MODEL.md#arch-source-142)",
+                        "id":  26,
+                        "column":  501,
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-142",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-142",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  9819,
+                        "line":  80,
+                        "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                        "old":  "[ARCHITECTURE.md](ARCHITECTURE.md#raw-input-classification-and-clarification-d331-narrow-slice)",
+                        "new":  "[Raw input classification and clarification](architecture/INTERACTION_AND_PRESENTATION.md#arch-source-164)",
+                        "id":  30,
+                        "column":  380,
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-164",
+                                                 "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                 "anchor":  "arch-source-164",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  10790,
+                        "line":  86,
+                        "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                        "old":  "[ARCHITECTURE.md](ARCHITECTURE.md#event-application)",
+                        "new":  "[Event application](architecture/EXECUTION.md#arch-source-74) and [historical implementation status](architecture/EXECUTION.md#arch-history-h-74-1017-1017)",
+                        "id":  33,
+                        "column":  390,
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/EXECUTION.md#arch-source-74",
+                                                 "file":  "docs/architecture/EXECUTION.md",
+                                                 "anchor":  "arch-source-74",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "historical implementation status",
+                                                 "href":  "architecture/EXECUTION.md#arch-history-h-74-1017-1017",
+                                                 "file":  "docs/architecture/EXECUTION.md",
+                                                 "anchor":  "arch-history-h-74-1017-1017",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  11498,
+                        "line":  92,
+                        "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                        "old":  "[ARCHITECTURE.md](ARCHITECTURE.md#stable-interaction-references-and-dynamic-minimum-interaction-context)",
+                        "new":  "[Attempt-bound interaction context](architecture/EXECUTION.md#arch-source-155)",
+                        "id":  35,
+                        "column":  289,
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/EXECUTION.md#arch-source-155",
+                                                 "file":  "docs/architecture/EXECUTION.md",
+                                                 "anchor":  "arch-source-155",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  8608,
+                        "line":  76,
+                        "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                        "old":  "[ARCHITECTURE.md](ARCHITECTURE.md#31-semantic-understanding)",
+                        "new":  "[Semantic understanding](architecture/INTERACTION_AND_PRESENTATION.md#arch-source-48)",
+                        "id":  27,
+                        "column":  274,
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-48",
+                                                 "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                 "anchor":  "arch-source-48",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  8669,
+                        "line":  76,
+                        "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                        "old":  "[ARCHITECTURE.md](ARCHITECTURE.md#open-ended-action-semantics-approved-design-npc-proposal-support-implemented)",
+                        "new":  "[Open-ended action semantics](architecture/EXECUTION.md#arch-source-51)",
+                        "id":  28,
+                        "column":  335,
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/EXECUTION.md#arch-source-51",
+                                                 "file":  "docs/architecture/EXECUTION.md",
+                                                 "anchor":  "arch-source-51",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    },
+                    {
+                        "absolute":  9168,
+                        "line":  78,
+                        "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                        "old":  "[ARCHITECTURE.md](ARCHITECTURE.md#open-natural-language-action-representation)",
+                        "new":  "[Open action representation](architecture/EXECUTION.md#arch-source-154)",
+                        "id":  29,
+                        "column":  329,
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/EXECUTION.md#arch-source-154",
+                                                 "file":  "docs/architecture/EXECUTION.md",
+                                                 "anchor":  "arch-source-154",
+                                                 "anchor_count":  1
+                                             }
+                                         ]
+                    }
+                ]
+}

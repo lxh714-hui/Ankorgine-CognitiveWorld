@@ -1,0 +1,959 @@
+# Repository Status
+
+## Current reviewed checkpoint scope (2026-10-26)
+
+Reviewed from local baseline `72da11105782f6f9b47d8fbaa3a91d141ff50fad`: state versus actor-action Goal conditions, independent configured door reach and observation, and consumption-gated physical-failure feedback. The feedback path requires current per-item L1 qualification before any old receipt can participate; formal failure, delivery and actual consumption remain separate. Snapshot v2 verifies canonical consumption-proof bindings while preserving legacy feedback v1, B2 and outer Bundle v2 semantics. Restore does not reconstruct absent applications or re-sign ancestor evidence.
+
+Independent verification: feedback-specific tests **40 passed in 3.68s**; the 20-file relevant regression group **448 passed in 78.65s**, zero failures or skips, under Python 3.14.7. This is not a full-suite result or visible-desktop/model acceptance. Compilation and documentation checks are recorded with the checkpoint report. Historical dated entries below describe their original baselines, not current archival state.
+
+Scope remains narrow: explicit state evidence, installed door/passage mechanisms, configured shared-domain reach and exact action matching. No generalized learning, B4 revision, general geometry or unified LOD coordinator was implemented. Next development extends a real physical mechanism or authorized perception task; feedback-history verification still needs scale measurements.
+
+
+**2026-10-26 runtime content commit-boundary repair (local, unarchived):** ready-Event delivery failure now retains the corresponding Agents/cognition and formal ready state, while preserving pending delivery and propagating failure. Registration through ready dispatch uses existing fence/registry locks; a deterministic real-Runner interleaving verifies the pre-ready batch is not scheduled by another registry reader. The standard Scenario codec explicitly supports the existing installation record/batch types, with closed decode validation. Targeted signed-component tests cover completed installation, published save verification, isolated fork restore, unchanged inherited Event attestations and fail-closed encoding faults. This is not visible-desktop acceptance or complete Lazy World Expansion: partial checkpoint policy, automatic template/lifecycle reconstruction, arbitrary concurrent hosts and operator recovery remain unresolved. No installation auto-resume, new schema/version, historical re-signing or cross-Store rollback was added.
+
+
+## Current milestone status (2026-10-25)
+
+Documentation synchronization baseline: local `main` at
+`662d38ac347aabb4c1525edae4d4af5337b2ce9d`. The released `v1.0` tag remains
+`1e5573b978a1de0252b90ebc04cdf3bed5302ebb`; `v1.0-mvp` remains
+`88b38c67a6e63e98b2619264337d5ce5842fd785`. Local milestone archival is not a
+release or a change to those tags. This documentation task runs no tests.
+
+| Capability | Current source scope and archival |
+|---|---|
+| B1 | Original actor-specific door-failure Observation, with narrow authorization and historical validation; archived with B2 in `e1d215a98108dd0df3b493b231e430db6affaa26`. Not generalized result perception. |
+| B2 | Corresponding default L1 consumption instance, original tick and signed proof under existing eligibility, recovery and ancestry rules; archived in the same B1+B2 commit. Not arbitrary-Observation proof coverage. |
+| B3 | Immutable trusted expectation source and formal-result association; archived separately in `662d38ac347aabb4c1525edae4d4af5337b2ce9d`. It proves neither delivery, consumption, understanding nor justification for a Belief revision. Free-text expectations remain insufficient for authoritative typed comparison. |
+| BehaviorFeedback | Separate bounded failure penalty with Event deduplication and verified snapshot/restore; not semantic Belief revision or generalized learning. |
+| Generalized result evidence / sample count | Not implemented or approved. No established sample task/batch/revision, trustworthy measured-count producer, historical execution witness and actor-authorization chain has been identified. NO-GO pending separate contract review and approval. |
+| B4 | Not implemented; NO-GO. An approved complete typed owner-specific revision contract is missing, including target binding, revision identity, ABA protection, governance and mutation/application-proof consistency. |
+| B5 | No independently approved milestone definition is established by current repository evidence; no scope or implementation order is assigned here. |
+
+`ResultEvidenceDefinition/v1`, `ResultAuthorizationPolicy/v1`,
+`EvidenceInstallationGrant/v1`, `FormalResultProjection/v1`,
+`ResultProductionAttestation/v1`, `OwnerResultConsumptionProof/v1`, candidate
+signature purposes, cognition schema v6, Event metadata extensions, generalized
+proof/result-group rules and E1/E2/E3/S/T stages remain unapproved review
+proposals. This note approves no new contract, schema, migration or stage.
+
+Formal commit, Observation issuance, delivery, actual L1 consumption,
+understanding and governed revision remain separate. Missing historical proof
+is not proof of never-consumed status. Recovery never manufactures historical
+consumption or replays a committed action to supply feedback.
+
+Current details: [B1/B2 contract](DATA_CONTRACTS.md#b2-durable-l1-identity-and-instance-bound-proof),
+[B3 contract](DATA_CONTRACTS.md#b3-immutable-expectation-and-authoritative-result-association),
+[Memory boundaries](MEMORY_DESIGN.md#b3-system-records-are-not-semantic-memory),
+[dependency index](DEVELOPMENT_ROADMAP.md).
+The untracked `COGNITIVE_EXECUTION_FEEDBACK_REVIEW.md` is historical analysis,
+not an approval record. Every dated test count and worktree claim below belongs
+to its recorded run/baseline, not this documentation task; earlier absence or
+pre-archival statements are not current milestone status.
+
+
+## Identity continuity and epistemic disagreement status (2026-10-25)
+
+The [approved principle](ARCHITECTURE.md#entity-identity-continuity-and-epistemic-disagreement-approved-architectural-principle) records authoritative identity continuity independently of LOD, scene visibility, tracked observation targets and subjective identity judgments. World facts, authorized evidence, NPC cognition and player understanding may differ; unknown identity, misidentification and NPC deception are permitted architectural possibilities, with later consequences governed by existing supported mechanisms. This is a documentation decision, not implementation of a generic identity-association, disguise/deception, target-tracking or automatic belief-correction system. Existing reference, authorization, cognition and signed restore contracts remain unchanged. No new tests, schema, API, persistence or historical identity reconstruction is claimed.
+
+## Contextual interaction and bounded investigation status (2026-10-25)
+
+[Design consensus](ARCHITECTURE.md#contextual-interaction-and-bounded-autonomous-investigation-design-consensus-not-implemented-as-a-general-workflow) now records free text plus contextual clicks/suggestions, attention-first default observation, authorized LOD-sensitive presentation and strictly bounded player-goal investigation with progress and returned control. This is documentation synchronization only: clickable narrative target grounding, manner-sensitive attention/gaze/head/body/approach and observation integration and the general player-goal autonomous investigation workflow are not claimed implemented. Existing raw-input/clarification, typed mechanisms and bounded Agent/stepwise paths remain narrow foundations.
+
+Target-entry projection, supported turn/observe semantics, action counts/risk/pause/continuation policy, cross-scene goal handling and any durable recovery requirements remain unresolved. A 2–3-step example is experimental, not a constant. A new opportunity does not restore old work; no commit is undone by interruption. Lazy expansion admission, model calibration and shared LOD coordination remain separate open work. Existing observer-sampling fixes and all prior test results are unchanged; no tests, source changes, APIs, schemas, runtime settings or new persistence guarantees are introduced in this task.
+
+## LOD mathematics and hybrid expansion documentation status (2026-10-25)
+
+This synchronization records [candidate visual/auditory mathematics](ARCHITECTURE.md#visual-and-auditory-lod-mathematics-candidate-models-uncalibrated), [relative NPC policy-deviation models](SOCIAL_CAUSAL_DESIGN.md#reference-policy-deviation-candidate-mathematics-not-a-production-classifier), and the [selected hybrid Lazy World Expansion direction](ARCHITECTURE.md#hybrid-lazy-world-expansion-selected-direction-acceptance-boundary-unresolved). Equations are uncalibrated hypotheses, not approved production probabilities/classifiers. Existing narrow location/sensory checks, Emotion/Motivation modulation, bounded Event Tree and reviewed content installation do not establish general FOV, acoustics, adaptive LOD or general lazy topology materialization.
+
+The pre-existing local observer-sampling correction remains separate: new evidence explicitly labels post-update sampling; historical reconstruction preserves signed phase values and payload bytes without rewriting or re-signing. A legacy BEFORE label alone is not proof of pre-update sampling. This documentation task does not repeat that code/test change or claim a new test run.
+
+Potential-world determination and structure acceptance authority, model uses/calibration, and shared budget cost/fairness/recovery remain unresolved. Existing parent/child history, snapshot limits and formal mutation/Observation boundaries stay in force; no generic graph persistence, runtime configuration, API/schema, coordinator or B4/sample-count capability is added. Only documentation is synchronized.
+
+## Scheduled work responsibility status (2026-10-25)
+
+The [approved responsibility clarification](ARCHITECTURE.md#scheduled-work-responsibility-approved-contract-no-scheduling-implementation-change) records guarantees and limits, not a scheduling fix. Current Runtime processing removes due Event items before budget validation/checks and removes due Agent entries before their execution-budget checks. Over-budget items are recorded as skipped without automatic requeueing; an interrupted batch has no general retention guarantee for its already-dequeued, unstarted remainder. This behavior is not a universal discard authorization or proof that every skipped item must execute.
+
+Periodic Runner rounds generate new decision opportunities. Content wakeup deduplication records arrangement, not successful execution, and provides no general skipped-wakeup compensation guarantee. Committed-Event delivery retries retain their separate contracts. Pending Runtime schedules have no general checkpoint persistence guarantee. Producer-specific obligations, valid deferral/termination conditions, and responsibility for unstarted work after budget exhaustion or interruption remain unresolved where no applicable approved contract defines them. Required authoritative causal consequences remain protected.
+
+This documentation synchronization changes no scheduling, retry, cancellation, persistence or recovery behavior, introduces no fairness/eventual-execution guarantee or milestone, and runs no tests.
+
+## B3 trusted expectation provenance correction (2026-10-25)
+
+The [source-binding contract](DATA_CONTRACTS.md#trusted-action-expectation-source-binding-v1)
+adds a separately signed, closed `ActionExpectationSourceBinding/v1` record at
+the trusted NPC selection or player entry boundary. The final Attempt binds its
+stable source ID and canonical body digest under the unchanged fingerprint
+algorithm. Reference-free legacy Attempts retain their original bytes. NPC
+selection evidence and explicit player absence use distinct closed payloads;
+an unrelated player `expected_result` parameter does not establish expectation.
+Issuance, system-record verification, decode and restore share semantic checks.
+Changing all five expectation claims cannot override the original source binding.
+
+Source-bound cognitive snapshots use v5 with a dedicated signing purpose.
+Legacy codecs remain readable, but unbound B3 expectations are rejected as
+`ambiguous_action_expectation_source`, never inferred or re-signed. SnapshotBundle
+v2, B1 owner authorization and B2 identity/original consumption tick remain intact.
+Source publication and final Attempt freezing use the existing Runtime fence;
+uncertain writes block protected execution and capture pending recovery. Published
+checkpoints remain the durability boundary. No B4 revision is introduced.
+
+Independent verification: the coordinated attack failed at all four boundaries
+before correction (4 failures), then passed. Final source/B3 tests passed (103 in
+2.67s), B1/B2 passed (144 in 30.97s), the exact ambiguous-L1 P1 regression passed
+(2 in 0.24s), and fence/snapshot/history/save/restore passed (135 in 30.79s).
+Final `py -3.14 -m pytest -q -rs`: 1566 passed, 9 skipped in 93.05s, exit 0.
+All skips require local Ollama integration/evaluation opt-ins or the embedding
+model setting. Compilation of 17 changed Python files, 73 local documentation
+links/anchors and both diff checks passed. This is deterministic contract
+verification, not live-model quality or visible desktop acceptance.
+
+The dated report below describes the preceding unbound B3 schema. This correction
+supersedes its current-v4 schema and source-provenance claims.
+
+## B3 immutable expectation/result association (2026-10-24)
+
+Local implementation on `e1d215a98108dd0df3b493b231e430db6affaa26`; no B3
+commit or release is created. The [B3 contract](DATA_CONTRACTS.md#b3-immutable-expectation-and-authoritative-result-association)
+adds exact signed expectation and association system records in the existing
+MemoryStore. NPC selection captures an original trusted tick; the final Attempt
+is frozen and registered before Resolution. Player expectations remain explicitly
+absent. Only committed, verified Resolution history can establish the separate
+association. Duplicates retain original identities/ticks, and committed-result
+association failure freezes the existing Runtime write/capture boundary.
+
+B3 is automatic for signed physical-action Runtime compositions with canonical
+owner contexts. Unsigned legacy compositions retain their old behavior without
+a recoverable B3 claim. NPC communication, typed expectation projection, general
+comparison, durable request journals and B4 cognitive revision are outside scope.
+The classification remains `uncomparable`; prediction text never determines
+world truth or actor knowledge. B1/B2 and BehaviorFeedback remain independent.
+Cognition snapshots with B3 use v4/purpose v4; without B3 they retain v3. Existing
+v2/v3 readers and SnapshotBundle v2 are preserved. Restored incomplete Attempts
+are deferred rather than re-executed; durability starts at published checkpoints.
+
+Verification on Python 3.14: the explicitly adjusted B2 test passed (1 in 0.44s),
+and the initial B1/B2 persistence/P1 group passed (144 in 29.31s). Subsequent
+fence/snapshot checks passed (43 in 0.80s); B1/B2, restore and reconstruction
+passed (217 in 48.60s); NPC/player/autonomous checks passed (165 in 3.52s).
+The first full run found one real communication-scope regression (1524 passed,
+1 failed, 9 skipped); its production fix leaves the existing D1 test unchanged.
+The B3 plus social-interaction run passed (77 in 2.35s). Final diff review
+also preserved existing positional constructors by making new fields keyword-only;
+its regression brings B3 coverage to 66 cases. Final B3+B1+B2 checks passed
+(181 in 7.67s), followed by `py -3.14 -m pytest -q -rs --tb=short`: 1529 passed,
+9 skipped in 87.67s, exit 0. Skips require explicit local Ollama integration or
+evaluation opt-ins, including the embedding-model setting; none is a B3 skip.
+Compilation, local link/anchor checks and diff checks pass. Existing v1 proof
+models/helpers/verifiers and B2 instance, Attempt, fence and Bundle sources are
+unchanged. This is deterministic contract acceptance, not live-model quality,
+visible desktop acceptance, uncheckpointed recovery or general learning.
+
+
+## B2 ambiguous-consumption P1 correction (2026-10-24)
+
+The B2 gate now rejects both a completed unbound legacy receipt and a partial
+legacy WorkingMemory write without a receipt as `ambiguous_l1_consumption`.
+Absence of a receipt does not prove non-consumption and cannot justify a later
+consumption tick. Verified existing B2 proofs keep their identity and original
+tick. The protected invocation must establish a newly accepted, source-bound
+Percept before publishing its instance receipt. Pre-mutation ambiguity is
+rejected without altering the transient workspace; a post-L1 mismatch or failure
+uses the existing recovery-required fence and blocks protected writes/capture.
+This does not automatically recover ambiguous history or extend checkpoint-only
+durability. See the [B2 contract](DATA_CONTRACTS.md#b2-durable-l1-identity-and-instance-bound-proof).
+
+The exact tick-5 partial legacy write / tick-8 B2 promotion regression failed
+before the correction and passes afterward. Focused verification returned
+85 L1-instance, 30 B1, 29 legacy persistence/branch and 75 fence/snapshot/history/
+save-restore tests passed. Final `py -3.14 -m pytest -q -rs` returned 1463 passed,
+9 skipped in 80.40s, exit 0; all skips are explicit local Ollama integration or
+evaluation opt-ins, including the required embedding-model setting. Three
+changed Python files compile, 91 local documentation links/anchors validate,
+and the eight checked legacy v1 proof models/helpers/verifiers match HEAD.
+No proof/snapshot/Bundle version or B3/B4 behavior is changed by this correction.
+
+## B2 local implementation (2026-10-24)
+
+Base: local `main` at `13d01de7dfdb13db169d3b20284ca5a08d4c7be8` plus preserved
+uncommitted B1 work and this B2 change. This is not a new published release.
+
+The local change adds [B2 instance-bound L1 evidence](DATA_CONTRACTS.md#b2-durable-l1-identity-and-instance-bound-proof)
+for B1's original actor only. Actual L1 fixes a default Timeline/owner/Observation
+identity and original tick; duplicate/retry does not re-consume or re-sign.
+Post-L1 failure uses RuntimeWriteFence recovery-required and halts the current
+tick. New proof types use the existing system-only MemoryStore and v3 cognition
+codec; old proof signatures, v2 snapshot reading and SnapshotBundle v2 remain
+unchanged. Cold-resume ambiguity rejects rather than inventing past consumption;
+verified new child scopes and inherited proofs remain distinct. Durability is
+checkpoint-only, with no uncheckpointed reconstruction, independent-instance
+operation, pending journal or B3/B4 cognitive revision.
+
+B2 verification on Python 3.14.7: `py -3.14 -m pytest tests/test_l1_instance.py -q`
+returned 70 passed in 4.08s; the final `py -3.14 -m pytest -q -rs` returned
+1448 passed, 9 skipped in 81.43s, exit 0. The nine skips are explicit local
+Ollama integration/evaluation opt-ins (including the embedding-model variable),
+not B2 skips. Independent-process cold restore, post-L1 failures, exact ancestor
+checkpoint membership and both snapshot/commit orders are covered. Legacy v1
+proof models, bodies, identity/signing path and verifiers were also compared
+against HEAD without changing their semantics. This does not assert live-model
+quality, visible desktop acceptance or recovery of uncheckpointed consumption.
+
+## B1 result-observation implementation (2026-10-24)
+
+The current local change adds one narrow execution-result channel: a trusted,
+formally committed failed manual opening of a verified locked door can issue
+`action_result/door_open_attempt_failed=True` to its original action owner.
+EventProcessor validates the existing confirmed-failure source and canonical
+state reads, seals the result in processing evidence, and uses existing fenced
+Observation delivery. No second action/Event, door-state change or bystander
+result is introduced. Ordinary door-state sight rules remain independent.
+
+B1 is issuance only: AgentTurn defers this result kind rather than consuming it
+implicitly. Memory/Belief/Goal revision, recoverable actual-consumption proof
+(B2), durable expectation/result association (B3) and governed cognitive
+revision (B4) are not supplied here. No historical proof rule, Store, signing
+purpose or persisted format is added. Existing BehaviorFeedback scoring remains
+an independent supported path. The source below is a historical audit of its
+stated checkout, not a claim that this local B1 change belongs to a published
+release.
+
+Focused tests cover the real NPC production path, fact/provenance and owner
+binding, co-located bystander denial, mixed private/sensory facts, unsupported
+sources, unchanged door/cognition, cancellation/generation fences and delivery
+retry without action replay. See the
+[B1 contract](DATA_CONTRACTS.md#b1-actor-authorized-execution-result-observation).
+
+
+## Current audited worktree (2026-10-24)
+
+This is fresh verification of local `main` at HEAD `c493f6e7eb153cdccdcdfd18069d0ffd326dce4c` plus this task's uncommitted catalog-label/filter and regression-test changes. The existing Doctrine cross-reference edits remain uncommitted; the Doctrine itself is tracked at HEAD. The published `v1.0` tag still targets `1e5573b978a1de0252b90ebc04cdf3bed5302ebb`; `v1.0-mvp` remains unchanged. This audit neither modifies those releases nor reports its changed worktree as the released source tree.
+
+### Product scope and architecture
+
+| Area | Current supported scope and limit |
+|---|---|
+| Public sample | Gray Domain Beyond is the sole new-world choice. Its authored opening is worldbuilding only; installed door and known-passage mechanisms supply the current bounded interactive scene. The broader setting's five-domain/corruption mechanisms are not implemented. |
+| Compatibility | Internal definitions, stable IDs, signed history and save recovery remain. An unlisted definition is not advertised without a local catalog or active session; retained compatibility entries use neutral labels. A corrupt catalog retains its entry and still fails existing verification. Old saved scene descriptions are not rewritten. |
+| Action authority | Proposal → immutable Attempt → supported Resolution → EventFactory/EventProcessor. A processed result may leave WorldState unchanged. No model sentence or UI text supplies authority. |
+| Cognition and feedback | Owner-scoped governed cognition and limited locked-door failure penalties with signed snapshot/restore exist. A formal failure, authorized Observation, actual L1 consumption and governed revision remain distinct. |
+| General execution feedback | Not implemented. The default recoverable nonverbal proof rule covers the documented room-light case, not general failed-door result consumption. No new execution-record schema, proof, Store or learning policy is introduced here. |
+| Spatial/physical/LOD | Canonical spatial world, derived subject-centered projection and adaptive scheduling form the architecture direction. Cognitive/perceptual/physical LOD retain independent duties; distance, angular relevance and importance are allocation cues. General 3D transforms, physics solving and unified cross-domain LOD coordination remain unimplemented. |
+| Acceptance | Fresh automated and offscreen Qt coverage is available. Full ordinary visible desktop acceptance, general real-model quality and Python 3.10 runtime validation are not established by this audit. |
+
+The [Core Doctrine](COGNITIVEWORLD_CORE_DOCTRINE.md), [system overview](COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md), [feedback contract](DATA_CONTRACTS.md#behavior-feedback-v03b-signed-snapshot-component) and [consumption-proof contract](DATA_CONTRACTS.md#consumption-proof-separation) retain their respective normative scope. Their objectives do not register new executable permissions.
+
+### Fresh test evidence
+
+- Environment: Windows, Python **3.14.7**, pytest **9.1.1**, PySide6/Qt **6.12.0**. Interpreter: `C:\Users\18636\AppData\Local\Python\pythoncore-3.14-64\python.exe`.
+- Actual command from `D:\Ankorgine-CognitiveWorld`: `py -3.14 -m pytest -q -rs`. The configured pytest `pythonpath = ["src"]` resolves `anchor_desktop.pages`, `anchor_desktop.widgets` and `cognitive_world` to this checkout. Standalone imports without that configuration can resolve another editable checkout, so they are not interchangeable evidence.
+- Initial inspection baseline: **1,346 passed, 9 skipped in 79.56s**, exit **0**.
+- Focused catalog/opening/management regressions after the change: **55 passed in 7.52s**, exit **0**.
+- Final full suite after both new regression tests: **1,348 passed, 9 skipped, 0 failed, 0 errors in 77.43s**, exit **0**.
+- No real Ollama integration opt-ins were enabled. Offscreen Qt is not visible desktop acceptance. No dependencies were installed and no wheel/sdist or minimum-Python runtime validation was performed in this audit.
+
+The nine actual skips are:
+
+| Test | Recorded requirement not enabled/configured |
+|---|---|
+| `test_cognitive_causality.py::test_live_ollama_cognitive_review_runs_on_trusted_agent_turn` | Explicit real local Ollama cognitive-review opt-in. |
+| `test_dialogue_runtime.py::test_live_ollama_dialogue_candidate_reaches_player_gateway` | Explicit real local Ollama dialogue-integration opt-in. |
+| `test_memory_retrieval_evaluation.py::test_optional_real_ollama_embedding_on_unchanged_fixed_corpus` | `COGNITIVEWORLD_OLLAMA_EMBEDDING_MODEL` for the local probe. |
+| `test_ollama_physical_effects.py::test_real_local_ollama_proposes_only_a_candidate` | Explicit local Ollama physical-effect integration opt-in. |
+| `test_player_insight.py::test_real_local_ollama_synthetic_insight` | Explicit local synthetic Ollama insight opt-in. |
+| `test_player_insight.py::test_real_local_ollama_synthetic_semantic_challenges` | Explicit local synthetic Ollama insight opt-in. |
+| `test_player_insight_generation.py::test_local_ollama_generation_protocol_probe` | Explicit non-sensitive loopback Ollama protocol-probe opt-in. |
+| `test_player_insight_semantic_eval.py::test_local_ollama_semantic_calibration_matrix` | Explicit synthetic loopback Ollama evaluation opt-in. |
+| `test_player_insight_unit_semantic_eval.py::test_local_ollama_unit_presupposition_eval` | Explicit synthetic loopback Ollama unit-review opt-in. |
+
+Ignored `.pytest_cache`, `.pytest_tmp` and Python `__pycache__` artifacts remain outside the tracked change set. The test run is new evidence; older build, compiler, model and UI reports below are not silently re-certified by it.
+
+## Historical audit records
+
+The dated sections and milestone snapshots below preserve their original branches, commits, counts, failures and acceptance limits. References to “current”, “this turn” or “本轮” inside those records apply to that historical run, not to the worktree audit above.
+
+## P1 clarification, Python metadata and desktop-contract regression (2026-10-22)
+
+This is evidence for the uncommitted worktree based on local `master` HEAD `29aad11e80e2b65d57ffbe659bb4a6784b3e8173`, not a clean GitHub release. The local tracking reference remains `origin/master` at `c6d16b9f8357ecd329f784bfec320e15aedc9327` (ahead 1); no fresh remote query, staging, commit or push is part of this repair. Earlier dated baseline sections below remain historical audit records.
+
+- `ANCHOR-M2-01` P1 clarification rebinding is repaired: original handle/identity pairs and existing actor-location/authorized-target slot reads are retained; changed context expires the old question. Reordering alone preserves original option meaning. Current Observation authorization is still required, and final dispatch rechecks continuity under the existing Runtime fence and original permit. No persistence, signature or authority-write contract is weakened.
+- The original audit probe now returns `clarification_expired` after formal travel: neither old nor replacement target opens, and EventHistory remains 6 events before and after the answer. New deterministic tests also cover two world packages, reordering/relabeling, removed targets, equal descriptions with distinct identities, changed target state, and a formal move interleaved before Event dispatch. Existing expiry/cancel/generation tests remain; player-session replacement is additionally covered.
+- Package `Requires-Python` is corrected from `>=3.9` to `>=3.10` for runtime union annotations, `zip(strict=True)` and dataclass keyword-only fields. Source parsing with the 3.10 grammar is a static check only; Python 3.10 is not installed here and its runtime/dependency matrix remains unverified. README states that limitation.
+- DATA_CONTRACTS now labels the no-command/no-save desktop paragraph as historical M0.5 and links to the current `DesktopProductGateway`/host/Presentation/save contract. NPC dialogue and independent authorized history browsing are not declared complete.
+
+Actual new verification used an isolated copy of the worktree, separate test/application data and build output, with Python 3.14.7, pytest 9.1.1 and PySide6/Qt 6.12.0 on Windows 11. The initial seven defect cases failed against old production code; after repair the host suite passed 47 tests, then the expanded related suite passed **218 tests in 37.50s**, including the added session-invalidation case. Full pytest completed **1267 passed, 9 skipped in 82.09s**, exit 0. The nine skips require explicit real local Ollama cognitive/dialogue/embedding/physical-effect/insight opt-ins or model configuration; they are not passes or real-model acceptance. Raw logs, JUnit XML, commands and exit codes are retained in the independent `cw-p1-acceptance-y0s0z1ts` directory under the Windows temporary directory. Failed red runs and an intermediate implementation regression are retained separately, not reported as successful runs.
+
+`compileall -q src tests` and an isolated wheel build both exited 0. The built wheel declares `Requires-Python: >=3.10` and retains the four bundled world JSON resources and LICENSE. Git whitespace checks passed for both the worktree and empty index. These are new checks, not inherited acceptance numbers; the original repository `build/` was not used or replaced.
+
+This repair does not establish Python 3.10 runtime acceptance, new real-model results, visible Windows desktop acceptance or end-to-end P0 authorization. Existing NPC/history/MVP debts, Timeline-ancestor verification debt and D3.2.4 freeze remain open; no D4 work starts.
+
+**Final P1 submission review (2026-10-22):** The 1267/9 result above remains evidence for the larger uncommitted worktree, not a new run or the isolated P1 commit. Final review constructed a separate candidate from HEAD `29aad11` plus only the P1 changes, excluding prior read-only response repairs, ECS proposals and public-release materials. No production code changed during this review. Its original rebinding probe again returned `clarification_expired`, both targets stayed closed and EventHistory remained 6 → 6. New runs on that independent candidate completed **120 passed in 3.10s** (host/player/fence) and **1259 passed, 9 skipped in 82.16s** (full suite), both exit 0. The eight-test difference reflects the excluded earlier read-only repair tests, not disabled tests. The same nine real-model opt-in/configuration skips remain unverified. Commands, logs and JUnit XML are retained in the separate `cw-p1-final-review-r4ydh9l4` Windows temporary directory. Only P1 differences in README, metadata, tests and roadmap are selected for submission; the rest remain in the development worktree. This is not public-release or visible desktop acceptance.
+
+## Historical audited baseline (2026-10-22; documentation-only consistency repair)
+
+The entries in this section distinguish the current checkout, prior committed snapshots and prior runs. Later chronological paragraphs retain their original scope: “this turn”, “current” and old HEAD/worktree statements in those historical records do not override this dated baseline. No tests or compiler were run during this consistency repair.
+
+| Identity / state | Evidence at this inspection |
+|---|---|
+| Current local HEAD / branch | `master`, `c6d16b9f8357ecd329f784bfec320e15aedc9327`; `git log -5` identifies this as the architecture-document commit after `579fcbb`. |
+| Local remote-tracking reference | `origin/master` is the same full SHA; `HEAD...origin/master` is 0 ahead / 0 behind. This is a local reference, not proof of remote freshness by itself. |
+| GitHub master, point-in-time query | `git ls-remote origin refs/heads/master` returned the same full `c6d16b9` SHA on 2026-10-22. The initial sandbox query failed DNS resolution; the subsequent ordinary-network read succeeded. No fetch, commit or push was performed. |
+| Starting worktree | Six previously modified ECS/composition documents, three previously modified read-only-response repair source/test files, untracked `build/`, and an empty index. They are prior work, not all produced by this repair. |
+| This repair's edit scope | `MEMORY_DESIGN.md`, the affected parts of `DATA_CONTRACTS.md` and this file only. The resulting tracked changes total seven documents plus the three existing source/test files; no staged files or extra local commits. Uncommitted changes have no pushed-commit identity. |
+
+### Test evidence ledger (previous executions, not rerun here)
+
+The independent artifacts below are outside the tracked repository in `D:\CognitiveWorld-Acceptance-c6d16b9\acceptance-results`. Their actual command/cwd/exit metadata and terminal logs were read in this repair. Equal counts in different rows do not establish the same run or source state.
+
+| Record | Source state / environment | Evidence and limit |
+|---|---|---|
+| Owner-reported pre-commit 1251 passed / 9 skipped | Pre-`579fcbb` working tree as previously reported; exact file identity/run environment and original output unverified | Preserve the owner report below; do not retroactively identify it with the later independent run having equal counts. |
+| Independent clean-checkout 1251 passed / 9 skipped, 78.32 s, exit 0 | GitHub checkout `c6d16b9`; Python 3.14.7, PySide6/Qt 6.12.0 in its independent venv | `full-pytest.log`, `.xml`, `.json` and `ACCEPTANCE_REPORT.md`; current repair reads existing artifacts only. Real-model and visible desktop acceptance are separate gates. |
+| Read-only-fix final 1259 passed / 9 skipped, 64.96 s, exit 0 | Uncommitted development source/tests based on `c6d16b9`, run with the independent venv interpreter and explicit `D:\CognitiveWorld\tests` path | `readonly-final-full.log`, `.xml`, `.json`, `readonly-final-identity.json` and `READONLY_FIX_REPORT.md`. This is not a clean-commit result; its package identity and two-world real-model probe are recorded separately. |
+| Other historical per-slice counts below | Their recorded owner/tool/source/environment scope only | Where an original artifact or exact SHA is absent, retain the report as historical/unverified at that precision; do not assign a new SHA or call it a current-run result. Skips remain skips. |
+
+### Memory / SelfModel source audit (this documentation repair)
+
+Formal `MemoryDecisionEngine.decide()` is implemented in `cognition/consolidator.py` with explicitly injected policy/Authority/EventHistory/fence, bounded canonical Proposal input and closed `MemoryPolicyOutput/v1`. Only missing policy remains `NotImplementedError`; ImportanceEvaluator and the legacy non-accepting consolidation pipeline remain separate incomplete policy interfaces. The public caller-supplied `Authority.issue(accepted=...)` continues to produce legacy Memory/v1 requests, while formal D3 writes require policy-bound Provenance/v2 and final canonical-history/fence validation. No automatic production importance policy or durable rejected/deferred decision audit is established.
+
+SelfModel has an opt-in owner/new-L1-evidence tentative self-belief append path through AgentTurn, validator, applier and canonical SelfModelStore. Personality has no corresponding governed evolution path. The shared original-permit and snapshot/recovery contracts apply; these are not full personality learning or SelfModel-specific real-model/cross-process delayed-review acceptance. Source assertions inspected: `test_memory_decision_policy.py`, `test_importance_evaluator.py`, `test_cognitive_state_snapshot.py`, `test_self_model_evolution.py`, `test_runtime_write_fence.py` and the save/restore regressions. None was executed here.
+
+The Memory/Provenance compatibility matrix in DATA_CONTRACTS.md is the reference: v2/v1 provenance is admitted representation/snapshot compatibility, not current formal new-write issuance; v2/v2 provenance is the formal path. Current schema/input/output inspection does not establish all mixed-provenance branch combinations or a policy-version registry. Any further test need stays within existing D3.2/recovery and Cognitive Causality follow-up scope; dynamic Character grants and durable social experience remain under their existing D4 / MVP-DEFER-01/02 records. No new duplicate TODO, test result or implementation is introduced.
+
+**Final Memory-document review and commit boundary:** the dated Git baseline above records the pre-commit inspection, not a prediction of HEAD after committing these three documents. The authorized commit scope is MEMORY_DESIGN, DATA_CONTRACTS and REPOSITORY_STATUS only, with no push. ECS additions already present in the latter two files remain included; related ARCHITECTURE/ENGINEERING_RULES/DEVELOPMENT_ROADMAP/SOCIAL_CAUSAL_DESIGN upgrades, including the defining POST-MVP-07 roadmap entry, remain separate uncommitted work. Their proposal references describe that working-tree design, not a completed ECS feature or a wholly committed architecture release. The read-only source/test fix and build/ also stay uncommitted. Final review confirms v2/Provenance-v1 can be captured/restored and is not excluded by current Character/owner-scoped semantic readers; dedicated post-restore decision acceptance for this combination remains unverified, and no current formal new-write capability is inferred. No test or compiler execution is added by this review.
+
+### Historical committed code snapshot and owner report (579fcbb)
+
+**Committed snapshot, 2026-10-22:** `579fcbb0d42aaf5972c8fa58f5429c4e3dd76ecf` includes the independent `anchor_desktop` entry point, two validated bundled worlds, the real product host/gateway, bounded asynchronous player input, request-local Observation-based target handles, service-owned clarification, read-only Observation results, narrow typed physical action feedback, explicit scenario-state codec, signed saves and cold first publication of the original Timeline. Source and focused tests for these paths are present; this documentation sync does not rerun them. The committed desktop has offscreen Qt and independent-process save/restore tests, but ordinary visible Windows product acceptance, NPC dialogue UI and authorized past-history browsing remain open under `ANCHOR-M3-02`, `ANCHOR-M2-01` and `ANCHOR-M2-02`. The D3.2.4 ancestor-test phase remains frozen with its separate validation debt open.
+
+**Historical full-suite number supplied for the pre-commit tree:** `1251 passed, 9 skipped`. No matching original owner-run output, exit code or precise source identity has been established. Treat it as owner-reported historical evidence, not a fresh run or a verified current-HEAD result. The later clean-checkout run in the ledger above has its own raw evidence and cannot supply missing provenance for this owner report. Earlier per-slice counts retain their own scope/dates; neither count proves visible GUI operation, general language quality or every restore/ancestor fault combination.
+
+**Current retrieval limit:** lexical lookup is the deterministic baseline; optional authorized semantic embeddings and verified Event-anchored Memory candidates are narrow, rebuildable channels with canonical Store rechecks and lexical fallback. The local Ollama embedding adapter is optional and does not demonstrate general semantic recall quality. CPU-led retrieval planning, validated model-proposed information needs, a full association network and global cognition/perception/physics LOD scheduling remain future work.
+
+### ECS / declarative composition inventory (2026-10-22; documentation-only review)
+
+**Proposed architecture; no ECS implementation or new code acceptance in this task.** ARCHITECTURE.md and DATA_CONTRACTS.md now describe candidate Entity/Component/System/Mechanism composition, independent child identity and typed relations. ENGINEERING_RULES.md specifies authority and acceptance constraints. `POST-MVP-07` owns the missing representation foundation; existing `POST-MVP-02` owns unknown-mechanism exploration and `MVP-DEFER-05` owns general physics/LOD. The proposal does not require a full ECS migration before the current MVP.
+
+| Question | Source-checked current capability | Missing capability / evidence boundary |
+|---|---|---|
+| General ECS? | `core/entity.py`: Entity has stable `id`, `type`, open attributes/state and explicit capability/safety fields. `core/world_state.py` owns canonical collections and controlled initialization/Event updates. | No generic component container, Entity-component query/registry or ECS System scheduler. Open mappings do not establish a component schema. |
+| Independently interactive composite parts? | `content/models.py` has identified Character/Location/Scenario instances and mechanism IDs; different instances are prepared separately in `content/pipeline.py`. | No generic panel/handle/lock/hinge assembly, typed part hierarchy, detach transition or child-authorization traversal. Existing IDs make references possible but do not implement composite semantics. |
+| JSON and component validation? | `content/llm.py` parses bounded schema-v1 GenerationProposal with exact fields; ContentValidator checks references and P0; `anchor_desktop/world_packages.py` checks manifest/content and player placement. | No arbitrary component declaration/schema registry. `MechanismTemplate` admits installed door/passage kinds only. Valid JSON cannot install a novel behavior. |
+| Typed relations? | `core/relationship.py`: source/target and arbitrary attributes; WorldState keys relationships by endpoint pair. | No general relation-kind/version/identity contract, multiple independently addressed edges per pair, assembly constraints, ownership/membership transitions or graph restoration. These remain proposed. |
+| Pure Systems and generic deltas? | ResolutionDecision and bounded PhysicalEffectProposal separate candidate/evaluation data from confirmation; causal aggregation uses targeted state reads. | Existing policies also read live canonical state/use providers or clocks through orchestration. No whole-engine purity claim, generic functional System API or universal component delta handler. |
+| Trusted effects and restore? | ResolutionEngine confirmation, EventFactory, EventProcessor/typed handlers and WorldState apply scope exist. `PersistedValueCodec` and `content/persistence.py` explicitly register supported records; Bundle, SaveManager and cold/active reconstruction reuse verified history. | Existing codecs are serialization allowlists, not an ECS registry. New component/relation semantics, symmetric codecs, compatibility, graph consistency and host dependencies require separate implementation and acceptance. |
+
+Existing assertions inspected include `test_entity.py`, `test_relationship.py`, `test_reusable_world_content.py`, `test_runtime_content_installation.py`, `test_interaction_state_aggregation.py`, `test_physical_effect_proposals.py` and `test_anchor_cold_start_process.py`. They cover their current narrow records/authorities; their existence does not prove ECS, universal polymorphism or any proposed composite prototype. No tests or compileall were run for this documentation task.
+
+**Historical ECS-task starting worktree:** master at `c6d16b9f8357ecd329f784bfec320e15aedc9327`, matching the local `origin/master`; three prior uncommitted read-only-response repair files (`player/input_understanding.py` and two tests) plus untracked `build/`, with an empty index. The ECS task preserved them and added six document changes; the current repair starts from that accumulated state, as listed above. The preceding `READONLY_FIX_REPORT.md` records the separate 1259/9 run and bounded two-world real-model probes on a candidate working-tree package, not committed-HEAD ECS evidence. Historical scope, visible desktop debt, D3.2.4 freeze and open ancestor debt remain unchanged.
+
+### World dynamics and task information: source-checked inventory (2026-10-22)
+
+The following is a review of committed code and existing test assertions, **not a new test run**. The Why/Where and task-driven exploration direction is now specified in ARCHITECTURE.md and DATA_CONTRACTS.md. It introduces no production API or persistence change in this documentation task.
+
+| Area | Implemented foundation and reviewed evidence | Still absent or unverified |
+|---|---|---|
+| Goal, Motivation and DecisionModulation | `cognition/goal.py` stores owner Goals and explicit resource demands. `emotion_system.py` derives bounded scores/tension/capability-blocked cues from configured profiles, Goals, Emotion and SelfModel. `AgentTurn` passes these to the ordinary decision path. Assertions exist in `test_emotion_motivation.py`, `test_decision_modulation.py` and autonomous runner tests. | General objective goal-distance, resource scarcity, deadlines, post-Event pressure and an autonomous lifecycle are not inferred by these classes. Configuration is not a validated general psychology model. |
+| Conflict and opportunity discovery | `runtime/conflict_opportunity.py` is real production code: owner-local tension/observed-affordance findings, verified system Goal-resource comparisons, bounded ranking and active/dormant deduplication. `test_conflict_opportunity_scheduler.py` and `test_cross_agent_goal_conflict.py` inspect source scope, score/trace effects, wrong sources and repeated findings. | No universal conflict/cooperation detector, resource-capacity model, durable issue lifecycle, or grant of another Agent's knowledge. Early Narrative Pressure is still broader design; the optional content expansion coordinator needs an explicit host policy/factory. |
+| Autonomous execution loop | `SimulationRuntime.run_step` executes due registered Agents under the normal action/event chain; `test_runtime_agent_scheduler.py` and `test_autonomous_world_runner.py` cover bounded scheduled turns. `content/expansion.py` has opt-in post-commit expansion through validated content installation; `test_proactive_world_expansion.py` covers synthetic hosts. | A host must schedule and drive turns. The current desktop host creates schedulers but does not drive a continuous independent NPC/world loop. No global plot objective or guaranteed reaction is installed. |
+| Event Tree and allocation | `EventTreeExplorer` materializes at most four candidate branches, with optional at-most-two-child/per-call and two-call bounds, source checks, duplicate pruning and diagnostic expansion status. Runtime records an already selected proposal's trace; `test_event_tree.py` covers lazy expansion and failure/no-write behavior. | No configured live branch model, simulated branch state, future-effect/value propagation, cross-turn reuse or combined model/Token/latency allocator. The tree does not choose the actual action. |
+| CPU retrieval and context | `AgentTurn` prepares owner snapshots with bounded L5 queries; canonical Memory lookup, optional semantic fill and current verified Observation anchors are implemented. `AuthorizedStateQuery` and Attempt-scoped `InteractionStateAggregator` supply distinct observed versus CPU physical evidence. Existing retrieval, agent-turn, evidence-review and aggregation tests cover these narrow seams. | No unified production-task envelope, requirement vocabulary, per-condition sufficiency, general source plan or task Token accounting. L5 stops once matching Memory is found. Data present/relevant is not thereby authorized or sufficient. |
+| Three-axis LOD and open unknown paths | Local count/call limits and `INSUFFICIENT_INFORMATION`/unconfirmed `unresolved` behavior exist. Optional causal suggestions translate only to installed semantics; unsupported inputs cannot commit. | Cognitive/perceptual/physical LOD coordination, general structure/material/force physics, general mechanism completion and bounded alternative-path planning remain design. Unmodeled does not mean proven impossible. |
+
+The CPU-first task foundation is planned under `POST-MVP-01` before any optional model-proposed information needs; `POST-MVP-02` covers unknown alternatives and future compute allocation, using `MVP-DEFER-04` retrieval and `MVP-DEFER-05` independent LOD foundations. No complete endogenous-dynamics loop, unified production-context service or dual-LLM system is claimed. World/system analysis and NPC knowledge retain distinct host-authorized scopes; hypothetical futures remain outside authoritative state and player fact messages.
+
+**Historical documentation-upgrade execution scope (before the c6d16b9 documentation commit):** at that earlier inspection, HEAD, local `origin/master` and the queried GitHub `master` were `579fcbb`. The follow-up began with six designated documents already modified by the preceding sync and edited only those documents. It ran no pytest, compileall, live model probe or visible GUI acceptance. Its owner-reported `1251/9` lacked an original output artifact. This paragraph is a historical snapshot, not today's Git or test baseline; use the dated ledger above. D3.2.4 remains frozen with its P2 debt/reopen rules and no D4 implementation is started by this repair.
+
+**D3.3.2 — minimal asynchronous player-input slice — IMPLEMENTED NARROW / TARGETED TESTED:** `PlayerInputTaskCoordinator` provides framework-neutral background submission around the existing `PlayerActionService.submit_input` chain. It uses one worker per coordinator, returns an opaque task handle, joins same-ID/same-content requests, rejects changed-content reuse, and exposes an allowlisted status snapshot. Admission binds the original actor/session and RuntimeWriteFence session/generation and operation permit; the original ContextVar is explicitly copied to the worker. The potentially long authorized-target/Observation scan runs on the worker at task start under that original permit, not on the submitter thread, and action targets are checked again later. RuntimeWriteFence revocation and final `commit_scope` share the same lock, so cancellation/timeout/close can prevent an uncommitted result, while cancellation after commit entry returns false and does not imply rollback. Presentation delivery is separate: a completed Event whose initial send fails is retried from canonical COMPLETE EventHistory through current Presentation checks and Gateway deduplication, without repeating interpretation or Event dispatch. Retry and Runtime generation advancement are serialized under the original permit's snapshot scope; a retry cancelled from the queue at close completes with an explicit pending-recovery status. The coordinator is opt-in; the synchronous service and optional UI adapter remain unchanged.
+
+**Verification evidence (owner-provided, ordinary Windows PowerShell; after the latest async slice and race fixes):** `tests/test_runtime_write_fence.py` — **8 passed in 0.17s**; full pytest — **1144 passed, 8 skipped in 57.96s**. The eight skipped tests remain skipped and are not counted as passes; the provided summary did not include their individual skip reasons. These results are reported by the owner and were not rerun in this documentation closeout. They establish the reported regression run, not a proof of every future async boundary or full project acceptance.
+
+**Earlier Codex-environment checks (historical):** the combined Player, EventProcessor, Presentation Safety, Runtime Safety binding and action-pipeline Safety regressions reported **93 passed**; the RuntimeWriteFence synchronous subset reported **5 passed, 3 deselected**. A full `tests/test_runtime_write_fence.py` attempt stalled during asyncio startup without a test summary; loopback `connect()` refusal (`WinError 10013`) and `_fallback_socketpair` waiting in `accept()` were observed in the restricted environment. The owner-provided ordinary PowerShell `8 passed in 0.24s` result predates this async implementation and is superseded by the later 8-pass result above. After independent-review fixes, `compileall -q src tests` exited **0**; `git diff --check` and `git diff --cached --check` exited **0** in the earlier implementation turn. These historical checks do not establish durable delivery, cross-process recovery, interruption of provider computation, or a general task/UI protocol.
+
+**Historical bounded cross-layer regression review (2026-10-20):** Presentation failure after a committed player Event exposed replay defects. The same-service replay fixes and their focused results are recorded here as historical evidence. At that point the broader asynchronous coordinator proposal remained pending review; the narrow D3.3.2 implementation and current results are recorded above. No durable outbox or cross-client guarantee is claimed.
+
+**UI decoupling / asynchronous application boundary — DESIGN RECORDED; IMPLEMENTATION PARTIAL:** No PySide6/Qt/Web imports are required by the new coordinator. `PlayerActionService.submit()/submit_input()` and provider interfaces remain synchronous; the coordinator moves `submit_input` work to a serialized background thread only when the host opts in. This is not a general background task manager or provider cancellation mechanism. Existing Presentation contracts and the task snapshot are narrow typed projections, not a universal DTO boundary. The later `anchor_desktop` product gateway now connects to the coordinator with a narrow status/display projection; no reliable general client event stream or durable reconnect protocol exists. The coordinator's in-process test evidence is in the D3.3.2 record above.
+
+The dated baseline and evidence ledger at the start of this file identify the current checkout and distinguish it from historical committed snapshots. Subsequent D3.3.1/D3.3.2 and phase entries are chronological records; “current working tree” and “this turn” refer to their original runs. Their test counts are not fresh verification. The unified phase/status index is DEVELOPMENT_ROADMAP.md.
+
+**D3.3.1 — raw player input classification and clarification — IMPLEMENTED NARROW / TESTED TARGETED SLICE:** `PlayerActionService.submit_input` accepts a bounded host-bound raw input, screens the raw text through shared Safety before interpretation, then consumes a typed `PlayerInputAssessment` with three distinct semantic outcomes: ACTION, UNPARSEABLE and CLARIFICATION_REQUIRED. Provider/configuration/format failures remain `reasoning_unavailable`; they are not blamed on the player or relabeled unparseable. Only ACTION enters the existing target authorization, shared Safety, ActionProposal/Attempt, Resolution, EventProcessor and fact-backed Presentation path. A clarification result records necessary missing fields and a context-specific provider-generated question in a receipt-bound `PlayerClarificationMessage` on a separate gateway channel; it creates no Proposal/Attempt. That initial D3.3.1 slice interpreted a later response as a new request; the later ANCHOR-M2-01 service-owned pending clarification now supplements the original request under session/generation/deadline checks. Unparseable input may use the existing bounded NarrativeFallbackService with raw text marked untrusted; missing/failed/rejected generation yields a non-text recovery signal. Neither display type carries Event/fact provenance or a world/cognition write interface. Deterministic tests compare WorldState, EventHistory and Observation state across no-result paths and verify replay, target refusal, and Safety refusal before interpretation. This is an application boundary, not a sandbox against malicious same-process code; semantic output correctness is not proven. The optional Ollama interpreter is bounded, loopback-only and explicitly selected; no live model call or CWUI rendering is claimed. Current-turn focused regression result: `121 passed, 1 skipped` covering autonomous Agent decision, player vertical slice, Presentation safety, Runtime safety binding, Resolution event boundary and dialogue runtime. The full-suite run was blocked at pytest-qt setup for `tests/test_cognitive_state_snapshot.py::test_dpapi_verified_bundle_rejects_cross_paired_signed_manifest`: pytest could not create a numbered directory under the current sandbox TEMP after 10 tries; `--maxfail=1` stopped with `215 passed, 1 skipped, 1 error` before the final D3.3.1 test additions. The full suite therefore remains unverified. `compileall -q src tests` completed in this turn with exit code 0.
+
+**No-result narrative fallback — IMPLEMENTED NARROW / TESTED SYNTHETIC PATH:** `PlayerActionService` fixes a fingerprint-bound no-result after unresolved Resolution or unparseable raw input, then may use an explicitly configured provider to generate and review bounded text. `NoResultNarrativeMessage` uses a separate Presentation/Gateway channel with no Event or fact references. The optional Ollama adapter uses loopback-only transport; generation/review are limited to two attempts. Provider absence/failure/rejection returns a non-text `clarify_or_retry` signal and does not expose raw errors. The provider has no WorldState/Event/cognition write interface; this is not a general semantic safety guarantee. Earlier focused results (120 passed, 1 skipped) and full-suite temporary-directory setup failure are historical results from the earlier fallback-only slice, not current D3.3.1 validation.
+
+**Hybrid associative Memory retrieval — PARTIAL / NARROW SEMANTIC AND EVENT-ANCHORED SLICES:** The deterministic lexical retriever over Character-linked Memory IDs remains the baseline. Optional `HybridMemoryRetriever` adds a per-query, at-most-64-ID semantic index through an explicitly supplied `EmbeddingProvider`; an optional local Ollama transport adapter is available but no model is enabled by default. Lexical order is preserved, semantic similarity fills unused result slots, and AgentTurn subsequently merges its separately verified Event-linked candidates. Every channel remains bounded by owner/Character authorization and canonical MemoryStore rechecks; neither embeddings nor source Event ID strings grant authority. Timeout, invalid vectors and stale bound Runtime generations keep lexical results. The semantic index is rebuilt per query, with no persisted vectors or cache. `MemoryEventIndex` continues to require the current L1-consumed trusted Observation, complete Runtime-bound EventHistory verification, and issuing Runtime session/generation. The fixed seven-answerable/one-no-answer corpus, unchanged gold and top-five budget, produced lexical Recall@5 **5/7**, MRR **9/14**, Top-1 **4/7** and locally configured deterministic-vector hybrid Recall@5 **6/7**, MRR **11/14**, Top-1 **5/7** in this turn; returned counts were 10 versus 11, authorized candidate scans 80 lexical versus 80 lexical plus 80 semantic, canonical rechecks 10 versus 15, and observed permission violations 0 in both. The configured synonym case improved; indirect Event association remained a miss without a trusted anchor. The latest single-run eight-query median timings were 0.149 ms lexical and 0.244 ms hybrid in this environment, not production latency guarantees or general semantic-model quality evidence. The combined direct retrieval, AgentTurn, Event-index, context and reconstruction regressions reported **83 passed**, and `compileall -q src tests` exited **0** in this turn. A full pytest attempt reached about 80% without a final summary and was interrupted after no further output; it is not a passing full-suite result for these changes. No natural-language Event-anchor extraction, temporal search, general entity/causal graph, activation spreading, evidence-aware reranking, global compute-budget coordinator, remote embedding approval, or general background AgentTurn executor is implemented. Earlier D3.3.1 results remain historical evidence as recorded above.
+
+**Later owner-provided full-suite evidence for the semantic retrieval slice:** In ordinary Windows PowerShell at `D:\CognitiveWorld`, the owner ran the specified Python 3.14 interpreter with `-m pytest -q` and shared a screenshot showing **1153 passed, 8 skipped in 56.04s**. This completed run supersedes the earlier interrupted Codex-environment attempt as full-suite evidence for the working tree at the time of that run; Codex did not rerun it here. The screenshot does not separately show the process exit code or individual skip reasons. This result does not establish general semantic-model quality or close the remaining implementation limits above.
+
+**Local Ollama Embedding Provider v0.1 — IMPLEMENTED / OFFLINE TESTED / REAL MODEL NOT VALIDATED:** An optional host-injected, loopback-only `/api/embed` adapter implements the existing `EmbeddingProvider` contract. It sends bounded authorized Memory content text and bounded query text, supports at most 16 texts per native batch, and validates response count, model, dimensions and finite nonzero vectors. The query-local index and canonical Store checks remain unchanged in authority; batch failure retains lexical results. A host must run synchronous model calls off the UI thread; the player-input coordinator is not a general AgentTurn executor. This turn's targeted retrieval/adapter/context group reported **63 passed, 1 skipped** (the skipped opt-in real-model probe), and `compileall -q src tests` exited **0**. The installed Ollama CLI could not connect to `127.0.0.1:11434` in the restricted Codex environment (`connectex` access denied), so no real-model Recall@5, MRR, no-answer or latency result is claimed. A full pytest attempt advanced to about 85% without a final summary and was interrupted after no further output; it is not a full-suite pass for this new adapter. The owner-provided 1153-pass result above predates this adapter.
+
+**NPC Socialization v0.2 Stage 2.0.2 — system-only Memory isolation acceptance: PASS / TESTED SCOPE**: The Windows Python 3.14.7 / pytest 9.1.1 full suite completed with **1019 passed, 8 skipped** in 43.06s when local loopback was available. In the restricted sandbox, this interpreter lacks native `socketpair`/`AF_UNIX`; asyncio's `_fallback_socketpair` binds TCP `127.0.0.1` and blocks in `accept()`, before the affected test coroutine runs. The isolated `test_late_event_result_is_rejected_before_world_or_history_write` passed with loopback available, and the suite passed in two consecutive loopback-enabled runs (1018 before, 1019 after the added integration test). The 8 skips require explicit opt-in to local Ollama and are listed in the Stage 2.0.2 acceptance report. A new Windows-only test covers real DPAPI + SaveManager publication + independent-process restore + RestoreCoordinator activation, then explicitly links the nonverbal proof ID to the restored Character and verifies both CognitionContext views and direct MemoryRetriever hide it while canonical proof storage and ordinary authorized Memory remain intact. This is a synthetic supported-host composition; it does not claim arbitrary host reconstruction, power-loss durability, or cross-host coordination.
+
+**NPC Behavior Adaptation v0.4 — DECISION EFFECT / PARTIAL**: BehaviorFeedback is applied in the production AgentDecision scoring/sorting path. The deterministic controlled comparison in tests/test_autonomous_world_runner.py keeps owner, DecisionContext, candidates and configuration fixed while varying only trusted feedback; both adjusted score and selected candidate change, and the penalized action remains available. Save/restore tests compare checkpoint decisions and verify time decay and branch isolation. This is a narrow locked-door failure domain, not general learning. Post-restore decision tests re-establish equivalent authorized observations; they do not restore old transient L1/WorkingMemory state.
+
+**P1-1 event-fault / cognition-commit race — ACCEPTANCE REPORTED**: The historical report records deterministic ordering tests in tests/test_event_cognition_fault_race.py: an already-entered cognitive commit may finish before fault isolation; once EventProcessor records an unrecoverable post-WorldState failure and advances the fence, later Belief/Goal/Memory writes are rejected. Historical report: 933 passed, 8 skipped, 0 failed. This is not a test run for the current consolidation task and does not prove every scheduler interleaving.
+
+**P1-2 staged-save / cross-process GC race — ACCEPTANCE REPORTED**: The historical report records independent Python processes and explicit handshakes for staging versus deletion/GC, assembler failure/exit, and parent-slot deletion with child ancestry retained. Historical report: 936 passed, 8 skipped, 0 failed. Cross-host filesystem semantics, power-loss durability, permanently hung host callbacks, and every concurrency ordering remain unverified. This is not a test run for the current consolidation task.
+
+**ARCH-001–ARCH-005 repair ledger — CURRENT CODE/DOCUMENTATION SUMMARY; NOT RETESTED HERE**:
+- ARCH-001: Belief/Goal/SelfModel/Emotion proposal origins and validator results are bound to candidate content and final fenced Store writes; Memory uses its sealed persistence request. In-process boundary only; arbitrary malicious same-process code is not sandboxed.
+- ARCH-002: EventProcessor post-WorldState authority-record failure enters persistent RECOVERY_REQUIRED; Runtime and direct EventProcessor paths remain fenced until controlled recovery.
+- ARCH-003: SaveManager uses signed resource lease manifests plus OS locks and a shared same-directory catalog lock; GC rechecks signed catalog/live leases and fails closed on uncertain state. No cross-host or power-loss guarantee.
+- ARCH-004: Host pre-publication hooks run before locked final staged revalidation; staged integrity is checked around activation and immediately before publication. This covers coordinated writes/registry membership, not arbitrary private-field mutation or process-crash atomicity.
+- ARCH-005: Goal records and update results use (owner_id, goal_id); ambiguous ownerless compatibility lookups reject collisions.
+
+The P1 and ARCH labels above preserve prior acceptance findings and current implementation claims; the present documentation-only task does not rerun those suites.
+
+**Cognition candidate target-reference slice — IMPLEMENTED / CURRENT TESTS PENDING:** `SituationAssessment` now retains `subject_ref` from the Agent's verified L1 Percepts and exposes the union of those references and observed affordance targets. The bounded model candidate adapter receives that set, and model-authored non-null targets must exactly match it before candidate selection can produce an `ActionProposal`; an invented reference fails closed. Resolution still decides target support and outcome. This is reference membership, not semantic target resolution or an existence/permission proof. A new production-path test uses `AgentTurn → AgentDecision → ActionProposal` to check one owner-observed target and rejection of an unseen target without a world/Event side effect. Focused pytest tests were not run by Codex this turn; `compileall -q src tests` completed with exit code 0. No test pass result is claimed. The separately injected host candidate-policy and NPC communication contracts are unchanged.
+
+**NPC-to-NPC Social Interaction v0.1 — IMPLEMENTED / NARROW / IN-PROCESS**：显式注入的 `NpcCommunicationCandidateProvider` 可为发送者的普通候选集合增加一条有界通信候选；发送者仍由 `AgentDecision` 评分并选择。仅被选中的提案经 `NpcDialogueService → EventProcessor` 作为不改变世界状态的 `dialogue_input` 记录，并向注册的目标 NPC 签发定向 `utterance_delivered` Observation。接收者必须在自己的 L1 消费该 Observation，再由显式认知复核器独立判断；言语只证明被说出，不证明内容真实。支持的复核结果为接受、拒绝或暂缓；只有带独立受信 Observation 的既有 Belief 修订可经现有 Validator/Applier/BeliefStore 治理。确定性 Fake Provider 纵向测试验证了候选选择、目标 L1 投递、Belief 更新及其对后续接收者决策的影响。尚无持久消息队列、自动回复、NPC-NPC Goal 说服、客观关系/同意效果、真实模型语义质量或跨恢复 Observation 连续性保证。
+
+**NPC Behavior Adaptation v0.3b — 持久反馈连续性（IMPLEMENTED / PARTIAL）**：SnapshotBundle v2 以签名组件摘要绑定 `BehaviorFeedbackSnapshot` v1。SaveManager 在同一 Runtime snapshot scope 中捕获反馈；隔离重建逐条核验 EventHistory 中受信失败 Event 的 Attempt 来源，并将反馈记录的每个条件解析到该 Attempt 引用的处理器签发 Observation。恢复创建独立反馈对象，分叉后的子线变化不污染父线。旧 Bundle v1 明确恢复为空反馈并标记 `legacy_not_captured`，不声称旧历史无失败。当前来源校验仅覆盖确认的锁门失败；行为反馈不是通用结果日志。真实 Windows DPAPI/SaveManager 的合成端到端验收见本文件持久化与存档状态记录；这不验证任意宿主语义或通用行为学习。
+
+**NPC Behavior Adaptation v0.2 — 历史里程碑（已由 v0.3b 持久化扩展）**：建立明确锁门观察和无 WorldUpdate 的确认失败 Event。该阶段的反馈是临时状态；当前 v0.3b 已将受信反馈纳入签名快照组件。
+
+**NPC Behavior Adaptation v0.3a — 历史里程碑（已由 v0.3b 扩展）**：建立签名 Attempt 来源和 Event/反馈共用提交栅栏。该阶段尚未持久化反馈；当前 v0.3b 已提供签名快照组件，旧 Event 仍不会被升级为失败凭据。
+
+以下为当时 Phase 12–16 工作区的历史实施记录；`579fcbb` 已提交这些累计实现。“工作区和暂存区均为空”仅描述较早源码同步轮次的起点，不是本次检查状态；当前起点见本文顶部的有日期基线。过往逐轮报告中的测试计数仅作为历史记录，不覆盖新验收。统一的阶段状态与依赖路线见 [DEVELOPMENT_ROADMAP.md](DEVELOPMENT_ROADMAP.md)。
+
+**ARCH-003 修复 — 跨进程 Runtime 资源租约**：独立进程复现证实原进程内租约无法阻止另一进程删除父槽后回收 staged 子线依赖。SaveManager 现把精确资源 ID 写入受信根签发的租约清单，Runtime 生存期间持有对应 OS 文件锁；目录已有跨进程锁协调租约发布、目录更新与 GC。GC 重读签名目录并核验活租约，异常退出后的解锁租约可回收，损坏或不确定状态失败关闭。测试结果以本轮实际执行为准；跨宿主和断电级保证仍未验收。
+
+**ARCH-005 修复 — Goal owner 隔离**：GoalStore 已按 `(owner_id, goal_id)` 持有规范记录；本轮将受治理更新的返回值也改为按双键读取。无 owner 的旧查询及单键聚合视图遇到跨 Agent 同名 Goal 时明确拒绝，避免按遍历顺序返回或覆盖另一人的私有目标。AgentTurn 的 CognitionContext/DecisionContext、跨 Agent Goal Conflict 和恢复后 Runtime 的同名目标回归已增加；测试结果以本轮实际执行记录为准。
+
+**ARCH-001 修复 — 进程内候选授权绑定**：Belief、Goal、SelfModel 与 Emotion 的候选来源许可不再仅以可替换的公开字段为准。原始许可由来源标记登记，验证结果绑定原候选及内容快照，Applier 与最终 Store 复核同一许可。旧候选换许可、复制旧验证结果或跨 Store 复用均失败关闭。Memory 沿用独立封存请求；Personality 仍无生产演化入口。此约束不是跨进程候选持久化或同进程任意恶意代码隔离。
+
+**统一认知快照及 Agent 覆盖核验 — IMPLEMENTED / PARTIAL**：`CognitiveStateSnapshot` v2 reader 保留原签名用途和旧 Memory/v1 编码；新捕获使用 v3 schema/purpose，仍以 Runtime 的 canonical AgentRegistry 为捕获期预期清单，要求 CognitionContext 的 Agent/Character 映射精确匹配，并捕获 Belief、Goal、SelfModel、Memory、Emotion、Personality 六类规范状态。Memory/v2 的类型化 provenance、逻辑记录身份和不可变版本记录身份进入认知快照编码、摘要及签名。捕获同时持有 RuntimeWriteFence 与 AgentRegistry 成员快照锁；后者独立协调 `register`/`remove`，不是 RuntimeWriteFence 的覆盖。隔离重建要求独立的宿主预期 Agent 清单并重新核验覆盖，不提供时失败关闭。只有六类 Store 全量内容、owner、上下文必需引用及身份映射均通过，结果才标记 `complete-for-verified-Agent-manifest-and-supported-stores`。摘要不是真实性证明，EventHistory 引用仅表示 ID 存在。底层 Windows 当前用户 DPAPI 信任根要求显式初始化/打开；Anchor 的本地宿主现已在根不存在时调用受控初始化，但普通可见桌面产品路径仍待验收；私有字段写入可绕过锁；WorkingMemory、观察输入、DecisionContext、候选/诊断状态未纳入。活动 Runtime 切换由窄范围 RestoreCoordinator/ActiveRuntimeSlot 提供；完整宿主恢复、调度队列和跨进程任务状态仍未覆盖。
+
+**NPC Socialization v0.2 — Stage 2.1 Phase 1（数据兼容）**：Memory/v1 七字段编码与解释保持不变；Memory/v2 及 `MemoryDecisionProvenance/v1` 已进入严格认知快照 allowlist。CognitiveStateSnapshot v3 用新的固定签名用途捕获新数据，v2 仅按原用途/字段验证且拒绝 Memory/v2。SnapshotBundle v2 的清单语义未变，可绑定精确 v3 认知快照摘要。此阶段没有实现 MemoryDecision 策略、正式 Memory 写入、D4 授权检索或 D5 社会经历；本轮测试状态以实际验收报告为准。
+
+**NPC Socialization v0.2 — Stage 2.1 Phase 2（D3.1 正式授权与写入；历史阶段记录）**：新增显式宿主策略调用路径和 typed accepted/rejected/deferred 输出；Authority 绑定唯一策略调用、规范输入摘要、owner、来源与原始 Runtime permit。Factory 只为策略授权的 accepted 决定生成 Memory/v2 请求；Persistence 在原 fence 内复核来源、Timeline 与许可，Store 拒绝无 Persistence 授权的直接 Memory/v2 提交，并对同 ID 冲突失败关闭。旧 `Authority.issue(accepted=...)` 保留 Memory/v1 兼容，不可取得 v2 写入资格。该阶段当时未验收跨 Timeline revision 冲突/唯一后继及 Memory/v2 的分支恢复；这些由下述 D3.2 阶段单独增加和验收。D4 动态 Character 授权、拒绝与延后决定的持久审计及 D5–D9 仍未实现。
+
+**NPC Socialization v0.2 — Stage 2.1 Phase 3（D3.2 分支局部 Memory 修订；本轮已验收）**：新增仅在运行时使用的 `MemoryRevisionLineage`，从递归验证的签名祖先 Bundle 和隔离认知快照取得精确规范 Memory 编码；它不是 Store 或持久化组件。Snapshot v3 验证、SaveManager 加载/恢复、隔离重建、RestoreCoordinator 激活前复核及 MemoryStore 的最终 fenced v2 提交共享同一分支图规则。继承记录必须逐字节匹配精确检查点；父线分叉后缀和兄弟线独有记录不可见；同一父修订可在不同子线分别产生后继，而同线缺失前序、循环、重复后继、多根或歧义图失败关闭。新增 Windows DPAPI 独立进程回归通过真实 D3 策略链建立 Memory/v2，创建两个从同一签名父检查点分叉的子线并分别提交不同后继；删除父存档槽位并 GC 后，独立进程分别经 SaveManager、隔离重建和 RestoreCoordinator 恢复两条子线，恢复结果各自保留祖先及本线后继并排除父线和兄弟线后缀。全量测试本轮 **1041 passed, 8 skipped, 0 failed**；8 项为既有显式 Ollama opt-in 测试。该验收不提供跨主机协调、断电级事务、任意恶意同进程隔离或 D4 Character 授权保证。
+
+**D3.2.1 分支继承完整性修正（新增定向验收）：** v1 Memory 写入在 Store 的最终提交范围内执行不可变 ID 冲突和绑定 lineage 检查；对签名祖先继承记录的异内容覆盖会在 Persistence 与 Store 入口拒绝，精确重复仍幂等。经 Bundle 验证器产生的隔离结果绑定完整签名清单字节摘要，TimelineForkManifest 与 lineage 构建拒绝同 Timeline/tick/Event head、不同认知组件摘要的交叉配对。此为两个已审计边界的修正，不更改 Memory/Snapshot/Bundle 持久化格式或签名用途。**“时间线祖先校验盲区”继续作为开放技术债**，直至祖先包含证明、写入不可变性及递归恢复验证全部由完整生产路径证据闭合；本条不代表整体祖先验证已最终验收。
+
+**D3.2.3.3 规范 EventHistory 绑定修复（已实施；用户本机验收报告）：** `RuntimeWriteFence` 在 Runtime 装配时绑定规范 EventHistory、Timeline、codec 与 trust。正式 Memory/v2 保存先拒绝同 Timeline、同 trust 且签名有效的独立历史，再对规范历史验证完整持久化谱系；`MemoryPersistence` 还要求来源 Event 出现在验证结果中，`MemoryRevisionLineage` 继续负责 Timeline/Fork 结构绑定。回归覆盖独立签名历史被拒绝且 Store 不增加记录、规范历史合法写入、根历史缺少本地证明及分支历史缺少已验证父历史的直接验证与正式入口拒绝。负责人在普通本机 PowerShell 报告：Memory/v2 定向回归 **19 passed**，保存/恢复/分支/持久化兼容回归 **97 passed**，全量 pytest **1056 passed, 8 skipped（42.42 秒）**。`python -m compileall -q src tests` 据报告无错误输出，但未记录退出码；Codex 本轮未重新运行这些命令。上述数字不覆盖或改写前述阶段的历史验收记录，也不表示时间线祖先校验盲区关闭或进入 D4。
+
+**D3.2.4 多代时间线祖先故障测试先行（阶段验收；用户本机报告）：** 测试先行阶段通过正式 SaveManager、Runtime 重建与 RestoreCoordinator 路径补充 A→B→C 及共享祖先兄弟线 S 的恢复与隔离证据。核心 `test_grandchild_load_rejects_invalid_intermediate_ancestor_event_proof` 将 C 的签名 Fork 与 WorldState 内嵌 checkpoint 引用重绑定到故障版 B；B 的 WorldState、Bundle 与 Fork 外层签名/关系有效，B 本地 EventHistory 签名证明无效。用户报告该核心测试 **1 passed**；祖先故障定向回归组 **22 passed, 12 deselected**；完整 `tests/test_save_restore_end_to_end.py` **34 passed**；SaveManager、Runtime 重建及 WorldState checkpoint 回归 **73 passed**。最新全量 pytest **1078 passed, 8 skipped（63.11 秒，退出码 0）**；`python -m compileall -q src tests` 退出码 **0**。以上全部是负责人提供的本机结果，Codex 本阶段未运行 pytest 或 compileall。测试还覆盖所选祖先资源缺失/损坏、父 checkpoint 或继承 Event 链头不匹配、祖先 Memory 改变/遗漏、失败时活动 Runtime 未发布、健康兄弟线恢复，以及恢复原始测试资源后的健康 C 恢复。该证据仅适用于具体测试构造和覆盖的拒绝边界，不代表所有祖先故障组合或所有恢复激活窗口均已验收。**时间线祖先校验盲区仍为开放技术债；D4 尚未开始。**
+
+**D3.2.4 冻结与风险分级（阶段验收完成；祖先债务开放）：** 当前没有已确认、可复现且可通过受支持 SaveManager → RestoreCoordinator 路径触达的祖先校验绕过；这表示目前未发现此类反例，不是“已证明不存在”。剩余 **P2** 跟进限于：(A) 明确可接收宿主父历史 resolver 的低层 EventHistory 恢复 API 的调用者、信任前提及独立承担正式恢复决策时的调用方验证责任；目前没有证据表明它绕过 SaveManager 祖先资源闭包。(B) 激活阶段故障证据尚不覆盖所有窗口；仅在发现受支持的验证后至发布前祖先证据变化路径或其他可达失败路径时重开。**P3 暂缓**所有祖先代数/损坏位置排列、签名与 Memory 故障的全组合、所有删除/并发/GC 时序，以及没有独立不变量或可达路径依据的纯理论场景。后续仅在出现新受支持入口/信任边界、此前未测独立安全不变量、可复现失败/反例/可信生产证据，或持久化/信任根/恢复协议/资源回收/Runtime 发布顺序实质变化时，才增加测试或重开审计；每个候选测试还须明确其新不变量、正式路径、如何改变风险决策及通过后实际降低的风险，否则暂不扩张。D3.2.4 已冻结；时间线祖先校验债务保持开放，D4 未开始。详细规则见 [DEVELOPMENT_ROADMAP.md](DEVELOPMENT_ROADMAP.md)。
+
+**生产持久化信任根与跨组件真实性 — IMPLEMENTED / PARTIAL**：新增显式初始化的 `WindowsDpapiPersistenceTrust`，把随机 HMAC 键以当前用户 DPAPI 保护后存于 LocalAppData key ring；签名 envelope 包含算法、格式版本、purpose 与 key ID。支持新键轮换、旧键保留验证和显式撤销。WorldState 检查点 v3 签名绑定规范内容摘要、tick 与 Timeline；Event 处理凭据 v2 额外签入 Timeline 所有权；`SnapshotBundleManifest` 绑定世界与认知组件精确字节摘要、共同 tick/Timeline、Agent 清单摘要及 Event 链头。清单验证先验证签发者，再独立验证组件与来源关联。真实本机 DPAPI 及独立子进程重新打开/验签通过；SaveManager 的父/子存档现也有独立子进程重开验收，Fake HMAC 测试与真实 DPAPI 测试分开。DPAPI 不防御同用户恶意进程，HMAC 不是非对称签名；当前应用不自动初始化生产根，密钥备份/恢复流程仍未实现；窄范围的进程内 Runtime 发布协调已实现，完整产品恢复仍未完成。
+
+本轮信任根/世界与认知清单定向测试 **29 passed**，其中包含真实 Windows DPAPI 根初始化、轮换/撤销、替换失败及新进程验证。全量 `tests/` **852 passed, 8 skipped**；`compileall -q src tests` 与 `git diff --check` 均通过。没有调用外部服务。
+
+本轮复验：快照覆盖、AgentRegistry、写入栅栏、Memory、认知 Store、SelfModel、WorldState 检查点/槽位来源、跨 Agent Goal Conflict 与 Persuasion 定向回归 **98 passed, 1 skipped**；全量 `tests/` **845 passed, 8 skipped**。`compileall -q src tests` 与 `git diff --check` 结果见本轮最终复验。没有调用 Ollama 或外部服务。
+
+**本轮 Cross-Agent Goal Conflict 最小生产切片**：Runtime 从各 Agent 自己的 linked canonical active Goals 提取结构化资源需求，核验严格命名空间的 WorldState Entity 身份槽位和来源后交给现有 Scheduler。受支持状态仅表示不同 Owner 对同一已存在对象、同一声明 scope 的排他使用要求；不表示实际容量、占有、竞争或参与者知情。owner-scoped findings 只含自身 Goal 引用及不透明来源摘要，可影响既有候选评分并进入 Proposal/Event Tree 诊断，不产生 Attempt/Event/WorldState/认知写入。定向跨 Agent、Goal、Scheduler、Runtime 与 Event Tree 回归 **77 passed**；全量 `tests/` **811 passed, 8 skipped**；`compileall -q src tests` 与 `git diff --check` 退出码均为 0。没有调用 LLM 或发送外部数据。资源容量/占用契约、跨进程生命周期与 Timeline restore fencing 仍未实现。
+
+**本轮 SelfModel 最小演化切片**：`SimulationRuntime` 或 `AgentTurn` 仅在宿主显式注入 Provider 时启用 `CognitiveEvolutionEngine` 的 SelfModel 候选路径。输入限同一 owner 本回合新经 L1 消费的可信 Observation 与其 self-belief 快照。候选只能成为带 Observation/Event 来源引用的 `tentative` 自我认识条目，并经 `CognitiveUpdateValidator`、`CognitiveUpdateApplier` 和 canonical SelfModelStore stale-snapshot 检查；重复 L1 消费不再次处理。Personality 不更新。定向测试与全量回归以本轮结束结果为准；没有调用真实 Ollama，也没有外部数据发送。
+
+**本轮「灵光一闪」后端验证**：定向新测试 **18 passed, 1 skipped**；相关回归 **92 passed, 3 skipped**；全量 `tests/` **676 passed, 4 skipped**。另以非敏感合成世界显式调用本机 `qwen2.5:7b` 三次，每次一个请求，分别约 **3.88 秒、3.85 秒、1.16 秒**，三次均通过契约校验（每次 1 passed）。离线 Fake Provider 测试与真实本地调用分别记录；没有向外部服务发送数据。`compileall` 与 `git diff --check` 在本轮末复验。
+
+**本轮 Event Tree 探索深化验证**：Event Tree、Scheduler、AgentDecision 与 Runtime 定向回归 **48 passed**；全量 `tests/` **658 passed, 3 skipped**；`compileall -q src tests` 和 `git diff --check` 退出码均为 0。使用本地 Python；没有调用真实 Ollama 或其他外部 Provider。新增测试只验证现有生产组件和本地 Fake Provider 的约束，不证明实时模型分支质量。
+
+**此前 Proactive World Expansion 复验**：相关定向测试 **74 passed**、全量 `tests/` **599 passed**。该计数是历史记录。
+
+**本轮动态状态聚合复验**：聚合、因果、受控查询、候选复核、事件可靠性、Agent Runner、Scheduler、Event Tree、主动扩展及玩家纵向闭环定向测试 **96 passed**；全量 `tests/` **605 passed**。`compileall` 与 `git diff --check` 在本轮结束检查通过。使用 `C:\Users\18636\AppData\Local\Python\bin\python.exe`；未调用真实 LLM，也没有外部数据发送。
+
+**本轮 Cognitive Causality 验证**：认知因果及更新治理、AgentTurn、认知隔离、情绪/动机和 Runtime 定向测试 **46 passed**；全量 `tests/` **616 passed**；`compileall` 与 `git diff --check` 通过。pytest 有一条缓存目录不可写警告，不影响退出码与测试结果。未调用真实 LLM，也没有外部数据发送。
+
+**本轮 Dialogue & Agency 验证**：定向 Dialogue/Event/Observation/AgentTurn/玩家纵向回归 **28 passed**；全量 `tests/` **619 passed**；`compileall -q src tests` 与 `git diff --check` 退出码均为 0。使用 `C:\Users\18636\AppData\Local\Python\bin\python.exe`。未调用真实 LLM，也没有外部数据发送。此验证覆盖受控话语交付、接收者 L1、可选解释候选及接收者 AgentTurn/Attempt 来源绑定，不代表实时语义质量、NPC 文本回复或明确拒绝/澄清能力已验收。
+
+**本轮 Ollama 自主回应候选接入**：本机 Ollama 0.40.3 已响应，发现模型 `qwen2.5:7b`。正常 `PlayerDialogueService` 可通过显式环境配置装配本地回应候选 Provider；真实合成回合已走通模型候选 → `AgentDecision` → `dialogue_reply` Event → 定向 Observation → Presentation/Gateway。本轮复验：Dialogue/Event/Observation/AgentTurn/玩家纵向定向测试 57 passed、1 skipped；真实本地 Ollama 合成端到端测试 1 passed；全量 tests/ 为 638 passed、1 skipped；compileall 与 git diff --check 通过。测试缓存目录有一条不可写警告，不影响 pytest 退出码。未调用外部模型服务。当前不宣称一般语义质量、自动私有信息披露判定、自由语言改写或持久/并发 exactly-once。
+
+**本轮 Ollama Cognitive Causality 接入**：`SimulationRuntime` 可按 Agent 回合绑定认知复核器；需显式注入 Provider，或单独设置 `COGNITIVEWORLD_COGNITIVE_REVIEW_PROVIDER=ollama`。它复用 Dialogue 的 loopback-only HTTP、模型、地址、超时及 token 配置；Dialogue Ollama 选项不会自动启用认知数据发送。定向回归 **88 passed, 2 skipped**；全量 `tests/` **642 passed, 2 skipped**；compileall 及 `git diff --check` 最终复验通过（Git 有既有行尾转换提示）。真实本机 `qwen2.5:7b` 合成认知调用尝试两次：一次输出结构不符、一次超过 30 秒上限；真实语义复核仍 **NOT VALIDATED**。未使用外部模型服务。
+
+**本轮本地延迟复验（2026-10-17）**：本机 Python 3.14.7、Ollama 0.40.5、`qwen2.5:7b`。模型冷加载 2.934 秒；最小合成输入预热后 0.121 秒。单个合成认知请求包含 280 字符证据/信念输入、675 字符系统指令、约 791 字符 Schema；现有 Schema 请求 2.324 秒，同输入 JSON 对象格式 1.990 秒，512 token 上限的 Schema 请求 1.985 秒；各次输出均有效且解析低于 0.2 毫秒。一次同形状原生 API 诊断总耗时 5.538 秒，其中模型重新加载 2.901 秒、提示评估 0.155 秒、生成 2.442 秒、客户端解析约 0.000061 秒。1/4/8 条有界合成证据和信念分别耗时 1.199/1.493/1.896 秒。真实本地模型驱动的可信 Observation → AgentTurn → canonical BeliefStore → 后续 AgentTurn 合成路径连续 **3/3 成功**，复核耗时 3.002/2.648/2.683 秒；可选真实认知集成测试 **1 passed**；真实 Dialogue 集成测试 **1 passed in 23.13s**。定向回归 **41 passed, 2 skipped**，其中新增超时保护测试；全量 **643 passed, 2 skipped**；`compileall` 与 `git diff --check` 通过。先前 30 秒超时未复现，根因未确定；这些结果只验收窄范围合成场景，不能保证一般语义质量或最坏情况延迟。本轮测量未显示 Schema、输出上限或解析是稳定瓶颈，因此没有为了单次超时放宽预算或更改生产请求契约。仅访问本机回环端点。
+
+## Previously recorded runtime capabilities
+
+**本轮开放式物理效果与多实体来源复验**：`OllamaPhysicalEffectSuggestionProvider` 复用 Dialogue 的 loopback-only transport 与共享配置；模型输入来自单次 Attempt 和窄化物理视图。聚合器只将 WorldState 当前核验身份的 actor、typed target、自有工具和 Attempt 有界引用列为可用引用；额外实体状态不会因此暴露。每个语义效果携带自己的参与者关系、条件和当前聚合来源绑定。`SupportedPhysicalEffectTranslator` 将开放效果标签交给已安装规则复核；不支持的效果给出具体缺口并保持 unresolved。成功兼容路径将参与者关系保留在签发 Resolution/Event 的 `model_proposed_unverified` 元数据中，不把这些关系当作观察事实。Actor、initiator、潜在直接致因和可能承受者保持分离；碰撞、伤害和跨实体变化目前无可确认的状态转变契约。相关定向 **115 passed, 3 skipped**；本次显式本地 `qwen2.5:7b` Ollama 路径 **1 passed in 7.10s**（仅 loopback、本地合成数据）；全量 **652 passed, 3 skipped**。`compileall` 与 `git diff --check` 在最终复验通过。单次真实模型结果不证明一般语义可靠性。
+
+- **IMPLEMENTED / TESTED — Core authority path:** controlled Event provenance, EventProcessor WorldState writes, ObservableFact and event-time evidence, owner-authorized Observation, L1 consumption and existing Resolution→EventFactory→EventProcessor chain.
+- **IMPLEMENTED / PARTIAL — Cognition and autonomous Agent:** owner-scoped five-layer DecisionContext, bounded Memory/L5, Emotion/Motivation, candidate generation/evaluation and AutonomousWorldRunner. Deterministic causal policies cover typed door operations and known passage traversal only; other methods remain unresolved.
+- **IMPLEMENTED / TESTED / PARTIAL — Cognitive Causality:** Existing Belief review remains opt-in and owner-scoped. AgentTurn additionally supports explicitly injected SelfModel review: only newly L1-consumed trusted Observations plus that owner's current self-beliefs reach the proposal provider; one tentative, source-bound entry may pass shared validator/applier checks into canonical SelfModelStore and is read by subsequent DecisionContext assembly. An optional loopback-only Ollama SelfModel adapter reuses Dialogue transport and is never automatically instantiated. Fake Provider tests cover this production data flow; no live SelfModel model call was made in this turn. Personality evolution, generalized contradiction handling, durable receipts, and a cognitive/physiological causal domain remain unimplemented.
+- **IMPLEMENTED / PARTIAL — Presentation and player action:** host-bound PlayerActionService and ChatOutputGateway path exist with a narrow deterministic composer. UI adapters/default launcher and broad narrative rendering are not fully migrated.
+- **IMPLEMENTED / PARTIAL — Dialogue ingress, response candidates and delegated Agent action:** `PlayerDialogueService` uses the host-bound roleplay identity, requires a registered co-located receiver, screens the utterance with shared Safety, and records delivery as a trusted system Event handled by EventProcessor. A recipient-only `utterance_delivered` Observation enters that Agent's L1/WorkingMemory; the utterance is not promoted to an objective claim. A host may inject a `DialogueResponseCandidateProvider` or explicitly select the loopback-only Ollama adapter with a configured model. The provider receives only a bounded owner-scoped SituationAssessment and current event-bound input; local validation binds owner/source and restricts target grounding. Existing AgentDecision evaluates and selects. Only a selected acceptance invokes the NPC-as-actor/original-sender-as-initiator Attempt path. A real local `qwen2.5:7b` synthetic end-to-end path passed in this turn. No default model, remote endpoint, free-language rewriting, disclosure classifier, or general social Resolution exists; semantic quality remains unvalidated beyond this sample.
+- **IMPLEMENTED / PARTIAL — Player-to-NPC existing-Belief persuasion:** an explicitly injected semantic reviewer sees only the receiving NPC's new L1 speech Observation, own existing Beliefs and bounded independent, processor-backed objective Observations. Speech is testimony, not objective support. A proposed change cites speech and independent evidence, survives current tick/source/L1/old-value rechecks, and uses the existing validator/applier and canonical BeliefStore. Later AgentTurn reads the update. Fake Provider production tests cover acceptance, rejection, insufficient evidence, source/owner failures, stale state and replay. Live Ollama persuasion quality is not validated; citation does not prove arbitrary semantic support.
+- **IMPLEMENTED / TESTED — Reusable content and Scenario:** Phases 13–16 provide templates/instances, validated content proposals, Scenario lifecycle, EventSeed attention opportunities and runtime installation through controlled paths. This is not an infinite dungeon engine or background autonomous world.
+- **IMPLEMENTED / TESTED — Local candidate evidence review:** SimulationRuntime binds evidence review per canonical AgentDecision turn using that Agent's CognitionContext and current tick. The local deterministic default queries only owner-authorized, provenance-checked Observation facts already represented by exact L1 fact IDs; the result can adjust candidate ranking/uncertainty and flow to ActionProposal. The shared AgentDecision, stores and WorldState are not written by review. Resolution/EventProcessor retain result and world authority. A trusted host may inject a local adapter; no external LLM is automatically called.
+- **IMPLEMENTED / TESTED / PARTIAL — Attempt-scoped dynamic state aggregation:** `InteractionStateAggregator` is used by `MethodBasedResolutionEngine` to create the current physical `CausalWorldContext` from targeted canonical WorldState reads bound to the Attempt fingerprint, target reference, and clock-issued tick. It reads one actor, position, owned entities needed for tool IDs, and one typed environment target; it does not copy full WorldState mappings or cache the aggregate. An optional cognitive view is available only through the same owner's `AuthorizedStateQuery` and includes trusted observed facts with Observation/Event provenance; unsupported, hidden, unknown, and over-budget references stay unknown. This does not implement Cognitive Causality or include Belief/Goal/Memory/Emotion in Resolution.
+- **IMPLEMENTED / PARTIAL — Attempt-bound physical effect proposals and slot provenance:** Current door and known-passage policies return immutable `PhysicalEffectProposal` records bound to Attempt ID/fingerprint, target, trusted tick, aggregate source refs, per-slot value fingerprints/origins, and verified/unknown conditions. `MethodBasedResolutionEngine` rejects raw/unbound/stale effects; EventProcessor verifies slot reads against current WorldState and EventHistory before applying the update. WorldState tracks only the latest Event that actually changed each addressable slot; IDs are exposed only when the matching intact Event and processor receipt remain in canonical EventHistory. Initialization is marked separately and missing/unverifiable lineage remains unknown. This is not full event sourcing or causal reconstruction. Door and passage remain the only supported physical effect domains.
+- **IMPLEMENTED / TESTED / PARTIAL — Event Tree candidate exploration:** `AgentDecision` retains checked candidate source references in its private decision trace. `SimulationRuntime` records an immutable `EventTreeSnapshot` bound to Proposal, owner and tick, and validates Scheduler links against current findings. Evaluated candidates are expanded lazily; budget and duplicate pruning retain source/parent/reason. Optional provider proposals are checked as a complete batch before addition, remain unassessed, and are bounded by per-parent, per-tree call and global branch limits. Expansion failure is diagnostic and cannot change the selected action. This tree does not simulate branch WorldState or outcomes and is not exposed through player Presentation. No live model branch proposer is configured.
+- **IMPLEMENTED / TESTED / PARTIAL — Conflict & Opportunity Scheduler:** canonical `SimulationRuntime` turns retain owner-local bounded findings for Motivation goal tension and observed affordance opportunities. Runtime now also forms a bounded system projection from each registered Agent's own linked canonical active Goals, extracting only explicit `GoalResourceDemand` records and verifying each exact `object:{id}` against the current WorldState Entity identity-slot receipt. Free-text goals are never interpreted. Findings distinguish same-resource shared target, incomplete exclusive-use scope, and matching exclusive-use/scope requirements; the last establishes only a structural Goal requirement conflict, not actual possession, competition or awareness. Each owner receives only its own Goal identity and opaque revision/slot-source digests; partner prose, IDs, priority and private cognition are omitted. Stable per-owner issue IDs deduplicate repeats; changed Goal/resource identity creates a new revision and absence enters the existing bounded dormant lifecycle. Linked findings may affect only bounded scoring for that owner's existing Goal-linked candidates and flow to Proposal/Event Tree diagnostics. No action, Event, Goal/cognition or WorldState write is created. Optional model analysis remains explicit and owner-local, disabled by default. Generic resource capacity/availability, wider relationship conflict, durable lifecycle and timeline restore fencing remain unimplemented.
+- **IMPLEMENTED / TESTED / PARTIAL — Proactive World Expansion:** an explicitly configured `SimulationRuntime` expansion coordinator consumes only same-runtime scheduler findings after the corresponding Agent Event commits. The injected need policy may request no content; an injected factory reuses existing GenerationProposal validation, ContentRegistry, RuntimeContentInstaller and ScenarioLifecycle. The tested path installs new reusable Character/Location/Scenario definitions through EventProcessor, registers the Scenario as AVAILABLE, and later enters it to produce authorized Observation. Stable finding-derived instance IDs prevent duplicate installation; exact definitions may be reused. There is no default need policy, external Provider, or live LLM call. The slice remains limited by owner-local Scheduler signals, current character provisioning granularity and in-process installation recovery.
+
+## Historical Phase status
+
+- **Phase 12.0–12.6 — IMPLEMENTED, with narrow domains and security/reliability limits.** The main additions cover presentation safety, trusted Event/Observation, five-layer cognition, memory/metacognition, Emotion/Motivation, autonomous proposals, narrow door/passage Resolution, P0 governance/WorldNorms and bounded multi-Agent runtime. In-process receipts are not a hostile-code boundary; runtime recovery is not durable; P0 semantic model effectiveness is not validated.
+- **Phase 13 — IMPLEMENTED / PARTIAL.** Reusable Character/Location/Scenario templates and independent instances, validation/registry, and EventSeed opportunity contracts.
+- **Phase 14 — IMPLEMENTED / TESTED / NOT LIVE-VALIDATED.** LLM content proposal adapter and strict validation use the existing provider boundary; automated tests use fake transport. Live model quality/effectiveness is not claimed.
+- **Phase 15 — IMPLEMENTED / PARTIAL.** Scenario entry/exit lifecycle and observation-gated seed scheduling for installed instances. No background evolution or general story planner.
+- **Phase 16 — IMPLEMENTED / PARTIAL.** Runtime content installation uses controlled Events and canonical WorldState/Stores/registries; multi-stage failure is not a durable atomic transaction.
+
+More detailed accepted architecture and limitations are in [ARCHITECTURE.md](ARCHITECTURE.md), [DATA_CONTRACTS.md](DATA_CONTRACTS.md), and [MEMORY_DESIGN.md](MEMORY_DESIGN.md).
+
+## Cross-phase additions (not duplicate phases)
+
+- Player-to-CW action and Presentation vertical slice: implemented in CW, narrow rendering and incomplete CWUI production migration.
+- `InteractionReference`: implemented namespace parsing with bare-object compatibility; namespace is not authorization. Agent-target grounding/adjudication is not implemented.
+- `AuthorizedStateQuery` / `AuthorizedQuerySession`: implemented, read-only, owner/Observation/Event/time bound, budgeted; no full-world read.
+- `InteractionStateAggregator`: implemented as an ephemeral Attempt-bound physical Resolution input and optional owner-authorized observed-fact view; no new Store or write authority. General target grounding and cognitive/physiological Resolution remain unimplemented.
+- `PhysicalEffectProposal`: implemented as an immutable, non-authoritative envelope used by the existing door/passage policies. It binds their proposed typed change to the current Attempt/context and carries verification evidence into the signed Resolution/Event; EventProcessor still revalidates and commits. It is not a generic effect evaluator or a new world-state schema.
+- Runtime candidate evidence review: implemented and tested in the normal Runtime assembly with local deterministic default and optional trusted adapter. This work is complete within candidate scoring/uncertainty; do not schedule its production wiring again.
+
+## Hybrid physical engine and adaptive LOD — architecture approved, not implemented
+
+Current production physical adjudication remains limited to door operation and known-passage movement through Attempt-bound `PhysicalEffectProposal` → Resolution → EventFactory → EventProcessor. Existing tests exercise proposal binding, state-slot revalidation, and those supported transitions. There is no general canonical 3D coordinate/transform service, material or structural response model, general collision/occlusion engine, continuous motion integration, or independent cognitive/perceptual/physical LOD scheduler.
+
+The approved design treats world coordinates as canonical and subject-local polar/spherical coordinates as derived projections. Cognitive LOD budgets reasoning; perceptual LOD budgets owner-authorized detail; physical LOD selects model/step/collision precision. A shared coordinator may allocate a total compute budget, but does not collapse the axes to distance. Consequential uncertainty or hard-constraint proximity requires deterministic escalation; unavailable precision or unresolved model disagreement leaves Resolution unresolved. This is architecture guidance only: no implementation or test acceptance is claimed for the proposed capabilities.
+
+## NOT IMPLEMENTED / NOT VALIDATED
+
+**社交因果剩余能力 — PARTIAL / NOT IMPLEMENTED：** Cross-Agent Goal Conflict 已有明确的 Goal resource-demand 最小切片；NPC-origin 通信和接收者既有 Belief 复核已具备上方所述的进程内窄切片。一般资源容量/占用裁定、完整世界级冲突检测、Goal 说服、持久 NPC-NPC 消息与自动对话、一般社交关系/同意裁定及跨恢复的社交状态连续性尚未实现。语义复核不构成自然语言真实性保证，详见 [SOCIAL_CAUSAL_DESIGN.md](SOCIAL_CAUSAL_DESIGN.md)。
+
+**此前持久化凭据与 WorldState 快照基础（历史切片）**：EventProcessor 可在显式注入 `PersistenceTrust` 后，为正常成功提交签发版本化 Event 处理凭据，绑定 Event 与处理证据摘要、实际 WorldUpdate 摘要、tick、变更槽位指纹和前序凭据。EventHistory 保存凭据与原始 Event 同一权威历史；当前检查点契约已升级为 v2，并补充 Timeline 和本地 DPAPI 信任根能力；该历史条目仅记录最初基础，不代表完整存档已经完成。
+
+**SaveManager & Save Lifecycle — IMPLEMENTED / PARTIAL**：`runtime.save_manager.SaveManager` 和 `DependencyTracker` 在 `RuntimeWriteFence.snapshot_scope()` 与 `AgentRegistry.snapshot_scope()` 下捕获规范 WorldState、六类认知 Store、EventHistory、tick 与 Timeline，验证后以不可变内容寻址 blob 保存 WorldState/CognitiveState/Bundle/适用的 fork manifest。HMAC/DPAPI `PersistenceTrust` 签名的单一目录记录 Save_ID、存档类型、session/generation、bundle 摘要、Event 链头/ID、父检查点和依赖资源。自动存档按配置默认保留 5 项且不触及手动存档；快速存档为独立单槽；手动存档需显式创建、替换、删除。替换/删除以目录原子替换为逻辑提交点，prepare/commit journal 在重开时按已签名目录恢复，依赖计数按目录重建；共享祖先由资源闭包、签名 checkpoint index 与同目录多进程共享的签名 staged/active Runtime 租约清单与 OS 文件锁保护。`load_verified` 验签并校验依赖；`stage_restore` 只生成冻结 StagedRuntime，后续由 RestoreCoordinator 发布。真实 Windows DPAPI 合成测试已在独立 Python 子进程中重开父线存档和删除父槽后的子线存档，并验证分叉激活、恢复后的 AgentTurn、Resolution/EventProcessor、新 Event 凭据链及逐槽位来源；迟到候选与旧 Proposal 无法提交。仍未验证所有断电/文件系统故障、跨宿主活动 Runtime 租约、timeline 删除、持久化宿主/调度器及任意宿主的完整读档闭环。签名能力依赖宿主显式配置生产根；该切片不是完整存档产品验收。
+
+**本轮规范认知写入栅栏审计与补齐**：Memory 现沿 `MemoryProposal → MemoryDecision → MemoryWriteRequest → MemoryPersistence.save → MemoryStore._commit_memory` 保留候选原始许可，并在持栅栏锁的持久化与 Store 边界核验；AgentTurn 将当前 Runtime fence 绑定到认知上下文的 MemoryStore。PlayerDialogueService 在接收者 L1/provider 前捕获 EventProcessor 所绑定的同一 fence，使迟到 Persuasion Belief 候选保留原代次。BeliefStore、GoalStore、SelfModelStore 的规范 update 边界及 Emotion 的 `CognitionContainer.apply_emotion_update` 也复核许可，不只依赖上层 Applier。Personality 没有生产演化调用方或治理提案；Runtime 绑定后旧 `update` API 拒绝，初始化注册不变。定向回归 **114 passed, 1 skipped**；全量 **831 passed, 8 skipped, 1 failed**。唯一失败为独立跨进程快照测试在 Python 3.14 Windows 子进程创建阶段触发 `OSError [WinError 6]`（`DuplicateHandle`），单测重跑仍在相同环境位置失败；Python 3.12 可用但未安装 pytest，未安装依赖。`compileall -q src tests` 与 `git diff --check` 通过。写入栅栏仍为进程内能力；私有字段直写、未绑定独立 MemoryPersistence、脱离捕获操作的自定义异步回调及跨进程代次不受本机制覆盖。
+
+本轮新增 Memory 迟到候选、重发请求、Store 最终提交与 generation 竞争测试；并复验旧代次 cognition、Emotion、Dialogue 路径。能力仍限进程内：未绑定的独立 MemoryPersistence、Store 私有字段直写、脱离运行操作的初始化 API、自定义丢弃 Task Context 的回调及跨进程任务未覆盖；没有实现 Memory 生成的 Runtime 自动调度、Personality 演化或完整 Context Freeze。
+
+- Isolated Event Tree branch state, continuous hypothetical causal simulation, outcome/value propagation, persistence, and runtime-configured branch proposal providers. Current Event Tree supports candidate alternatives and bounded pruning only. `EventSeed` remains an observation-gated attention opportunity, not an Event Tree and not a World Event.
+- Proactive content expansion is now an opt-in Runtime slice, not a general world-content planner. Default need evaluation, live-model creative generation, broad cross-Agent/global conflict discovery beyond typed Goal resource demands, tiered important-character resources, and durable expansion/install recovery are not implemented.
+- Live LLM query/analysis and model-assisted causal reasoning. No live model call or external evidence send was part of the latest validation.
+- General target grounding, generic Entity-state effects beyond the bound door/passage proposals, broader physical/Combat Resolution, cognitive/physiological causal domain, and complex social causality.
+- Complete historical Event lineage and causal reconstruction; current slot metadata stores only each addressable slot's latest successfully processed changing Event, with EventHistory verification. `source_refs` remain canonical read locations and are distinct from slot-level Event provenance.
+- Durable persistence, crash recovery, global transactions, and exactly-once execution.
+- Complete CWUI production integration, authenticated deployment host, and full product acceptance.
+- Real-model P0 safety effectiveness and adversarial evaluation.
+
+**IMPLEMENTED / TESTED / PARTIAL — 玩家「灵光一闪」后端**：`PlayerInsightService` 仅由玩家显式触发，使用宿主会话、当前 tick 和 Presentation 可见性核验后的 Observation；只投影有公开依据的同 owner Event Tree/Scheduler 注意力元数据。本地 Ollama 通过既有回环传输提出带来源编号的未证实探索问题；新增有界语义复核，将每条问题只与自身引用的可见事实比较，未经支持或不确定则整批拒绝。程序仍校验结构、来源、权限和 P0 输出；模型复核不等于语义证明。结果独立于已确认 Event 的 Presentation/Gateway 契约，不写世界、不创建行动。CWUI 触发/展示、模型一般语义防泄露质量、持久预算及假设世界推演尚未实现或验收。
+
+**本轮语义对抗验收限制**：本机 `qwen2.5:7b` 对六个合成、固定候选的复核分别拒绝五个无依据问题并允许一个中性探索问题；旧有“模型自主生成即应返回建议”的可选实时测试在新增复核后返回 `semantic_unverified`，未通过原有可用率期望。离线全量回归与这项可选模型生成测试必须分别解读；不得把有限对抗样本或第二次模型判断当作一般语义认证。
+
+**后续独立语义校准（合成数据，NOT VALIDATED）**：新增 14 个附预期标签及理由的独立评测案例，经真实 `PlayerInsightService` 路径运行；Fake Provider 只验证契约。`qwen2.5:7b` 两轮共 28 次本地复核、约 10.43 秒：无依据内容误放行 6 次、有依据内容误拒 2 次、明确假设误拒 2 次、越权内容错误放行 0 次、`uncertain` 10 次、模型调用或结构失败 0 次。真实模型评测因此**未通过**。原有自主生成测试再次产生三条建议（当前关闭、阻挡、可能被锁），复核前两条为 `supported`、第三条为 `uncertain`，整批拒绝；其中“何时关上”本身也缺少事件依据。提示词与五类诊断标签的试验未稳定消除误放行，因此没有修改生产判定或放宽 P0；当前模型语义依据能力不足以声明完成验收。
+
+本轮离线验收：Insight 与语义语料定向 42 passed、3 skipped；相关跨模块回归 147 passed、6 skipped；全量 `tests/` 700 passed、6 skipped；`compileall` 与 `git diff --check` 退出码均为 0。上述通过数不包含两项可选真实模型测试的失败结果。
+
+**本轮 Claim-Evidence 状态：IMPLEMENTED / offline TESTED / production NOT INTEGRATED。** 新的离线审计直接复验玩家视角下的 `VisibleInput`、Observation 来源和模拟时点，并对逐项主张输出可追溯的依据关系。门状态不授权历史关门、上锁、行动者、方法、时间或原因；直接投递的言语事实只证明投递。独立标注的门 A–F 及跨模块合成案例已加入测试。最终文本的遗漏主张和隐含前提仍无法自动证明覆盖，因此审计始终不授予展示许可，既有 `PlayerInsightService` 行为未修改。此前本地 Ollama 28 次评测的误放行/误拒绝仍是当前真实语义质量限制；本轮新契约没有把它宣称为已解决。
+
+本轮复验：新增契约定向 **15 passed**；Insight 与语义语料合并定向 **57 passed, 3 skipped**；全量 **715 passed, 6 skipped**（真实模型评测默认跳过）。`compileall` 与 `git diff --check` 均退出 0。显式本地 Ollama 评测仍 **1 failed**：`qwen2.5:7b` 对 14 个非敏感合成案例各重复两次，28 次调用约 11.53 秒，误放行 6、受支持建议误拒 2、假设建议误拒 2、越权误放行 0、`uncertain` 10、调用/解析失败 0。真实语义验收未通过；上述通过数不包含该评测。
+
+**生成约束后续原型：OFFLINE / NOT INTEGRATED。** 新增 A（自由文本后提取）、B（主张优先后自由措辞）、C（语义单元精确拼接）的只读对照契约与 12 项人工标注场景。Fake 输出展示：A 可以漏掉问题中的事件/行动者前提；B 的最终自由措辞可新增未声明前提；C 可机械拒绝拼接时新增文字，但单元自身仍可能包含未声明前提。因此三个结果始终标记文本覆盖未验证，不授权 Presentation。本地回环 `qwen2.5:7b` 在五个代表案例、三协议各一次的探针中共调用 15 次、约 25.71 秒；输出包含未授权推断和不符合严格主张模式的标签，尚不能作为可接入生产的结构化生成结果。该探针只观察模型行为，不能替代独立语义验收；生产 `PlayerInsightService` 未修改。
+
+**语义单元隐含前提独立验收（C：NOT READY FOR PRODUCTION）**：新增 20 个人工标注合成单元，分别记录主张、历史／行动者／方法／时间／因果前提、实体授权、证据支持和处置理由；覆盖中英表达、疑问与模态措辞、联合状态证据、无关引用、假设分支、未授权人物／私有认知及混合主张。确定性 Claim-Evidence 检查只验证提供给它的结构化主张与授权事实关系，不抽取任意文本，也不证明主张清单完整；C 的精确拼接只证明文本与单元表面一致，单元本身依旧可能无依据。显式本地 `qwen2.5:7b` 探针对 12 个合成单元重复三轮，共 36 次回环请求、64.428 秒（均值 1.790 秒；每轮约 21–22 秒）：每轮 8 次响应在评测 Schema 校验阶段失败，未观察到传输或 JSON 解码失败；每轮其余 4 次可解析响应都带有未结构化额外主张，故严格组合判定每轮 12/12 均 unresolved。每轮可解析子集识别 2/6 个标注隐含前提（召回 33.3%）；其中 1 个可解析候选遗漏了不受支持的隐含前提。模型不作最终展示许可判定，且没有完整有效的可展示输出，因此不能从该探针推算模型误放行率；结构／覆盖失败均按 unresolved 处理。四组改写没有任何一组得到两个可比较的有效输出，措辞稳定性因此无法验收；合理探索在每轮一个有效案例中通过，另一个解析失败记为 indeterminate，不记为误拒。没有产生展示许可；这不是模型的安全证明。定向离线组 117 passed、5 skipped；全量及编译检查仍待本轮最终验证。
+
+本轮最终离线回归：生成协议、Claim-Evidence 与 Insight 定向 **74 passed, 4 skipped**；全量 **732 passed, 7 skipped**。本地协议探针单独 **1 passed**，仅表示 15 次本地请求返回可解析 JSON，不表示语义或严格契约合格。`compileall` 与 `git diff --check` 退出码均为 0。
+
+## Worktree and change control
+
+Historically the workspace accumulated Phase 12–16, Event Tree and Conflict & Opportunity Scheduler changes; those implementations were included in `579fcbb`. This is not a present-day uncommitted-file list. Use the dated baseline above for the actual preserved ECS/document and read-only-fix differences. The scheduler remains owner-scoped, not a global world-analysis service; no historical diff scope is assigned wholesale to the current repair.
+
+
+**Timeline-aware EventHistory 数据模型阶段（历史里程碑；后续已接入恢复发布）：IMPLEMENTED / PARTIAL。** 新 Event 处理凭据 v2 将不可变归属 Timeline ID 纳入签名。`EventHistory` 持久状态 v1 对根时间线保存本地签名链；子时间线保存签名 `TimelineForkManifest`、来源 bundle manifest 和子链后缀，前缀由宿主按精确 fork checkpoint ID 解析为不可变父历史。子链首凭据以前序父链头为锚，后续凭据只链接子时间线自己的前项；父时间线后续追加不会改写已有子前缀，子追加也不修改父历史。校验逐层验证 Event 内容/处理凭据、Timeline owner、前序、fork/checkpoint 签名和父链头；旧无 Timeline 的 v1 Event 凭据拒绝升级。新增父子历史序列化及 WorldState 检查点恢复覆盖。SaveManager 现在能按签名检查点索引解析其已保留的祖先资源；宿主外部 resolver 仍是信任边界。尚未实现时间线删除和完整分支存档生命周期。
+
+**本轮 Isolated Runtime Reconstruction：IMPLEMENTED / TESTED / STAGED-ONLY。** 新增隔离重建工厂，从序列化输入重新验证签名 WorldState/Cognitive 快照、bundle 与 TimelineForkManifest；基于已验证 parent history 创建子线 EventHistory；以新时钟、新 session fence 和宿主显式装配器构造 Runtime。装配后核验 Agent/Character 清单、六类认知 Store 与 Memory 的 owner 引用、EventProcessor、ActionLoop、Safety、调度器和上下文提供器绑定。结果为 stopped、frozen、permanently staged-only，不能经当前 `unfreeze` API 激活；工厂本身不切换活动 Runtime、激活时间线或启动后台任务；后续 RestoreCoordinator 负责有限的进程内激活。
+
+Runtime 依赖清单把 WorldState/EventHistory/六类认知 Store 归为快照恢复，时钟和子线历史归为验证后重建；Character/RuntimeAgent 元数据、待处理 Agent/Event 队列、EventHandler、AgentDecision、ActionLoop、Safety/Observation 策略、CognitionContext 提供器及 Provider 等需宿主显式重装配，特定可选服务可明确禁用。未声明或不支持的必需依赖失败关闭。当前快照不保存调度队列、Observation、WorkingMemory、DecisionContext、诊断 Trace 或 Provider 任务；宿主声明不是密码学证明，assembler 仍在信任边界内。有限的进程内原子发布已有 RestoreCoordinator；SaveManager 只负责已支持规范状态的持久目录与验证暂存，不把宿主/调度器状态恢复或完整活动恢复闭环纳入范围。
+
+
+Staging also receives the current active Runtime only for alias rejection. It is not passed into the host assembler. The factory rejects direct mutable dependency sharing and, where available, cognition Store aliasing observed through active owner contexts. This does not sandbox arbitrary trusted host callbacks.
+
+
+**RestoreCoordinator & Atomic Runtime Activation — IMPLEMENTED / PARTIAL (in-process)**：`ActiveRuntimeSlot` 提供一个受协调器控制的活动 Runtime 引用。`RestoreCoordinator` 串行化请求，激活前重验原始签名 bundle、staged WorldState 与六类 Store 内容、装配绑定及 Timeline/tick/EventHistory 谱系；冻结旧 Runtime 并推进代次并轮换 Runtime Session ID，冻结期间禁止公开 unfreeze；在新 fence 锁内启动 staged Runtime、永久退役旧 fence 并发布新指针。旧候选/迟到响应仍受最终写入 fence 拒绝。发布前失败保持原指针；可安全时用新代次恢复旧 Runtime。发布边界不确定或旧 fence 已退役时进入 `RECOVERY_REQUIRED`，不恢复写入。确定性 FakeTrust/线程测试覆盖契约，不代表生产 DPAPI、进程崩溃事务或所有 Windows 调度交错已验收。SaveManager 现负责已支持快照的目录生命周期，但不持久化调度器/宿主配置、不提供 timeline 删除、断电级全事务保证或跨进程任务隔离。
+
+**ARCH-004 发布窗口修复**：宿主 pre-publish 回调移到最终校验之前；在 staged 写入栅栏与 AgentRegistry 清单锁内，启动前、启动后及旧栅栏退役后均重验规范内容、时间线、事件谱系与依赖绑定。检测到不一致时保持原活动引用、关闭新旧写入并进入 `RECOVERY_REQUIRED`。此结果不扩展到绕开锁的任意进程内私有字段修改或跨进程原子事务。
+
+**L1 Consumption Proof v0.1（受限定向言语切片；初始实现范围）**：已接入受信 L1 receipt → 专用签发 → RuntimeWriteFence 下的系统记录 → 统一认知快照 → 隔离重建来源复核。记录复用现有 MemoryStore 的持久封装，但不走 NPC MemoryDecision，也不暴露为语义记忆；不会修改 Belief/Goal/WorldState。仅支持 `utterance_delivered` 与固定历史可见性规则。初始切片只保证证明进入已发布存档后具备相应恢复材料；其后单独完成的 DPAPI 跨进程、父子线继承、进程异常退出和分叉幂等验收见下方记录。断电一致性仍未验收。
+
+**L1 Consumption Proof v0.1 持久化验收（受限）**：确定性测试从实际 NPC L1 消费生成证明，发布 SaveManager 手动存档，并在独立 Windows 进程用 DPAPI 重开、隔离重建、RestoreCoordinator 激活和逐条验证；子线保存后删除父槽位并执行 GC，另一独立进程仍可重建祖先证明。提交与认知快照捕获的两种受栅栏保护顺序、签发/提交故障不入规范状态、普通 MemoryDecision 不能伪造证明，以及外层快照重新签名仍不能掩盖损坏的内层证明均有定向测试。该合成验收不覆盖断电级耐久、真实多宿主进程恢复事务、所有故障注入窗口，也不代表 NPC Socialization v0.2 已实现。
+
+子线测试还经 EventProcessor 提交新的定向言语、由子线 NPC 实际消费并生成子线本地证明。再次跨进程恢复后，祖先证明保留父线来源与消费身份，本地证明保留子线来源与消费身份；两条记录均重新核验。后续故障与分叉验收补充了真实 Windows 子进程异常退出的五个窗口：消费前、L1 后签名前、签发后规范提交前、规范提交后存档发布前、目录发布后提交日志完成前。重开时仅已发布目录项可作为恢复点；最后一种窗口由现有事务日志恢复识别已提交目录。另有父线分叉后新增消费与子线本地消费的独立后缀测试，以及同一祖先 Observation 在父子线分别消费的稳定身份和幂等测试；原祖先证明身份保持不变，父子线重新消费的 proof ID 由消费时间线区分。验收仅覆盖受支持的合成宿主、真实本机 DPAPI 和进程异常退出，不证明断电级耐久、跨宿主协调或任意未保存瞬态 Observation 的自动重放。
+
+## Anchor desktop M0.5 and later fresh-world interaction slice
+
+The former `D:\CWUI` prototype is preserved unchanged and backed up with a verified per-file SHA-256 archive. Its reusable navigation, nine page types, archive control, composited avatars and UI-only view shapes are copied into `src/anchor_desktop/`. The package is optional through the `desktop` extra and `anchor-desktop` entry; Core still imports no Qt toolkit. The product entry now lists one default Gray Domain Beyond authored preview, reusing the stable `rain-harbor` package identity and existing door/passage mechanics. Clockwork Library is retained as an unlisted legacy-save package and compatibility test fixture. Both still use the existing bounded parser and `ContentValidator`; old signed identities are not migrated. New sessions show only the skippable authored opening; scene information is presented on explicit observation using retained authorized evidence, while a separate bounded local-model inference warms asynchronously. Management replaces the obsolete legacy-specific button and provides confirmed bundled hiding, unsaved live-session disposal and manual-slot deletion under existing persistence constraints; persistent-instance cascade deletion and user-package uninstall remain unsupported. Restores suppress the opening. This does not implement setting-specific causal rules; see [the desktop contract](DATA_CONTRACTS.md#world-pack-opening-and-local-model-warm-up). It exposes no fabricated saves, Events, dialogue, success receipts or restore previews. Save and restore controls now call the signed host; history and unsupported modes remain disabled. The old `DemoEngineGateway`, fixed scenario data and synchronous `CognitiveWorldEngineGateway` remain solely in the untouched source and backup and are not imported by the product entry. The latter is unsuitable for UI-thread model calls.
+
+The subsequent fresh-world slice adds a package-validated Runtime host, background world entry, asynchronous player input through the existing coordinator, and in-process recipient-scoped Presentation display entries. Both bundled packages use the same generic host; tests exercise authorized initial facts, an actual Resolution/EventProcessor action, a duplicated request, and offscreen Qt entry/input/display. Ending a session freezes its fence and discards unsaved state. `WorldProjection.public_rules` remains a provisional UI shape, not an authorization guarantee or replacement for structured public WorldNorms. Real NPC conversation, cross-process delivery and full P0 readiness are not supplied. The current save slice repairs the observed `ScenarioRuntimeState` codec failure with an explicit content allowlist and symmetric Bundle verification. A separate signed cold-resume path validates the original Timeline without inventing an active parent; the existing `stage_restore` and RestoreCoordinator retain parent-to-child fork semantics. Desktop save/list/restore now use the host and thin DTOs. Prior signed Events remain in canonical history, but transient past Observations are not recreated or replayed as player-visible facts; current mechanism observations are issued through EventProcessor after publication. Product screenshots and ordinary Windows GUI acceptance remain pending under `ANCHOR-M3-01`/`ANCHOR-M3-02`. The D3.2.4 ancestor debt remains open and frozen; D4 has not started.
+
+Historical M0.5 checks in the Codex environment: migrated desktop tests `5 passed`; original preserved CWUI tests `20 passed` using the CW pytest configuration and both source paths; affected CW Player/Presentation/EventProcessor/SaveManager tests `99 passed`. An offscreen Qt window entered and exited its event loop with zero worlds, and Core imported with desktop toolkit imports blocked. A prior full pytest run advanced to approximately 86% and then produced no new output during the observation period; it was interrupted, so it has no final pass/fail summary and is **not** accepted as a full-suite pass. The later fresh-world slice's focused desktop/host/package tests reached `16 passed`; affected desktop, Player, Presentation and EventProcessor tests reached `94 passed` with the final UI switch assertion. These use a deterministic interpreter and injected test trust; they are not ordinary product launch or cold restart acceptance. The normal desktop entry initially failed because the optional package was not installed in this interpreter; launching the actual entry with the repository `src` on the process import path ran the GUI event loop and exited 0. A sandbox-restricted Qt preference write surfaced and was changed to an optional UI-only operation. That earlier slice's `compileall -q src tests` and Git diff checks exited 0. A combined run including `test_runtime_write_fence.py` stopped producing output near 92% in this Codex environment and was interrupted without a final summary; the non-socket subset passed independently. No full-suite result is claimed for that slice.
+
+The current save/cold-resume slice has Codex-environment automated evidence for two distinct bundled worlds: signed manual save and `load_verified`, original-Timeline cold resume, continued EventProcessor action, independent interpreter A/B save/reopen/resume/action, and offscreen Qt save/close/reopen/restore/action. A separate three-generation checkpoint test cold-resumes the signed grandchild and rechecks ancestor inheritance and sibling isolation. Tampered resources, wrong trust root, unknown record type/version, failed-publication retry, and stale old input have focused rejection tests. The affected desktop/SaveManager/reconstruction/end-to-end/EventProcessor/Presentation regression command passed `148` tests; checkpoint and cognition snapshot tests passed `43`; `compileall -q src tests` exited `0`; staged and unstaged diff checks exited `0`. The 148 include three independent-process cases, one using a real Windows DPAPI key ring in a test temporary directory. Full `pytest -vv -x` was bounded at 120 seconds and stopped at 86%, on `tests/test_runtime_write_fence.py::test_late_event_result_is_rejected_before_world_or_history_write`; the isolated node was also stopped after 15 seconds, immediately after collection and node start, with no assertion traceback. The current environment therefore has no full-suite result. One intermediate diagnostic run placed its log inside the pytest-managed base directory and produced a log-file cleanup error; it was corrected and is not evidence of a product defect. Visible GUI automation did not expose an Anchor window in this execution session. The standard editable install was attempted but pip could not create its sandbox TEMP build tracker; `ollama list` was also denied connecting to loopback by the sandbox. Therefore neither default product key-ring storage nor a real configured Ollama action was exercised here. Offscreen Qt and temporary DPAPI do not establish ordinary visible Windows acceptance. The historical 1153 passed / 8 skipped figure supplied earlier predates this save slice and is not its regression result.
+
+**Desktop UI / Presentation repair (current working tree, narrow):** Stage back now closes the original session before navigating; the Qt history shows local player input separately from authorized fact, clarification and narrative entries, and task completion no longer waits forever on a non-Event pending delivery state. Supported typed door/passage facts use deterministic generic prose without raw instance IDs or state keys; unsupported fact shapes still fail closed. Reading an inaccessible save catalog yields an explicit unavailable message on world detail and does not disable fresh-world entry. The current Codex run of affected desktop, Presentation, Player, SaveManager and cold-start tests reports **128 passed**; `compileall -q src tests` exited **0**, and both Git diff checks exited **0**. These offscreen tests cover physical back-button clicks, stale in-flight work after switching, no-result/provider failure, keyboard scrolling, failed session close, and field suppression; they are not ordinary desktop acceptance. A visible Anchor window was observed in the Codex session with generic initial facts, but concurrent user input prevented controlled GUI clicking. The sandbox save catalog still produced `WinError 5` when initialized, so its product save/restore flow is not accepted here. Full-suite status remains unverified for this current working tree; NPC dialogue and authorized history browsing remain unavailable.
+
+**MVP final acceptance preparation (current working tree, limited):** The observed `WinError 5` occurred while SaveManager atomically replaced `catalog.json` under this Codex session's sandbox-remapped `LOCALAPPDATA`; an ordinary Windows product-path save has not yet been tested. The default remains the current user's local application-data directory. Product save listing now rejects a partial directory lacking its authoritative catalog before constructing a write-capable SaveManager, and the save-list page reports an unavailable state without exposing the filesystem error. Save-list projection no longer displays a save-ID prefix or hands Timeline IDs to Qt; it retains only the selection token and count. A controlled permission-failure test confirms the active Runtime remains usable and a subsequent save succeeds after access returns; a partial-directory test confirms listing does not mutate the directory and a subsequent real save succeeds. Current Codex targeted tests for desktop host, Qt, independent-process cold resume, Presentation safety and related UI behavior: **49 passed**. This does not establish default-path write access, visible desktop save/restart/restore, or a complete full-suite run. `ANCHOR-M3-01` and `ANCHOR-M3-02` therefore remain open for ordinary Windows acceptance; no new duplicate TODO is created.
+
+**Desktop history-first layout (current working tree):** The live stage now gives the authorized chronological interaction stream the main area, places a compact real task-status strip above adjacent input/submit/end-session controls, and opens the existing world projection on a separate full-width state page. Stage-to-state-to-stage navigation retains the same widget, Runtime and history; the former side archive and large empty scene are not in the current product stage. Dialogue, fact, clarification and narrative output have separate UI kinds; missing speaker identity is not guessed. This turn's Codex run of desktop, host, independent-process cold restore, world-package and Presentation safety regressions reports **56 passed**; `compileall -q src tests` and both Git diff checks exited **0**. These local tests cover layout and navigation, but controlled visible desktop operation and the ordinary product save/restart/restore sequence remain pending under `ANCHOR-M3-02`/`ANCHOR-M3-01`. NPC dialogue and authorized past-history browsing remain unavailable.
+
+**Desktop UI polish and save availability (current working tree):** The history layout now keeps entries together at the top, uses small type-specific accents, and preserves the reader's older scroll position when later items arrive. The bottom end-session control fills the input area's width. World detail distinguishes a verified nonempty catalog (`选择存档`), an absent/empty catalog (`当前无可用存档`), and unreadable or invalid storage (`存档暂不可用`); only the first enables selection. A bounded read-only SaveManager inspection verifies catalog, resources and each save's Bundle/history without initializing or repairing storage; restore revalidates under its original locking/publication path. These product claims are limited to the current source and this turn's test results below; ordinary visible GUI and full MVP acceptance remain open under `ANCHOR-M3-01`/`ANCHOR-M3-02`.
+
+**Desktop UI polish verification (current Codex run):** Affected desktop, cold-start, SaveManager, Presentation, Player and EventProcessor tests reported **146 passed**; the narrower desktop/host group reported **43 passed**. `compileall -q src tests`, `git diff --check` and `git diff --cached --check` exited 0. Full `pytest -q` reached roughly 82% then stopped producing output in this Codex environment and was interrupted, so there is no full-suite result for this working tree. These Qt tests are offscreen automation, not visible Windows desktop acceptance.
+
+**Desktop clarification and request feedback repair (current working tree):** A model question may be issued through the typed clarification channel, but the Chinese desktop now projects a Chinese question from authorized structured missing-information slots when the model text does not match the client language; unknown slots produce a recoverable clarification prompt instead of raw model prose. The history shows that question once, while the status strip reports the request lifecycle rather than repeating its body. Every accepted input gets immediate admission feedback and a terminal status; sequential requests have distinct IDs, and terminal polling is idempotent. This locale projection is a bounded product safeguard, not a general translation or semantic correctness guarantee. Focused desktop, Player, Presentation, EventProcessor and cold-start regressions in this Codex run: **126 passed**. `compileall -q src tests` and both Git diff checks exited 0. Full `pytest -q` again reached roughly 82% in the Codex execution environment, stopped producing output and was interrupted (exit 1), without a final test summary. Ordinary visible desktop retest and a complete full-suite summary remain open under `ANCHOR-M3-02`.
+
+**Open-ended reference and clarification implementation (current working tree, partial acceptance):** `ANCHOR-M2-01` now has request-local candidate handles derived from provenance-checked, presently local environment Observations. The local Ollama adapter sees bounded descriptions and handles rather than canonical object IDs; the service maps a returned handle back to the current authorized target and rechecks it before the existing Resolution/EventProcessor chain. A service-owned pending clarification binds the original request, session, Runtime session/generation and a 120-second deadline; choice and yes/no answers are interpreted only for explicitly typed questions. Pending state is process-local and invalidates on expiration, cancellation, world replacement or restore. A separate read-only Observation result revalidates the original facts through Presentation and its Gateway without creating an Event. Two packaged worlds have deterministic tests for observation, action, numbered choice, expiry and thin desktop display. This is still PARTIAL: the installed real model has not reliably completed a Chinese action/clarification exchange, target descriptions remain generic where content lacks a display name, and visible desktop acceptance is pending.
+
+For that earlier audit's Codex execution, `compileall -q src tests` and both Git diff checks exited 0. Full `pytest -q` again stopped producing output at roughly 82% and was interrupted with exit 1; it produced no final passed/failed summary. The complete suite therefore remains unverified here, and no ordinary visible Windows desktop retest occurred.
+
+**Earlier input-understanding P0 diagnosis (historical evidence):** The desktop uses an explicitly selected Ollama interpreter and a host-supplied model; absent configuration is a distinct recoverable failure. A prior local-model probe with opaque synthetic targets showed that valid JSON alone did not guarantee semantic grounding. The preceding full pytest result of 1227 passed and 9 skipped is historical evidence from before the current interaction-contract changes. The current contract now has candidate descriptions and request-local handles, but real-model quality and visible GUI closure remain unaccepted under `ANCHOR-M2-01` / `ANCHOR-M3-02`.
+
+Verification for this P0 diagnosis in the current Codex turn: affected desktop, Player, Presentation, EventProcessor, SaveManager and cold-start tests **153 passed**; `compileall -q src tests`, `git diff --check` and `git diff --cached --check` exited 0. Full pytest run outside the socket-restricted Codex sandbox under ordinary Windows permissions finished **1227 passed, 9 skipped in 70.66s**, exit code 0. This is a regression result for the current working tree, not evidence that the missing clarification/grounding/inspection features exist or that the visible product flow was manually accepted.
+
+**ANCHOR-M2-01 current verification and limit (2026-10-21):** The full current working-tree pytest run completed with **1243 passed, 9 skipped in 71.96s**, exit code 0. Focused Player/desktop/host tests covered the new deterministic contract, and an explicitly authorized local `qwen2.5:7b` probe in a real host returned `observed` for a Chinese surroundings request with zero new Events. The same model did not reliably carry a Chinese door-opening request through the narrow Resolution rule: it returned malformed or unnecessary clarification in some bounded probes and an underspecified method yielding `unresolved` in the latest probe, again with zero new Events. These probes are not visible GUI acceptance or general model-quality validation. The interpreter and Presentation remain safely separated from authoritative world writes. `ANCHOR-M2-01` therefore remains PARTIAL; a typed generic attempted-operation contract or independently validated language normalization is the smallest remaining action-formation question. `ANCHOR-M3-02` still requires visible Windows product acceptance. No new save format, target authority or Event writer was added.
+
+**ANCHOR-M2-01 physical-method adapter follow-up (2026-10-21, current working tree):** The confirmed adapter gap was between free-form `PlayerInputAssessment.method` and installed causal policies: `DoorCausalAssessmentPolicy` recognizes a bounded set of attempted-operation phrases and reports `INSUFFICIENT_INFORMATION/method_rule` for a bare or unsupported method. Candidate descriptions exposed observed type/state but not those accepted operation phrases, so the model had no contract-grounded method vocabulary. `AuthorizedTargetCandidate` now carries the bounded phrases exposed by the installed typed Resolution adapter; candidate-mode Ollama output must select an exact phrase, and `PlayerActionService` repeats membership validation before building the formal action request. No effect, authority, content rule or Event writer was added. Deterministic tests reproduce the bare-method `method_rule` rejection, reject unoffered methods without Event/WorldState change, and verify supported adapter methods across both packaged worlds. A live local `qwen2.5:7b` run in the real `clockwork-library` and `rain-harbor` hosts selected the observed door and an offered method; Resolution assessed it feasible, EventProcessor committed one Resolution-sourced Event, the typed door state changed closed→open, and a follow-up read-only request returned `observed` with no additional Event and three trusted actor Observations. The Codex shell itself lacked the Ollama loopback permission; these live probes were run outside that sandbox against the existing local service. Console text rendering used the current PowerShell encoding and showed garbled Chinese glyphs, so the result establishes structured outcome and the safe Presentation path, not visible product-language acceptance. The six-doc architecture review found no change to signature, Event, RuntimeWriteFence or Persistence contracts. The focused player/host tests completed **101 passed in 3.01s**; causal/Resolution/EventProcessor/Observation/Presentation checks completed **68 passed in 0.81s**; RuntimeWriteFence plus save/restore completed **43 passed in 20.43s**; full pytest completed **1248 passed, 9 skipped in 70.19s**, exit code 0. `compileall -q src tests`, `git diff --check` and `git diff --cached --check` each exited 0. One earlier combined in-sandbox cross-layer invocation was stopped without a summary after stalling; the isolated regression groups and full suite then completed outside the restricted sandbox. Ordinary visible desktop operation remains unverified, and `ANCHOR-M2-01` remains PARTIAL for general language, unsupported mechanisms and NPC dialogue.
+
+## NPC Socialization v0.2 Stage 1 (D1 + narrow D2)
+
+Stage 1 implements optional signed `AttributedClaim/v1` testimony on a selected dialogue Event and a separate-purpose non-verbal L1 proof for one registered historical visibility rule. Claims are bound to the exact sender, recipient, utterance and Event; they do not update WorldState. D2 proofs require actual L1 consumption, the original fenced permit and complete event-time visibility evidence. The closed rule registry currently supports only `room-light-on-colocated-sight/v1`; incomplete event-time snapshots may still allow ordinary Observation consumption but produce no durable D2 proof. Existing L1 proof v1 remains unchanged.
+
+Stage 1.1 removes the domain rule ID comparison from the generic proof verifier. A canonical versioned rule reference is resolved through trusted registry configuration for both issuance and restore-time historical verification. The current production configuration still contains only the room-light rule; the extension seam does not imply other production visibility domains.
+
+The new proof is committed through the existing system MemoryStore route and included in the current cognition snapshot envelope; isolated reconstruction revalidates its signature, source Event/fact, owner, timeline ancestry and rule. **Stage 1.2 acceptance:** the built-in production registry is used consistently by the tested Runtime and fresh Windows process; a real DPAPI SaveManager checkpoint is staged and activated in independent processes. Parent and child post-fork proof suffixes remain isolated, and child ancestor Event/processing-evidence/proof resources remain verifiable after parent slot deletion and GC. **Stage 1.2.1 acceptance:** real Windows child-process fault injection covers consumption before proof, post-L1/pre-signature, signed/pre-canonical-commit, canonical-commit/pre-save, and catalog-published/pre-commit-journal exits. Restart restores only the last published checkpoint; the published D2 record is reverified and a new active Runtime can continue consuming. Deterministic RuntimeWriteFence tests cover commit-before-capture and capture-before-commit; failed Store commit leaves no canonical or captured D2 record, and delayed old-generation issuance is rejected after activation. These results use an explicitly assembled synthetic host and do not persist arbitrary custom rule registries. OS power-loss durability, cross-host coordination and arbitrary host isolation remain unverified. D3 formal MemoryDecision/v1 is implemented in a separate narrow slice; D4–D9 social-experience integration remains unimplemented, including dynamic Character grants, social-experience Memory, temporal comparison and typed social decision influence. Full NPC Socialization v0.2 remains unaccepted. Historical test counts elsewhere remain historical, not results of this Stage 1.2.1.
+
+**State-aware action feedback (current working tree, narrow):** Resolution now issues a closed `ActionResultKind` for supported state changes, the installed already-satisfied door condition, and confirmed infeasibility; EventFactory binds that code into the trusted Resolution Event metadata. Presentation verifies the Event and completed processing evidence, then emits a separate `PlayerActionFeedbackMessage` for already-satisfied, failed, or successful-but-not-player-visible outcomes. Successful physical changes continue to display only their authorized Observation-backed facts; the Composer distinguishes confirmed change wording from an initial state snapshot. The desktop displays the typed action feedback once and keeps its task strip for lifecycle status. Free-form Resolution explanation, player wording, and model output do not determine result text. This turn's focused Player/Presentation/desktop/Resolution/EventProcessor group: **118 passed in 5.60s**; an earlier pre-expansion group: **91 passed in 5.85s**; `compileall -q src tests` exited **0**. Full `pytest -q` reached about 85% without failures printed, then produced no output for roughly 90 seconds; it was interrupted with exit code 1 and no final summary, so the full suite is **not verified**. No live Ollama call or visible Windows desktop operation was performed this turn. No tested action-feedback humor subsystem exists; `MVP-DEFER-08` records optional style work. The no-result narrative's optional tone guidance is not an action-feedback subsystem.
+
+
+## Social physical room working-tree implementation
+
+The current uncommitted room slice is executable through `run_social_room.py` and uses the existing SimulationRuntime, AgentTurn, AgentDecision, NPC speech service, canonical Memory/Goal Stores, keyed-door Resolution/EventProcessor and SaveManager. New closed SocialExperience/v1 payload/grant semantics were explicitly approved during this task. General physics, automatic credibility inference, full D4–D9, B4 and desktop social UI remain unimplemented.
+
+Actual new coverage: `tests/test_social_physical_slice.py` has **22 passed** (4.58 seconds, exit 0), including the source-checkout subprocess with real DPAPI trust and checkpoint publication, proof-bound owner isolation, new Goals affecting next-turn physical action, missing-key failure, contradicted/refused testimony, ancestor evidence reuse, branch-local continuation, Goal termination, stale generation and recovery freeze. This is focused verification, not a full-suite result.
+
+A wider 24-file focused run returned **360 passed, 2 failed in 48.55 seconds, exit 1**, without skips. Both failures are in `test_decision_cognition_snapshot.py` (Percept assertions for a direct unbound AgentTurn). An in-memory baseline probe using the exact pre-task AgentTurn source, verified against its preflight SHA-256, reproduced **4 passed, 2 failed in 0.13 seconds, exit 1** for that file. The tests were not changed or skipped; this pre-existing L1 fixture debt remains visible and blocks a claim of an entirely green wider run. No full suite was run for this task.
+
+The [roadmap debt table](DEVELOPMENT_ROADMAP.md#social-physical-vertical-slice-status) distinguishes this accepted narrow causal loop from pickup/containment physics, broader social comparison, historical policy attestation and visible desktop acceptance. [DATA_CONTRACTS](DATA_CONTRACTS.md#social-experience-v1-and-goal-creation) records exact persistence and compatibility limits.
+
+
+## Owner specific social response acceptance
+
+The earlier DecisionContext fixture debt is closed by supported history assembly, not by relaxing L1. Before modification the target file produced **4 passed, 2 failed in 0.27s, exit 1**. Its real EventProcessor now creates the event, processing evidence and authorized Observation; SimulationRuntime binds the AgentTurn history context. All original isolation, contents and recursive-immutability assertions remain, adapted to the actual typed fact/Observation identity. A separate new negative test verifies that a direct unbound turn defers a genuine Observation without a Percept, WorkingMemory entry or consumption receipt. The corrected file produced **7 passed in 0.21s, exit 0**.
+
+The optional contrasting-receivers mode uses saved per-owner Personality preferences and the existing SocialExperience/v1/Goal/Resolution chain. It also fixes the room-host sender/receiver same-tick ordering assumption; there is no global scheduler change, forced speech or automatic delivery retry. Supported comparison does not force a Goal, insufficient independent evidence does not become contradiction, and an available-but-deferred comparison remains awaiting_review. No new persisted type, historical interpretation, signature purpose or B4 implementation was introduced.
+
+The previous section's wider-run failures are historical results, superseded for this fixture by this task's corrected tests. Visible Qt, real-model semantic quality, generalized trust and non-rational classification remain unverified/unimplemented. See [scope](SOCIAL_CAUSAL_DESIGN.md#owner-specific-social-response-slice) and [remaining debt](DEVELOPMENT_ROADMAP.md#owner-specific-social-response-status).
+
+Actual verification for this increment: the 26-file focused group (social perspective/physical room, DecisionContext/AgentTurn/L1 history, Goal/cognitive governance, Memory, B1/B2, save/reconstruction and write fences) completed **393 passed in 52.50s, exit 0, no skips**. The earlier intermediate group completed 392 passed; the final group additionally includes the new content-identity collision test. No full suite was run. A genuine Windows source-checkout subprocess ran the contrasting-receivers mode, used DPAPI trust and published its checkpoint. Restore/fork behavior was exercised through real SaveManager, ColdRuntimePublisher and RestoreCoordinator components; this is not visible Qt acceptance or real-model semantic acceptance.
+
+
+## Consumed result Goal completion acceptance
+
+The opt-in social-room slice now completes newly configured Goals from their own signed, formally committed successful action result only after actual owner L1 consumption. It uses existing GoalUpdateProposal governance and Runtime fencing; active-only candidate/scheduler input prevents a completed objective from driving the same action again. Existing Goals without a condition keep their meaning. A condition is versioned metadata in the existing Goal encoding, not a new Store, snapshot envelope, signature purpose or B4 implementation.
+
+The first new regression failed on the pre-change behavior (Goal remained active after consumption). Integration then exposed the scheduler's assumption that all Goal source references must still be in the current view; terminal Goals are now excluded from actionable scheduler input while active Goal authorization remains checked. Final focused verification ran 18 files: **333 passed in 59.56s, exit 0, no skips**. This covers Goal/AgentTurn/social room, scheduler, B1/B2, ordinary L1 history, signed persistence/crash/fork, write fences and snapshots. A subsequently added exact other-Goal binding regression was included in the new file's final run: **17 passed in 3.99s, exit 0**. No full suite or visible desktop acceptance was run. The existing source-checkout CLI subprocess tests exercised actual DPAPI signing and checkpoint publication with the extra bounded completion round.
+
+Completed parent checkpoints retain status and condition in child/sibling restores without re-signing ancestor Events or L1 proofs; child-only completion leaves the active parent and sibling unchanged. An uncertain post-write error freezes checkpoint capture and does not repeat the committed door action. This is checkpoint durability, not an uncheckpointed crash-recovery guarantee.
+
+Historical limitation at this increment: the B1 failure verifier rejected a qualified `object:ID` target against raw environment IDs before formal commitment, and the original regression recorded noncommit. Commit `c74f354` subsequently repaired that lookup and added committed qualified-result, private Observation, feedback and signed-proof/save coverage. The item is now closed; [current reverification](#qualified-address-b1-reverification) confirms both supported address forms without changing historical B1 interpretation. General planning and recovery of missing pre-completion consumption remain unsupported. See [scope](ARCHITECTURE.md#consumed-result-goal-completion-slice) and [remaining debt](DEVELOPMENT_ROADMAP.md#owner-specific-social-response-status).
+
+
+## JSON object and perceptual projection acceptance
+
+Current uncommitted implementation extends the existing content pipeline with closed JSON v2 object templates, local placement/ownership and door key references. It installs canonical Entity/location/DoorState values through existing initialization or live RuntimeContentInstaller Events. ObjectAppearance/v1 is the only new explicitly allowlisted persisted record; existing Entity/WorldState/snapshot/Bundle v2 envelopes and historical attestations remain unchanged. [Exact JSON and observation contract](DATA_CONTRACTS.md#json-object-content-v2-and-appearance-v1).
+
+The source-checkout command `py -3.14 -B -X utf8 run_json_objects.py examples/data/json_objects.json --scenario visit` was actually executed, exit 0. It displayed a coarse small-object fact, a separate detail fact about notches, an authorized door-open message and a formally committed successful result. The developer host explicitly initializes known lit rooms. It does not expose raw attributes or infer a key's identity/use from appearance, and is not desktop natural-language inspection acceptance.
+
+Tests were added before implementation: the first object-identity regression failed against the original strict v1 parser, and the initial three-test object/projection group failed as expected. A later physical counterexample demonstrated that ownership alone previously allowed a tool with an explicit away location; the physical view and final handler now honor that location and its read provenance. Two directly related existing causal/Presentation fixtures still assumed unbound ordinary L1 would ingest real observations. Their setups now bind their actual canonical EventHistory; all original Percept and privacy assertions remain. No L1 policy was relaxed.
+
+Actual final verification: **345 passed, 0 failed, 0 skipped in 28.78s, exit 0**, across 23 related files (new JSON/projection, content/parser/install, door/passage Resolution, Presentation, perception, observer phase, state-slot provenance, signed checkpoints, reconstruction/save/fork, Runtime fences, social/Goal regressions, actor result and Event reliability). The new file contains 19 deterministic cases, including two enum/configuration variation families. The preceding 21-file group had **306 passed in 29.46s, exit 0** before the final extra cases and B1/reliability files. These are related regression groups, not a full-suite result; no live model or visible Qt acceptance was performed.
+
+SaveManager and active child reconstruction preserve actual installed objects, owners/locations, their installation Event origins, the successful formal door effect, state-slot origins and exact inherited Event attestations. Repeated formal-result dispatch does not apply physics again. No new crash-recovery, automatic installation resume or historical re-signing guarantee is claimed.
+
+Scope remains coarse versus explicitly authorized **carried-object** detail, using actual known sight/light and permitted authored features. Mere room membership, a higher detail request, an Event without delivered Observation, unknown target/appearance, or absent evidence cannot reveal detail. There is no general close-range geometry, FOV, occlusion, sound model, 3D LOD, generic ECS, world-generation admission or shared coordinator. Product input/Gateway wiring for arbitrary object-inspection requests remains future work; the existing independent Presentation path is exercised. The qualified-address B1 issue was subsequently repaired in `c74f354` and is [reverified below](#qualified-address-b1-reverification); partial-install recovery debt remains open. See [architecture](ARCHITECTURE.md#json-objects-and-bounded-visual-projection-implemented-narrow-slice) and [next bounded work](DEVELOPMENT_ROADMAP.md#json-object-and-visual-detail-vertical-slices).
+
+
+## Position driven observation acceptance
+
+Phase-one checkpoint was independently inspected and archived locally as **41cb025dfe918105723afc7f18f5caea606dea20**, message `feat: add data-driven JSON objects and authorized observation precision`. It contains exactly 25 reviewed files; the historical execution-feedback draft remains untracked and excluded. The pre-commit object/projection regression ran **19 passed in 0.69s, exit 0** and staged whitespace checks passed. No push or tag was created.
+
+The second-phase working tree adds strict JSON v3 observation-domain coordinates and disclosure limits via two explicitly allowlisted v1 records. Configured data selects shape versus detail from actual actor location while independently preserving sight/light/visibility and exact-recipient permissions. Existing v1/v2 JSON, ObjectAppearance/v1, carried-object projection, Event signatures and Bundle v2 remain compatible. The three initial new acceptance tests failed against the old v2-only parser, before implementation. The initial movement fixture was correctly rejected without locomotion; the JSON now explicitly declares that existing capability rather than weakening Resolution.
+
+Actual final related verification: **297 passed, 0 failed, 0 skipped in 18.19s, exit 0**, across 19 files including the new position tests, prior JSON tests, content/parser/install, Resolution, Presentation, perception authorization, observer phase, state slots, signed checkpoint/reconstruction, Runtime fences, actor results, Event reliability and Goal completion. The new position file contains 22 deterministic cases. Its preceding focused run with the prior JSON suite produced **40 passed in 0.93s, exit 0** before adding the runnable approach test. No full suite, live-model or visible Qt acceptance was run.
+
+The actual source-checkout command `py -3.14 -B -X utf8 run_json_objects.py examples/data/position_observation.json --scenario visit --approach` exited 0 and displayed coarse object information, exactly one authoritative arrival and subsequent notch detail. Tests verify unchanged target Entity/ownership/location/environment, independent observers, configurable thresholds, fail-closed unknown/malformed coordinates/policies, authorized coarse fallback, historical presentation retry without action replay and continued observation after a signed child restore without re-signing ancestor Events. This is a bounded one-axis observation-domain approximation, not FOV, occlusion, 3D perception or general physical distance simulation.
+
+Second-phase changes remain uncommitted for review. [Architecture](ARCHITECTURE.md#position-driven-observation-precision-bounded-implementation) and [next bounded work](DEVELOPMENT_ROADMAP.md#position-driven-observation-slice-status) describe remaining limitations. The existing historical draft and local resources are preserved.
+
+## State Goal and interaction reach partial integration
+
+The completed position-observation work is archived locally as 72da11105782f6f9b47d8fbaa3a91d141ff50fad (15 files). The unrelated execution-feedback review draft remains outside that checkpoint. Subsequent changes are uncommitted.
+
+New narrow behavior: GoalCompletionCondition/v2 explicitly selects state or actor_action; another actor's committed state can complete an owner's state Goal only after that owner's authorized actual L1 and governed update. The equivalent actor-action Goal stays active. JSON v4 adds independent InteractionRangePolicy/v1 and optional shared-identity mechanism appearance. Real Resolution/EventProcessor tests cover permitted reach versus visual disclosure, typed out-of-reach failure, private Observation, actual ordinary L1, stale submission rejection and restore without re-signing ancestor Events. Existing schemas/proofs retain their old meaning.
+
+The former feedback compatibility gate is now closed by an explicit v2 feedback component referencing existing signed nonverbal L1 proofs through a narrow versioned reach-result historical rule. No v1 record/proof semantics, Bundle version, B2 guarantee or separate Store is changed. Actual NPC tests cover failed far interaction, no feedback before L1, changed subsequent choice, formal approach/open, repeat handling and cold/branch restoration. Signing and partial L1/proof/feedback failures freeze the existing capture boundary; missing or ambiguous intake defers without fabricated evidence. See [exact compatibility and recovery limits](DATA_CONTRACTS.md#consumed-physical-failure-feedback-v2). The broader prior combined multi-NPC state-Goal fixture remains separate, and no full-suite, UI or real-model acceptance is claimed here; actual targeted results belong to this run's report.
+
+
+## Minimal pluggable physical contract — current implementation
+
+Implemented the approved bounded foundation: typed versioned state/property declarations, five distinct physical relation kinds in existing WorldState relationships, strict JSON v5/local-reference materialization, explicit closed domain codecs, pure interchangeable boolean-transition engines and formal Resolution/EventProcessor application with leaf-slot origin revalidation. No WorldState/Memory replacement Store, signature migration or outer Bundle version change is introduced.
+
+The existing developer host can run `py -3.14 run_json_objects.py examples/data/physical_assembly.json --scenario visit`. Its authored panel/handle/latch rule changes a canonical boolean through the formal action path. Changing a valid JSON precondition or relation changes the confirmed result; consistent object renaming needs no engine branch. Printed transition status is developer diagnostics, not an authorized physical Observation or desktop acceptance.
+
+Deterministic tests cover signed installation/transition, candidate-only computation, alternative engine, malformed/unknown contracts, rejected and stale candidates, checkpoint/cold restore/child and sibling isolation without historical re-signing, and rule-data outcome contrast. Bounded review corrections additionally exercise valid multi-rule worlds with out-of-context dependencies, actual wrong-target/replacement/expected deltas at both Resolution and commit, and rejection of stale failed current results. Unrelated changes and duplicate failed-event delivery preserve their intended behavior; a committed failure remains immutable historical evidence through signed cold restore even after its original conditions change. Final command results for this work are reported in the task delivery rather than inferred from prior counts. Existing socialization, L1, B2, Goal and historical guarantees remain subject to the regression run.
+
+Limits: boolean transitions and explicit declared preconditions only; exact co-location reach; no continuous dynamics, collision/force solver, attachment motion, generic ECS, new physical Observation projection, autonomous NPC candidate provider, player-language wiring or shared LOD coordinator. Installer intermediate-state checkpoint/recovery debt and checkpoint-only durability are unchanged. See [contract](DATA_CONTRACTS.md#physical-state-and-transition-contracts-v1-json-v5) and [next bounded work](DEVELOPMENT_ROADMAP.md#minimal-physical-contract-follow-up).
+
+
+### Physical milestone publication verification — 2026-10-27
+
+New verification on Python 3.14.7: the 13-file focused group completed with **339 passed, 0 skipped, 0 failed in 55.61 seconds**; the full suite completed with **1832 passed, 9 skipped, 0 failed in 148.17 seconds**, both exit code 0. These are new publication checks, separate from the earlier independent focused review (339 passed in 45.38 seconds) and earlier full-suite records. Pytest used fresh external temporary directories, with bytecode and pytest cache disabled.
+
+The nine skips are explicit local Ollama cognitive review, dialogue integration, embedding-model probe, physical-effect integration, two synthetic insight probes, insight-generation protocol probe, insight semantic evaluation and insight-unit semantic review opt-ins. They do not establish live-model acceptance. The physical-assembly JSON, position/approach JSON and contrasting-receiver social-room CLI commands completed successfully; the social host used a fresh external save directory. In-memory compilation covered the 16 changed/new Python files, with a separate Python 3.10 syntax check only, not 3.10 runtime acceptance. Visible Qt acceptance was not rerun. The recorded bounded physics, checkpoint-only durability and installation-intermediate recovery limits remain unchanged.
+
+
+## Qualified-address B1 reverification
+
+The request was checked against `main` at published baseline `025a09630a2e820bf58a59aa9253885d6540f1eb`. The documented P2 no longer reproduces: `c74f3548d68595d40821cde56853f639a654a347` already uses InteractionReference at the failure validator, result draft and event-time environment capture. Lookup uses the parsed object identifier; Event/Attempt target references, fact subjects and historical signature payloads keep the original address text. Current bare and qualified forms are supported independently, not rewritten into one historical representation. This pass changes no production source, rule, proof, codec, schema or Runtime permission.
+
+New deterministic regressions exercise both forms in the actual missing-key social room, owner-private result delivery, exact actor/target/method provenance, active Goal preservation, stale failure rejection after a separately committed real unlock, a subsequent legal door action, and unresolved malformed/unknown targets. Existing incorrect-provider target-rebinding tests remain unchanged. No formal history or state change is attributed to an unresolved or rejected submission. Previous full-suite and physics milestone counts remain historical records; results from this reverification are recorded separately below.
+
+
+Actual reverification results: the existing exact qualified/bare room and negative-binding baseline completed **7 passed in 0.88s**; the added address-comparison/stale/malformed cases completed **7 passed, 34 deselected in 0.66s**; the 13-file B1/Goal/social/L1/history/persistence/fence group completed **327 passed, 0 skipped in 92.98s**, all exit 0. The full suite completed **1838 passed, 9 skipped, 1 failed in 166.21s**, exit 1. It is not a green full-suite result. The nine skips remain explicit local-model/embedding/evaluation opt-ins.
+
+The separate failure was `test_passage_arrival_reaches_desktop_and_followup_uses_new_location[clockwork-library]` at `tests/test_anchor_new_world_host.py:923`: after its five-second polling window, the snapshot remained RUNNING with no terminal outcome. Captured diagnostics showed committed movement, authorized arrival and generated Presentation; they do not establish why terminal completion was late. The exact case rerun completed **1 passed in 0.37s**, and B1 plus the desktop-host file completed **100 passed in 274.19s**, both exit 0. The failure did not reproduce in those selections, but its cause remains unresolved; no desktop production code/test timing was changed and no concurrency/environmental cause is claimed proven. Keep this independent investigation separate from the already-fixed address lookup.
+
+All pytest runs used fresh external temporary directories, with bytecode and cache disabled. Relevant six-file in-memory compilation and Python 3.10 syntax checks passed (not 3.10 runtime validation); updated local references/anchors and both Git whitespace checks passed. Original B1 tests and historical acceptance counts were preserved. No source, physics contract, signature, persistence schema or Runtime recovery semantics changed in this pass.
+
+
+Commands used for this pass (each `$taskTmp` was a newly generated external temporary directory, with `PYTHONDONTWRITEBYTECODE=1`):
+
+```powershell
+py -3.14 -B -m pytest tests/test_goal_completion.py::test_qualified_address_failure_commits_private_result_and_feedback_without_completing_goal tests/test_goal_completion.py::test_committed_failure_does_not_complete_goal tests/test_actor_result_observation.py::test_qualified_failure_cannot_rebind_valid_lock_reads_to_another_target tests/test_social_physical_slice.py::test_missing_key_cannot_be_supplied_by_method_text -q -rs -p no:cacheprovider --basetemp $taskTmp --tb=short
+py -3.14 -B -m pytest tests/test_actor_result_observation.py -k 'each_address_form or stale_lock_reads or malformed_or_unknown_address' -q -rs -p no:cacheprovider --basetemp $taskTmp --tb=short
+py -3.14 -B -m pytest tests/test_actor_result_observation.py tests/test_goal_completion.py tests/test_state_goal_completion.py tests/test_social_physical_slice.py tests/test_social_perspective.py tests/test_l1_instance.py tests/test_l1_history.py tests/test_l1_consumption_persistence.py tests/test_l1_consumption_crash_branch.py tests/test_runtime_write_fence.py tests/test_runtime_reconstruction.py tests/test_save_restore_end_to_end.py tests/test_physical_effect_proposals.py -q -rs -p no:cacheprovider --basetemp $taskTmp --tb=short
+py -3.14 -B -m pytest -q -rs -p no:cacheprovider --basetemp $taskTmp --tb=short
+py -3.14 -B -m pytest 'tests/test_anchor_new_world_host.py::test_passage_arrival_reaches_desktop_and_followup_uses_new_location[clockwork-library]' -q -rs -p no:cacheprovider --basetemp $taskTmp --tb=short
+py -3.14 -B -m pytest tests/test_actor_result_observation.py tests/test_anchor_new_world_host.py -q -rs -p no:cacheprovider --basetemp $taskTmp --tb=short
+```
+
+
+## Desktop terminal-state diagnostic follow-up
+
+The historical full run was **1838 passed, 9 skipped, 1 failed (166.21s)**. The failure was `tests/test_anchor_new_world_host.py:923`, `test_passage_arrival_reaches_desktop_and_followup_uses_new_location[clockwork-library]`: the five-second poll still observed RUNNING. The subsequent diagnostic independently ran five isolated cases (**1 passed each; 0.40/0.42/0.43/0.42/0.40s**), the desktop-host file (**59 passed, 3.90s**) and the related B1/desktop/player/Presentation/Runtime group (**214 passed, 4.51s**), all exit 0. The full suite was not rerun during that diagnostic. Root cause remains undetermined; no production or test-wait fix was made. Presentation being recorded does not establish service return or terminal publication: destination observations and action feedback still follow it. Preserve the distinction between committed movement, display delivery and task completion. If it recurs, capture worker stacks and work-Future state before cleanup; it is not recorded as resolved.
+
+## Committed Boolean physical result consumption
+
+The narrow `boolean_transition_applied` projection now connects an independently validated physical commit to an actor-private Observation and actual ordinary L1 ingestion through AgentTurn. It carries only the changed Boolean property's name/value and the exact receiver/Event identity, not an Entity/state dictionary. A co-located registered bystander receives no such result. Rejected or stale candidates cannot claim successful change. Duplicate processing does not reapply the world update; ordinary duplicate consumption retains one Percept/receipt. This is not a new B2 historical rule, learning mechanism, Goal update or player-facing physical renderer.
+
+Signed restore retains the exact recorded fact and signatures. Observations remain transient: explicit authorized delivery from canonical restored history is separate from restoration and from consumption. Verified ancestor prefixes are eligible; unrelated history is not. No schema, signing purpose, Bundle version, recovery protocol or installer intermediate-state guarantee changes. See [the projection contract](DATA_CONTRACTS.md#committed-boolean-result-observation).
+
+
+### Physical Observation verification commands
+
+All commands used Python 3.14, `PYTHONDONTWRITEBYTECODE=1`, disabled pytest cache and a fresh external `$taskTmp` for each invocation. No existing test resources were cleaned.
+
+```powershell
+py -3.14 -B -m pytest tests/test_physical_result_observation.py -q -rs -p no:cacheprovider --basetemp $taskTmp --tb=short
+py -3.14 -B -m pytest tests/test_physical_result_observation.py tests/test_pluggable_physics.py tests/test_event_processor.py tests/test_observation_generator.py tests/test_observation_trust.py tests/test_presentation_safety.py tests/test_l1_history.py tests/test_agent_turn.py tests/test_runtime_reconstruction.py tests/test_runtime_write_fence.py tests/test_actor_result_observation.py tests/test_l1_instance.py tests/test_l1_consumption_crash_branch.py tests/test_save_restore_end_to_end.py -q -rs -p no:cacheprovider --basetemp $taskTmp --tb=short
+py -3.14 -B -m pytest tests/test_physical_result_observation.py tests/test_pluggable_physics.py tests/test_presentation_safety.py -q -rs -p no:cacheprovider --basetemp $taskTmp --tb=short
+py -3.14 -B -m pytest -q -rs -p no:cacheprovider --basetemp $taskTmp --tb=short
+```
+
+Test-first evidence: the initial new selection failed (4 failed, 0.46s, exit 1): three failures reached the absence of a projected Observation; one was a test import error corrected during fixture construction. Further fixture corrections retained the existing JSON node bound and original-operation fence requirement. The finished five new tests passed (5 passed, 0.93s, exit 0). The first related selection found one pre-existing test assumption that physical events had no facts (145 passed, 1 failed, 4.38s, exit 1); it now asserts one exact fact and unchanged ObservationStore on retry, preserving the single-apply assertion. The expanded related selection passed (329 passed, 63.65s, exit 0).
+
+The first full suite passed (1844 passed, 9 skipped, 127.13s, exit 0). A later direct Presentation assertion initially used the wrong test Gateway constructor (60 passed, 1 failed, 3.05s, exit 1); supplying its required RuntimeContext corrected the fixture. The final physical/Presentation selection passed (61 passed, 3.23s, exit 0). These fixture failures were not bypassed or skipped. Six-file in-memory compilation and Python 3.10 syntax parsing passed; this is not Python 3.10 runtime validation. Newly added local links/anchors and both Git whitespace checks passed.
+
+
+Final full verification after the Presentation assertion and formatting: **1844 passed, 9 skipped, 121.77s, exit 0**. All nine skips require explicit local Ollama integration/evaluation opt-ins: cognitive review, dialogue, embedding-model probe, physical effects, two insight probes, insight protocol, insight semantic evaluation and insight-unit semantic review. The desktop terminal-state case passed in these runs; its intermittent root cause is still unestablished and no lifecycle fix is claimed.
+
+
+## Typed contextual Belief matching increment
+
+Based on checkpoint b91cb50, this increment adds no durable record/schema or physical adapter change. ContextualBeliefRule/v1 and ContextualBeliefBinding/v1 are transient, bounded, opt-in decision contracts. Actual owner-qualified consumption and exact canonical history/fact binding are required before an existing governed Belief can influence the matching target/action/method. An unchanged history frontier plus bounded evidence age is the conservative applicability condition. Unsupported, ambiguous, tool-bearing, unrelated and stale matches contribute no typed score.
+
+Real-component regressions demonstrate no revision from mere delivery, governance refusal, missing history, wrong-owner or invalid-provenance intake, and uncommitted failure. Actual revision changes selection from Open to Move in an otherwise identical decision with no BehaviorFeedback scoring; the selected movement and subsequent opening use the ordinary formal action/event path. Later movement and opening evidence revise the Belief without turning the earlier failure into a universal claim. Unrelated commitments remain unchanged. Signed restore preserves the Belief and old signatures without manufacturing consumption or transient views.
+
+This does not add general learning or B4, new B2 eligibility, new codecs, Bundle versions, replay/recovery guarantees or player-facing private cognition. The prior intermittent desktop terminal-state failure remains unresolved; no lifecycle fix is claimed.
+
+
+### Contextual Belief verification
+
+All pytest commands used `PYTHONDONTWRITEBYTECODE=1`, a fresh external `$taskTmp`, `-p no:cacheprovider` and `-B`. No existing temporary directories/resources were removed.
+
+```powershell
+py -3.14 -B -m pytest tests/test_contextual_belief.py -q -rs -p no:cacheprovider --basetemp $taskTmp --tb=short
+py -3.14 -B -m pytest tests/test_contextual_belief.py tests/test_cognitive_causality.py tests/test_agent_turn.py tests/test_l1_history.py tests/test_consumed_physical_feedback.py tests/test_physical_result_observation.py tests/test_decision_cognition_snapshot.py tests/test_runtime_reconstruction.py tests/test_runtime_write_fence.py tests/test_save_restore_end_to_end.py tests/test_cognitive_validation.py tests/test_cognitive_update_apply.py -q -rs -p no:cacheprovider --basetemp $taskTmp --tb=short
+py -3.14 -B -m pytest tests/test_contextual_belief.py tests/test_autonomous_agent_decision.py tests/test_decision_context_pipeline.py -q -rs -p no:cacheprovider --basetemp $taskTmp --tb=short
+py -3.14 -B -m pytest tests/test_contextual_belief.py tests/test_runtime_write_fence.py tests/test_cognitive_causality.py -q -rs -p no:cacheprovider --basetemp $taskTmp --tb=short
+py -3.14 -B -m pytest -q -rs -p no:cacheprovider --basetemp $taskTmp --tb=short
+```
+
+Actual intermediate results: initial focused run 9 passed/2 failed (1.21s, exit 1): the fixture used a nonexistent GoalStore.all method and incorrectly expected an unbound protected feedback intake to continue; the test now retains the existing PermissionError and no-mutation guarantees. Corrected focused run: 11 passed (1.32s, exit 0). Expanded tests exposed a test-host link error (14 passed/1 failed, 1.66s, exit 1): worker Belief references had been assigned to a bystander. Owner-specific host linking corrected it, with no snapshot validation relaxation; 15 passed (1.93s, exit 0), then 16 passed after governance rejection coverage (1.98s, exit 0). One regression command named nonexistent test_cognitive_update_validation.py and ran no tests (exit 4); the corrected command above ran 194 passed/1 skipped (36.99s, exit 0). Provider projection/decision tests: 48 passed (2.19s, exit 0). Initial full suite: 1861 passed/9 skipped (147.76s, exit 0). After the final unchanged-Belief movement test and snapshot read-fence refinement, focused cognition/fence tests passed 36/1 skipped (2.61s, exit 0). The skip requires explicit local Ollama review opt-in. These are newly executed results, not historical baseline counts.
+
+
+The next full run caught an actual integration regression introduced by the new read fence: 1859 passed/3 failed/9 skipped (148.47s, exit 1). Empty-rule compatibility paths had incorrectly entered snapshot_scope, breaking an existing stale-generation lexical fallback and two permitted direct read-only AgentTurn uses without a captured permit. The fix confines fenced derivation to enabled contextual rules; missing/stale read permission defers only the new typed view. It does not issue a new permit, weaken a writer or clear recovery. The original failing tests plus all contextual tests passed unchanged (21 passed, 2.60s, exit 0):
+
+```powershell
+py -3.14 -B -m pytest tests/test_contextual_belief.py tests/test_memory_event_index.py::test_agent_turn_falls_back_to_lexical_results_if_runtime_generation_changes_mid_query tests/test_memory_write_fence.py::test_normal_agent_turn_binds_canonical_memory_and_keeps_personality_immutable tests/test_runtime_reconstruction.py::test_restored_runtime_keeps_same_goal_id_owner_scoped_in_agent_turn -q -rs -p no:cacheprovider --basetemp $taskTmp --tb=short
+```
+
+
+Final verification after the compatibility correction: **1862 passed, 9 skipped, 145.34s, exit 0** using the complete-suite command above. The final new-file selection passed **18 tests, 2.11s, exit 0**. The nine skips remain explicit local Ollama integration/evaluation opt-ins (cognitive review, dialogue, embedding model, physical effects, two insight probes, insight protocol, insight semantic evaluation and insight-unit review). No real model or visible desktop acceptance was performed. Six-file in-memory compilation and Python 3.10 syntax parsing, added local anchors and both Git whitespace checks passed; this is not Python 3.10 runtime validation. An engineering-only decision trace confirmed Open base 0.90 plus typed contextual -0.25 = 0.65 versus Move 0.80 with BehaviorFeedback absent. These diagnostics do not enter player Presentation.
+
+
+## Cognitive governance principle synchronization
+
+Documentation-only clarification: rule compatibility, cognitive credibility and world-fact qualification are independent. Eligible unverified hypotheses and mistaken beliefs may influence supported decisions; they cannot directly commit world changes or turn an imagined source into history. This formalizes [the architectural boundary](ARCHITECTURE.md#cognitive-governance-three-independent-judgments), not a new implementation.
+
+The existing contextual matcher, physical result validation/Observation, qualified L1 and governed existing-Belief review remain narrow capabilities with their documented evidence and applicability requirements. No universal natural-language compatibility checker, calibrated confidence model or comprehensive irrational-cognition mechanism is claimed. Existing test history and NO-GO decisions remain unchanged. No production code, tests, JSON/schema, signatures, persistence, README or runtime behavior changed in this synchronization; no tests were run for this documentation-only task.
+
+## 受治理 item-take 窄纵切
+
+实现独立 items.take 模型与宿主政策、PossessionTransition/v1 联合状态转移、提交时依赖复核，以及原 actor 私有 item_taken Observation。生产接口由宿主显式装配，尚无桌面自动动作路由；不新增 Belief／Goal 自动修订、容器或所有权转移。
+
+新增 tests/test_item_take.py 通过真实安装、Attempt、Resolution、EventProcessor、L1、签名恢复和分叉验证正常与负向路径；本轮实际验证结果见交付报告，不沿用历史全套计数。宿主政策重装配、关系扫描性能及 checkpoint-only 崩溃恢复限制仍保留；没有自动安装续跑或跨 Store 回滚保证。
+
+本轮验证：新增拿取测试 24 passed；相关组合 297 passed（44.07s）；完整集 1886 passed、9 skipped（163.58s），退出码均为 0。九项跳过均为显式本地 Ollama 集成／评估 opt-in，没有执行真实模型或可见桌面验收。新增／修改 Python 文件通过内存编译及 Python 3.10 语法解析，未执行 Python 3.10 运行验证。
+
+### 拿取审查修复：失败候选与对抗性回归
+
+已按批准的最小增量增加 TakeAdjudicationContext/v1 metadata，成功和失败候选均在 apply 前验证原政策、Attempt 和实际依赖，修复旧失败在政策改变或新增结构后仍入历史的问题。原有效失败保持无效果语义；不重算、不重试、不改写旧记录。扩展类型正确但语义错误的 provider 回归，以及冷恢复后的联合状态、私有历史交付、实际 L1 与重复消费断言。未改变 PossessionTransition/v1、codec 类型允许集、签名算法或 Bundle 版本。
+
+本轮实际验证：修复前政策替换／新增 attached_to／新增 part_of 三项回归均复现（3 failed，0.53s，exit 1）；修复后的 P2 与有效失败对照为 4 passed（0.47s），增强恶意候选与冷恢复为 6 passed（1.99s）。相关组合 310 passed（38.43s），完整集 1899 passed、9 skipped（143.31s），最终成功命令均 exit 0。九项跳过仍为显式本地 Ollama 集成／评估 opt-in；无真实模型或可见桌面验收。修改的四份 Python 文件通过内存编译及 Python 3.10 语法解析，不代表 Python 3.10 运行验证。
+
+### 拿取上下文入口修复
+
+新拿取 resolve 在裁定返回后强制要求闭合上下文，并绑定实际 Attempt、政策和 tick；成功效果 handler 同样拒绝缺上下文的新 apply。历史读取不使用该新操作入口，继续按原签名载荷验证无上下文旧记录，不补造、不重签。修正 reads 文档为值摘要、存在性及来源绑定，不包含原始状态值。未改 PossessionTransition/v1、codec 允许集、签名算法、Bundle 或历史记录。
+
+本轮实际验收：修复前两项漏上下文回归均复现（2 failed，0.55s，exit 1）；修复后两项通过（2 passed，0.49s），包括畸形／不匹配上下文的入口组合为 7 passed（0.51s）。定向组合 227 passed（33.00s）；完整集仅运行一次，1906 passed、9 skipped（132.98s），成功命令均 exit 0。修复前在仓库外保存的成功／失败两条无上下文原签名链，经修复后的验证专用 trust 验证及逐字节重序列化通过，未调用新拿取裁定或签名签发。九项跳过仍为显式本地 Ollama opt-in。修改的两份 Python 文件通过内存编译及 Python 3.10 语法解析，未执行 Python 3.10 运行或可见桌面验收。
+
+### 通用拿取共享 live 入口修复
+
+EventFactory 从经确认的原 Attempt 绑定显式操作身份；共享验证器在 Factory 和 EventProcessor 新事件 apply 前要求注册拿取的闭合上下文，覆盖通用宿主策略与直接 Factory。已有 handler 仍复核政策、值摘要、来源及完整相关关系。进程内来源绑定不被 codec 序列化；历史读取与已记录事件交付不补造绑定，不改变旧签名语义。历史记录的有效性不自动授权在另一历史中新执行。未增持久字段、codec 类型、签名算法或 Bundle 版本。
+
+本轮实际验收：修复前通用 Flow／直接 Factory 的失败缺上下文及结构变化复现为 4 failed、2 passed（0.68s，exit 1）；修复后该选择 6 passed（0.60s），拿取矩阵 85 passed（4.43s），扩大回归 449 passed（71.17s）。首轮全套 1947 passed、9 skipped（147.44s）后，追加对照发现非原生字符串身份被丢弃的问题；新增回归先复现（1 failed，0.53s，exit 1），修正为明确拒绝后最终定向组合 450 passed（72.89s），最终全套 1948 passed、9 skipped（143.96s）。本轮因此执行了两次全套，首轮不是最终生产版本验收；成功命令均 exit 0。旧两条无上下文原签名链只读验证和逐字节重序列化通过，未重新裁定／签发历史签名。九项跳过仍为显式本地 Ollama 集成／评估 opt-in。五份 Python 文件通过内存编译及 Python 3.10 语法解析，未执行 Python 3.10 运行、真实模型或可见桌面验收。
+
+
+## Life transition A/B working-tree increment
+
+PARTIAL: typed LifeState/v1 and an explicit host-authorized alive-to-dead operation now enter existing Resolution, Factory and Processor paths. Exact target/Attempt/contract/state-origin binding and independent pre-apply checks restrict the effect to the current target life state; ownership, possession, locations and unrelated state are preserved. Permanent tests cover successful formal commit, invalid generic-engine submissions, authorization revocation, stale provenance, preserved independent item changes, signed Event verification/replay and uncertain append recovery.
+
+This is not complete death acceptance: recipient evidence, actual L1 death consumption and life-specific complete cold checkpoint/branch acceptance remain outstanding. Generic G1/G2, compensation, item disposition, search, lifecycle scheduling, global single-use and cross-Store crash atomicity remain NO-GO. Test execution results are reported separately; implementation does not imply these future guarantees.
+
+Current A/B verification: initial new tests 11 failed (0.31s), corrected new selection 11 passed (0.16s); initial combined selection 120 passed (5.09s); final expanded selection 183 passed (9.05s); final full suite 1974 passed, 9 skipped (149.77s), exit 0. Nine skips are explicit local Ollama integration/evaluation opt-ins. No real model or visible desktop acceptance. Life-specific complete cold checkpoint/fork and all rejection-matrix combinations remain unverified; status is NOT READY for complete A/B acceptance.
+
+
+## Life transition adversarial and recovery acceptance
+
+Acceptance hardening changes tests only; production authorization, permits, history identities and recovery behavior are unchanged. The permanent matrix exercises real Processor rejection with Factory validation disabled only inside a scoped test seam, retaining genuine confirmation/source bindings. Real SaveManager cold restore and child/sibling reconstruction now cover life-state and held-item invariance, original signed-history preservation, no historical adjudication/re-sign/apply, no inherited host authority and rejected cross-branch execution. A real checkpoint is rejected after uncertain life append. No death Observation or L1 evidence is added.
+
+Initial test-authoring failures were a reserved pytest parameter name (collection error, 0.30s), then an unsupported empty-Agent checkpoint fixture (30 passed, 1 failed, 0.74s). The fixture now uses controlled content installation and supported Runtime assembly; no production restriction was relaxed. Subsequent transition runs passed 31 tests (1.72s; expanded assertions 2.03s), final life-state/transition selection passed 43 tests (2.24s); combined Factory/Processor/fence/physics/item-take/reconstruction/save-restore selection passed 255 tests (43.20s). These are current executions, not prior baseline counts. Full-suite result follows after completion.
+
+Final full-suite acceptance on the final test/source state: 1991 passed, 9 skipped, 173.62s, exit 0. All runs used Python 3.14 -B, PYTHONDONTWRITEBYTECODE=1, disabled pytest cache and a fresh external basetemp. Skips remain the nine explicit local Ollama integration/evaluation opt-ins. Scope verdict: READY WITH DOCUMENTED DEBT for this operation-specific A/B acceptance only; no real-model, visible desktop, Python 3.10 runtime or power-loss acceptance. The earlier NOT READY entry records the prior stage and is superseded only for the adversarial and checkpoint/Timeline gaps verified here.
+
+
+## Recipient-binding formal submission integration
+
+The previously standalone recipient signature is now mandatory for new life_transition_v2 submissions at both Factory and Processor. An explicit legacy v1 historical branch preserves original signed records without granting recipient access. A genuine pre-change signed v1 fixture was captured through the original operation before implementation changes. Negative cases run with and without the Factory early check, retaining controlled Resolution/source evidence and checking state/provenance/history/Observation/provider-count/recovery invariants. No production bypass switch was added.
+
+This milestone excludes death Observation generation and L1 consumption; full C-stage evidence remains NOT READY. Generic admission, arbitration, lifecycle, inventory, search, compensation and stronger recovery remain unimplemented. Test results for this integration are recorded after final execution.
+
+Formal recipient-binding milestone verification: initial life/binding/state selection 57 passed (2.13s); new independent-guard matrix 79 passed (2.30s); combined item/physics/fence/reconstruction/save-restore selection 291 passed (44.74s); final focused selection with nonempty-recipient cold restore 79 passed (2.39s). Final full suite: 2027 passed, 9 skipped, 169.47s, exit 0. Nine skips remain explicit local Ollama opt-ins; no real model, GUI, Python 3.10 runtime or power-loss acceptance. Compilation, Python 3.10 syntax parsing and Git whitespace checks passed. The formal-submission milestone is READY WITH DOCUMENTED DEBT; full Observation/L1 C-stage remains NOT READY and outside this milestone.
+
+
+## Cross-platform social CLI host and public instructions (2026-10-28)
+
+The social-room CLI now selects existing DPAPI on Windows and an explicitly provisioned user-local file HMAC root on Linux/macOS. It does not fall back after DPAPI or signature failure, and never creates a replacement key while verifying old history. The file adapter delegates to existing HmacPersistenceTrust; no Bundle, Event/signature identity, codec or Runtime recovery contract changes. POSIX uses descriptor-based no-follow traversal, owner-only 0700/0600 storage, bounded closed key decoding and non-overwriting publication. File keys are not encrypted or DPAPI-equivalent. Existing CLI subprocess tests isolate HOME to avoid production keys on POSIX.
+
+README Chinese architecture entry now uses the Chinese system overview. Core imports have no third-party runtime modules in the static import scan, and all three selected deterministic CLI commands ran on Windows Python 3.14 with -S (site-packages disabled), without a model or API key. The position example emitted arrival and the fine-detail evidence; the physical assembly committed True; the social example published a signed checkpoint and completed one Goal. These outputs do not prove complete information isolation.
+
+Package metadata remains 1.0.0: existing v1.0/v1.0-mvp tags and historical release documentation conflict with silently relabelling the same project as 0.1.0. Public PyPI JSON returned 404; GitHub Releases API returned 403, so absence of a prior public release is not established. No version/tag/release operation was performed. A separate versioning decision is required.
+
+Actual Linux/macOS execution and Python 3.10 runtime validation remain open (no installed WSL environment or Python 3.10 here). Five POSIX permission/symlink/hard-link cases are retained as explicit platform skips on Windows, not reported as passing. Five changed Python files compile in memory and parse with Python 3.10 grammar. No terminal image was added; the current computer-use tool rules prohibit terminal automation, and no synthetic screenshot is substituted. Existing historical test records above remain unchanged; new execution results are reported separately.
+
+New execution evidence for this worktree: the initial test-first collection failed because the new adapter did not yet exist (1 collection error, 0.16s). First adapter run: 9 passed, 5 platform skips and 1 test API-name failure (1.21s); the test was corrected to use existing SaveManager.load_verified, without weakening production validation. The early social group passed 43 tests with 5 POSIX skips (11.83s). Expanded adapter-only group: 18 passed, 5 skipped (1.25s); two more cold-restore failure cases were then added. Affected 12-file selection: 348 passed, 5 skipped (50.65s), exit 0. First full suite: 2047 passed, 14 skipped (143.77s), exit 0; this began before the two HOME-isolation test edits. Final full suite after those edits: 2047 passed, 14 skipped (136.91s), exit 0. Both full runs used py -3.14 -B -m pytest -q -rs -p no:cacheprovider --basetemp NEW_EXTERNAL_DIRECTORY --tb=short with PYTHONDONTWRITEBYTECODE=1. Nine skips are existing explicit local model/embedding/evaluation opt-ins; five require real POSIX permissions. Three final README commands also independently returned exit 0, after earlier -S runs. No actual macOS/Linux, Python 3.10 runtime, live-model or visible desktop acceptance is claimed.
+
+
+## Persistence-trust audit and macOS acceptance configuration (2026-10-28)
+
+Directly inspected all DPAPI initialize/open/sign/verify/rotate/revoke helpers, encryption calls, locking and key-ring publication. Real Windows tests reproduced four malformed-version cases: JSON true and 1.0 were accepted as integer version 1 in signature envelopes and key rings (4 failed, 0.19s). Two explicit integer-type guards now reject these forms; canonical integer-v1 bytes, DPAPI encryption, purposes, keys, Bundle/history identities and recovery semantics are unchanged. Additional tests cover initialization/open backend errors without HMAC fallback, DPAPI protect/unprotect failure and concurrent initialization. No POSIX production change was made.
+
+POSIX hard-link publication precedes directory fsync: a post-publication error can leave a root, and cannot justify rekeying. Added native-POSIX fault injection for write, flush, file fsync, link, directory fsync, cleanup before/after unlink and final validation. Surviving roots retain their bytes; a leftover temporary hard link remains rejected by the existing single-link gate and requires operator review. These tests have not executed locally on Windows and are not evidence of a naturally occurring macOS fsync error. No remote macOS runner was accessible without publishing this worktree; the actual filesystem question remains open. The explicit path/ancestor and crash-durability limits are documented in DATA_CONTRACTS.
+
+The new dedicated macos-latest/Python 3.14 job asserts the actual native platform, uses canonical runner temporary directories, isolates HOME and save roots, runs portable trust/reconstruction/fence/social tests (including actual file-HMAC cold restore), then the standard-library social CLI. It retains read-only permissions, no artifacts/caches/secrets, explicit failure exit codes and no platform simulation. Linux and Windows jobs remain configured. REMOTE PLATFORM ACCEPTANCE PENDING for all new workflow jobs until a separately authorized commit/push and actual GitHub Actions execution. YAML and Bash syntax checks are local configuration checks, not target-platform acceptance. No Git remote operation was performed.
+
+Local Windows/Python 3.14 audit executions: reproduced malformed DPAPI versions 4 failed, 4 deselected (0.19s, exit 1); after integer guards and initial regressions, trust pair 33 passed, 11 POSIX skips (3.08s, exit 0). After adding write/flush fault cases, trust/cold-restore/fence/social selection 147 passed, 13 POSIX skips (41.95s, exit 0). Final complete suite ran once: 2056 passed, 22 skipped (141.64s, exit 0). Thirteen skips require actual POSIX (five permissions/link cases and eight initialization failure boundaries); nine require explicit local model/embedding/evaluation opt-ins. Runs used Python 3.14 -B, PYTHONDONTWRITEBYTECODE=1, disabled pytest cache and fresh external basetemp directories. No GitHub-hosted job or actual macOS/Linux test ran. Modified Python compilation/3.10 grammar, three-job YAML/Bash syntax, local document links and Git whitespace checks passed; these are not Python 3.10 or macOS runtime validation.
+
+
+## Historical architecture source records — approved Phase 3D
+
+These explicitly attributed source quotations preserve original stage decisions and limitations. They are not current verification results or new policy definitions.
+
+<a id="arch-history-h-134-1937-1937"></a>
+### Historical source record — Phase 12.5C status
+
+**Historical record — Historical implementation snapshots.** This is an original-stage quotation, not a current normative definition, current implementation inventory or newly executed test result.
+
+Source: [docs/ARCHITECTURE.md](ARCHITECTURE.md), original heading ID **134**, lines **1937–1937**; original heading: **Phase 12.5C status**.
+Source document SHA-256: `d111ce446dcdf8a16182dc465f42a851177a569547b3a0cfc6519d6e8653f751`. Captured from the working tree based on `838e6913e6e6d6deefcaa6bbf126cad2139550b7`; the quoted bytes are not asserted to be the committed version.
+
+Original context: Phase12.5C implementation/verification inventory including unrun Python tests and unsupported age/consent/UI areas.
+Chronology: Phase12.5C explicit; no calendar date stated. Calendar date: not stated in the source.
+
+Temporal words such as “now”, “currently”, “here”, “this document”, “below” and “at this stage” retain their original source context. Legacy paths are historical evidence, not current repository instructions. The full quoted limitations and original validation status remain attached; no broader supersession or present-day acceptance is inferred.
+
+Current normative definitions remain with their frozen owners, including [DATA_CONTRACTS.md](DATA_CONTRACTS.md) and [META_CONTRACTS.md](META_CONTRACTS.md); this quotation creates no additional authority.
+
+<!-- Phase 3D exact source quotation begins: H-134-1937-1937 -->
+> Code and tests added in this workspace; Python tests have **not** run in this Codex environment. Implemented scope: safety assessment contract and deterministic triage; existing OpenAI-compatible semantic-provider adapter; mandatory checks at existing action/step/EventFactory/output boundaries; structured versioned WorldNorms in WorldState; schema/safety generation path; controlled version-update Event; jurisdiction/tick query; and public-only disclosure projection. Not implemented/verified: comprehensive semantic classification, authoritative age/consent data, all-provider/runtime wiring in a production host, general crime-law applicability/effects, NPC legal knowledge dissemination, CWUI integration, durable norm changes across crash/restore, broad conflict Resolution, or complete story presentation. Process-local Python guards do not defend against malicious same-process code.
+<!-- Phase 3D exact source quotation ends: H-134-1937-1937 -->
+
+
+<a id="arch-history-h-145-2207-2213"></a>
+### Historical source record — Phase status
+
+**Historical record — Historical implementation snapshots.** This is an original-stage quotation, not a current normative definition, current implementation inventory or newly executed test result.
+
+Source: [docs/ARCHITECTURE.md](ARCHITECTURE.md), original heading ID **145**, lines **2207–2213**; original heading: **Phase status**.
+Source document SHA-256: `d111ce446dcdf8a16182dc465f42a851177a569547b3a0cfc6519d6e8653f751`. Captured from the working tree based on `838e6913e6e6d6deefcaa6bbf126cad2139550b7`; the quoted bytes are not asserted to be the committed version.
+
+Original context: End-of-Phase12.5D implementation-not-validated and missing capability inventory.
+Chronology: Explicit end of Phase12.5D and successor13 mention; no calendar date inferred. Calendar date: not stated in the source.
+
+Temporal words such as “now”, “currently”, “here”, “this document”, “below” and “at this stage” retain their original source context. Legacy paths are historical evidence, not current repository instructions. The full quoted limitations and original validation status remain attached; no broader supersession or present-day acceptance is inferred.
+
+Current normative definitions remain with their frozen owners, including [DATA_CONTRACTS.md](DATA_CONTRACTS.md) and [META_CONTRACTS.md](META_CONTRACTS.md); this quotation creates no additional authority.
+
+<!-- Phase 3D exact source quotation begins: H-145-2207-2213 -->
+> Phase 12.5D additions are **implemented but not validated** in this
+> environment. `SafetySubjectProfile` and runtime-shared governance have
+> deterministic and simulated-provider tests, but no Python run or live-model
+> evaluation is available here. Consent/relationship facts, authenticated
+> player/director ingress, universal semantic coverage, general combat/social
+> Resolution, the CWUI projection adapter, narrative planning, and
+> Dungeon/Scenario instances remained **not implemented/planned** at the end of Phase 12.5D; see the Phase 13 foundation below for the current limited implementation.
+<!-- Phase 3D exact source quotation ends: H-145-2207-2213 -->
+
+
+<a id="arch-history-h-178-2565-2576"></a>
+### Historical source record — SaveManager and Save Lifecycle — backend slice
+
+**Historical record — Historical implementation snapshots.** This is an original-stage quotation, not a current normative definition, current implementation inventory or newly executed test result.
+
+Source: [docs/ARCHITECTURE.md](ARCHITECTURE.md), original heading ID **178**, lines **2565–2576**; original heading: **SaveManager and Save Lifecycle — backend slice**.
+Source document SHA-256: `d111ce446dcdf8a16182dc465f42a851177a569547b3a0cfc6519d6e8653f751`. Captured from the working tree based on `838e6913e6e6d6deefcaa6bbf126cad2139550b7`; the quoted bytes are not asserted to be the committed version.
+
+Original context: Synthetic DPAPI save/fork/restore acceptance and its host/queue/power-loss bounds, ending in old no-Save-UI inventory.
+Chronology: Backend slice has no explicit date; do not date it from nearby unrelated milestones. Calendar date: not stated in the source.
+
+Temporal words such as “now”, “currently”, “here”, “this document”, “below” and “at this stage” retain their original source context. Legacy paths are historical evidence, not current repository instructions. The full quoted limitations and original validation status remain attached; no broader supersession or present-day acceptance is inferred.
+
+Current normative definitions remain with their frozen owners, including [DATA_CONTRACTS.md](DATA_CONTRACTS.md) and [META_CONTRACTS.md](META_CONTRACTS.md); this quotation creates no additional authority.
+
+<!-- Phase 3D exact source quotation begins: H-178-2565-2576 -->
+> The synthetic door-domain integration now exercises a real Windows DPAPI key
+> ring, independent Python subprocess reopening of parent and child saves,
+> manual deletion with retained shared ancestry, RestoreCoordinator activation,
+> a resumed AgentTurn, and a signed child Event with a matching WorldState slot
+> origin. A delayed candidate provider and an old ActionProposal are rejected
+> after activation. This exercises the supported in-process production chain;
+> the host still must reassemble policies, observations and schedules explicitly.
+> The backend does not persist scheduler queues, host policy or provider task
+> state, delete timelines, or restore a complete running application.
+> Deterministic journal/concurrency tests do not prove every power-loss or
+> filesystem durability condition. There is no Save UI or CWUI integration in
+> CognitiveWorld.
+<!-- Phase 3D exact source quotation ends: H-178-2565-2576 -->

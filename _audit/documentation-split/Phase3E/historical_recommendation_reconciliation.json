@@ -1,0 +1,1116 @@
+{
+    "reconciled_ids":  [
+                           1,
+                           2,
+                           3,
+                           4,
+                           5,
+                           6,
+                           7,
+                           8,
+                           9,
+                           10,
+                           11,
+                           12,
+                           13,
+                           14,
+                           15,
+                           16,
+                           17,
+                           18,
+                           19,
+                           20,
+                           21,
+                           22,
+                           23,
+                           24,
+                           25,
+                           26,
+                           27,
+                           28,
+                           29,
+                           30,
+                           31,
+                           32,
+                           33,
+                           34,
+                           35,
+                           36,
+                           37,
+                           38,
+                           39,
+                           40,
+                           41,
+                           42,
+                           43,
+                           44,
+                           45,
+                           46,
+                           47,
+                           48,
+                           49,
+                           50,
+                           51,
+                           52,
+                           53,
+                           54,
+                           55,
+                           56,
+                           57,
+                           58,
+                           59,
+                           60,
+                           61,
+                           62,
+                           63,
+                           64,
+                           65,
+                           66,
+                           67,
+                           68,
+                           69,
+                           70,
+                           71,
+                           72,
+                           73,
+                           74,
+                           75,
+                           76,
+                           77,
+                           78,
+                           79,
+                           80,
+                           81,
+                           82,
+                           83,
+                           84,
+                           85,
+                           86,
+                           87,
+                           88,
+                           89,
+                           90,
+                           91,
+                           92,
+                           93,
+                           94,
+                           95,
+                           96,
+                           97,
+                           98,
+                           99
+                       ],
+    "range_overlap":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-range-overlap-p83j18r7\\original_99_overlap_crosscheck.json",
+    "source":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-semantic-decisions-km0zt9_u\\historical_recommendation_comparison.json",
+    "historical_recommendations":  {
+                                       "reviewed_shared_group_proposal_ids":  [
+                                                                                  7,
+                                                                                  12,
+                                                                                  13,
+                                                                                  23,
+                                                                                  36,
+                                                                                  37,
+                                                                                  39,
+                                                                                  42,
+                                                                                  50,
+                                                                                  63,
+                                                                                  64,
+                                                                                  65,
+                                                                                  66,
+                                                                                  68,
+                                                                                  69,
+                                                                                  70,
+                                                                                  71,
+                                                                                  72,
+                                                                                  73,
+                                                                                  75,
+                                                                                  76,
+                                                                                  77,
+                                                                                  78,
+                                                                                  79,
+                                                                                  80,
+                                                                                  81,
+                                                                                  82,
+                                                                                  83,
+                                                                                  84,
+                                                                                  86,
+                                                                                  87,
+                                                                                  88,
+                                                                                  89,
+                                                                                  92,
+                                                                                  93,
+                                                                                  94,
+                                                                                  95,
+                                                                                  96,
+                                                                                  99
+                                                                              ],
+                                       "other_proposed_ids_not_reviewed_in_this_task":  [
+                                                                                            21,
+                                                                                            26,
+                                                                                            27,
+                                                                                            28,
+                                                                                            29,
+                                                                                            30,
+                                                                                            33,
+                                                                                            35,
+                                                                                            43,
+                                                                                            45,
+                                                                                            47,
+                                                                                            53,
+                                                                                            55,
+                                                                                            56,
+                                                                                            90
+                                                                                        ],
+                                       "retained_45":  "Not independently re-reviewed; previous dispositions unchanged.",
+                                       "fourteen_multi_anchor_proposals":  "Not all independently re-reviewed; the 119, 114, 186 and 9/10 relevant bundles were considered conceptually, not exhaustively line audited.",
+                                       "groups":  [
+                                                      {
+                                                          "group_id":  1,
+                                                          "occurrence_ids":  [
+                                                                                 7,
+                                                                                 12,
+                                                                                 23,
+                                                                                 84
+                                                                             ],
+                                                          "destination":  "docs/architecture/COGNITION.md#arch-source-50",
+                                                          "source_responsibility":  "Cognitive functions and execution levels with owner evidence and formal feedback.",
+                                                          "destination_responsibility":  "Cognition execution-level section retains model proposal and governed feedback boundaries.",
+                                                          "semantic_compatibility":  "COMPATIBLE",
+                                                          "normative_coverage":  "Standalone target preserves the section; keep planned-policy qualification.",
+                                                          "navigation_clarity":  "Label ARCHITECTURE.md may mislead; use a descriptive label after separate approval.",
+                                                          "maintainability":  "Cohesive domain ownership; canonical contracts retain authority and cross-domain links are explicit.",
+                                                          "disposition":  "KEEP_WITH_BETTER_LINK_LABEL",
+                                                          "reason":  "Standalone target preserves the section; keep planned-policy qualification.",
+                                                          "label_adjustment_ids":  [
+                                                                                       23
+                                                                                   ],
+                                                          "evidence":  {
+                                                                           "corrected_boundary_package":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-practical-review-5qkqws84",
+                                                                           "source_sections":  [
+                                                                                                   {
+                                                                                                       "id":  7,
+                                                                                                       "heading":  "Hybrid cognition execution levels (architectural direction; unified policy not implemented)",
+                                                                                                       "source_line":  639
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  12,
+                                                                                                       "heading":  "Hybrid cognition execution levels (architectural direction; unified policy not implemented)",
+                                                                                                       "source_line":  639
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  23,
+                                                                                                       "heading":  "Hybrid cognition execution levels (architectural direction; unified policy not implemented)",
+                                                                                                       "source_line":  639
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  84,
+                                                                                                       "heading":  "Hybrid cognition execution levels (architectural direction; unified policy not implemented)",
+                                                                                                       "source_line":  639
+                                                                                                   }
+                                                                                               ],
+                                                                           "owner_heading":  {
+                                                                                                 "line":  446,
+                                                                                                 "level":  3,
+                                                                                                 "title":  "ID 50 — Hybrid cognition execution levels (architectural direction; unified policy not implemented)",
+                                                                                                 "end_line":  467
+                                                                                             },
+                                                                           "anchor_lines":  [
+                                                                                                448
+                                                                                            ]
+                                                                       }
+                                                      },
+                                                      {
+                                                          "group_id":  2,
+                                                          "occurrence_ids":  [
+                                                                                 13,
+                                                                                 36,
+                                                                                 37,
+                                                                                 39,
+                                                                                 42,
+                                                                                 50
+                                                                             ],
+                                                          "destination":  "docs/architecture/WORLD_SIMULATION.md#arch-source-113",
+                                                          "source_responsibility":  "Hybrid physical evaluation and independent cognitive, perceptual and physical LOD.",
+                                                          "destination_responsibility":  "World simulation section retains independent axes and authoritative commit boundary.",
+                                                          "semantic_compatibility":  "COMPATIBLE",
+                                                          "normative_coverage":  "Keep separate axes; do not treat shared overview as implemented unified LOD.",
+                                                          "navigation_clarity":  "Label ARCHITECTURE.md may mislead; use a descriptive label after separate approval.",
+                                                          "maintainability":  "Cohesive domain ownership; canonical contracts retain authority and cross-domain links are explicit.",
+                                                          "disposition":  "KEEP_WITH_BETTER_LINK_LABEL",
+                                                          "reason":  "Keep separate axes; do not treat shared overview as implemented unified LOD.",
+                                                          "label_adjustment_ids":  [
+                                                                                       36,
+                                                                                       37,
+                                                                                       39,
+                                                                                       42,
+                                                                                       50
+                                                                                   ],
+                                                          "evidence":  {
+                                                                           "corrected_boundary_package":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-practical-review-5qkqws84",
+                                                                           "source_sections":  [
+                                                                                                   {
+                                                                                                       "id":  13,
+                                                                                                       "heading":  "Hybrid Physical Engine and Independent LOD Axes (Approved Design, Not Implemented)",
+                                                                                                       "source_line":  1625
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  36,
+                                                                                                       "heading":  "Hybrid Physical Engine and Independent LOD Axes (Approved Design, Not Implemented)",
+                                                                                                       "source_line":  1625
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  37,
+                                                                                                       "heading":  "Hybrid Physical Engine and Independent LOD Axes (Approved Design, Not Implemented)",
+                                                                                                       "source_line":  1625
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  39,
+                                                                                                       "heading":  "Hybrid Physical Engine and Independent LOD Axes (Approved Design, Not Implemented)",
+                                                                                                       "source_line":  1625
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  42,
+                                                                                                       "heading":  "Hybrid Physical Engine and Independent LOD Axes (Approved Design, Not Implemented)",
+                                                                                                       "source_line":  1625
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  50,
+                                                                                                       "heading":  "Hybrid Physical Engine and Independent LOD Axes (Approved Design, Not Implemented)",
+                                                                                                       "source_line":  1625
+                                                                                                   }
+                                                                                               ],
+                                                                           "owner_heading":  {
+                                                                                                 "line":  441,
+                                                                                                 "level":  3,
+                                                                                                 "title":  "ID 113 — Hybrid Physical Engine and Independent LOD Axes (Approved Design, Not Implemented)",
+                                                                                                 "end_line":  484
+                                                                                             },
+                                                                           "anchor_lines":  [
+                                                                                                443
+                                                                                            ]
+                                                                       }
+                                                      },
+                                                      {
+                                                          "group_id":  3,
+                                                          "occurrence_ids":  [
+                                                                                 63,
+                                                                                 73,
+                                                                                 82,
+                                                                                 89
+                                                                             ],
+                                                          "destination":  "docs/architecture/WORLD_MODEL.md#arch-source-119",
+                                                          "source_responsibility":  "Lazy expansion parent: minimal generation, acceptance, topology and lineage.",
+                                                          "destination_responsibility":  "World-model overview states selection and separates expansion, LOD and event tree.",
+                                                          "semantic_compatibility":  "COMPATIBLE_WITH_REQUIRED_BUNDLE",
+                                                          "normative_coverage":  "Retain with companion anchors 120–122; overview alone is narrower than parent.",
+                                                          "navigation_clarity":  "Contextual destination label preferred; preserve any companion links.",
+                                                          "maintainability":  "Cohesive domain ownership; canonical contracts retain authority and cross-domain links are explicit.",
+                                                          "disposition":  "KEEP_SHARED_DESTINATION",
+                                                          "reason":  "Retain with companion anchors 120–122; overview alone is narrower than parent.",
+                                                          "label_adjustment_ids":  [
+
+                                                                                   ],
+                                                          "evidence":  {
+                                                                           "corrected_boundary_package":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-practical-review-5qkqws84",
+                                                                           "source_sections":  [
+                                                                                                   {
+                                                                                                       "id":  63,
+                                                                                                       "heading":  "Hybrid Lazy World Expansion (selected direction; acceptance boundary unresolved)",
+                                                                                                       "source_line":  1753
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  73,
+                                                                                                       "heading":  "Hybrid Lazy World Expansion (selected direction; acceptance boundary unresolved)",
+                                                                                                       "source_line":  1753
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  82,
+                                                                                                       "heading":  "Hybrid Lazy World Expansion (selected direction; acceptance boundary unresolved)",
+                                                                                                       "source_line":  1753
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  89,
+                                                                                                       "heading":  "Hybrid Lazy World Expansion (selected direction; acceptance boundary unresolved)",
+                                                                                                       "source_line":  1753
+                                                                                                   }
+                                                                                               ],
+                                                                           "owner_heading":  {
+                                                                                                 "line":  547,
+                                                                                                 "level":  3,
+                                                                                                 "title":  "ID 119 — Hybrid Lazy World Expansion (selected direction; acceptance boundary unresolved)",
+                                                                                                 "end_line":  568
+                                                                                             },
+                                                                           "anchor_lines":  [
+                                                                                                549
+                                                                                            ]
+                                                                       }
+                                                      },
+                                                      {
+                                                          "group_id":  4,
+                                                          "occurrence_ids":  [
+                                                                                 63,
+                                                                                 73,
+                                                                                 82,
+                                                                                 89
+                                                                             ],
+                                                          "destination":  "docs/architecture/WORLD_MODEL.md#arch-source-120",
+                                                          "source_responsibility":  "Lazy expansion parent with commitment and materialization.",
+                                                          "destination_responsibility":  "World-model commitment section separates candidate, accepted structure and materialization.",
+                                                          "semantic_compatibility":  "COMPATIBLE_WITH_REQUIRED_BUNDLE",
+                                                          "normative_coverage":  "Retain as part of the four-link bundle; acceptance authority remains unresolved.",
+                                                          "navigation_clarity":  "Contextual destination label preferred; preserve any companion links.",
+                                                          "maintainability":  "Cohesive domain ownership; canonical contracts retain authority and cross-domain links are explicit.",
+                                                          "disposition":  "KEEP_SHARED_DESTINATION",
+                                                          "reason":  "Retain as part of the four-link bundle; acceptance authority remains unresolved.",
+                                                          "label_adjustment_ids":  [
+
+                                                                                   ],
+                                                          "evidence":  {
+                                                                           "corrected_boundary_package":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-practical-review-5qkqws84",
+                                                                           "source_sections":  [
+                                                                                                   {
+                                                                                                       "id":  63,
+                                                                                                       "heading":  "Hybrid Lazy World Expansion (selected direction; acceptance boundary unresolved)",
+                                                                                                       "source_line":  1753
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  73,
+                                                                                                       "heading":  "Hybrid Lazy World Expansion (selected direction; acceptance boundary unresolved)",
+                                                                                                       "source_line":  1753
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  82,
+                                                                                                       "heading":  "Hybrid Lazy World Expansion (selected direction; acceptance boundary unresolved)",
+                                                                                                       "source_line":  1753
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  89,
+                                                                                                       "heading":  "Hybrid Lazy World Expansion (selected direction; acceptance boundary unresolved)",
+                                                                                                       "source_line":  1753
+                                                                                                   }
+                                                                                               ],
+                                                                           "owner_heading":  {
+                                                                                                 "line":  569,
+                                                                                                 "level":  3,
+                                                                                                 "title":  "ID 120 — Commitment and materialization are independent",
+                                                                                                 "end_line":  599
+                                                                                             },
+                                                                           "anchor_lines":  [
+                                                                                                571
+                                                                                            ]
+                                                                       }
+                                                      },
+                                                      {
+                                                          "group_id":  5,
+                                                          "occurrence_ids":  [
+                                                                                 63,
+                                                                                 73,
+                                                                                 82,
+                                                                                 89
+                                                                             ],
+                                                          "destination":  "docs/architecture/WORLD_MODEL.md#arch-source-121",
+                                                          "source_responsibility":  "Lazy expansion parent with topology and local geometry.",
+                                                          "destination_responsibility":  "World-model topology section separates graph connections, visibility and distance.",
+                                                          "semantic_compatibility":  "COMPATIBLE_WITH_REQUIRED_BUNDLE",
+                                                          "normative_coverage":  "Retain as part of the four-link bundle; connection does not imply metric visibility.",
+                                                          "navigation_clarity":  "Contextual destination label preferred; preserve any companion links.",
+                                                          "maintainability":  "Cohesive domain ownership; canonical contracts retain authority and cross-domain links are explicit.",
+                                                          "disposition":  "KEEP_SHARED_DESTINATION",
+                                                          "reason":  "Retain as part of the four-link bundle; connection does not imply metric visibility.",
+                                                          "label_adjustment_ids":  [
+
+                                                                                   ],
+                                                          "evidence":  {
+                                                                           "corrected_boundary_package":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-practical-review-5qkqws84",
+                                                                           "source_sections":  [
+                                                                                                   {
+                                                                                                       "id":  63,
+                                                                                                       "heading":  "Hybrid Lazy World Expansion (selected direction; acceptance boundary unresolved)",
+                                                                                                       "source_line":  1753
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  73,
+                                                                                                       "heading":  "Hybrid Lazy World Expansion (selected direction; acceptance boundary unresolved)",
+                                                                                                       "source_line":  1753
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  82,
+                                                                                                       "heading":  "Hybrid Lazy World Expansion (selected direction; acceptance boundary unresolved)",
+                                                                                                       "source_line":  1753
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  89,
+                                                                                                       "heading":  "Hybrid Lazy World Expansion (selected direction; acceptance boundary unresolved)",
+                                                                                                       "source_line":  1753
+                                                                                                   }
+                                                                                               ],
+                                                                           "owner_heading":  {
+                                                                                                 "line":  600,
+                                                                                                 "level":  3,
+                                                                                                 "title":  "ID 121 — Topology and local geometry",
+                                                                                                 "end_line":  621
+                                                                                             },
+                                                                           "anchor_lines":  [
+                                                                                                602
+                                                                                            ]
+                                                                       }
+                                                      },
+                                                      {
+                                                          "group_id":  6,
+                                                          "occurrence_ids":  [
+                                                                                 63,
+                                                                                 73,
+                                                                                 82,
+                                                                                 89
+                                                                             ],
+                                                          "destination":  "docs/architecture/WORLD_MODEL.md#arch-source-122",
+                                                          "source_responsibility":  "Lazy expansion parent with seed, identity and Timeline continuity.",
+                                                          "destination_responsibility":  "World-model lineage section constrains accepted structures and restore.",
+                                                          "semantic_compatibility":  "COMPATIBLE_WITH_REQUIRED_BUNDLE",
+                                                          "normative_coverage":  "Retain as part of the four-link bundle; do not claim general graph persistence.",
+                                                          "navigation_clarity":  "Contextual destination label preferred; preserve any companion links.",
+                                                          "maintainability":  "Cohesive domain ownership; canonical contracts retain authority and cross-domain links are explicit.",
+                                                          "disposition":  "KEEP_SHARED_DESTINATION",
+                                                          "reason":  "Retain as part of the four-link bundle; do not claim general graph persistence.",
+                                                          "label_adjustment_ids":  [
+
+                                                                                   ],
+                                                          "evidence":  {
+                                                                           "corrected_boundary_package":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-practical-review-5qkqws84",
+                                                                           "source_sections":  [
+                                                                                                   {
+                                                                                                       "id":  63,
+                                                                                                       "heading":  "Hybrid Lazy World Expansion (selected direction; acceptance boundary unresolved)",
+                                                                                                       "source_line":  1753
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  73,
+                                                                                                       "heading":  "Hybrid Lazy World Expansion (selected direction; acceptance boundary unresolved)",
+                                                                                                       "source_line":  1753
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  82,
+                                                                                                       "heading":  "Hybrid Lazy World Expansion (selected direction; acceptance boundary unresolved)",
+                                                                                                       "source_line":  1753
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  89,
+                                                                                                       "heading":  "Hybrid Lazy World Expansion (selected direction; acceptance boundary unresolved)",
+                                                                                                       "source_line":  1753
+                                                                                                   }
+                                                                                               ],
+                                                                           "owner_heading":  {
+                                                                                                 "line":  622,
+                                                                                                 "level":  3,
+                                                                                                 "title":  "ID 122 — Seed, identity and Timeline continuity",
+                                                                                                 "end_line":  645
+                                                                                             },
+                                                                           "anchor_lines":  [
+                                                                                                624
+                                                                                            ]
+                                                                       }
+                                                      },
+                                                      {
+                                                          "group_id":  7,
+                                                          "occurrence_ids":  [
+                                                                                 64,
+                                                                                 72,
+                                                                                 81,
+                                                                                 88,
+                                                                                 99
+                                                                             ],
+                                                          "destination":  "docs/architecture/PERCEPTION.md#arch-source-114",
+                                                          "source_responsibility":  "Candidate visual and auditory LOD mathematics and status.",
+                                                          "destination_responsibility":  "Perception overview labels equations uncalibrated and non-production.",
+                                                          "semantic_compatibility":  "COMPATIBLE_WITH_REQUIRED_BUNDLE",
+                                                          "normative_coverage":  "Retain alongside 115–117; standalone parent anchor no longer contains all child material.",
+                                                          "navigation_clarity":  "Contextual destination label preferred; preserve any companion links.",
+                                                          "maintainability":  "Cohesive domain ownership; canonical contracts retain authority and cross-domain links are explicit.",
+                                                          "disposition":  "KEEP_SHARED_DESTINATION",
+                                                          "reason":  "Retain alongside 115–117; standalone parent anchor no longer contains all child material.",
+                                                          "label_adjustment_ids":  [
+
+                                                                                   ],
+                                                          "evidence":  {
+                                                                           "corrected_boundary_package":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-practical-review-5qkqws84",
+                                                                           "source_sections":  [
+                                                                                                   {
+                                                                                                       "id":  64,
+                                                                                                       "heading":  "Visual and auditory LOD mathematics (candidate models; uncalibrated)",
+                                                                                                       "source_line":  1653
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  72,
+                                                                                                       "heading":  "Visual and auditory LOD mathematics (candidate models; uncalibrated)",
+                                                                                                       "source_line":  1653
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  81,
+                                                                                                       "heading":  "Visual and auditory LOD mathematics (candidate models; uncalibrated)",
+                                                                                                       "source_line":  1653
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  88,
+                                                                                                       "heading":  "Visual and auditory LOD mathematics (candidate models; uncalibrated)",
+                                                                                                       "source_line":  1653
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  99,
+                                                                                                       "heading":  "Visual and auditory LOD mathematics (candidate models; uncalibrated)",
+                                                                                                       "source_line":  1653
+                                                                                                   }
+                                                                                               ],
+                                                                           "owner_heading":  {
+                                                                                                 "line":  99,
+                                                                                                 "level":  3,
+                                                                                                 "title":  "ID 114 — Visual and auditory LOD mathematics (candidate models; uncalibrated)",
+                                                                                                 "end_line":  118
+                                                                                             },
+                                                                           "anchor_lines":  [
+                                                                                                101
+                                                                                            ]
+                                                                       }
+                                                      },
+                                                      {
+                                                          "group_id":  8,
+                                                          "occurrence_ids":  [
+                                                                                 64,
+                                                                                 72,
+                                                                                 81,
+                                                                                 88,
+                                                                                 99
+                                                                             ],
+                                                          "destination":  "docs/architecture/PERCEPTION.md#arch-source-115",
+                                                          "source_responsibility":  "Candidate perception mathematics including visual detection and quality.",
+                                                          "destination_responsibility":  "Perception visual section covers FOV, occlusion and quality without granting authorization.",
+                                                          "semantic_compatibility":  "COMPATIBLE_WITH_REQUIRED_BUNDLE",
+                                                          "normative_coverage":  "Retain as part of 114–117 bundle, with parent candidate-status qualification.",
+                                                          "navigation_clarity":  "Contextual destination label preferred; preserve any companion links.",
+                                                          "maintainability":  "Cohesive domain ownership; canonical contracts retain authority and cross-domain links are explicit.",
+                                                          "disposition":  "KEEP_SHARED_DESTINATION",
+                                                          "reason":  "Retain as part of 114–117 bundle, with parent candidate-status qualification.",
+                                                          "label_adjustment_ids":  [
+
+                                                                                   ],
+                                                          "evidence":  {
+                                                                           "corrected_boundary_package":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-practical-review-5qkqws84",
+                                                                           "source_sections":  [
+                                                                                                   {
+                                                                                                       "id":  64,
+                                                                                                       "heading":  "Visual and auditory LOD mathematics (candidate models; uncalibrated)",
+                                                                                                       "source_line":  1653
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  72,
+                                                                                                       "heading":  "Visual and auditory LOD mathematics (candidate models; uncalibrated)",
+                                                                                                       "source_line":  1653
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  81,
+                                                                                                       "heading":  "Visual and auditory LOD mathematics (candidate models; uncalibrated)",
+                                                                                                       "source_line":  1653
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  88,
+                                                                                                       "heading":  "Visual and auditory LOD mathematics (candidate models; uncalibrated)",
+                                                                                                       "source_line":  1653
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  99,
+                                                                                                       "heading":  "Visual and auditory LOD mathematics (candidate models; uncalibrated)",
+                                                                                                       "source_line":  1653
+                                                                                                   }
+                                                                                               ],
+                                                                           "owner_heading":  {
+                                                                                                 "line":  119,
+                                                                                                 "level":  3,
+                                                                                                 "title":  "ID 115 — Visual eligibility and quality",
+                                                                                                 "end_line":  162
+                                                                                             },
+                                                                           "anchor_lines":  [
+                                                                                                121
+                                                                                            ]
+                                                                       }
+                                                      },
+                                                      {
+                                                          "group_id":  9,
+                                                          "occurrence_ids":  [
+                                                                                 64,
+                                                                                 72,
+                                                                                 81,
+                                                                                 88,
+                                                                                 99
+                                                                             ],
+                                                          "destination":  "docs/architecture/PERCEPTION.md#arch-source-116",
+                                                          "source_responsibility":  "Candidate perception mathematics including auditory propagation and detection.",
+                                                          "destination_responsibility":  "Perception auditory section distinguishes propagation, detection and disclosure.",
+                                                          "semantic_compatibility":  "COMPATIBLE_WITH_REQUIRED_BUNDLE",
+                                                          "normative_coverage":  "Retain as part of 114–117 bundle; candidate equations are not an installed acoustic engine.",
+                                                          "navigation_clarity":  "Contextual destination label preferred; preserve any companion links.",
+                                                          "maintainability":  "Cohesive domain ownership; canonical contracts retain authority and cross-domain links are explicit.",
+                                                          "disposition":  "KEEP_SHARED_DESTINATION",
+                                                          "reason":  "Retain as part of 114–117 bundle; candidate equations are not an installed acoustic engine.",
+                                                          "label_adjustment_ids":  [
+
+                                                                                   ],
+                                                          "evidence":  {
+                                                                           "corrected_boundary_package":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-practical-review-5qkqws84",
+                                                                           "source_sections":  [
+                                                                                                   {
+                                                                                                       "id":  64,
+                                                                                                       "heading":  "Visual and auditory LOD mathematics (candidate models; uncalibrated)",
+                                                                                                       "source_line":  1653
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  72,
+                                                                                                       "heading":  "Visual and auditory LOD mathematics (candidate models; uncalibrated)",
+                                                                                                       "source_line":  1653
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  81,
+                                                                                                       "heading":  "Visual and auditory LOD mathematics (candidate models; uncalibrated)",
+                                                                                                       "source_line":  1653
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  88,
+                                                                                                       "heading":  "Visual and auditory LOD mathematics (candidate models; uncalibrated)",
+                                                                                                       "source_line":  1653
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  99,
+                                                                                                       "heading":  "Visual and auditory LOD mathematics (candidate models; uncalibrated)",
+                                                                                                       "source_line":  1653
+                                                                                                   }
+                                                                                               ],
+                                                                           "owner_heading":  {
+                                                                                                 "line":  163,
+                                                                                                 "level":  3,
+                                                                                                 "title":  "ID 116 — Auditory propagation and detection",
+                                                                                                 "end_line":  214
+                                                                                             },
+                                                                           "anchor_lines":  [
+                                                                                                165
+                                                                                            ]
+                                                                       }
+                                                      },
+                                                      {
+                                                          "group_id":  10,
+                                                          "occurrence_ids":  [
+                                                                                 64,
+                                                                                 72,
+                                                                                 81,
+                                                                                 88,
+                                                                                 99
+                                                                             ],
+                                                          "destination":  "docs/architecture/PERCEPTION.md#arch-source-117",
+                                                          "source_responsibility":  "Candidate perception mathematics and open validation decisions.",
+                                                          "destination_responsibility":  "Perception mathematical review states calibration, history and authorization limits.",
+                                                          "semantic_compatibility":  "COMPATIBLE_WITH_REQUIRED_BUNDLE",
+                                                          "normative_coverage":  "Retain as part of 114–117 bundle; do not present proposed validation as executed tests.",
+                                                          "navigation_clarity":  "Contextual destination label preferred; preserve any companion links.",
+                                                          "maintainability":  "Cohesive domain ownership; canonical contracts retain authority and cross-domain links are explicit.",
+                                                          "disposition":  "KEEP_SHARED_DESTINATION",
+                                                          "reason":  "Retain as part of 114–117 bundle; do not present proposed validation as executed tests.",
+                                                          "label_adjustment_ids":  [
+
+                                                                                   ],
+                                                          "evidence":  {
+                                                                           "corrected_boundary_package":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-practical-review-5qkqws84",
+                                                                           "source_sections":  [
+                                                                                                   {
+                                                                                                       "id":  64,
+                                                                                                       "heading":  "Visual and auditory LOD mathematics (candidate models; uncalibrated)",
+                                                                                                       "source_line":  1653
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  72,
+                                                                                                       "heading":  "Visual and auditory LOD mathematics (candidate models; uncalibrated)",
+                                                                                                       "source_line":  1653
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  81,
+                                                                                                       "heading":  "Visual and auditory LOD mathematics (candidate models; uncalibrated)",
+                                                                                                       "source_line":  1653
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  88,
+                                                                                                       "heading":  "Visual and auditory LOD mathematics (candidate models; uncalibrated)",
+                                                                                                       "source_line":  1653
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  99,
+                                                                                                       "heading":  "Visual and auditory LOD mathematics (candidate models; uncalibrated)",
+                                                                                                       "source_line":  1653
+                                                                                                   }
+                                                                                               ],
+                                                                           "owner_heading":  {
+                                                                                                 "line":  215,
+                                                                                                 "level":  3,
+                                                                                                 "title":  "ID 117 — Mathematical review and open decisions",
+                                                                                                 "end_line":  236
+                                                                                             },
+                                                                           "anchor_lines":  [
+                                                                                                217
+                                                                                            ]
+                                                                       }
+                                                      },
+                                                      {
+                                                          "group_id":  11,
+                                                          "occurrence_ids":  [
+                                                                                 65,
+                                                                                 83,
+                                                                                 86
+                                                                             ],
+                                                          "destination":  "docs/architecture/WORLD_MODEL.md#arch-source-57",
+                                                          "source_responsibility":  "Entity identity continuity versus observed target and subjective judgment.",
+                                                          "destination_responsibility":  "World-model identity section preserves authority and epistemic separation.",
+                                                          "semantic_compatibility":  "COMPATIBLE",
+                                                          "normative_coverage":  "Keep, with cross-reference to subjective interpretation rather than duplicating cognitive authority.",
+                                                          "navigation_clarity":  "Contextual destination label preferred; preserve any companion links.",
+                                                          "maintainability":  "Cohesive domain ownership; canonical contracts retain authority and cross-domain links are explicit.",
+                                                          "disposition":  "KEEP_SHARED_DESTINATION",
+                                                          "reason":  "Keep, with cross-reference to subjective interpretation rather than duplicating cognitive authority.",
+                                                          "label_adjustment_ids":  [
+
+                                                                                   ],
+                                                          "evidence":  {
+                                                                           "corrected_boundary_package":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-practical-review-5qkqws84",
+                                                                           "source_sections":  [
+                                                                                                   {
+                                                                                                       "id":  65,
+                                                                                                       "heading":  "Entity identity continuity and epistemic disagreement (approved architectural principle)",
+                                                                                                       "source_line":  705
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  83,
+                                                                                                       "heading":  "Entity identity continuity and epistemic disagreement (approved architectural principle)",
+                                                                                                       "source_line":  705
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  86,
+                                                                                                       "heading":  "Entity identity continuity and epistemic disagreement (approved architectural principle)",
+                                                                                                       "source_line":  705
+                                                                                                   }
+                                                                                               ],
+                                                                           "owner_heading":  {
+                                                                                                 "line":  264,
+                                                                                                 "level":  3,
+                                                                                                 "title":  "ID 57 — Entity identity continuity and epistemic disagreement (approved architectural principle)",
+                                                                                                 "end_line":  288
+                                                                                             },
+                                                                           "anchor_lines":  [
+                                                                                                266
+                                                                                            ]
+                                                                       }
+                                                      },
+                                                      {
+                                                          "group_id":  12,
+                                                          "occurrence_ids":  [
+                                                                                 66,
+                                                                                 77,
+                                                                                 80,
+                                                                                 95,
+                                                                                 96
+                                                                             ],
+                                                          "destination":  "docs/architecture/COGNITION.md#arch-source-31",
+                                                          "source_responsibility":  "Rule compatibility, cognitive credibility and world-fact qualification.",
+                                                          "destination_responsibility":  "Cognition governance section keeps the three judgments and commit boundary separate.",
+                                                          "semantic_compatibility":  "COMPATIBLE",
+                                                          "normative_coverage":  "Keep, with canonical governance and data contracts remaining authoritative.",
+                                                          "navigation_clarity":  "Contextual destination label preferred; preserve any companion links.",
+                                                          "maintainability":  "Cohesive domain ownership; canonical contracts retain authority and cross-domain links are explicit.",
+                                                          "disposition":  "KEEP_SHARED_DESTINATION",
+                                                          "reason":  "Keep, with canonical governance and data contracts remaining authoritative.",
+                                                          "label_adjustment_ids":  [
+
+                                                                                   ],
+                                                          "evidence":  {
+                                                                           "corrected_boundary_package":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-practical-review-5qkqws84",
+                                                                           "source_sections":  [
+                                                                                                   {
+                                                                                                       "id":  66,
+                                                                                                       "heading":  "Cognitive governance: three independent judgments",
+                                                                                                       "source_line":  363
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  77,
+                                                                                                       "heading":  "Cognitive governance: three independent judgments",
+                                                                                                       "source_line":  363
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  80,
+                                                                                                       "heading":  "Cognitive governance: three independent judgments",
+                                                                                                       "source_line":  363
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  95,
+                                                                                                       "heading":  "Cognitive governance: three independent judgments",
+                                                                                                       "source_line":  363
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  96,
+                                                                                                       "heading":  "Cognitive governance: three independent judgments",
+                                                                                                       "source_line":  363
+                                                                                                   }
+                                                                                               ],
+                                                                           "owner_heading":  {
+                                                                                                 "line":  188,
+                                                                                                 "level":  3,
+                                                                                                 "title":  "ID 31 — Cognitive governance: three independent judgments",
+                                                                                                 "end_line":  207
+                                                                                             },
+                                                                           "anchor_lines":  [
+                                                                                                190
+                                                                                            ]
+                                                                       }
+                                                      },
+                                                      {
+                                                          "group_id":  13,
+                                                          "occurrence_ids":  [
+                                                                                 68,
+                                                                                 75,
+                                                                                 92
+                                                                             ],
+                                                          "destination":  "docs/architecture/COGNITION.md#arch-source-185",
+                                                          "source_responsibility":  "Goal completion requires committed result, qualified consumption and governed update.",
+                                                          "destination_responsibility":  "Cognition goal-completion section preserves the bounded implemented lifecycle.",
+                                                          "semantic_compatibility":  "COMPATIBLE",
+                                                          "normative_coverage":  "Keep; signed recovery and absence of a general planner remain qualified.",
+                                                          "navigation_clarity":  "Contextual destination label preferred; preserve any companion links.",
+                                                          "maintainability":  "Cohesive domain ownership; canonical contracts retain authority and cross-domain links are explicit.",
+                                                          "disposition":  "KEEP_SHARED_DESTINATION",
+                                                          "reason":  "Keep; signed recovery and absence of a general planner remain qualified.",
+                                                          "label_adjustment_ids":  [
+
+                                                                                   ],
+                                                          "evidence":  {
+                                                                           "corrected_boundary_package":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-practical-review-5qkqws84",
+                                                                           "source_sections":  [
+                                                                                                   {
+                                                                                                       "id":  68,
+                                                                                                       "heading":  "Consumed result Goal completion slice",
+                                                                                                       "source_line":  2637
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  75,
+                                                                                                       "heading":  "Consumed result Goal completion slice",
+                                                                                                       "source_line":  2637
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  92,
+                                                                                                       "heading":  "Consumed result Goal completion slice",
+                                                                                                       "source_line":  2637
+                                                                                                   }
+                                                                                               ],
+                                                                           "owner_heading":  {
+                                                                                                 "line":  622,
+                                                                                                 "level":  3,
+                                                                                                 "title":  "ID 185 — Consumed result Goal completion slice",
+                                                                                                 "end_line":  648
+                                                                                             },
+                                                                           "anchor_lines":  [
+                                                                                                624
+                                                                                            ]
+                                                                       }
+                                                      },
+                                                      {
+                                                          "group_id":  14,
+                                                          "occurrence_ids":  [
+                                                                                 69,
+                                                                                 76,
+                                                                                 93
+                                                                             ],
+                                                          "destination":  "docs/architecture/WORLD_MODEL.md#arch-source-186",
+                                                          "source_responsibility":  "JSON objects and bounded observation, a mixed physical/perceptual slice.",
+                                                          "destination_responsibility":  "World-model section covers installed object state and physical interaction.",
+                                                          "semantic_compatibility":  "COMPATIBLE_WITH_REQUIRED_BUNDLE",
+                                                          "normative_coverage":  "Keep only with the paired perception link; world facts and authorized evidence are separate.",
+                                                          "navigation_clarity":  "Contextual destination label preferred; preserve any companion links.",
+                                                          "maintainability":  "Cohesive domain ownership; canonical contracts retain authority and cross-domain links are explicit.",
+                                                          "disposition":  "KEEP_SHARED_DESTINATION",
+                                                          "reason":  "Keep only with the paired perception link; world facts and authorized evidence are separate.",
+                                                          "label_adjustment_ids":  [
+
+                                                                                   ],
+                                                          "evidence":  {
+                                                                           "corrected_boundary_package":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-practical-review-5qkqws84",
+                                                                           "source_sections":  [
+                                                                                                   {
+                                                                                                       "id":  69,
+                                                                                                       "heading":  "JSON objects and bounded visual projection (implemented narrow slice)",
+                                                                                                       "source_line":  2648
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  76,
+                                                                                                       "heading":  "JSON objects and bounded visual projection (implemented narrow slice)",
+                                                                                                       "source_line":  2648
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  93,
+                                                                                                       "heading":  "JSON objects and bounded visual projection (implemented narrow slice)",
+                                                                                                       "source_line":  2648
+                                                                                                   }
+                                                                                               ],
+                                                                           "owner_heading":  {
+                                                                                                 "line":  926,
+                                                                                                 "level":  3,
+                                                                                                 "title":  "ID 186 — JSON objects and bounded visual projection (implemented narrow slice)",
+                                                                                                 "end_line":  947
+                                                                                             },
+                                                                           "anchor_lines":  [
+                                                                                                928
+                                                                                            ]
+                                                                       }
+                                                      },
+                                                      {
+                                                          "group_id":  15,
+                                                          "occurrence_ids":  [
+                                                                                 69,
+                                                                                 76,
+                                                                                 93
+                                                                             ],
+                                                          "destination":  "docs/architecture/PERCEPTION.md#arch-source-186-part-2",
+                                                          "source_responsibility":  "JSON objects and bounded observation, a mixed physical/perceptual slice.",
+                                                          "destination_responsibility":  "Perception section covers closed appearance projection and recipient disclosure.",
+                                                          "semantic_compatibility":  "COMPATIBLE_WITH_REQUIRED_BUNDLE",
+                                                          "normative_coverage":  "Keep only with the paired world-model link; projection does not confer authority.",
+                                                          "navigation_clarity":  "Contextual destination label preferred; preserve any companion links.",
+                                                          "maintainability":  "Cohesive domain ownership; canonical contracts retain authority and cross-domain links are explicit.",
+                                                          "disposition":  "KEEP_SHARED_DESTINATION",
+                                                          "reason":  "Keep only with the paired world-model link; projection does not confer authority.",
+                                                          "label_adjustment_ids":  [
+
+                                                                                   ],
+                                                          "evidence":  {
+                                                                           "corrected_boundary_package":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-practical-review-5qkqws84",
+                                                                           "source_sections":  [
+                                                                                                   {
+                                                                                                       "id":  69,
+                                                                                                       "heading":  "JSON objects and bounded visual projection (implemented narrow slice)",
+                                                                                                       "source_line":  2648
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  76,
+                                                                                                       "heading":  "JSON objects and bounded visual projection (implemented narrow slice)",
+                                                                                                       "source_line":  2648
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  93,
+                                                                                                       "heading":  "JSON objects and bounded visual projection (implemented narrow slice)",
+                                                                                                       "source_line":  2648
+                                                                                                   }
+                                                                                               ],
+                                                                           "owner_heading":  {
+                                                                                                 "line":  312,
+                                                                                                 "level":  3,
+                                                                                                 "title":  "Split source ID 186 — JSON objects and bounded visual projection (implemented narrow slice) / Closed appearance projection and independently authorized disclosure",
+                                                                                                 "end_line":  333
+                                                                                             },
+                                                                           "anchor_lines":  [
+                                                                                                316
+                                                                                            ]
+                                                                       }
+                                                      },
+                                                      {
+                                                          "group_id":  16,
+                                                          "occurrence_ids":  [
+                                                                                 70,
+                                                                                 94
+                                                                             ],
+                                                          "destination":  "docs/architecture/PERCEPTION.md#arch-source-187",
+                                                          "source_responsibility":  "Position-driven observation precision under bounded domain and permissions.",
+                                                          "destination_responsibility":  "Perception section covers configured range and immutable captured evidence.",
+                                                          "semantic_compatibility":  "COMPATIBLE",
+                                                          "normative_coverage":  "Keep; proximity cannot grant disclosure and no general FOV is implied.",
+                                                          "navigation_clarity":  "Contextual destination label preferred; preserve any companion links.",
+                                                          "maintainability":  "Cohesive domain ownership; canonical contracts retain authority and cross-domain links are explicit.",
+                                                          "disposition":  "KEEP_SHARED_DESTINATION",
+                                                          "reason":  "Keep; proximity cannot grant disclosure and no general FOV is implied.",
+                                                          "label_adjustment_ids":  [
+
+                                                                                   ],
+                                                          "evidence":  {
+                                                                           "corrected_boundary_package":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-practical-review-5qkqws84",
+                                                                           "source_sections":  [
+                                                                                                   {
+                                                                                                       "id":  70,
+                                                                                                       "heading":  "Position driven observation precision (bounded implementation)",
+                                                                                                       "source_line":  2661
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  94,
+                                                                                                       "heading":  "Position driven observation precision (bounded implementation)",
+                                                                                                       "source_line":  2661
+                                                                                                   }
+                                                                                               ],
+                                                                           "owner_heading":  {
+                                                                                                 "line":  257,
+                                                                                                 "level":  3,
+                                                                                                 "title":  "ID 187 — Position driven observation precision (bounded implementation)",
+                                                                                                 "end_line":  284
+                                                                                             },
+                                                                           "anchor_lines":  [
+                                                                                                259
+                                                                                            ]
+                                                                       }
+                                                      },
+                                                      {
+                                                          "group_id":  17,
+                                                          "occurrence_ids":  [
+                                                                                 71,
+                                                                                 78,
+                                                                                 79,
+                                                                                 87
+                                                                             ],
+                                                          "destination":  "docs/architecture/INTERACTION_AND_PRESENTATION.md#arch-source-10",
+                                                          "source_responsibility":  "Contextual interaction and its parent natural-language player interaction.",
+                                                          "destination_responsibility":  "Interaction/presentation child section covers clicks and bounded investigation.",
+                                                          "semantic_compatibility":  "COMPATIBLE_WITH_REQUIRED_BUNDLE",
+                                                          "normative_coverage":  "Keep child for contextual-click intent; occurrence 78 also needs its parent-level companion destination.",
+                                                          "navigation_clarity":  "Contextual destination label preferred; preserve any companion links.",
+                                                          "maintainability":  "Cohesive domain ownership; canonical contracts retain authority and cross-domain links are explicit.",
+                                                          "disposition":  "KEEP_SHARED_DESTINATION",
+                                                          "reason":  "Keep child for contextual-click intent; occurrence 78 also needs its parent-level companion destination.",
+                                                          "label_adjustment_ids":  [
+
+                                                                                   ],
+                                                          "evidence":  {
+                                                                           "corrected_boundary_package":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-practical-review-5qkqws84",
+                                                                           "source_sections":  [
+                                                                                                   {
+                                                                                                       "id":  71,
+                                                                                                       "heading":  "Contextual interaction and bounded autonomous investigation (design consensus; not implemented as a general workflow)",
+                                                                                                       "source_line":  127
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  78,
+                                                                                                       "heading":  "Natural-Language-Driven World Interaction (approved architectural requirement)",
+                                                                                                       "source_line":  105
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  79,
+                                                                                                       "heading":  "Contextual interaction and bounded autonomous investigation (design consensus; not implemented as a general workflow)",
+                                                                                                       "source_line":  127
+                                                                                                   },
+                                                                                                   {
+                                                                                                       "id":  87,
+                                                                                                       "heading":  "Contextual interaction and bounded autonomous investigation (design consensus; not implemented as a general workflow)",
+                                                                                                       "source_line":  127
+                                                                                                   }
+                                                                                               ],
+                                                                           "owner_heading":  {
+                                                                                                 "line":  72,
+                                                                                                 "level":  3,
+                                                                                                 "title":  "ID 10 — Contextual interaction and bounded autonomous investigation (design consensus; not implemented as a general workflow)",
+                                                                                                 "end_line":  107
+                                                                                             },
+                                                                           "anchor_lines":  [
+                                                                                                74
+                                                                                            ]
+                                                                       }
+                                                      }
+                                                  ]
+                                   },
+    "markdown_identity":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-markdown-290-reconciliation-ex79vfhl\\original_99_intersection_analysis.json",
+    "original_identity":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-source-token-bridge-zb2egk40\\original_99_exact_identity_mapping.json"
+}

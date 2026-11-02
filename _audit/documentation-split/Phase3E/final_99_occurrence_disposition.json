@@ -1,0 +1,2204 @@
+{
+    "records":  [
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  1,
+                        "phase3f_dependency":  "Keep the ARCHITECTURE.md document-entry path and authority until an approved source-entry change.",
+                        "original_classification":  "RETAIN_LEGACY_LINK_UNTIL_PHASE_3F",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "source_location":  "AGENTS.md:4",
+                        "original_destination":  "docs/ARCHITECTURE.md",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  2,
+                        "phase3f_dependency":  "Keep the ARCHITECTURE.md document-entry path and authority until an approved source-entry change.",
+                        "original_classification":  "RETAIN_LEGACY_LINK_UNTIL_PHASE_3F",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "source_location":  "AGENTS.md:14",
+                        "original_destination":  "docs/ARCHITECTURE.md",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  3,
+                        "phase3f_dependency":  "Keep the ARCHITECTURE.md document-entry path and authority until an approved source-entry change.",
+                        "original_classification":  "RETAIN_LEGACY_LINK_UNTIL_PHASE_3F",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "source_location":  "CONTRIBUTING.md:34",
+                        "original_destination":  "docs/ARCHITECTURE.md",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  4,
+                        "phase3f_dependency":  "Keep the ARCHITECTURE.md document-entry path and authority until an approved source-entry change.",
+                        "original_classification":  "RETAIN_LEGACY_LINK_UNTIL_PHASE_3F",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "source_location":  "README.md:134",
+                        "original_destination":  "docs/ARCHITECTURE.md",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  5,
+                        "phase3f_dependency":  "Keep the ARCHITECTURE.md document-entry path and authority until an approved source-entry change.",
+                        "original_classification":  "RETAIN_LEGACY_LINK_UNTIL_PHASE_3F",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "source_location":  "README.md:169",
+                        "original_destination":  "docs/ARCHITECTURE.md",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  6,
+                        "phase3f_dependency":  "Keep the ARCHITECTURE.md document-entry path and authority until an approved source-entry change.",
+                        "original_classification":  "RETAIN_LEGACY_LINK_UNTIL_PHASE_3F",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "source_location":  "README.md:263",
+                        "original_destination":  "docs/ARCHITECTURE.md",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  7,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "system architecture",
+                                                 "href":  "architecture/COGNITION.md#arch-source-50",
+                                                 "file":  "docs/architecture/COGNITION.md",
+                                                 "anchor":  "arch-source-50",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "reason":  "Standalone target preserves the section; keep planned-policy qualification.",
+                        "source_location":  "docs/AI_BOUNDARY.md:103",
+                        "original_destination":  "ARCHITECTURE.md#hybrid-cognition-execution-levels-architectural-direction-unified-policy-not-implemented",
+                        "replacement_syntax":  "[system architecture](architecture/COGNITION.md#arch-source-50)"
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  8,
+                        "phase3f_dependency":  "Retain until the old parent section and anchors are explicitly migrated.",
+                        "original_classification":  "RETAIN_LEGACY_LINK_UNTIL_PHASE_3F",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "source_location":  "docs/ARCHITECTURE.md:125",
+                        "original_destination":  "#hybrid-lazy-world-expansion-selected-direction-acceptance-boundary-unresolved",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  9,
+                        "phase3f_dependency":  "Retain until the old parent section and anchors are explicitly migrated.",
+                        "original_classification":  "RETAIN_LEGACY_LINK_UNTIL_PHASE_3F",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "source_location":  "docs/ARCHITECTURE.md:143",
+                        "original_destination":  "#hybrid-lazy-world-expansion-selected-direction-acceptance-boundary-unresolved",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  10,
+                        "phase3f_dependency":  "Retain until the old parent section and anchors are explicitly migrated.",
+                        "original_classification":  "RETAIN_LEGACY_LINK_UNTIL_PHASE_3F",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "source_location":  "docs/ARCHITECTURE.md:720",
+                        "original_destination":  "#hybrid-lazy-world-expansion-selected-direction-acceptance-boundary-unresolved",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  11,
+                        "phase3f_dependency":  "Retain until the old parent section and anchors are explicitly migrated.",
+                        "original_classification":  "RETAIN_LEGACY_LINK_UNTIL_PHASE_3F",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "source_location":  "docs/ARCHITECTURE.md:1418",
+                        "original_destination":  "#hybrid-lazy-world-expansion-selected-direction-acceptance-boundary-unresolved",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  12,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "hybrid cognition",
+                                                 "href":  "architecture/COGNITION.md#arch-source-50",
+                                                 "file":  "docs/architecture/COGNITION.md",
+                                                 "anchor":  "arch-source-50",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "reason":  "Standalone target preserves the section; keep planned-policy qualification.",
+                        "source_location":  "docs/COGNITIVEWORLD_CORE_DOCTRINE.md:83",
+                        "original_destination":  "ARCHITECTURE.md#hybrid-cognition-execution-levels-architectural-direction-unified-policy-not-implemented",
+                        "replacement_syntax":  "[hybrid cognition](architecture/COGNITION.md#arch-source-50)"
+                    },
+                    {
+                        "cross_references":  [
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  13,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "independent LOD and spatial design",
+                                                 "href":  "architecture/WORLD_SIMULATION.md#arch-source-113",
+                                                 "file":  "docs/architecture/WORLD_SIMULATION.md",
+                                                 "anchor":  "arch-source-113",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "reason":  "Keep separate axes; do not treat shared overview as implemented unified LOD.",
+                        "source_location":  "docs/COGNITIVEWORLD_CORE_DOCTRINE.md:83",
+                        "original_destination":  "ARCHITECTURE.md#hybrid-physical-engine-and-independent-lod-axes-approved-design-not-implemented",
+                        "replacement_syntax":  "[independent LOD and spatial design](architecture/WORLD_SIMULATION.md#arch-source-113)"
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  14,
+                        "phase3f_dependency":  "Keep the ARCHITECTURE.md document-entry path and authority until an approved source-entry change.",
+                        "original_classification":  "RETAIN_LEGACY_LINK_UNTIL_PHASE_3F",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "source_location":  "docs/COGNITIVEWORLD_CORE_DOCTRINE.md:106",
+                        "original_destination":  "ARCHITECTURE.md",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  15,
+                        "phase3f_dependency":  "Keep the ARCHITECTURE.md document-entry path and authority until an approved source-entry change.",
+                        "original_classification":  "RETAIN_LEGACY_LINK_UNTIL_PHASE_3F",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "source_location":  "docs/COGNITIVEWORLD_CORE_DOCTRINE.md:135",
+                        "original_destination":  "ARCHITECTURE.md",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  16,
+                        "phase3f_dependency":  "Keep the ARCHITECTURE.md document-entry path and authority until an approved source-entry change.",
+                        "original_classification":  "RETAIN_LEGACY_LINK_UNTIL_PHASE_3F",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:5",
+                        "original_destination":  "ARCHITECTURE.md",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  17,
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Full product-boundary section remains in the original authority; frozen replacement anchor is absent.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:24",
+                        "original_destination":  "ARCHITECTURE.md#current-committed-product-boundary-2026-10-22",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  18,
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Event System parent has execution, runtime, persistence, observation and presentation descendants split across domains and held portions; original target retains complete range.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:48",
+                        "original_destination":  "ARCHITECTURE.md#6-event-system",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  19,
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "World Core parent includes WorldState, identity, initialization and runtime mutation across domains; original target preserves full range.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:52",
+                        "original_destination":  "ARCHITECTURE.md#4-world-core",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  20,
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Proposed entity composition parent has five children split between world model and execution; its direct-body landing alone is not the full original scope.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:54",
+                        "original_destination":  "ARCHITECTURE.md#entity-composition-declarative-json-and-mechanisms-proposed-evolution-not-implemented",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  21,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-37",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-37",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "reason":  "The complete non-heading source body is present in the proposed domain section(s), with only relative links rebased and historical status separated where applicable. The generic link label needs the named responsibility.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:60",
+                        "original_destination":  "ARCHITECTURE.md#observation-layer",
+                        "replacement_syntax":  "[ARCHITECTURE.md](architecture/PERCEPTION.md#arch-source-37)",
+                        "review_detail":  "remaining_15_proposal_review.json",
+                        "recommended_label":  "Observation and L1 provenance"
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  22,
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Cognition Process Model includes hybrid cognition and action semantics split across cognition and execution; original target retains full scope.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:62",
+                        "original_destination":  "ARCHITECTURE.md#32-cognitive-process-model",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  23,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/COGNITION.md#arch-source-50",
+                                                 "file":  "docs/architecture/COGNITION.md",
+                                                 "anchor":  "arch-source-50",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "reason":  "Standalone target preserves the section; keep planned-policy qualification.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:64",
+                        "original_destination":  "ARCHITECTURE.md#hybrid-cognition-execution-levels-architectural-direction-unified-policy-not-implemented",
+                        "replacement_syntax":  "[ARCHITECTURE.md](architecture/COGNITION.md#arch-source-50)"
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  24,
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Decision Layer includes separate player and agent decision children, distributed across documents; original parent retains their common Attempt boundary.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:66",
+                        "original_destination":  "ARCHITECTURE.md#decision-layer",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  25,
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Cognitive LOD includes the cognition-update validation child, separately placed; equivalence of a single parent anchor remains unestablished.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:68",
+                        "original_destination":  "ARCHITECTURE.md#cognitive-lod-approved-design-not-implemented",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  26,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-142",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-142",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "reason":  "The complete non-heading source body is present in the proposed domain section(s), with only relative links rebased and historical status separated where applicable. The generic link label needs the named responsibility.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:68",
+                        "original_destination":  "ARCHITECTURE.md#reusable-content-generation-principle-planned",
+                        "replacement_syntax":  "[ARCHITECTURE.md](architecture/WORLD_MODEL.md#arch-source-142)",
+                        "review_detail":  "remaining_15_proposal_review.json",
+                        "recommended_label":  "Reusable content generation (planned)"
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  27,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-48",
+                                                 "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                 "anchor":  "arch-source-48",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "reason":  "The complete non-heading source body is present in the proposed domain section(s), with only relative links rebased and historical status separated where applicable. The generic link label needs the named responsibility.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:76",
+                        "original_destination":  "ARCHITECTURE.md#31-semantic-understanding",
+                        "replacement_syntax":  "[ARCHITECTURE.md](architecture/INTERACTION_AND_PRESENTATION.md#arch-source-48)",
+                        "review_detail":  "remaining_15_proposal_review.json",
+                        "recommended_label":  "Semantic understanding"
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  28,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/EXECUTION.md#arch-source-51",
+                                                 "file":  "docs/architecture/EXECUTION.md",
+                                                 "anchor":  "arch-source-51",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "reason":  "The complete non-heading source body is present in the proposed domain section(s), with only relative links rebased and historical status separated where applicable. The generic link label needs the named responsibility.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:76",
+                        "original_destination":  "ARCHITECTURE.md#open-ended-action-semantics-approved-design-npc-proposal-support-implemented",
+                        "replacement_syntax":  "[ARCHITECTURE.md](architecture/EXECUTION.md#arch-source-51)",
+                        "review_detail":  "remaining_15_proposal_review.json",
+                        "recommended_label":  "Open-ended action semantics"
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  29,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/EXECUTION.md#arch-source-154",
+                                                 "file":  "docs/architecture/EXECUTION.md",
+                                                 "anchor":  "arch-source-154",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "reason":  "The complete non-heading source body is present in the proposed domain section(s), with only relative links rebased and historical status separated where applicable. The generic link label needs the named responsibility.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:78",
+                        "original_destination":  "ARCHITECTURE.md#open-natural-language-action-representation",
+                        "replacement_syntax":  "[ARCHITECTURE.md](architecture/EXECUTION.md#arch-source-154)",
+                        "review_detail":  "remaining_15_proposal_review.json",
+                        "recommended_label":  "Open action representation"
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  30,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-164",
+                                                 "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                 "anchor":  "arch-source-164",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "reason":  "The complete non-heading source body is present in the proposed domain section(s), with only relative links rebased and historical status separated where applicable. The generic link label needs the named responsibility.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:80",
+                        "original_destination":  "ARCHITECTURE.md#raw-input-classification-and-clarification-d331-narrow-slice",
+                        "replacement_syntax":  "[ARCHITECTURE.md](architecture/INTERACTION_AND_PRESENTATION.md#arch-source-164)",
+                        "review_detail":  "remaining_15_proposal_review.json",
+                        "recommended_label":  "Raw input classification and clarification"
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  31,
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Source line1919 contains current safety-check and missing-context constraints and was withheld; the partial destination omits it.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:84",
+                        "original_destination":  "ARCHITECTURE.md#safety-conflict-and-world-law-responsibility",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  32,
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Resolution parent includes engine, dependency direction, physical effects and trusted event confirmation; some material is retained and factory/processor authority must remain distinct.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:86",
+                        "original_destination":  "ARCHITECTURE.md#5-resolution-system",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+                                                 "multi_anchor_14_coverage_review.json"
+                                             ],
+                        "id":  33,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/EXECUTION.md#arch-source-74",
+                                                 "file":  "docs/architecture/EXECUTION.md",
+                                                 "anchor":  "arch-source-74",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "historical implementation status",
+                                                 "href":  "architecture/EXECUTION.md#arch-history-h-74-1017-1017",
+                                                 "file":  "docs/architecture/EXECUTION.md",
+                                                 "anchor":  "arch-history-h-74-1017-1017",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "reason":  "The complete non-heading source body is present in the proposed domain section(s), with only relative links rebased and historical status separated where applicable. The generic link label needs the named responsibility.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:86",
+                        "original_destination":  "ARCHITECTURE.md#event-application",
+                        "replacement_syntax":  "[ARCHITECTURE.md](architecture/EXECUTION.md#arch-source-74) and [historical implementation status](architecture/EXECUTION.md#arch-history-h-74-1017-1017)",
+                        "review_detail":  "remaining_15_proposal_review.json",
+                        "recommended_label":  "Event application",
+                        "multi_anchor_coverage":  "FULLY_COVERED"
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  34,
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Persistence target includes current signing and checkpoint contract in DATA_CONTRACTS, held mixed clauses and a separate historical quotation; the legacy original preserves the complete combined scope.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:88",
+                        "original_destination":  "ARCHITECTURE.md#persistence",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  35,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/EXECUTION.md#arch-source-155",
+                                                 "file":  "docs/architecture/EXECUTION.md",
+                                                 "anchor":  "arch-source-155",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "reason":  "The complete non-heading source body is present in the proposed domain section(s), with only relative links rebased and historical status separated where applicable. The generic link label needs the named responsibility.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:92",
+                        "original_destination":  "ARCHITECTURE.md#stable-interaction-references-and-dynamic-minimum-interaction-context",
+                        "replacement_syntax":  "[ARCHITECTURE.md](architecture/EXECUTION.md#arch-source-155)",
+                        "review_detail":  "remaining_15_proposal_review.json",
+                        "recommended_label":  "Attempt-bound interaction context"
+                    },
+                    {
+                        "cross_references":  [
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  36,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/WORLD_SIMULATION.md#arch-source-113",
+                                                 "file":  "docs/architecture/WORLD_SIMULATION.md",
+                                                 "anchor":  "arch-source-113",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "reason":  "Keep separate axes; do not treat shared overview as implemented unified LOD.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:94",
+                        "original_destination":  "ARCHITECTURE.md#hybrid-physical-engine-and-independent-lod-axes-approved-design-not-implemented",
+                        "replacement_syntax":  "[ARCHITECTURE.md](architecture/WORLD_SIMULATION.md#arch-source-113)"
+                    },
+                    {
+                        "cross_references":  [
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  37,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/WORLD_SIMULATION.md#arch-source-113",
+                                                 "file":  "docs/architecture/WORLD_SIMULATION.md",
+                                                 "anchor":  "arch-source-113",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "reason":  "Keep separate axes; do not treat shared overview as implemented unified LOD.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:96",
+                        "original_destination":  "ARCHITECTURE.md#hybrid-physical-engine-and-independent-lod-axes-approved-design-not-implemented",
+                        "replacement_syntax":  "[ARCHITECTURE.md](architecture/WORLD_SIMULATION.md#arch-source-113)"
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  38,
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Entity-composition parent has five children split between world model and execution, with proposed status; a single direct-body landing is insufficient.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:96",
+                        "original_destination":  "ARCHITECTURE.md#entity-composition-declarative-json-and-mechanisms-proposed-evolution-not-implemented",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  39,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/WORLD_SIMULATION.md#arch-source-113",
+                                                 "file":  "docs/architecture/WORLD_SIMULATION.md",
+                                                 "anchor":  "arch-source-113",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "reason":  "Keep separate axes; do not treat shared overview as implemented unified LOD.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:102",
+                        "original_destination":  "ARCHITECTURE.md#hybrid-physical-engine-and-independent-lod-axes-approved-design-not-implemented",
+                        "replacement_syntax":  "[ARCHITECTURE.md](architecture/WORLD_SIMULATION.md#arch-source-113)"
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  40,
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "WorldState Authority parent includes identity, initialization and runtime mutation sections split between world model and execution; preserve original complete target.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:102",
+                        "original_destination":  "ARCHITECTURE.md#worldstate-authority",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  41,
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Simulation LOD parent includes simulation scales, three independent precision axes and candidate visual/auditory model sections across world simulation and perception; one target is incomplete.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:114",
+                        "original_destination":  "ARCHITECTURE.md#simulation-lod",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  42,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/WORLD_SIMULATION.md#arch-source-113",
+                                                 "file":  "docs/architecture/WORLD_SIMULATION.md",
+                                                 "anchor":  "arch-source-113",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "reason":  "Keep separate axes; do not treat shared overview as implemented unified LOD.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:114",
+                        "original_destination":  "ARCHITECTURE.md#hybrid-physical-engine-and-independent-lod-axes-approved-design-not-implemented",
+                        "replacement_syntax":  "[ARCHITECTURE.md](architecture/WORLD_SIMULATION.md#arch-source-113)"
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  43,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-43",
+                                                 "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                 "anchor":  "arch-source-43",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "reason":  "The complete non-heading source body is present in the proposed domain section(s), with only relative links rebased and historical status separated where applicable. The generic link label needs the named responsibility.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:118",
+                        "original_destination":  "ARCHITECTURE.md#worldbook-layer",
+                        "replacement_syntax":  "[ARCHITECTURE.md](architecture/INTERACTION_AND_PRESENTATION.md#arch-source-43)",
+                        "review_detail":  "remaining_15_proposal_review.json",
+                        "recommended_label":  "Worldbook layer"
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  44,
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Narrative Pressure parent includes conflict and opportunity child sections; retain complete original range and its planned-versus-implemented qualifications.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:122",
+                        "original_destination":  "ARCHITECTURE.md#8-narrative-pressure-layer",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  45,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-140",
+                                                 "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                 "anchor":  "arch-source-140",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "reason":  "The complete non-heading source body is present in the proposed domain section(s), with only relative links rebased and historical status separated where applicable. The generic link label needs the named responsibility.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:122",
+                        "original_destination":  "ARCHITECTURE.md#narrative-causal-relevance-planned",
+                        "replacement_syntax":  "[ARCHITECTURE.md](architecture/INTERACTION_AND_PRESENTATION.md#arch-source-140)",
+                        "review_detail":  "remaining_15_proposal_review.json",
+                        "recommended_label":  "Narrative causal relevance (planned)"
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  46,
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Authored preview remains at original source; frozen target anchor is absent. Do not infer that narrative themes install world mechanisms.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:124",
+                        "original_destination":  "ARCHITECTURE.md#gray-domain-beyond-world-content-authored-preview-mechanisms-not-implemented",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  47,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-85",
+                                                 "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                 "anchor":  "arch-source-85",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "reason":  "The complete non-heading source body is present in the proposed domain section(s), with only relative links rebased and historical status separated where applicable. The generic link label needs the named responsibility.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:126",
+                        "original_destination":  "ARCHITECTURE.md#trusted-player-presentation-and-chat-output-phase-120d-narrow-slice",
+                        "replacement_syntax":  "[ARCHITECTURE.md](architecture/INTERACTION_AND_PRESENTATION.md#arch-source-85)",
+                        "review_detail":  "remaining_15_proposal_review.json",
+                        "recommended_label":  "Trusted player presentation"
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  48,
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "World dynamics parent contains task information, CPU governance and allocation children split across domains and held portions; retain complete original scope.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:130",
+                        "original_destination":  "ARCHITECTURE.md#world-dynamics-task-information-and-bounded-exploration",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  49,
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Simulation Strategy parent includes simulation scale and independent LOD/model descendants across two documents; exact whole-scope replacement is not established.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:130",
+                        "original_destination":  "ARCHITECTURE.md#10-simulation-strategy",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  50,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/WORLD_SIMULATION.md#arch-source-113",
+                                                 "file":  "docs/architecture/WORLD_SIMULATION.md",
+                                                 "anchor":  "arch-source-113",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "reason":  "Keep separate axes; do not treat shared overview as implemented unified LOD.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:132",
+                        "original_destination":  "ARCHITECTURE.md#hybrid-physical-engine-and-independent-lod-axes-approved-design-not-implemented",
+                        "replacement_syntax":  "[ARCHITECTURE.md](architecture/WORLD_SIMULATION.md#arch-source-113)"
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  51,
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Cognitive LOD parent includes cognitive update validation as a separate child; direct body alone does not cover the complete scope at one anchor.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:132",
+                        "original_destination":  "ARCHITECTURE.md#cognitive-lod-approved-design-not-implemented",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  52,
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "World dynamics parent spans CPU governance, allocation, information and cognition across documents; a complete single landing is not established.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:134",
+                        "original_destination":  "ARCHITECTURE.md#world-dynamics-task-information-and-bounded-exploration",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  53,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/EXECUTION.md#arch-source-81",
+                                                 "file":  "docs/architecture/EXECUTION.md",
+                                                 "anchor":  "arch-source-81",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "reason":  "The complete non-heading source body is present in the proposed domain section(s), with only relative links rebased and historical status separated where applicable. The generic link label needs the named responsibility.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:140",
+                        "original_destination":  "ARCHITECTURE.md#runtime-write-fencing-narrow-in-process-foundation",
+                        "replacement_syntax":  "[ARCHITECTURE.md](architecture/EXECUTION.md#arch-source-81)",
+                        "review_detail":  "remaining_15_proposal_review.json",
+                        "recommended_label":  "Runtime write fencing"
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  54,
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Async host parent contains separately migrated children plus a held mixed clause; frozen parent anchor absent.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:140",
+                        "original_destination":  "ARCHITECTURE.md#framework-neutral-core-and-asynchronous-host-boundary-approved-constraint-implementation-partial",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  55,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/PERSISTENCE.md#arch-source-137",
+                                                 "file":  "docs/architecture/PERSISTENCE.md",
+                                                 "anchor":  "arch-source-137",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "reason":  "The complete non-heading source body is present in the proposed domain section(s), with only relative links rebased and historical status separated where applicable. The generic link label needs the named responsibility.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:142",
+                        "original_destination":  "ARCHITECTURE.md#timeline-save-slots-and-live-sessions-lifecycle-contract-backend-partial",
+                        "replacement_syntax":  "[ARCHITECTURE.md](architecture/PERSISTENCE.md#arch-source-137)",
+                        "review_detail":  "remaining_15_proposal_review.json",
+                        "recommended_label":  "Save slots and timeline lifecycle"
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  56,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "ARCHITECTURE.md",
+                                                 "href":  "architecture/PERSISTENCE.md#arch-source-175",
+                                                 "file":  "docs/architecture/PERSISTENCE.md",
+                                                 "anchor":  "arch-source-175",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "reason":  "The complete non-heading source body is present in the proposed domain section(s), with only relative links rebased and historical status separated where applicable. The generic link label needs the named responsibility.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:142",
+                        "original_destination":  "ARCHITECTURE.md#timeline-aware-eventhistory-and-runtime-recovery-boundary",
+                        "replacement_syntax":  "[ARCHITECTURE.md](architecture/PERSISTENCE.md#arch-source-175)",
+                        "review_detail":  "remaining_15_proposal_review.json",
+                        "recommended_label":  "Timeline EventHistory and recovery"
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  57,
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Unified product boundary has only two source lines migrated; original preserves current and historical scope.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:148",
+                        "original_destination":  "ARCHITECTURE.md#unified-cwcwui-product-boundary",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  58,
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Unified product boundary has partial migration only; retain original full range.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:150",
+                        "original_destination":  "ARCHITECTURE.md#unified-cwcwui-product-boundary",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  59,
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Objective–subjective principle is largely retained: only one line has migrated; full world identity, spatial and cognition distinctions remain in original.",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:158",
+                        "original_destination":  "ARCHITECTURE.md#objectivesubjective-separation-v10-approved-principle",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  60,
+                        "phase3f_dependency":  "Keep historical draft reference stable; any later edit requires separate draft policy.",
+                        "original_classification":  "RETAIN_LEGACY_LINK_UNTIL_PHASE_3F",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "source_location":  "docs/COGNITIVE_EXECUTION_FEEDBACK_REVIEW.md:13",
+                        "original_destination":  "ARCHITECTURE.md",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  61,
+                        "phase3f_dependency":  "Keep historical draft reference stable; any later edit requires separate draft policy.",
+                        "original_classification":  "RETAIN_LEGACY_LINK_UNTIL_PHASE_3F",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "source_location":  "docs/COGNITIVE_EXECUTION_FEEDBACK_REVIEW.md:79",
+                        "original_destination":  "ARCHITECTURE.md#hybrid-cognition-execution-levels-architectural-direction-unified-policy-not-implemented",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  62,
+                        "phase3f_dependency":  "Keep the ARCHITECTURE.md document-entry path and authority until an approved source-entry change.",
+                        "original_classification":  "RETAIN_LEGACY_LINK_UNTIL_PHASE_3F",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "source_location":  "docs/DATA_CONTRACTS.md:326",
+                        "original_destination":  "ARCHITECTURE.md",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+                                                 "multi_anchor_14_coverage_review.json",
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  63,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+                                             {
+                                                 "label":  "Expansion direction",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-119",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-119",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "commitment and materialization",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-120",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-120",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "topology and local geometry",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-121",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-121",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "seed, identity and Timeline continuity",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-122",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-122",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_SHARED_DESTINATION",
+                        "reason":  "Retain as part of the four-link bundle; do not claim general graph persistence.",
+                        "source_location":  "docs/DATA_CONTRACTS.md:761",
+                        "original_destination":  "ARCHITECTURE.md#hybrid-lazy-world-expansion-selected-direction-acceptance-boundary-unresolved",
+                        "replacement_syntax":  "[Expansion direction](architecture/WORLD_MODEL.md#arch-source-119), [commitment and materialization](architecture/WORLD_MODEL.md#arch-source-120), [topology and local geometry](architecture/WORLD_MODEL.md#arch-source-121), [seed, identity and Timeline continuity](architecture/WORLD_MODEL.md#arch-source-122)",
+                        "multi_anchor_coverage":  "FULLY_COVERED"
+                    },
+                    {
+                        "cross_references":  [
+                                                 "multi_anchor_14_coverage_review.json",
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  64,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+                                             {
+                                                 "label":  "Candidate models",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-114",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-114",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "visual eligibility and quality",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-115",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-115",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "auditory propagation and detection",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-116",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-116",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "mathematical review and open decisions",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-117",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-117",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_SHARED_DESTINATION",
+                        "reason":  "Retain as part of 114–117 bundle; do not present proposed validation as executed tests.",
+                        "source_location":  "docs/DATA_CONTRACTS.md:769",
+                        "original_destination":  "ARCHITECTURE.md#visual-and-auditory-lod-mathematics-candidate-models-uncalibrated",
+                        "replacement_syntax":  "[Candidate models](architecture/PERCEPTION.md#arch-source-114), [visual eligibility and quality](architecture/PERCEPTION.md#arch-source-115), [auditory propagation and detection](architecture/PERCEPTION.md#arch-source-116), [mathematical review and open decisions](architecture/PERCEPTION.md#arch-source-117)",
+                        "multi_anchor_coverage":  "FULLY_COVERED"
+                    },
+                    {
+                        "cross_references":  [
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  65,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "identity-continuity principle",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-57",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-57",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_SHARED_DESTINATION",
+                        "reason":  "Keep, with cross-reference to subjective interpretation rather than duplicating cognitive authority.",
+                        "source_location":  "docs/DATA_CONTRACTS.md:1155",
+                        "original_destination":  "ARCHITECTURE.md#entity-identity-continuity-and-epistemic-disagreement-approved-architectural-principle",
+                        "replacement_syntax":  "[identity-continuity principle](architecture/WORLD_MODEL.md#arch-source-57)"
+                    },
+                    {
+                        "cross_references":  [
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  66,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "the architecture principle",
+                                                 "href":  "architecture/COGNITION.md#arch-source-31",
+                                                 "file":  "docs/architecture/COGNITION.md",
+                                                 "anchor":  "arch-source-31",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_SHARED_DESTINATION",
+                        "reason":  "Keep, with canonical governance and data contracts remaining authoritative.",
+                        "source_location":  "docs/DATA_CONTRACTS.md:1462",
+                        "original_destination":  "ARCHITECTURE.md#cognitive-governance-three-independent-judgments",
+                        "replacement_syntax":  "[the architecture principle](architecture/COGNITION.md#arch-source-31)"
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  67,
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Product boundary target is partial; original preserves host/UI authority and historical qualifications.",
+                        "source_location":  "docs/DATA_CONTRACTS.md:1859",
+                        "original_destination":  "ARCHITECTURE.md#unified-cwcwui-product-boundary",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  68,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "architecture",
+                                                 "href":  "architecture/COGNITION.md#arch-source-185",
+                                                 "file":  "docs/architecture/COGNITION.md",
+                                                 "anchor":  "arch-source-185",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_SHARED_DESTINATION",
+                        "reason":  "Keep; signed recovery and absence of a general planner remain qualified.",
+                        "source_location":  "docs/DATA_CONTRACTS.md:2224",
+                        "original_destination":  "ARCHITECTURE.md#consumed-result-goal-completion-slice",
+                        "replacement_syntax":  "[architecture](architecture/COGNITION.md#arch-source-185)"
+                    },
+                    {
+                        "cross_references":  [
+                                                 "multi_anchor_14_coverage_review.json",
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  69,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+                                             {
+                                                 "label":  "JSON objects and world state",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-186",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-186",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "authorized visual projection",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-186-part-2",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-186-part-2",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_SHARED_DESTINATION",
+                        "reason":  "Keep only with the paired world-model link; projection does not confer authority.",
+                        "source_location":  "docs/DATA_CONTRACTS.md:2241",
+                        "original_destination":  "ARCHITECTURE.md#json-objects-and-bounded-visual-projection-implemented-narrow-slice",
+                        "replacement_syntax":  "[JSON objects and world state](architecture/WORLD_MODEL.md#arch-source-186), [authorized visual projection](architecture/PERCEPTION.md#arch-source-186-part-2)",
+                        "multi_anchor_coverage":  "FULLY_COVERED"
+                    },
+                    {
+                        "cross_references":  [
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  70,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "Scope",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-187",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-187",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_SHARED_DESTINATION",
+                        "reason":  "Keep; proximity cannot grant disclosure and no general FOV is implied.",
+                        "source_location":  "docs/DATA_CONTRACTS.md:2256",
+                        "original_destination":  "ARCHITECTURE.md#position-driven-observation-precision-bounded-implementation",
+                        "replacement_syntax":  "[Scope](architecture/PERCEPTION.md#arch-source-187)"
+                    },
+                    {
+                        "cross_references":  [
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  71,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "approved interaction direction",
+                                                 "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-10",
+                                                 "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                 "anchor":  "arch-source-10",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_SHARED_DESTINATION",
+                        "reason":  "Keep child for contextual-click intent; occurrence 78 also needs its parent-level companion destination.",
+                        "source_location":  "docs/DEVELOPMENT_ROADMAP.md:18",
+                        "original_destination":  "ARCHITECTURE.md#contextual-interaction-and-bounded-autonomous-investigation-design-consensus-not-implemented-as-a-general-workflow",
+                        "replacement_syntax":  "[approved interaction direction](architecture/INTERACTION_AND_PRESENTATION.md#arch-source-10)"
+                    },
+                    {
+                        "cross_references":  [
+                                                 "multi_anchor_14_coverage_review.json",
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  72,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+                                             {
+                                                 "label":  "Candidate models",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-114",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-114",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "visual eligibility and quality",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-115",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-115",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "auditory propagation and detection",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-116",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-116",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "mathematical review and open decisions",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-117",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-117",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_SHARED_DESTINATION",
+                        "reason":  "Retain as part of 114–117 bundle; do not present proposed validation as executed tests.",
+                        "source_location":  "docs/DEVELOPMENT_ROADMAP.md:26",
+                        "original_destination":  "ARCHITECTURE.md#visual-and-auditory-lod-mathematics-candidate-models-uncalibrated",
+                        "replacement_syntax":  "[Candidate models](architecture/PERCEPTION.md#arch-source-114), [visual eligibility and quality](architecture/PERCEPTION.md#arch-source-115), [auditory propagation and detection](architecture/PERCEPTION.md#arch-source-116), [mathematical review and open decisions](architecture/PERCEPTION.md#arch-source-117)",
+                        "multi_anchor_coverage":  "FULLY_COVERED"
+                    },
+                    {
+                        "cross_references":  [
+                                                 "multi_anchor_14_coverage_review.json",
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  73,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+                                             {
+                                                 "label":  "Expansion direction",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-119",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-119",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "commitment and materialization",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-120",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-120",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "topology and local geometry",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-121",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-121",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "seed, identity and Timeline continuity",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-122",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-122",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_SHARED_DESTINATION",
+                        "reason":  "Retain as part of the four-link bundle; do not claim general graph persistence.",
+                        "source_location":  "docs/DEVELOPMENT_ROADMAP.md:28",
+                        "original_destination":  "ARCHITECTURE.md#hybrid-lazy-world-expansion-selected-direction-acceptance-boundary-unresolved",
+                        "replacement_syntax":  "[Expansion direction](architecture/WORLD_MODEL.md#arch-source-119), [commitment and materialization](architecture/WORLD_MODEL.md#arch-source-120), [topology and local geometry](architecture/WORLD_MODEL.md#arch-source-121), [seed, identity and Timeline continuity](architecture/WORLD_MODEL.md#arch-source-122)",
+                        "multi_anchor_coverage":  "FULLY_COVERED"
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  74,
+                        "phase3f_dependency":  "Keep the ARCHITECTURE.md document-entry path and authority until an approved source-entry change.",
+                        "original_classification":  "RETAIN_LEGACY_LINK_UNTIL_PHASE_3F",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "source_location":  "docs/DEVELOPMENT_ROADMAP.md:62",
+                        "original_destination":  "ARCHITECTURE.md",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  75,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "narrow completion loop",
+                                                 "href":  "architecture/COGNITION.md#arch-source-185",
+                                                 "file":  "docs/architecture/COGNITION.md",
+                                                 "anchor":  "arch-source-185",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_SHARED_DESTINATION",
+                        "reason":  "Keep; signed recovery and absence of a general planner remain qualified.",
+                        "source_location":  "docs/DEVELOPMENT_ROADMAP.md:445",
+                        "original_destination":  "ARCHITECTURE.md#consumed-result-goal-completion-slice",
+                        "replacement_syntax":  "[narrow completion loop](architecture/COGNITION.md#arch-source-185)"
+                    },
+                    {
+                        "cross_references":  [
+                                                 "multi_anchor_14_coverage_review.json",
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  76,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+                                             {
+                                                 "label":  "JSON objects and world state",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-186",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-186",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "authorized visual projection",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-186-part-2",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-186-part-2",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_SHARED_DESTINATION",
+                        "reason":  "Keep only with the paired world-model link; projection does not confer authority.",
+                        "source_location":  "docs/DEVELOPMENT_ROADMAP.md:454",
+                        "original_destination":  "ARCHITECTURE.md#json-objects-and-bounded-visual-projection-implemented-narrow-slice",
+                        "replacement_syntax":  "[JSON objects and world state](architecture/WORLD_MODEL.md#arch-source-186), [authorized visual projection](architecture/PERCEPTION.md#arch-source-186-part-2)",
+                        "multi_anchor_coverage":  "FULLY_COVERED"
+                    },
+                    {
+                        "cross_references":  [
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  77,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "cognitive governance",
+                                                 "href":  "architecture/COGNITION.md#arch-source-31",
+                                                 "file":  "docs/architecture/COGNITION.md",
+                                                 "anchor":  "arch-source-31",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_SHARED_DESTINATION",
+                        "reason":  "Keep, with canonical governance and data contracts remaining authoritative.",
+                        "source_location":  "docs/DEVELOPMENT_ROADMAP.md:502",
+                        "original_destination":  "ARCHITECTURE.md#cognitive-governance-three-independent-judgments",
+                        "replacement_syntax":  "[cognitive governance](architecture/COGNITION.md#arch-source-31)"
+                    },
+                    {
+                        "cross_references":  [
+                                                 "multi_anchor_14_coverage_review.json",
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  78,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+                                             {
+                                                 "label":  "Natural-language interaction requirement",
+                                                 "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-9",
+                                                 "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                 "anchor":  "arch-source-9",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "contextual interaction and bounded investigation",
+                                                 "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-10",
+                                                 "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                 "anchor":  "arch-source-10",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_SHARED_DESTINATION",
+                        "reason":  "Keep child for contextual-click intent; occurrence 78 also needs its parent-level companion destination.",
+                        "source_location":  "docs/ENGINEERING_RULES.md:123",
+                        "original_destination":  "ARCHITECTURE.md#natural-language-driven-world-interaction-approved-architectural-requirement",
+                        "replacement_syntax":  "[Natural-language interaction requirement](architecture/INTERACTION_AND_PRESENTATION.md#arch-source-9), [contextual interaction and bounded investigation](architecture/INTERACTION_AND_PRESENTATION.md#arch-source-10)",
+                        "multi_anchor_coverage":  "FULLY_COVERED"
+                    },
+                    {
+                        "cross_references":  [
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  79,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "contextual interaction and bounded investigation",
+                                                 "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-10",
+                                                 "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                 "anchor":  "arch-source-10",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_SHARED_DESTINATION",
+                        "reason":  "Keep child for contextual-click intent; occurrence 78 also needs its parent-level companion destination.",
+                        "source_location":  "docs/ENGINEERING_RULES.md:125",
+                        "original_destination":  "ARCHITECTURE.md#contextual-interaction-and-bounded-autonomous-investigation-design-consensus-not-implemented-as-a-general-workflow",
+                        "replacement_syntax":  "[contextual interaction and bounded investigation](architecture/INTERACTION_AND_PRESENTATION.md#arch-source-10)"
+                    },
+                    {
+                        "cross_references":  [
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  80,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "the three independent judgments",
+                                                 "href":  "architecture/COGNITION.md#arch-source-31",
+                                                 "file":  "docs/architecture/COGNITION.md",
+                                                 "anchor":  "arch-source-31",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_SHARED_DESTINATION",
+                        "reason":  "Keep, with canonical governance and data contracts remaining authoritative.",
+                        "source_location":  "docs/ENGINEERING_RULES.md:339",
+                        "original_destination":  "ARCHITECTURE.md#cognitive-governance-three-independent-judgments",
+                        "replacement_syntax":  "[the three independent judgments](architecture/COGNITION.md#arch-source-31)"
+                    },
+                    {
+                        "cross_references":  [
+                                                 "multi_anchor_14_coverage_review.json",
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  81,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+                                             {
+                                                 "label":  "Candidate models",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-114",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-114",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "visual eligibility and quality",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-115",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-115",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "auditory propagation and detection",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-116",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-116",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "mathematical review and open decisions",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-117",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-117",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_SHARED_DESTINATION",
+                        "reason":  "Retain as part of 114–117 bundle; do not present proposed validation as executed tests.",
+                        "source_location":  "docs/ENGINEERING_RULES.md:497",
+                        "original_destination":  "ARCHITECTURE.md#visual-and-auditory-lod-mathematics-candidate-models-uncalibrated",
+                        "replacement_syntax":  "[Candidate models](architecture/PERCEPTION.md#arch-source-114), [visual eligibility and quality](architecture/PERCEPTION.md#arch-source-115), [auditory propagation and detection](architecture/PERCEPTION.md#arch-source-116), [mathematical review and open decisions](architecture/PERCEPTION.md#arch-source-117)",
+                        "multi_anchor_coverage":  "FULLY_COVERED"
+                    },
+                    {
+                        "cross_references":  [
+                                                 "multi_anchor_14_coverage_review.json",
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  82,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+                                             {
+                                                 "label":  "Expansion direction",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-119",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-119",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "commitment and materialization",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-120",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-120",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "topology and local geometry",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-121",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-121",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "seed, identity and Timeline continuity",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-122",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-122",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_SHARED_DESTINATION",
+                        "reason":  "Retain as part of the four-link bundle; do not claim general graph persistence.",
+                        "source_location":  "docs/ENGINEERING_RULES.md:500",
+                        "original_destination":  "ARCHITECTURE.md#hybrid-lazy-world-expansion-selected-direction-acceptance-boundary-unresolved",
+                        "replacement_syntax":  "[Expansion direction](architecture/WORLD_MODEL.md#arch-source-119), [commitment and materialization](architecture/WORLD_MODEL.md#arch-source-120), [topology and local geometry](architecture/WORLD_MODEL.md#arch-source-121), [seed, identity and Timeline continuity](architecture/WORLD_MODEL.md#arch-source-122)",
+                        "multi_anchor_coverage":  "FULLY_COVERED"
+                    },
+                    {
+                        "cross_references":  [
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  83,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "authoritative identity-continuity principle",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-57",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-57",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_SHARED_DESTINATION",
+                        "reason":  "Keep, with cross-reference to subjective interpretation rather than duplicating cognitive authority.",
+                        "source_location":  "docs/ENGINEERING_RULES.md:520",
+                        "original_destination":  "ARCHITECTURE.md#entity-identity-continuity-and-epistemic-disagreement-approved-architectural-principle",
+                        "replacement_syntax":  "[authoritative identity-continuity principle](architecture/WORLD_MODEL.md#arch-source-57)"
+                    },
+                    {
+                        "cross_references":  [
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  84,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "hybrid cognition loop",
+                                                 "href":  "architecture/COGNITION.md#arch-source-50",
+                                                 "file":  "docs/architecture/COGNITION.md",
+                                                 "anchor":  "arch-source-50",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "reason":  "Standalone target preserves the section; keep planned-policy qualification.",
+                        "source_location":  "docs/MEMORY_DESIGN.md:74",
+                        "original_destination":  "ARCHITECTURE.md#hybrid-cognition-execution-levels-architectural-direction-unified-policy-not-implemented",
+                        "replacement_syntax":  "[hybrid cognition loop](architecture/COGNITION.md#arch-source-50)"
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  85,
+                        "phase3f_dependency":  "Keep the ARCHITECTURE.md document-entry path and authority until an approved source-entry change.",
+                        "original_classification":  "RETAIN_LEGACY_LINK_UNTIL_PHASE_3F",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "source_location":  "docs/META_CONTRACTS.md:5",
+                        "original_destination":  "ARCHITECTURE.md",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  86,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "approved principle",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-57",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-57",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_SHARED_DESTINATION",
+                        "reason":  "Keep, with cross-reference to subjective interpretation rather than duplicating cognitive authority.",
+                        "source_location":  "docs/REPOSITORY_STATUS.md:57",
+                        "original_destination":  "ARCHITECTURE.md#entity-identity-continuity-and-epistemic-disagreement-approved-architectural-principle",
+                        "replacement_syntax":  "[approved principle](architecture/WORLD_MODEL.md#arch-source-57)"
+                    },
+                    {
+                        "cross_references":  [
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  87,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "Design consensus",
+                                                 "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-10",
+                                                 "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                 "anchor":  "arch-source-10",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_SHARED_DESTINATION",
+                        "reason":  "Keep child for contextual-click intent; occurrence 78 also needs its parent-level companion destination.",
+                        "source_location":  "docs/REPOSITORY_STATUS.md:61",
+                        "original_destination":  "ARCHITECTURE.md#contextual-interaction-and-bounded-autonomous-investigation-design-consensus-not-implemented-as-a-general-workflow",
+                        "replacement_syntax":  "[Design consensus](architecture/INTERACTION_AND_PRESENTATION.md#arch-source-10)"
+                    },
+                    {
+                        "cross_references":  [
+                                                 "multi_anchor_14_coverage_review.json",
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  88,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+                                             {
+                                                 "label":  "Candidate models",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-114",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-114",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "visual eligibility and quality",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-115",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-115",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "auditory propagation and detection",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-116",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-116",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "mathematical review and open decisions",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-117",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-117",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_SHARED_DESTINATION",
+                        "reason":  "Retain as part of 114–117 bundle; do not present proposed validation as executed tests.",
+                        "source_location":  "docs/REPOSITORY_STATUS.md:67",
+                        "original_destination":  "ARCHITECTURE.md#visual-and-auditory-lod-mathematics-candidate-models-uncalibrated",
+                        "replacement_syntax":  "[Candidate models](architecture/PERCEPTION.md#arch-source-114), [visual eligibility and quality](architecture/PERCEPTION.md#arch-source-115), [auditory propagation and detection](architecture/PERCEPTION.md#arch-source-116), [mathematical review and open decisions](architecture/PERCEPTION.md#arch-source-117)",
+                        "multi_anchor_coverage":  "FULLY_COVERED"
+                    },
+                    {
+                        "cross_references":  [
+                                                 "multi_anchor_14_coverage_review.json",
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  89,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+                                             {
+                                                 "label":  "Expansion direction",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-119",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-119",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "commitment and materialization",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-120",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-120",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "topology and local geometry",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-121",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-121",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "seed, identity and Timeline continuity",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-122",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-122",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_SHARED_DESTINATION",
+                        "reason":  "Retain as part of the four-link bundle; do not claim general graph persistence.",
+                        "source_location":  "docs/REPOSITORY_STATUS.md:67",
+                        "original_destination":  "ARCHITECTURE.md#hybrid-lazy-world-expansion-selected-direction-acceptance-boundary-unresolved",
+                        "replacement_syntax":  "[Expansion direction](architecture/WORLD_MODEL.md#arch-source-119), [commitment and materialization](architecture/WORLD_MODEL.md#arch-source-120), [topology and local geometry](architecture/WORLD_MODEL.md#arch-source-121), [seed, identity and Timeline continuity](architecture/WORLD_MODEL.md#arch-source-122)",
+                        "multi_anchor_coverage":  "FULLY_COVERED"
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  90,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "approved responsibility clarification",
+                                                 "href":  "architecture/EXECUTION.md#arch-source-80",
+                                                 "file":  "docs/architecture/EXECUTION.md",
+                                                 "anchor":  "arch-source-80",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_PROPOSED_REPLACEMENT",
+                        "reason":  "The complete scheduled-work responsibility body is present under the execution anchor; current status remains in REPOSITORY_STATUS and no retry guarantee is inferred.",
+                        "source_location":  "docs/REPOSITORY_STATUS.md:75",
+                        "original_destination":  "ARCHITECTURE.md#scheduled-work-responsibility-approved-contract-no-scheduling-implementation-change",
+                        "replacement_syntax":  "[approved responsibility clarification](architecture/EXECUTION.md#arch-source-80)",
+                        "review_detail":  "remaining_15_proposal_review.json",
+                        "recommended_label":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  91,
+                        "phase3f_dependency":  "Keep the ARCHITECTURE.md document-entry path and authority until an approved source-entry change.",
+                        "original_classification":  "RETAIN_LEGACY_LINK_UNTIL_PHASE_3F",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "source_location":  "docs/REPOSITORY_STATUS.md:494",
+                        "original_destination":  "ARCHITECTURE.md",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  92,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "scope",
+                                                 "href":  "architecture/COGNITION.md#arch-source-185",
+                                                 "file":  "docs/architecture/COGNITION.md",
+                                                 "anchor":  "arch-source-185",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_SHARED_DESTINATION",
+                        "reason":  "Keep; signed recovery and absence of a general planner remain qualified.",
+                        "source_location":  "docs/REPOSITORY_STATUS.md:650",
+                        "original_destination":  "ARCHITECTURE.md#consumed-result-goal-completion-slice",
+                        "replacement_syntax":  "[scope](architecture/COGNITION.md#arch-source-185)"
+                    },
+                    {
+                        "cross_references":  [
+                                                 "multi_anchor_14_coverage_review.json",
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  93,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+                                             {
+                                                 "label":  "JSON objects and world state",
+                                                 "href":  "architecture/WORLD_MODEL.md#arch-source-186",
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-186",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "authorized visual projection",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-186-part-2",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-186-part-2",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_SHARED_DESTINATION",
+                        "reason":  "Keep only with the paired world-model link; projection does not confer authority.",
+                        "source_location":  "docs/REPOSITORY_STATUS.md:665",
+                        "original_destination":  "ARCHITECTURE.md#json-objects-and-bounded-visual-projection-implemented-narrow-slice",
+                        "replacement_syntax":  "[JSON objects and world state](architecture/WORLD_MODEL.md#arch-source-186), [authorized visual projection](architecture/PERCEPTION.md#arch-source-186-part-2)",
+                        "multi_anchor_coverage":  "FULLY_COVERED"
+                    },
+                    {
+                        "cross_references":  [
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  94,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "Architecture",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-187",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-187",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_SHARED_DESTINATION",
+                        "reason":  "Keep; proximity cannot grant disclosure and no general FOV is implied.",
+                        "source_location":  "docs/REPOSITORY_STATUS.md:678",
+                        "original_destination":  "ARCHITECTURE.md#position-driven-observation-precision-bounded-implementation",
+                        "replacement_syntax":  "[Architecture](architecture/PERCEPTION.md#arch-source-187)"
+                    },
+                    {
+                        "cross_references":  [
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  95,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "the architectural boundary",
+                                                 "href":  "architecture/COGNITION.md#arch-source-31",
+                                                 "file":  "docs/architecture/COGNITION.md",
+                                                 "anchor":  "arch-source-31",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_SHARED_DESTINATION",
+                        "reason":  "Keep, with canonical governance and data contracts remaining authoritative.",
+                        "source_location":  "docs/REPOSITORY_STATUS.md:799",
+                        "original_destination":  "ARCHITECTURE.md#cognitive-governance-three-independent-judgments",
+                        "replacement_syntax":  "[the architectural boundary](architecture/COGNITION.md#arch-source-31)"
+                    },
+                    {
+                        "cross_references":  [
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  96,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UPDATE_TO_DOMAIN_DOCUMENT",
+                        "destinations":  [
+                                             {
+                                                 "label":  "cognitive governance",
+                                                 "href":  "architecture/COGNITION.md#arch-source-31",
+                                                 "file":  "docs/architecture/COGNITION.md",
+                                                 "anchor":  "arch-source-31",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_SHARED_DESTINATION",
+                        "reason":  "Keep, with canonical governance and data contracts remaining authoritative.",
+                        "source_location":  "docs/SOCIAL_CAUSAL_DESIGN.md:5",
+                        "original_destination":  "ARCHITECTURE.md#cognitive-governance-three-independent-judgments",
+                        "replacement_syntax":  "[cognitive governance](architecture/COGNITION.md#arch-source-31)"
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  97,
+                        "phase3f_dependency":  "Keep the ARCHITECTURE.md document-entry path and authority until an approved source-entry change.",
+                        "original_classification":  "RETAIN_LEGACY_LINK_UNTIL_PHASE_3F",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "source_location":  "docs/SOCIAL_CAUSAL_DESIGN.md:23",
+                        "original_destination":  "ARCHITECTURE.md",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+
+                                             ],
+                        "id":  98,
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+
+                                         ],
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "reason":  "World dynamics parent spans separately owned CPU governance, cognition, allocation and task-information sections; full original scope has retained or separately located material, so keep the intact legacy target.",
+                        "source_location":  "docs/SOCIAL_CAUSAL_DESIGN.md:60",
+                        "original_destination":  "ARCHITECTURE.md#world-dynamics-task-information-and-bounded-exploration",
+                        "replacement_syntax":  null
+                    },
+                    {
+                        "cross_references":  [
+                                                 "multi_anchor_14_coverage_review.json",
+                                                 "group_decision_matrix.json"
+                                             ],
+                        "id":  99,
+                        "phase3f_dependency":  null,
+                        "original_classification":  "UNRESOLVED_REQUIRES_REVIEW",
+                        "destinations":  [
+                                             {
+                                                 "label":  "Candidate models",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-114",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-114",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "visual eligibility and quality",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-115",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-115",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "auditory propagation and detection",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-116",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-116",
+                                                 "anchor_count":  1
+                                             },
+                                             {
+                                                 "label":  "mathematical review and open decisions",
+                                                 "href":  "architecture/PERCEPTION.md#arch-source-117",
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-117",
+                                                 "anchor_count":  1
+                                             }
+                                         ],
+                        "final_recommendation":  "KEEP_SHARED_DESTINATION",
+                        "reason":  "Retain as part of 114–117 bundle; do not present proposed validation as executed tests.",
+                        "source_location":  "docs/SOCIAL_CAUSAL_DESIGN.md:117",
+                        "original_destination":  "ARCHITECTURE.md#visual-and-auditory-lod-mathematics-candidate-models-uncalibrated",
+                        "replacement_syntax":  "[Candidate models](architecture/PERCEPTION.md#arch-source-114), [visual eligibility and quality](architecture/PERCEPTION.md#arch-source-115), [auditory propagation and detection](architecture/PERCEPTION.md#arch-source-116), [mathematical review and open decisions](architecture/PERCEPTION.md#arch-source-117)",
+                        "multi_anchor_coverage":  "FULLY_COVERED"
+                    }
+                ],
+    "identity_authority":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-final-reconciliation-rtqtcbt8\\phase3e_final_99_occurrence_ledger.json",
+    "counts":  {
+                   "retained":  45,
+                   "remaining":  15,
+                   "multi_anchor":  14,
+                   "previously_reviewed":  39,
+                   "proposed":  54,
+                   "original":  99,
+                   "shared_groups":  17
+               },
+    "review_status":  "TARGETED_REVIEW_COMPLETE_FOR_HUMAN_APPROVAL"
+}

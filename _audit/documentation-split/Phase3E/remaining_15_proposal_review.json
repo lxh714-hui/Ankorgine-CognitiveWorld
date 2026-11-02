@@ -1,0 +1,662 @@
+{
+    "records":  [
+                    {
+                        "id":  21,
+                        "god_file_risk":  "Low: bounded domain excerpt; detailed DATA_CONTRACTS and META_CONTRACTS ownership remains intact.",
+                        "engineering_rationale":  "The complete non-heading source body is present in the proposed domain section(s), with only relative links rebased and historical status separated where applicable. The generic link label needs the named responsibility.",
+                        "navigation_assessment":  "Replace the generic ARCHITECTURE.md label with the responsibility name.",
+                        "destination_responsibility":  "Perception and Observation domain",
+                        "final_disposition":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "source":  {
+                                       "section":  "docs/ARCHITECTURE.md",
+                                       "section_lines":  [
+                                                             433,
+                                                             456
+                                                         ],
+                                       "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                                       "original_destination":  "ARCHITECTURE.md#observation-layer",
+                                       "line":  60
+                                   },
+                        "recommended_label":  "Observation and L1 provenance",
+                        "source_responsibility":  "Authorized subject Observation, Event evidence and transient L1 consumption",
+                        "coverage_evidence":  {
+                                                  "source_text_matches_current":  true,
+                                                  "destination_sections_read":  [
+                                                                                    {
+                                                                                        "end":  76,
+                                                                                        "file":  "docs/architecture/PERCEPTION.md",
+                                                                                        "anchor":  "arch-source-37",
+                                                                                        "start":  37
+                                                                                    }
+                                                                                ],
+                                                  "source_line_count":  24,
+                                                  "uncovered_substantive_lines":  0
+                                              },
+                        "normative_ownership":  "Owner-scoped observation authorization and provenance remain distinct from WorldState and cognition.",
+                        "semantic_compatibility":  "Preserved; complete non-heading body verified against proposed destination section(s).",
+                        "destinations":  [
+                                             {
+                                                 "end":  76,
+                                                 "file":  "docs/architecture/PERCEPTION.md",
+                                                 "anchor":  "arch-source-37",
+                                                 "start":  37
+                                             }
+                                         ]
+                    },
+                    {
+                        "id":  26,
+                        "god_file_risk":  "Low: bounded domain excerpt; detailed DATA_CONTRACTS and META_CONTRACTS ownership remains intact.",
+                        "engineering_rationale":  "The complete non-heading source body is present in the proposed domain section(s), with only relative links rebased and historical status separated where applicable. The generic link label needs the named responsibility.",
+                        "navigation_assessment":  "Replace the generic ARCHITECTURE.md label with the responsibility name.",
+                        "destination_responsibility":  "World model and content identity domain",
+                        "final_disposition":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "source":  {
+                                       "section":  "docs/ARCHITECTURE.md",
+                                       "section_lines":  [
+                                                             2135,
+                                                             2148
+                                                         ],
+                                       "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                                       "original_destination":  "ARCHITECTURE.md#reusable-content-generation-principle-planned",
+                                       "line":  68
+                                   },
+                        "recommended_label":  "Reusable content generation (planned)",
+                        "source_responsibility":  "Planned reusable templates and authoritative instance admission",
+                        "coverage_evidence":  {
+                                                  "source_text_matches_current":  true,
+                                                  "destination_sections_read":  [
+                                                                                    {
+                                                                                        "end":  701,
+                                                                                        "file":  "docs/architecture/WORLD_MODEL.md",
+                                                                                        "anchor":  "arch-source-142",
+                                                                                        "start":  672
+                                                                                    }
+                                                                                ],
+                                                  "source_line_count":  14,
+                                                  "uncovered_substantive_lines":  0
+                                              },
+                        "normative_ownership":  "Templates stay abstract; new instances require validation and trusted installation.",
+                        "semantic_compatibility":  "Preserved; complete non-heading body verified against proposed destination section(s).",
+                        "destinations":  [
+                                             {
+                                                 "end":  701,
+                                                 "file":  "docs/architecture/WORLD_MODEL.md",
+                                                 "anchor":  "arch-source-142",
+                                                 "start":  672
+                                             }
+                                         ]
+                    },
+                    {
+                        "id":  27,
+                        "god_file_risk":  "Low: bounded domain excerpt; detailed DATA_CONTRACTS and META_CONTRACTS ownership remains intact.",
+                        "engineering_rationale":  "The complete non-heading source body is present in the proposed domain section(s), with only relative links rebased and historical status separated where applicable. The generic link label needs the named responsibility.",
+                        "navigation_assessment":  "Replace the generic ARCHITECTURE.md label with the responsibility name.",
+                        "destination_responsibility":  "Interaction domain",
+                        "final_disposition":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "source":  {
+                                       "section":  "docs/ARCHITECTURE.md",
+                                       "section_lines":  [
+                                                             598,
+                                                             616
+                                                         ],
+                                       "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                                       "original_destination":  "ARCHITECTURE.md#31-semantic-understanding",
+                                       "line":  76
+                                   },
+                        "recommended_label":  "Semantic understanding",
+                        "source_responsibility":  "Natural-language semantic interpretation without execution",
+                        "coverage_evidence":  {
+                                                  "source_text_matches_current":  true,
+                                                  "destination_sections_read":  [
+                                                                                    {
+                                                                                        "end":  220,
+                                                                                        "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                                                        "anchor":  "arch-source-48",
+                                                                                        "start":  186
+                                                                                    }
+                                                                                ],
+                                                  "source_line_count":  19,
+                                                  "uncovered_substantive_lines":  0
+                                              },
+                        "normative_ownership":  "Goal, target, motivation and method preference remain interpretation outputs only.",
+                        "semantic_compatibility":  "Preserved; complete non-heading body verified against proposed destination section(s).",
+                        "destinations":  [
+                                             {
+                                                 "end":  220,
+                                                 "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                 "anchor":  "arch-source-48",
+                                                 "start":  186
+                                             }
+                                         ]
+                    },
+                    {
+                        "id":  28,
+                        "god_file_risk":  "Low: bounded domain excerpt; detailed DATA_CONTRACTS and META_CONTRACTS ownership remains intact.",
+                        "engineering_rationale":  "The complete non-heading source body is present in the proposed domain section(s), with only relative links rebased and historical status separated where applicable. The generic link label needs the named responsibility.",
+                        "navigation_assessment":  "Replace the generic ARCHITECTURE.md label with the responsibility name.",
+                        "destination_responsibility":  "Execution and action-proposal domain",
+                        "final_disposition":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "source":  {
+                                       "section":  "docs/ARCHITECTURE.md",
+                                       "section_lines":  [
+                                                             645,
+                                                             654
+                                                         ],
+                                       "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                                       "original_destination":  "ARCHITECTURE.md#open-ended-action-semantics-approved-design-npc-proposal-support-implemented",
+                                       "line":  76
+                                   },
+                        "recommended_label":  "Open-ended action semantics",
+                        "source_responsibility":  "Open-ended attempt proposals with bounded NPC candidate support",
+                        "coverage_evidence":  {
+                                                  "source_text_matches_current":  true,
+                                                  "destination_sections_read":  [
+                                                                                    {
+                                                                                        "end":  141,
+                                                                                        "file":  "docs/architecture/EXECUTION.md",
+                                                                                        "anchor":  "arch-source-51",
+                                                                                        "start":  116
+                                                                                    }
+                                                                                ],
+                                                  "source_line_count":  10,
+                                                  "uncovered_substantive_lines":  0
+                                              },
+                        "normative_ownership":  "Proposal validation and Resolution keep outcomes independent of wording.",
+                        "semantic_compatibility":  "Preserved; complete non-heading body verified against proposed destination section(s).",
+                        "destinations":  [
+                                             {
+                                                 "end":  141,
+                                                 "file":  "docs/architecture/EXECUTION.md",
+                                                 "anchor":  "arch-source-51",
+                                                 "start":  116
+                                             }
+                                         ]
+                    },
+                    {
+                        "id":  29,
+                        "god_file_risk":  "Low: bounded domain excerpt; detailed DATA_CONTRACTS and META_CONTRACTS ownership remains intact.",
+                        "engineering_rationale":  "The complete non-heading source body is present in the proposed domain section(s), with only relative links rebased and historical status separated where applicable. The generic link label needs the named responsibility.",
+                        "navigation_assessment":  "Replace the generic ARCHITECTURE.md label with the responsibility name.",
+                        "destination_responsibility":  "Execution and action-proposal domain",
+                        "final_disposition":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "source":  {
+                                       "section":  "docs/ARCHITECTURE.md",
+                                       "section_lines":  [
+                                                             2283,
+                                                             2292
+                                                         ],
+                                       "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                                       "original_destination":  "ARCHITECTURE.md#open-natural-language-action-representation",
+                                       "line":  78
+                                   },
+                        "recommended_label":  "Open action representation",
+                        "source_responsibility":  "Open semantic Attempt representation and grounded references",
+                        "coverage_evidence":  {
+                                                  "source_text_matches_current":  true,
+                                                  "destination_sections_read":  [
+                                                                                    {
+                                                                                        "end":  815,
+                                                                                        "file":  "docs/architecture/EXECUTION.md",
+                                                                                        "anchor":  "arch-source-154",
+                                                                                        "start":  790
+                                                                                    }
+                                                                                ],
+                                                  "source_line_count":  10,
+                                                  "uncovered_substantive_lines":  0
+                                              },
+                        "normative_ownership":  "Target namespaces and semantic frames grant no existence or authority.",
+                        "semantic_compatibility":  "Preserved; complete non-heading body verified against proposed destination section(s).",
+                        "destinations":  [
+                                             {
+                                                 "end":  815,
+                                                 "file":  "docs/architecture/EXECUTION.md",
+                                                 "anchor":  "arch-source-154",
+                                                 "start":  790
+                                             }
+                                         ]
+                    },
+                    {
+                        "id":  30,
+                        "god_file_risk":  "Low: bounded domain excerpt; detailed DATA_CONTRACTS and META_CONTRACTS ownership remains intact.",
+                        "engineering_rationale":  "The complete non-heading source body is present in the proposed domain section(s), with only relative links rebased and historical status separated where applicable. The generic link label needs the named responsibility.",
+                        "navigation_assessment":  "Replace the generic ARCHITECTURE.md label with the responsibility name.",
+                        "destination_responsibility":  "Interaction and Presentation domain",
+                        "final_disposition":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "source":  {
+                                       "section":  "docs/ARCHITECTURE.md",
+                                       "section_lines":  [
+                                                             2368,
+                                                             2381
+                                                         ],
+                                       "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                                       "original_destination":  "ARCHITECTURE.md#raw-input-classification-and-clarification-d331-narrow-slice",
+                                       "line":  80
+                                   },
+                        "recommended_label":  "Raw input classification and clarification",
+                        "source_responsibility":  "Raw input classification, clarification and action-entry safety",
+                        "coverage_evidence":  {
+                                                  "source_text_matches_current":  true,
+                                                  "destination_sections_read":  [
+                                                                                    {
+                                                                                        "end":  584,
+                                                                                        "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                                                        "anchor":  "arch-source-164",
+                                                                                        "start":  526
+                                                                                    }
+                                                                                ],
+                                                  "source_line_count":  14,
+                                                  "uncovered_substantive_lines":  0
+                                              },
+                        "normative_ownership":  "Clarification creates no Attempt/Event; typed ACTION still follows the governed chain.",
+                        "semantic_compatibility":  "Preserved; complete non-heading body verified against proposed destination section(s).",
+                        "destinations":  [
+                                             {
+                                                 "end":  584,
+                                                 "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                 "anchor":  "arch-source-164",
+                                                 "start":  526
+                                             }
+                                         ]
+                    },
+                    {
+                        "id":  33,
+                        "god_file_risk":  "Low: bounded domain excerpt; detailed DATA_CONTRACTS and META_CONTRACTS ownership remains intact.",
+                        "engineering_rationale":  "The complete non-heading source body is present in the proposed domain section(s), with only relative links rebased and historical status separated where applicable. The generic link label needs the named responsibility.",
+                        "navigation_assessment":  "Name the current Event application section explicitly; keep the separate historical-status label.",
+                        "destination_responsibility":  "Execution domain plus explicitly historical quotation",
+                        "final_disposition":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "source":  {
+                                       "section":  "docs/ARCHITECTURE.md",
+                                       "section_lines":  [
+                                                             996,
+                                                             1022
+                                                         ],
+                                       "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                                       "original_destination":  "ARCHITECTURE.md#event-application",
+                                       "line":  86
+                                   },
+                        "recommended_label":  "Event application",
+                        "source_responsibility":  "EventProcessor application plus source-stage implementation history",
+                        "coverage_evidence":  {
+                                                  "source_text_matches_current":  true,
+                                                  "destination_sections_read":  [
+                                                                                    {
+                                                                                        "end":  454,
+                                                                                        "file":  "docs/architecture/EXECUTION.md",
+                                                                                        "anchor":  "arch-source-74",
+                                                                                        "start":  417
+                                                                                    },
+                                                                                    {
+                                                                                        "end":  1076,
+                                                                                        "file":  "docs/architecture/EXECUTION.md",
+                                                                                        "anchor":  "arch-history-h-74-1017-1017",
+                                                                                        "start":  1056
+                                                                                    }
+                                                                                ],
+                                                  "source_line_count":  27,
+                                                  "uncovered_substantive_lines":  0
+                                              },
+                        "normative_ownership":  "Current EventProcessor and WorldState duties remain distinct from the old implementation-status sentence.",
+                        "semantic_compatibility":  "Preserved; complete non-heading body verified against proposed destination section(s).",
+                        "destinations":  [
+                                             {
+                                                 "end":  454,
+                                                 "file":  "docs/architecture/EXECUTION.md",
+                                                 "anchor":  "arch-source-74",
+                                                 "start":  417
+                                             },
+                                             {
+                                                 "end":  1076,
+                                                 "file":  "docs/architecture/EXECUTION.md",
+                                                 "anchor":  "arch-history-h-74-1017-1017",
+                                                 "start":  1056
+                                             }
+                                         ]
+                    },
+                    {
+                        "id":  35,
+                        "god_file_risk":  "Low: bounded domain excerpt; detailed DATA_CONTRACTS and META_CONTRACTS ownership remains intact.",
+                        "engineering_rationale":  "The complete non-heading source body is present in the proposed domain section(s), with only relative links rebased and historical status separated where applicable. The generic link label needs the named responsibility.",
+                        "navigation_assessment":  "Replace the generic ARCHITECTURE.md label with the responsibility name.",
+                        "destination_responsibility":  "Execution domain",
+                        "final_disposition":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "source":  {
+                                       "section":  "docs/ARCHITECTURE.md",
+                                       "section_lines":  [
+                                                             2293,
+                                                             2318
+                                                         ],
+                                       "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                                       "original_destination":  "ARCHITECTURE.md#stable-interaction-references-and-dynamic-minimum-interaction-context",
+                                       "line":  92
+                                   },
+                        "recommended_label":  "Attempt-bound interaction context",
+                        "source_responsibility":  "Attempt-bound transient interaction context and targeted state reads",
+                        "coverage_evidence":  {
+                                                  "source_text_matches_current":  true,
+                                                  "destination_sections_read":  [
+                                                                                    {
+                                                                                        "end":  857,
+                                                                                        "file":  "docs/architecture/EXECUTION.md",
+                                                                                        "anchor":  "arch-source-155",
+                                                                                        "start":  816
+                                                                                    }
+                                                                                ],
+                                                  "source_line_count":  26,
+                                                  "uncovered_substantive_lines":  0
+                                              },
+                        "normative_ownership":  "The aggregate is read-only, scoped to one Attempt/tick and is no second Store.",
+                        "semantic_compatibility":  "Preserved; complete non-heading body verified against proposed destination section(s).",
+                        "destinations":  [
+                                             {
+                                                 "end":  857,
+                                                 "file":  "docs/architecture/EXECUTION.md",
+                                                 "anchor":  "arch-source-155",
+                                                 "start":  816
+                                             }
+                                         ]
+                    },
+                    {
+                        "id":  43,
+                        "god_file_risk":  "Low: bounded domain excerpt; detailed DATA_CONTRACTS and META_CONTRACTS ownership remains intact.",
+                        "engineering_rationale":  "The complete non-heading source body is present in the proposed domain section(s), with only relative links rebased and historical status separated where applicable. The generic link label needs the named responsibility.",
+                        "navigation_assessment":  "Replace the generic ARCHITECTURE.md label with the responsibility name.",
+                        "destination_responsibility":  "Interaction and Presentation domain",
+                        "final_disposition":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "source":  {
+                                       "section":  "docs/ARCHITECTURE.md",
+                                       "section_lines":  [
+                                                             525,
+                                                             558
+                                                         ],
+                                       "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                                       "original_destination":  "ARCHITECTURE.md#worldbook-layer",
+                                       "line":  118
+                                   },
+                        "recommended_label":  "Worldbook layer",
+                        "source_responsibility":  "Worldbook as player meaning and collection layer",
+                        "coverage_evidence":  {
+                                                  "source_text_matches_current":  true,
+                                                  "destination_sections_read":  [
+                                                                                    {
+                                                                                        "end":  185,
+                                                                                        "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                                                        "anchor":  "arch-source-43",
+                                                                                        "start":  136
+                                                                                    }
+                                                                                ],
+                                                  "source_line_count":  34,
+                                                  "uncovered_substantive_lines":  0
+                                              },
+                        "normative_ownership":  "Worldbook stays outside WorldState, Memory and Prompt authority.",
+                        "semantic_compatibility":  "Preserved; complete non-heading body verified against proposed destination section(s).",
+                        "destinations":  [
+                                             {
+                                                 "end":  185,
+                                                 "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                 "anchor":  "arch-source-43",
+                                                 "start":  136
+                                             }
+                                         ]
+                    },
+                    {
+                        "id":  45,
+                        "god_file_risk":  "Low: bounded domain excerpt; detailed DATA_CONTRACTS and META_CONTRACTS ownership remains intact.",
+                        "engineering_rationale":  "The complete non-heading source body is present in the proposed domain section(s), with only relative links rebased and historical status separated where applicable. The generic link label needs the named responsibility.",
+                        "navigation_assessment":  "Replace the generic ARCHITECTURE.md label with the responsibility name.",
+                        "destination_responsibility":  "Interaction and Presentation domain",
+                        "final_disposition":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "source":  {
+                                       "section":  "docs/ARCHITECTURE.md",
+                                       "section_lines":  [
+                                                             2106,
+                                                             2121
+                                                         ],
+                                       "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                                       "original_destination":  "ARCHITECTURE.md#narrative-causal-relevance-planned",
+                                       "line":  122
+                                   },
+                        "recommended_label":  "Narrative causal relevance (planned)",
+                        "source_responsibility":  "Planned causally grounded narrative content and bounded relevance",
+                        "coverage_evidence":  {
+                                                  "source_text_matches_current":  true,
+                                                  "destination_sections_read":  [
+                                                                                    {
+                                                                                        "end":  461,
+                                                                                        "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                                                        "anchor":  "arch-source-140",
+                                                                                        "start":  426
+                                                                                    }
+                                                                                ],
+                                                  "source_line_count":  16,
+                                                  "uncovered_substantive_lines":  0
+                                              },
+                        "normative_ownership":  "Narrative prioritization cannot choose actions or create facts.",
+                        "semantic_compatibility":  "Preserved; complete non-heading body verified against proposed destination section(s).",
+                        "destinations":  [
+                                             {
+                                                 "end":  461,
+                                                 "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                 "anchor":  "arch-source-140",
+                                                 "start":  426
+                                             }
+                                         ]
+                    },
+                    {
+                        "id":  47,
+                        "god_file_risk":  "Low: bounded domain excerpt; detailed DATA_CONTRACTS and META_CONTRACTS ownership remains intact.",
+                        "engineering_rationale":  "The complete non-heading source body is present in the proposed domain section(s), with only relative links rebased and historical status separated where applicable. The generic link label needs the named responsibility.",
+                        "navigation_assessment":  "Replace the generic ARCHITECTURE.md label with the responsibility name.",
+                        "destination_responsibility":  "Interaction and Presentation domain",
+                        "final_disposition":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "source":  {
+                                       "section":  "docs/ARCHITECTURE.md",
+                                       "section_lines":  [
+                                                             1246,
+                                                             1271
+                                                         ],
+                                       "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                                       "original_destination":  "ARCHITECTURE.md#trusted-player-presentation-and-chat-output-phase-120d-narrow-slice",
+                                       "line":  126
+                                   },
+                        "recommended_label":  "Trusted player presentation",
+                        "source_responsibility":  "Validated player-visible projection and sole chat gateway",
+                        "coverage_evidence":  {
+                                                  "source_text_matches_current":  true,
+                                                  "destination_sections_read":  [
+                                                                                    {
+                                                                                        "end":  298,
+                                                                                        "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                                                        "anchor":  "arch-source-85",
+                                                                                        "start":  253
+                                                                                    }
+                                                                                ],
+                                                  "source_line_count":  26,
+                                                  "uncovered_substantive_lines":  0
+                                              },
+                        "normative_ownership":  "Presentation denies private cognition and preserves typed evidence and session binding.",
+                        "semantic_compatibility":  "Preserved; complete non-heading body verified against proposed destination section(s).",
+                        "destinations":  [
+                                             {
+                                                 "end":  298,
+                                                 "file":  "docs/architecture/INTERACTION_AND_PRESENTATION.md",
+                                                 "anchor":  "arch-source-85",
+                                                 "start":  253
+                                             }
+                                         ]
+                    },
+                    {
+                        "id":  53,
+                        "god_file_risk":  "Low: bounded domain excerpt; detailed DATA_CONTRACTS and META_CONTRACTS ownership remains intact.",
+                        "engineering_rationale":  "The complete non-heading source body is present in the proposed domain section(s), with only relative links rebased and historical status separated where applicable. The generic link label needs the named responsibility.",
+                        "navigation_assessment":  "Replace the generic ARCHITECTURE.md label with the responsibility name.",
+                        "destination_responsibility":  "Execution domain",
+                        "final_disposition":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "source":  {
+                                       "section":  "docs/ARCHITECTURE.md",
+                                       "section_lines":  [
+                                                             1200,
+                                                             1231
+                                                         ],
+                                       "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                                       "original_destination":  "ARCHITECTURE.md#runtime-write-fencing-narrow-in-process-foundation",
+                                       "line":  140
+                                   },
+                        "recommended_label":  "Runtime write fencing",
+                        "source_responsibility":  "Runtime write fence and its process-local limits",
+                        "coverage_evidence":  {
+                                                  "source_text_matches_current":  true,
+                                                  "destination_sections_read":  [
+                                                                                    {
+                                                                                        "end":  633,
+                                                                                        "file":  "docs/architecture/EXECUTION.md",
+                                                                                        "anchor":  "arch-source-81",
+                                                                                        "start":  594
+                                                                                    }
+                                                                                ],
+                                                  "source_line_count":  32,
+                                                  "uncovered_substantive_lines":  0
+                                              },
+                        "normative_ownership":  "Commit permits protect installed write boundaries without claiming cross-process security.",
+                        "semantic_compatibility":  "Preserved; complete non-heading body verified against proposed destination section(s).",
+                        "destinations":  [
+                                             {
+                                                 "end":  633,
+                                                 "file":  "docs/architecture/EXECUTION.md",
+                                                 "anchor":  "arch-source-81",
+                                                 "start":  594
+                                             }
+                                         ]
+                    },
+                    {
+                        "id":  55,
+                        "god_file_risk":  "Low: bounded domain excerpt; detailed DATA_CONTRACTS and META_CONTRACTS ownership remains intact.",
+                        "engineering_rationale":  "The complete non-heading source body is present in the proposed domain section(s), with only relative links rebased and historical status separated where applicable. The generic link label needs the named responsibility.",
+                        "navigation_assessment":  "Replace the generic ARCHITECTURE.md label with the responsibility name.",
+                        "destination_responsibility":  "Persistence domain",
+                        "final_disposition":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "source":  {
+                                       "section":  "docs/ARCHITECTURE.md",
+                                       "section_lines":  [
+                                                             1973,
+                                                             2006
+                                                         ],
+                                       "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                                       "original_destination":  "ARCHITECTURE.md#timeline-save-slots-and-live-sessions-lifecycle-contract-backend-partial",
+                                       "line":  142
+                                   },
+                        "recommended_label":  "Save slots and timeline lifecycle",
+                        "source_responsibility":  "Timeline, save-slot and live-session lifecycle",
+                        "coverage_evidence":  {
+                                                  "source_text_matches_current":  true,
+                                                  "destination_sections_read":  [
+                                                                                    {
+                                                                                        "end":  132,
+                                                                                        "file":  "docs/architecture/PERSISTENCE.md",
+                                                                                        "anchor":  "arch-source-137",
+                                                                                        "start":  83
+                                                                                    }
+                                                                                ],
+                                                  "source_line_count":  34,
+                                                  "uncovered_substantive_lines":  0
+                                              },
+                        "normative_ownership":  "Catalog and checkpoint responsibilities remain subject to detailed data contracts.",
+                        "semantic_compatibility":  "Preserved; complete non-heading body verified against proposed destination section(s).",
+                        "destinations":  [
+                                             {
+                                                 "end":  132,
+                                                 "file":  "docs/architecture/PERSISTENCE.md",
+                                                 "anchor":  "arch-source-137",
+                                                 "start":  83
+                                             }
+                                         ]
+                    },
+                    {
+                        "id":  56,
+                        "god_file_risk":  "Low: bounded domain excerpt; detailed DATA_CONTRACTS and META_CONTRACTS ownership remains intact.",
+                        "engineering_rationale":  "The complete non-heading source body is present in the proposed domain section(s), with only relative links rebased and historical status separated where applicable. The generic link label needs the named responsibility.",
+                        "navigation_assessment":  "Replace the generic ARCHITECTURE.md label with the responsibility name.",
+                        "destination_responsibility":  "Persistence domain",
+                        "final_disposition":  "KEEP_WITH_BETTER_LINK_LABEL",
+                        "source":  {
+                                       "section":  "docs/ARCHITECTURE.md",
+                                       "section_lines":  [
+                                                             2478,
+                                                             2485
+                                                         ],
+                                       "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                                       "original_destination":  "ARCHITECTURE.md#timeline-aware-eventhistory-and-runtime-recovery-boundary",
+                                       "line":  142
+                                   },
+                        "recommended_label":  "Timeline EventHistory and recovery",
+                        "source_responsibility":  "EventHistory lineage and staged Runtime recovery",
+                        "coverage_evidence":  {
+                                                  "source_text_matches_current":  true,
+                                                  "destination_sections_read":  [
+                                                                                    {
+                                                                                        "end":  190,
+                                                                                        "file":  "docs/architecture/PERSISTENCE.md",
+                                                                                        "anchor":  "arch-source-175",
+                                                                                        "start":  167
+                                                                                    }
+                                                                                ],
+                                                  "source_line_count":  8,
+                                                  "uncovered_substantive_lines":  0
+                                              },
+                        "normative_ownership":  "Timeline ancestry and staged publication do not imply complete host recovery.",
+                        "semantic_compatibility":  "Preserved; complete non-heading body verified against proposed destination section(s).",
+                        "destinations":  [
+                                             {
+                                                 "end":  190,
+                                                 "file":  "docs/architecture/PERSISTENCE.md",
+                                                 "anchor":  "arch-source-175",
+                                                 "start":  167
+                                             }
+                                         ]
+                    },
+                    {
+                        "id":  90,
+                        "god_file_risk":  "Low: bounded domain excerpt; detailed DATA_CONTRACTS and META_CONTRACTS ownership remains intact.",
+                        "engineering_rationale":  "The complete scheduled-work responsibility body is present under the execution anchor; current status remains in REPOSITORY_STATUS and no retry guarantee is inferred.",
+                        "navigation_assessment":  "Existing descriptive label is clear.",
+                        "destination_responsibility":  "Execution domain",
+                        "final_disposition":  "KEEP_PROPOSED_REPLACEMENT",
+                        "source":  {
+                                       "section":  "docs/ARCHITECTURE.md",
+                                       "section_lines":  [
+                                                             1186,
+                                                             1199
+                                                         ],
+                                       "file":  "docs/REPOSITORY_STATUS.md",
+                                       "original_destination":  "ARCHITECTURE.md#scheduled-work-responsibility-approved-contract-no-scheduling-implementation-change",
+                                       "line":  75
+                                   },
+                        "recommended_label":  null,
+                        "source_responsibility":  "Scheduled work responsibility and current limitations",
+                        "coverage_evidence":  {
+                                                  "source_text_matches_current":  true,
+                                                  "destination_sections_read":  [
+                                                                                    {
+                                                                                        "end":  593,
+                                                                                        "file":  "docs/architecture/EXECUTION.md",
+                                                                                        "anchor":  "arch-source-80",
+                                                                                        "start":  555
+                                                                                    }
+                                                                                ],
+                                                  "source_line_count":  14,
+                                                  "uncovered_substantive_lines":  0
+                                              },
+                        "normative_ownership":  "Queue membership and budget handling do not imply eventual execution or retry.",
+                        "semantic_compatibility":  "Preserved; complete non-heading body verified against proposed destination section(s).",
+                        "destinations":  [
+                                             {
+                                                 "end":  593,
+                                                 "file":  "docs/architecture/EXECUTION.md",
+                                                 "anchor":  "arch-source-80",
+                                                 "start":  555
+                                             }
+                                         ]
+                    }
+                ],
+    "review_method":  "Current complete original sections and complete proposed anchor segments read; each substantive source line checked against the destination segment. Generic labels assessed separately."
+}

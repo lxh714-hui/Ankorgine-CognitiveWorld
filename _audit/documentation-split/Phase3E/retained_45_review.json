@@ -1,0 +1,454 @@
+{
+    "records":  [
+                    {
+                        "id":  1,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "docs/ARCHITECTURE.md",
+                        "phase3f_dependency":  "Keep the ARCHITECTURE.md document-entry path and authority until an approved source-entry change.",
+                        "retention_rationale":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-global-reconciliation-bti46ciz\\global_occurrence_ledger.json",
+                        "retention_category":  "original document entry or source",
+                        "source_location":  "AGENTS.md:4"
+                    },
+                    {
+                        "id":  2,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "docs/ARCHITECTURE.md",
+                        "phase3f_dependency":  "Keep the ARCHITECTURE.md document-entry path and authority until an approved source-entry change.",
+                        "retention_rationale":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-global-reconciliation-bti46ciz\\global_occurrence_ledger.json",
+                        "retention_category":  "original document entry or source",
+                        "source_location":  "AGENTS.md:14"
+                    },
+                    {
+                        "id":  3,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "docs/ARCHITECTURE.md",
+                        "phase3f_dependency":  "Keep the ARCHITECTURE.md document-entry path and authority until an approved source-entry change.",
+                        "retention_rationale":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-global-reconciliation-bti46ciz\\global_occurrence_ledger.json",
+                        "retention_category":  "original document entry or source",
+                        "source_location":  "CONTRIBUTING.md:34"
+                    },
+                    {
+                        "id":  4,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "docs/ARCHITECTURE.md",
+                        "phase3f_dependency":  "Keep the ARCHITECTURE.md document-entry path and authority until an approved source-entry change.",
+                        "retention_rationale":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-global-reconciliation-bti46ciz\\global_occurrence_ledger.json",
+                        "retention_category":  "original document entry or source",
+                        "source_location":  "README.md:134"
+                    },
+                    {
+                        "id":  5,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "docs/ARCHITECTURE.md",
+                        "phase3f_dependency":  "Keep the ARCHITECTURE.md document-entry path and authority until an approved source-entry change.",
+                        "retention_rationale":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-global-reconciliation-bti46ciz\\global_occurrence_ledger.json",
+                        "retention_category":  "original document entry or source",
+                        "source_location":  "README.md:169"
+                    },
+                    {
+                        "id":  6,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "docs/ARCHITECTURE.md",
+                        "phase3f_dependency":  "Keep the ARCHITECTURE.md document-entry path and authority until an approved source-entry change.",
+                        "retention_rationale":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-global-reconciliation-bti46ciz\\global_occurrence_ledger.json",
+                        "retention_category":  "original document entry or source",
+                        "source_location":  "README.md:263"
+                    },
+                    {
+                        "id":  8,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "#hybrid-lazy-world-expansion-selected-direction-acceptance-boundary-unresolved",
+                        "phase3f_dependency":  "Retain until the old parent section and anchors are explicitly migrated.",
+                        "retention_rationale":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-global-reconciliation-bti46ciz\\global_occurrence_ledger.json",
+                        "retention_category":  "internal reference",
+                        "source_location":  "docs/ARCHITECTURE.md:125"
+                    },
+                    {
+                        "id":  9,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "#hybrid-lazy-world-expansion-selected-direction-acceptance-boundary-unresolved",
+                        "phase3f_dependency":  "Retain until the old parent section and anchors are explicitly migrated.",
+                        "retention_rationale":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-global-reconciliation-bti46ciz\\global_occurrence_ledger.json",
+                        "retention_category":  "internal reference",
+                        "source_location":  "docs/ARCHITECTURE.md:143"
+                    },
+                    {
+                        "id":  10,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "#hybrid-lazy-world-expansion-selected-direction-acceptance-boundary-unresolved",
+                        "phase3f_dependency":  "Retain until the old parent section and anchors are explicitly migrated.",
+                        "retention_rationale":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-global-reconciliation-bti46ciz\\global_occurrence_ledger.json",
+                        "retention_category":  "internal reference",
+                        "source_location":  "docs/ARCHITECTURE.md:720"
+                    },
+                    {
+                        "id":  11,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "#hybrid-lazy-world-expansion-selected-direction-acceptance-boundary-unresolved",
+                        "phase3f_dependency":  "Retain until the old parent section and anchors are explicitly migrated.",
+                        "retention_rationale":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-global-reconciliation-bti46ciz\\global_occurrence_ledger.json",
+                        "retention_category":  "internal reference",
+                        "source_location":  "docs/ARCHITECTURE.md:1418"
+                    },
+                    {
+                        "id":  14,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md",
+                        "phase3f_dependency":  "Keep the ARCHITECTURE.md document-entry path and authority until an approved source-entry change.",
+                        "retention_rationale":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-global-reconciliation-bti46ciz\\global_occurrence_ledger.json",
+                        "retention_category":  "original document entry or source",
+                        "source_location":  "docs/COGNITIVEWORLD_CORE_DOCTRINE.md:106"
+                    },
+                    {
+                        "id":  15,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md",
+                        "phase3f_dependency":  "Keep the ARCHITECTURE.md document-entry path and authority until an approved source-entry change.",
+                        "retention_rationale":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-global-reconciliation-bti46ciz\\global_occurrence_ledger.json",
+                        "retention_category":  "original document entry or source",
+                        "source_location":  "docs/COGNITIVEWORLD_CORE_DOCTRINE.md:135"
+                    },
+                    {
+                        "id":  16,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md",
+                        "phase3f_dependency":  "Keep the ARCHITECTURE.md document-entry path and authority until an approved source-entry change.",
+                        "retention_rationale":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-global-reconciliation-bti46ciz\\global_occurrence_ledger.json",
+                        "retention_category":  "original document entry or source",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:5"
+                    },
+                    {
+                        "id":  17,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md#current-committed-product-boundary-2026-10-22",
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "retention_rationale":  "Full product-boundary section remains in the original authority; frozen replacement anchor is absent.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-unresolved-batch-001-c83hgftz\\phase3e_unresolved_batch_001_review.json",
+                        "retention_category":  "full legacy target retained pending Phase3F",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:24"
+                    },
+                    {
+                        "id":  18,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md#6-event-system",
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "retention_rationale":  "Event System parent has execution, runtime, persistence, observation and presentation descendants split across domains and held portions; original target retains complete range.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-unresolved-batch-001-c83hgftz\\phase3e_unresolved_batch_001_review.json",
+                        "retention_category":  "full legacy target retained pending Phase3F",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:48"
+                    },
+                    {
+                        "id":  19,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md#4-world-core",
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "retention_rationale":  "World Core parent includes WorldState, identity, initialization and runtime mutation across domains; original target preserves full range.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-unresolved-batch-001-c83hgftz\\phase3e_unresolved_batch_001_review.json",
+                        "retention_category":  "full legacy target retained pending Phase3F",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:52"
+                    },
+                    {
+                        "id":  20,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md#entity-composition-declarative-json-and-mechanisms-proposed-evolution-not-implemented",
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "retention_rationale":  "Proposed entity composition parent has five children split between world model and execution; its direct-body landing alone is not the full original scope.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-unresolved-batch-001-c83hgftz\\phase3e_unresolved_batch_001_review.json",
+                        "retention_category":  "full legacy target retained pending Phase3F",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:54"
+                    },
+                    {
+                        "id":  22,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md#32-cognitive-process-model",
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "retention_rationale":  "Cognition Process Model includes hybrid cognition and action semantics split across cognition and execution; original target retains full scope.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-unresolved-batch-001-c83hgftz\\phase3e_unresolved_batch_001_review.json",
+                        "retention_category":  "full legacy target retained pending Phase3F",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:62"
+                    },
+                    {
+                        "id":  24,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md#decision-layer",
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "retention_rationale":  "Decision Layer includes separate player and agent decision children, distributed across documents; original parent retains their common Attempt boundary.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-unresolved-batch-001-c83hgftz\\phase3e_unresolved_batch_001_review.json",
+                        "retention_category":  "full legacy target retained pending Phase3F",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:66"
+                    },
+                    {
+                        "id":  25,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md#cognitive-lod-approved-design-not-implemented",
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "retention_rationale":  "Cognitive LOD includes the cognition-update validation child, separately placed; equivalence of a single parent anchor remains unestablished.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-unresolved-batch-001-c83hgftz\\phase3e_unresolved_batch_001_review.json",
+                        "retention_category":  "full legacy target retained pending Phase3F",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:68"
+                    },
+                    {
+                        "id":  31,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md#safety-conflict-and-world-law-responsibility",
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "retention_rationale":  "Source line1919 contains current safety-check and missing-context constraints and was withheld; the partial destination omits it.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-unresolved-batch-001-c83hgftz\\phase3e_unresolved_batch_001_review.json",
+                        "retention_category":  "full legacy target retained pending Phase3F",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:84"
+                    },
+                    {
+                        "id":  32,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md#5-resolution-system",
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "retention_rationale":  "Resolution parent includes engine, dependency direction, physical effects and trusted event confirmation; some material is retained and factory/processor authority must remain distinct.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-unresolved-batch-001-c83hgftz\\phase3e_unresolved_batch_001_review.json",
+                        "retention_category":  "full legacy target retained pending Phase3F",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:86"
+                    },
+                    {
+                        "id":  34,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md#persistence",
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "retention_rationale":  "Persistence target includes current signing and checkpoint contract in DATA_CONTRACTS, held mixed clauses and a separate historical quotation; the legacy original preserves the complete combined scope.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-unresolved-batch-002-jeyxioez\\phase3e_unresolved_batch_002_review.json",
+                        "retention_category":  "full legacy target retained pending Phase3F",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:88"
+                    },
+                    {
+                        "id":  38,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md#entity-composition-declarative-json-and-mechanisms-proposed-evolution-not-implemented",
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "retention_rationale":  "Entity-composition parent has five children split between world model and execution, with proposed status; a single direct-body landing is insufficient.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-unresolved-batch-002-jeyxioez\\phase3e_unresolved_batch_002_review.json",
+                        "retention_category":  "full legacy target retained pending Phase3F",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:96"
+                    },
+                    {
+                        "id":  40,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md#worldstate-authority",
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "retention_rationale":  "WorldState Authority parent includes identity, initialization and runtime mutation sections split between world model and execution; preserve original complete target.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-unresolved-batch-002-jeyxioez\\phase3e_unresolved_batch_002_review.json",
+                        "retention_category":  "full legacy target retained pending Phase3F",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:102"
+                    },
+                    {
+                        "id":  41,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md#simulation-lod",
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "retention_rationale":  "Simulation LOD parent includes simulation scales, three independent precision axes and candidate visual/auditory model sections across world simulation and perception; one target is incomplete.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-unresolved-batch-002-jeyxioez\\phase3e_unresolved_batch_002_review.json",
+                        "retention_category":  "full legacy target retained pending Phase3F",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:114"
+                    },
+                    {
+                        "id":  44,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md#8-narrative-pressure-layer",
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "retention_rationale":  "Narrative Pressure parent includes conflict and opportunity child sections; retain complete original range and its planned-versus-implemented qualifications.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-unresolved-batch-002-jeyxioez\\phase3e_unresolved_batch_002_review.json",
+                        "retention_category":  "full legacy target retained pending Phase3F",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:122"
+                    },
+                    {
+                        "id":  46,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md#gray-domain-beyond-world-content-authored-preview-mechanisms-not-implemented",
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "retention_rationale":  "Authored preview remains at original source; frozen target anchor is absent. Do not infer that narrative themes install world mechanisms.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-unresolved-batch-002-jeyxioez\\phase3e_unresolved_batch_002_review.json",
+                        "retention_category":  "full legacy target retained pending Phase3F",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:124"
+                    },
+                    {
+                        "id":  48,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md#world-dynamics-task-information-and-bounded-exploration",
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "retention_rationale":  "World dynamics parent contains task information, CPU governance and allocation children split across domains and held portions; retain complete original scope.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-unresolved-batch-002-jeyxioez\\phase3e_unresolved_batch_002_review.json",
+                        "retention_category":  "full legacy target retained pending Phase3F",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:130"
+                    },
+                    {
+                        "id":  49,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md#10-simulation-strategy",
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "retention_rationale":  "Simulation Strategy parent includes simulation scale and independent LOD/model descendants across two documents; exact whole-scope replacement is not established.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-unresolved-batch-002-jeyxioez\\phase3e_unresolved_batch_002_review.json",
+                        "retention_category":  "full legacy target retained pending Phase3F",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:130"
+                    },
+                    {
+                        "id":  51,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md#cognitive-lod-approved-design-not-implemented",
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "retention_rationale":  "Cognitive LOD parent includes cognitive update validation as a separate child; direct body alone does not cover the complete scope at one anchor.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-unresolved-batch-002-jeyxioez\\phase3e_unresolved_batch_002_review.json",
+                        "retention_category":  "full legacy target retained pending Phase3F",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:132"
+                    },
+                    {
+                        "id":  52,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md#world-dynamics-task-information-and-bounded-exploration",
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "retention_rationale":  "World dynamics parent spans CPU governance, allocation, information and cognition across documents; a complete single landing is not established.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-unresolved-batch-003-q_prlvn1\\phase3e_unresolved_batch_003_review.json",
+                        "retention_category":  "full legacy target retained pending Phase3F",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:134"
+                    },
+                    {
+                        "id":  54,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md#framework-neutral-core-and-asynchronous-host-boundary-approved-constraint-implementation-partial",
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "retention_rationale":  "Async host parent contains separately migrated children plus a held mixed clause; frozen parent anchor absent.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-unresolved-batch-003-q_prlvn1\\phase3e_unresolved_batch_003_review.json",
+                        "retention_category":  "full legacy target retained pending Phase3F",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:140"
+                    },
+                    {
+                        "id":  57,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md#unified-cwcwui-product-boundary",
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "retention_rationale":  "Unified product boundary has only two source lines migrated; original preserves current and historical scope.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-unresolved-batch-003-q_prlvn1\\phase3e_unresolved_batch_003_review.json",
+                        "retention_category":  "full legacy target retained pending Phase3F",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:148"
+                    },
+                    {
+                        "id":  58,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md#unified-cwcwui-product-boundary",
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "retention_rationale":  "Unified product boundary has partial migration only; retain original full range.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-unresolved-batch-003-q_prlvn1\\phase3e_unresolved_batch_003_review.json",
+                        "retention_category":  "full legacy target retained pending Phase3F",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:150"
+                    },
+                    {
+                        "id":  59,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md#objectivesubjective-separation-v10-approved-principle",
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "retention_rationale":  "Objective–subjective principle is largely retained: only one line has migrated; full world identity, spatial and cognition distinctions remain in original.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-unresolved-batch-003-q_prlvn1\\phase3e_unresolved_batch_003_review.json",
+                        "retention_category":  "full legacy target retained pending Phase3F",
+                        "source_location":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md:158"
+                    },
+                    {
+                        "id":  60,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md",
+                        "phase3f_dependency":  "Keep historical draft reference stable; any later edit requires separate draft policy.",
+                        "retention_rationale":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-global-reconciliation-bti46ciz\\global_occurrence_ledger.json",
+                        "retention_category":  "protected historical draft",
+                        "source_location":  "docs/COGNITIVE_EXECUTION_FEEDBACK_REVIEW.md:13"
+                    },
+                    {
+                        "id":  61,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md#hybrid-cognition-execution-levels-architectural-direction-unified-policy-not-implemented",
+                        "phase3f_dependency":  "Keep historical draft reference stable; any later edit requires separate draft policy.",
+                        "retention_rationale":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-global-reconciliation-bti46ciz\\global_occurrence_ledger.json",
+                        "retention_category":  "protected historical draft",
+                        "source_location":  "docs/COGNITIVE_EXECUTION_FEEDBACK_REVIEW.md:79"
+                    },
+                    {
+                        "id":  62,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md",
+                        "phase3f_dependency":  "Keep the ARCHITECTURE.md document-entry path and authority until an approved source-entry change.",
+                        "retention_rationale":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-global-reconciliation-bti46ciz\\global_occurrence_ledger.json",
+                        "retention_category":  "original document entry or source",
+                        "source_location":  "docs/DATA_CONTRACTS.md:326"
+                    },
+                    {
+                        "id":  67,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md#unified-cwcwui-product-boundary",
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "retention_rationale":  "Product boundary target is partial; original preserves host/UI authority and historical qualifications.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-unresolved-batch-003-q_prlvn1\\phase3e_unresolved_batch_003_review.json",
+                        "retention_category":  "full legacy target retained pending Phase3F",
+                        "source_location":  "docs/DATA_CONTRACTS.md:1859"
+                    },
+                    {
+                        "id":  74,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md",
+                        "phase3f_dependency":  "Keep the ARCHITECTURE.md document-entry path and authority until an approved source-entry change.",
+                        "retention_rationale":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-global-reconciliation-bti46ciz\\global_occurrence_ledger.json",
+                        "retention_category":  "original document entry or source",
+                        "source_location":  "docs/DEVELOPMENT_ROADMAP.md:62"
+                    },
+                    {
+                        "id":  85,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md",
+                        "phase3f_dependency":  "Keep the ARCHITECTURE.md document-entry path and authority until an approved source-entry change.",
+                        "retention_rationale":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-global-reconciliation-bti46ciz\\global_occurrence_ledger.json",
+                        "retention_category":  "original document entry or source",
+                        "source_location":  "docs/META_CONTRACTS.md:5"
+                    },
+                    {
+                        "id":  91,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md",
+                        "phase3f_dependency":  "Keep the ARCHITECTURE.md document-entry path and authority until an approved source-entry change.",
+                        "retention_rationale":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-global-reconciliation-bti46ciz\\global_occurrence_ledger.json",
+                        "retention_category":  "original document entry or source",
+                        "source_location":  "docs/REPOSITORY_STATUS.md:494"
+                    },
+                    {
+                        "id":  97,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md",
+                        "phase3f_dependency":  "Keep the ARCHITECTURE.md document-entry path and authority until an approved source-entry change.",
+                        "retention_rationale":  "Previously retained document entry, original document link, or protected historical draft; frozen policy leaves source unchanged.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-global-reconciliation-bti46ciz\\global_occurrence_ledger.json",
+                        "retention_category":  "original document entry or source",
+                        "source_location":  "docs/SOCIAL_CAUSAL_DESIGN.md:23"
+                    },
+                    {
+                        "id":  98,
+                        "final_recommendation":  "RETAIN_ORIGINAL_LINK",
+                        "original_destination":  "ARCHITECTURE.md#world-dynamics-task-information-and-bounded-exploration",
+                        "phase3f_dependency":  "Complete source-section migration and prove combined destination coverage before changing this link.",
+                        "retention_rationale":  "World dynamics parent spans separately owned CPU governance, cognition, allocation and task-information sections; full original scope has retained or separately located material, so keep the intact legacy target.",
+                        "prior_evidence":  "C:\\Users\\18636\\AppData\\Local\\Temp\\cw-phase3e-unresolved-batch-004-2bi63cg8\\phase3e_unresolved_batch_004_review.json",
+                        "retention_category":  "full legacy target retained pending Phase3F",
+                        "source_location":  "docs/SOCIAL_CAUSAL_DESIGN.md:60"
+                    }
+                ]
+}

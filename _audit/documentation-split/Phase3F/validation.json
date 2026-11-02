@@ -1,0 +1,803 @@
+{
+    "applied_ids":  [
+                        7,
+                        12,
+                        13,
+                        21,
+                        23,
+                        26,
+                        27,
+                        28,
+                        29,
+                        30,
+                        33,
+                        35,
+                        36,
+                        37,
+                        39,
+                        42,
+                        43,
+                        45,
+                        47,
+                        50,
+                        53,
+                        55,
+                        56,
+                        63,
+                        64,
+                        65,
+                        66,
+                        68,
+                        69,
+                        70,
+                        71,
+                        72,
+                        73,
+                        75,
+                        76,
+                        77,
+                        78,
+                        79,
+                        80,
+                        81,
+                        82,
+                        83,
+                        84,
+                        86,
+                        87,
+                        88,
+                        89,
+                        90,
+                        92,
+                        93,
+                        94,
+                        95,
+                        96,
+                        99
+                    ],
+    "final_git_status":  [
+                             "## main...origin/main [ahead 1]",
+                             " M .github/workflows/core-platforms.yml",
+                             " M README.md",
+                             " M docs/AI_BOUNDARY.md",
+                             " M docs/ARCHITECTURE.md",
+                             " M docs/COGNITIVEWORLD_CORE_DOCTRINE.md",
+                             " M docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                             " M docs/DATA_CONTRACTS.md",
+                             " M docs/DEVELOPMENT_ROADMAP.md",
+                             " M docs/ENGINEERING_RULES.md",
+                             " M docs/MEMORY_DESIGN.md",
+                             " M docs/REPOSITORY_STATUS.md",
+                             " M docs/SOCIAL_CAUSAL_DESIGN.md",
+                             " M src/cognitive_world/core/persistence.py",
+                             " M src/cognitive_world/examples/persistence_trust.py",
+                             " M src/cognitive_world/examples/social_room.py",
+                             " M tests/test_actor_result_observation.py",
+                             " M tests/test_example_trust.py",
+                             " M tests/test_item_take.py",
+                             " M tests/test_memory_retrieval.py",
+                             " M tests/test_position_observation.py",
+                             " M tests/test_save_restore_end_to_end.py",
+                             " M tests/test_social_perspective.py",
+                             " M tests/test_social_physical_slice.py",
+                             "?? docs/COGNITIVE_EXECUTION_FEEDBACK_REVIEW.md",
+                             "?? docs/architecture/"
+                         ],
+    "phase3e_manifest_valid":  true,
+    "label_improvement_ids":  [
+                                  21,
+                                  26,
+                                  27,
+                                  28,
+                                  29,
+                                  30,
+                                  33,
+                                  35,
+                                  43,
+                                  45,
+                                  47,
+                                  53,
+                                  55,
+                                  56
+                              ],
+    "exact_before_after_replay":  true,
+    "local_destination_checks":  [
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\WORLD_MODEL.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/WORLD_MODEL.md#arch-source-57",
+                                         "id":  83,
+                                         "file":  "docs/ENGINEERING_RULES.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\INTERACTION_AND_PRESENTATION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-10",
+                                         "id":  71,
+                                         "file":  "docs/DEVELOPMENT_ROADMAP.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\PERCEPTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/PERCEPTION.md#arch-source-114",
+                                         "id":  72,
+                                         "file":  "docs/DEVELOPMENT_ROADMAP.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\PERCEPTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/PERCEPTION.md#arch-source-115",
+                                         "id":  72,
+                                         "file":  "docs/DEVELOPMENT_ROADMAP.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\PERCEPTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/PERCEPTION.md#arch-source-116",
+                                         "id":  72,
+                                         "file":  "docs/DEVELOPMENT_ROADMAP.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\PERCEPTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/PERCEPTION.md#arch-source-117",
+                                         "id":  72,
+                                         "file":  "docs/DEVELOPMENT_ROADMAP.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\COGNITION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/COGNITION.md#arch-source-31",
+                                         "id":  80,
+                                         "file":  "docs/ENGINEERING_RULES.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\PERCEPTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/PERCEPTION.md#arch-source-114",
+                                         "id":  81,
+                                         "file":  "docs/ENGINEERING_RULES.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\PERCEPTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/PERCEPTION.md#arch-source-115",
+                                         "id":  81,
+                                         "file":  "docs/ENGINEERING_RULES.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\PERCEPTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/PERCEPTION.md#arch-source-116",
+                                         "id":  81,
+                                         "file":  "docs/ENGINEERING_RULES.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\PERCEPTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/PERCEPTION.md#arch-source-117",
+                                         "id":  81,
+                                         "file":  "docs/ENGINEERING_RULES.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\WORLD_MODEL.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/WORLD_MODEL.md#arch-source-119",
+                                         "id":  82,
+                                         "file":  "docs/ENGINEERING_RULES.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\WORLD_MODEL.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/WORLD_MODEL.md#arch-source-120",
+                                         "id":  82,
+                                         "file":  "docs/ENGINEERING_RULES.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\WORLD_MODEL.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/WORLD_MODEL.md#arch-source-121",
+                                         "id":  82,
+                                         "file":  "docs/ENGINEERING_RULES.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\WORLD_MODEL.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/WORLD_MODEL.md#arch-source-122",
+                                         "id":  82,
+                                         "file":  "docs/ENGINEERING_RULES.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\WORLD_MODEL.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/WORLD_MODEL.md#arch-source-119",
+                                         "id":  73,
+                                         "file":  "docs/DEVELOPMENT_ROADMAP.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\WORLD_MODEL.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/WORLD_MODEL.md#arch-source-120",
+                                         "id":  73,
+                                         "file":  "docs/DEVELOPMENT_ROADMAP.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\WORLD_MODEL.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/WORLD_MODEL.md#arch-source-121",
+                                         "id":  73,
+                                         "file":  "docs/DEVELOPMENT_ROADMAP.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\WORLD_MODEL.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/WORLD_MODEL.md#arch-source-122",
+                                         "id":  73,
+                                         "file":  "docs/DEVELOPMENT_ROADMAP.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\WORLD_MODEL.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/WORLD_MODEL.md#arch-source-119",
+                                         "id":  63,
+                                         "file":  "docs/DATA_CONTRACTS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\WORLD_MODEL.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/WORLD_MODEL.md#arch-source-120",
+                                         "id":  63,
+                                         "file":  "docs/DATA_CONTRACTS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\WORLD_MODEL.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/WORLD_MODEL.md#arch-source-121",
+                                         "id":  63,
+                                         "file":  "docs/DATA_CONTRACTS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\WORLD_MODEL.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/WORLD_MODEL.md#arch-source-122",
+                                         "id":  63,
+                                         "file":  "docs/DATA_CONTRACTS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\PERCEPTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/PERCEPTION.md#arch-source-114",
+                                         "id":  64,
+                                         "file":  "docs/DATA_CONTRACTS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\PERCEPTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/PERCEPTION.md#arch-source-115",
+                                         "id":  64,
+                                         "file":  "docs/DATA_CONTRACTS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\PERCEPTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/PERCEPTION.md#arch-source-116",
+                                         "id":  64,
+                                         "file":  "docs/DATA_CONTRACTS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\PERCEPTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/PERCEPTION.md#arch-source-117",
+                                         "id":  64,
+                                         "file":  "docs/DATA_CONTRACTS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\WORLD_MODEL.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/WORLD_MODEL.md#arch-source-57",
+                                         "id":  65,
+                                         "file":  "docs/DATA_CONTRACTS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\COGNITION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/COGNITION.md#arch-source-185",
+                                         "id":  75,
+                                         "file":  "docs/DEVELOPMENT_ROADMAP.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\WORLD_MODEL.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/WORLD_MODEL.md#arch-source-186",
+                                         "id":  76,
+                                         "file":  "docs/DEVELOPMENT_ROADMAP.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\PERCEPTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/PERCEPTION.md#arch-source-186-part-2",
+                                         "id":  76,
+                                         "file":  "docs/DEVELOPMENT_ROADMAP.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\COGNITION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/COGNITION.md#arch-source-31",
+                                         "id":  77,
+                                         "file":  "docs/DEVELOPMENT_ROADMAP.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\INTERACTION_AND_PRESENTATION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-10",
+                                         "id":  79,
+                                         "file":  "docs/ENGINEERING_RULES.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\INTERACTION_AND_PRESENTATION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-10",
+                                         "id":  87,
+                                         "file":  "docs/REPOSITORY_STATUS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\PERCEPTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/PERCEPTION.md#arch-source-114",
+                                         "id":  88,
+                                         "file":  "docs/REPOSITORY_STATUS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\PERCEPTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/PERCEPTION.md#arch-source-115",
+                                         "id":  88,
+                                         "file":  "docs/REPOSITORY_STATUS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\PERCEPTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/PERCEPTION.md#arch-source-116",
+                                         "id":  88,
+                                         "file":  "docs/REPOSITORY_STATUS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\PERCEPTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/PERCEPTION.md#arch-source-117",
+                                         "id":  88,
+                                         "file":  "docs/REPOSITORY_STATUS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\WORLD_MODEL.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/WORLD_MODEL.md#arch-source-119",
+                                         "id":  89,
+                                         "file":  "docs/REPOSITORY_STATUS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\WORLD_MODEL.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/WORLD_MODEL.md#arch-source-120",
+                                         "id":  89,
+                                         "file":  "docs/REPOSITORY_STATUS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\WORLD_MODEL.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/WORLD_MODEL.md#arch-source-121",
+                                         "id":  89,
+                                         "file":  "docs/REPOSITORY_STATUS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\WORLD_MODEL.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/WORLD_MODEL.md#arch-source-122",
+                                         "id":  89,
+                                         "file":  "docs/REPOSITORY_STATUS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\COGNITION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/COGNITION.md#arch-source-31",
+                                         "id":  96,
+                                         "file":  "docs/SOCIAL_CAUSAL_DESIGN.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\PERCEPTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/PERCEPTION.md#arch-source-114",
+                                         "id":  99,
+                                         "file":  "docs/SOCIAL_CAUSAL_DESIGN.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\PERCEPTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/PERCEPTION.md#arch-source-115",
+                                         "id":  99,
+                                         "file":  "docs/SOCIAL_CAUSAL_DESIGN.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\PERCEPTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/PERCEPTION.md#arch-source-116",
+                                         "id":  99,
+                                         "file":  "docs/SOCIAL_CAUSAL_DESIGN.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\PERCEPTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/PERCEPTION.md#arch-source-117",
+                                         "id":  99,
+                                         "file":  "docs/SOCIAL_CAUSAL_DESIGN.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\WORLD_MODEL.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/WORLD_MODEL.md#arch-source-57",
+                                         "id":  86,
+                                         "file":  "docs/REPOSITORY_STATUS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\EXECUTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/EXECUTION.md#arch-source-80",
+                                         "id":  90,
+                                         "file":  "docs/REPOSITORY_STATUS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\COGNITION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/COGNITION.md#arch-source-31",
+                                         "id":  95,
+                                         "file":  "docs/REPOSITORY_STATUS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\COGNITION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/COGNITION.md#arch-source-50",
+                                         "id":  84,
+                                         "file":  "docs/MEMORY_DESIGN.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\INTERACTION_AND_PRESENTATION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-9",
+                                         "id":  78,
+                                         "file":  "docs/ENGINEERING_RULES.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\INTERACTION_AND_PRESENTATION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-10",
+                                         "id":  78,
+                                         "file":  "docs/ENGINEERING_RULES.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\COGNITION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/COGNITION.md#arch-source-185",
+                                         "id":  92,
+                                         "file":  "docs/REPOSITORY_STATUS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\WORLD_MODEL.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/WORLD_MODEL.md#arch-source-186",
+                                         "id":  93,
+                                         "file":  "docs/REPOSITORY_STATUS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\PERCEPTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/PERCEPTION.md#arch-source-186-part-2",
+                                         "id":  93,
+                                         "file":  "docs/REPOSITORY_STATUS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\PERCEPTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/PERCEPTION.md#arch-source-187",
+                                         "id":  94,
+                                         "file":  "docs/REPOSITORY_STATUS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\INTERACTION_AND_PRESENTATION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-43",
+                                         "id":  43,
+                                         "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\INTERACTION_AND_PRESENTATION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-140",
+                                         "id":  45,
+                                         "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\INTERACTION_AND_PRESENTATION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-85",
+                                         "id":  47,
+                                         "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\WORLD_SIMULATION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/WORLD_SIMULATION.md#arch-source-113",
+                                         "id":  37,
+                                         "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\WORLD_SIMULATION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/WORLD_SIMULATION.md#arch-source-113",
+                                         "id":  39,
+                                         "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\WORLD_SIMULATION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/WORLD_SIMULATION.md#arch-source-113",
+                                         "id":  42,
+                                         "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\WORLD_SIMULATION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/WORLD_SIMULATION.md#arch-source-113",
+                                         "id":  50,
+                                         "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\COGNITION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/COGNITION.md#arch-source-50",
+                                         "id":  12,
+                                         "file":  "docs/COGNITIVEWORLD_CORE_DOCTRINE.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\WORLD_SIMULATION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/WORLD_SIMULATION.md#arch-source-113",
+                                         "id":  13,
+                                         "file":  "docs/COGNITIVEWORLD_CORE_DOCTRINE.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\COGNITION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/COGNITION.md#arch-source-50",
+                                         "id":  7,
+                                         "file":  "docs/AI_BOUNDARY.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\EXECUTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/EXECUTION.md#arch-source-81",
+                                         "id":  53,
+                                         "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\PERSISTENCE.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/PERSISTENCE.md#arch-source-137",
+                                         "id":  55,
+                                         "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\PERSISTENCE.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/PERSISTENCE.md#arch-source-175",
+                                         "id":  56,
+                                         "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\WORLD_SIMULATION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/WORLD_SIMULATION.md#arch-source-113",
+                                         "id":  36,
+                                         "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\PERCEPTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/PERCEPTION.md#arch-source-187",
+                                         "id":  70,
+                                         "file":  "docs/DATA_CONTRACTS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\PERCEPTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/PERCEPTION.md#arch-source-37",
+                                         "id":  21,
+                                         "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\COGNITION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/COGNITION.md#arch-source-50",
+                                         "id":  23,
+                                         "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\COGNITION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/COGNITION.md#arch-source-31",
+                                         "id":  66,
+                                         "file":  "docs/DATA_CONTRACTS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\COGNITION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/COGNITION.md#arch-source-185",
+                                         "id":  68,
+                                         "file":  "docs/DATA_CONTRACTS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\WORLD_MODEL.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/WORLD_MODEL.md#arch-source-186",
+                                         "id":  69,
+                                         "file":  "docs/DATA_CONTRACTS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\PERCEPTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/PERCEPTION.md#arch-source-186-part-2",
+                                         "id":  69,
+                                         "file":  "docs/DATA_CONTRACTS.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\WORLD_MODEL.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/WORLD_MODEL.md#arch-source-142",
+                                         "id":  26,
+                                         "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\INTERACTION_AND_PRESENTATION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-164",
+                                         "id":  30,
+                                         "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\EXECUTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/EXECUTION.md#arch-source-74",
+                                         "id":  33,
+                                         "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\EXECUTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/EXECUTION.md#arch-history-h-74-1017-1017",
+                                         "id":  33,
+                                         "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\EXECUTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/EXECUTION.md#arch-source-155",
+                                         "id":  35,
+                                         "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\INTERACTION_AND_PRESENTATION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/INTERACTION_AND_PRESENTATION.md#arch-source-48",
+                                         "id":  27,
+                                         "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\EXECUTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/EXECUTION.md#arch-source-51",
+                                         "id":  28,
+                                         "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md"
+                                     },
+                                     {
+                                         "resolved":  "D:\\Ankorgine-CognitiveWorld\\docs\\architecture\\EXECUTION.md",
+                                         "anchor_count":  1,
+                                         "href":  "architecture/EXECUTION.md#arch-source-154",
+                                         "id":  29,
+                                         "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md"
+                                     }
+                                 ],
+    "modified_files":  [
+                           {
+                               "before":  "08abe94f205b6bddae4b1e092e8b757bf6b3d92346a03354921f1f4f67b92a3b",
+                               "file":  "docs/AI_BOUNDARY.md",
+                               "after":  "0cea2f2daee5da2de37275ac92722d12621caece3b0a452dd9be0d11d5821e8d"
+                           },
+                           {
+                               "before":  "11d4350a7e07bc9a0ff89da46bbda8400ae6948f4a3e1c3505522272cd943c5d",
+                               "file":  "docs/COGNITIVEWORLD_CORE_DOCTRINE.md",
+                               "after":  "d48676e0c9b82b876d8cb01ec4c8b244cab672163e131a9cb9d9ce6b84add323"
+                           },
+                           {
+                               "before":  "04a872e053db37302277e81724d5fce0e41557bf03ab16d0e8477fc97996e524",
+                               "file":  "docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md",
+                               "after":  "62f131c841e781a907113e0fbb418de7ea6b5d682ebfdd56fd75f21ca7e42129"
+                           },
+                           {
+                               "before":  "d2a5bc0bc7d88d9dd1364244418e1699c3e81ef897b8650259f1368804a7d3f8",
+                               "file":  "docs/DATA_CONTRACTS.md",
+                               "after":  "3db9fd64624107b410d08854b5f0e60aa7c060191ef0d3b0ff89c916e7cd4916"
+                           },
+                           {
+                               "before":  "675d72f676374c8c8450c69e2ec509a6a41158127e9da33ec5d29334ece27033",
+                               "file":  "docs/DEVELOPMENT_ROADMAP.md",
+                               "after":  "00e7b8eb24e4b830359ef5207469f89922c086e829230f39f6d2cf8f7cac24fb"
+                           },
+                           {
+                               "before":  "cc8a35926aa9a556af6aae08ec778285d2e43d334af9d4449c8e0faa34de584d",
+                               "file":  "docs/ENGINEERING_RULES.md",
+                               "after":  "5d0e1d1491f1324a97e85e3a3080c7e72c7e189ab4ada3198c036bba7026da62"
+                           },
+                           {
+                               "before":  "b51315ea8f6c9418686a39b451e3ae28343669d76eab70bfbd256375ba139c27",
+                               "file":  "docs/MEMORY_DESIGN.md",
+                               "after":  "ed5b74259333146a2e2dcabc74a1fad15d1ababf77745b73b27c8e9512706077"
+                           },
+                           {
+                               "before":  "0b6e39d244fc44148ae8d45eab03b57b1ecacdbcb3c0fa642d91043b560f1170",
+                               "file":  "docs/REPOSITORY_STATUS.md",
+                               "after":  "dc83e98ac3d471ab67cfaecf09f436b389ab2f7f631cad2302ebd6598211f864"
+                           },
+                           {
+                               "before":  "4bd79c4419e1a3f7ab47c5d247784161067d743da844fee55e3044732a63c12e",
+                               "file":  "docs/SOCIAL_CAUSAL_DESIGN.md",
+                               "after":  "e3dbd64a0b4f4706c33af1f36dc959645160fde524c6e654a28bf05f5b68269f"
+                           }
+                       ],
+    "preserved_ids":  [
+                          1,
+                          2,
+                          3,
+                          4,
+                          5,
+                          6,
+                          8,
+                          9,
+                          10,
+                          11,
+                          14,
+                          15,
+                          16,
+                          17,
+                          18,
+                          19,
+                          20,
+                          22,
+                          24,
+                          25,
+                          31,
+                          32,
+                          34,
+                          38,
+                          40,
+                          41,
+                          44,
+                          46,
+                          48,
+                          49,
+                          51,
+                          52,
+                          54,
+                          57,
+                          58,
+                          59,
+                          60,
+                          61,
+                          62,
+                          67,
+                          74,
+                          85,
+                          91,
+                          97,
+                          98
+                      ],
+    "focused_diff_check":  "PASS"
+}
