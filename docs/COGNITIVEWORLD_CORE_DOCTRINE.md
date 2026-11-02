@@ -80,7 +80,7 @@ The spatial LOD direction uses distance, angular relevance and importance as all
 
 **Architectural consequence:** More reasoning is not automatically better reasoning. Increase precision locally when warranted and permit bounded expansion along relevant dependencies; preserve unresolved status when the budget cannot support a consequential conclusion. Lower fidelity must not erase required identity, committed history or causal constraints. Allocation never changes fact truth, authorizes a new observation or replaces Resolution. A unified cross-domain allocator, calibrated spatial scheduling formula and general precision-upgrade coordinator are objectives, not existing capabilities.
 
-Details: [hybrid cognition](ARCHITECTURE.md#hybrid-cognition-execution-levels-architectural-direction-unified-policy-not-implemented), [independent LOD and spatial design](ARCHITECTURE.md#hybrid-physical-engine-and-independent-lod-axes-approved-design-not-implemented).
+Details: [hybrid cognition](architecture/COGNITION.md#arch-source-50), [independent LOD and spatial design](architecture/WORLD_SIMULATION.md#arch-source-113).
 
 ## Unified cognitive lifecycle
 

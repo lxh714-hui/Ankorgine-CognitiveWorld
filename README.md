@@ -22,7 +22,7 @@ Anchor 桌面宿主默认提供《灰域之外》（Gray Domain Beyond）的序�
 - **正式因果。** 行动经过 Attempt、Resolution 和 EventProcessor；反馈不能跳过裁定或直接改变世界。
 - **连续性。** 签名 checkpoint、事件历史和 Timeline 谱系支持恢复与分叉；运行许可与历史证据分开管理。
 
-完整原则见 [Core Doctrine](docs/COGNITIVEWORLD_CORE_DOCTRINE.md) 和 [系统架构](docs/ARCHITECTURE.md)。
+完整原则见 [Core Doctrine](docs/COGNITIVEWORLD_CORE_DOCTRINE.md) 和 [系统架构总纲](docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md)。
 
 ## 架构概览
 
@@ -131,7 +131,7 @@ python3 -B -S run_social_room.py --save-root /tmp/cognitiveworld-social-new-run 
 
 下一步继续深化实际物理机制与授权感知 LOD：每次增加一个能够改变真实行为的纵切，并验证事件链、保存和分叉连续性。更丰富的几何、交互入口、反馈历史规模与完整桌面流程按独立验收推进。
 
-- [架构](docs/ARCHITECTURE.md)：世界、认知、叙述和呈现的责任边界。
+- [系统架构总纲](docs/COGNITIVEWORLD_SYSTEM_ARCHITECTURE.md)：中文整体入口；[详细架构规范](docs/ARCHITECTURE.md)说明具体责任边界。
 - [数据契约](docs/DATA_CONTRACTS.md)：身份、授权、证据、版本和恢复。
 - [工程规则](docs/ENGINEERING_RULES.md)：实现与验证约束。
 - [社会因果设计](docs/SOCIAL_CAUSAL_DESIGN.md)：社会经验、判断与目标。

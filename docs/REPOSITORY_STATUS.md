@@ -54,17 +54,17 @@ pre-archival statements are not current milestone status.
 
 ## Identity continuity and epistemic disagreement status (2026-10-25)
 
-The [approved principle](ARCHITECTURE.md#entity-identity-continuity-and-epistemic-disagreement-approved-architectural-principle) records authoritative identity continuity independently of LOD, scene visibility, tracked observation targets and subjective identity judgments. World facts, authorized evidence, NPC cognition and player understanding may differ; unknown identity, misidentification and NPC deception are permitted architectural possibilities, with later consequences governed by existing supported mechanisms. This is a documentation decision, not implementation of a generic identity-association, disguise/deception, target-tracking or automatic belief-correction system. Existing reference, authorization, cognition and signed restore contracts remain unchanged. No new tests, schema, API, persistence or historical identity reconstruction is claimed.
+The [approved principle](architecture/WORLD_MODEL.md#arch-source-57) records authoritative identity continuity independently of LOD, scene visibility, tracked observation targets and subjective identity judgments. World facts, authorized evidence, NPC cognition and player understanding may differ; unknown identity, misidentification and NPC deception are permitted architectural possibilities, with later consequences governed by existing supported mechanisms. This is a documentation decision, not implementation of a generic identity-association, disguise/deception, target-tracking or automatic belief-correction system. Existing reference, authorization, cognition and signed restore contracts remain unchanged. No new tests, schema, API, persistence or historical identity reconstruction is claimed.
 
 ## Contextual interaction and bounded investigation status (2026-10-25)
 
-[Design consensus](ARCHITECTURE.md#contextual-interaction-and-bounded-autonomous-investigation-design-consensus-not-implemented-as-a-general-workflow) now records free text plus contextual clicks/suggestions, attention-first default observation, authorized LOD-sensitive presentation and strictly bounded player-goal investigation with progress and returned control. This is documentation synchronization only: clickable narrative target grounding, manner-sensitive attention/gaze/head/body/approach and observation integration and the general player-goal autonomous investigation workflow are not claimed implemented. Existing raw-input/clarification, typed mechanisms and bounded Agent/stepwise paths remain narrow foundations.
+[Design consensus](architecture/INTERACTION_AND_PRESENTATION.md#arch-source-10) now records free text plus contextual clicks/suggestions, attention-first default observation, authorized LOD-sensitive presentation and strictly bounded player-goal investigation with progress and returned control. This is documentation synchronization only: clickable narrative target grounding, manner-sensitive attention/gaze/head/body/approach and observation integration and the general player-goal autonomous investigation workflow are not claimed implemented. Existing raw-input/clarification, typed mechanisms and bounded Agent/stepwise paths remain narrow foundations.
 
 Target-entry projection, supported turn/observe semantics, action counts/risk/pause/continuation policy, cross-scene goal handling and any durable recovery requirements remain unresolved. A 2–3-step example is experimental, not a constant. A new opportunity does not restore old work; no commit is undone by interruption. Lazy expansion admission, model calibration and shared LOD coordination remain separate open work. Existing observer-sampling fixes and all prior test results are unchanged; no tests, source changes, APIs, schemas, runtime settings or new persistence guarantees are introduced in this task.
 
 ## LOD mathematics and hybrid expansion documentation status (2026-10-25)
 
-This synchronization records [candidate visual/auditory mathematics](ARCHITECTURE.md#visual-and-auditory-lod-mathematics-candidate-models-uncalibrated), [relative NPC policy-deviation models](SOCIAL_CAUSAL_DESIGN.md#reference-policy-deviation-candidate-mathematics-not-a-production-classifier), and the [selected hybrid Lazy World Expansion direction](ARCHITECTURE.md#hybrid-lazy-world-expansion-selected-direction-acceptance-boundary-unresolved). Equations are uncalibrated hypotheses, not approved production probabilities/classifiers. Existing narrow location/sensory checks, Emotion/Motivation modulation, bounded Event Tree and reviewed content installation do not establish general FOV, acoustics, adaptive LOD or general lazy topology materialization.
+This synchronization records [Candidate models](architecture/PERCEPTION.md#arch-source-114), [visual eligibility and quality](architecture/PERCEPTION.md#arch-source-115), [auditory propagation and detection](architecture/PERCEPTION.md#arch-source-116), [mathematical review and open decisions](architecture/PERCEPTION.md#arch-source-117), [relative NPC policy-deviation models](SOCIAL_CAUSAL_DESIGN.md#reference-policy-deviation-candidate-mathematics-not-a-production-classifier), and the [Expansion direction](architecture/WORLD_MODEL.md#arch-source-119), [commitment and materialization](architecture/WORLD_MODEL.md#arch-source-120), [topology and local geometry](architecture/WORLD_MODEL.md#arch-source-121), [seed, identity and Timeline continuity](architecture/WORLD_MODEL.md#arch-source-122). Equations are uncalibrated hypotheses, not approved production probabilities/classifiers. Existing narrow location/sensory checks, Emotion/Motivation modulation, bounded Event Tree and reviewed content installation do not establish general FOV, acoustics, adaptive LOD or general lazy topology materialization.
 
 The pre-existing local observer-sampling correction remains separate: new evidence explicitly labels post-update sampling; historical reconstruction preserves signed phase values and payload bytes without rewriting or re-signing. A legacy BEFORE label alone is not proof of pre-update sampling. This documentation task does not repeat that code/test change or claim a new test run.
 
@@ -72,7 +72,7 @@ Potential-world determination and structure acceptance authority, model uses/cal
 
 ## Scheduled work responsibility status (2026-10-25)
 
-The [approved responsibility clarification](ARCHITECTURE.md#scheduled-work-responsibility-approved-contract-no-scheduling-implementation-change) records guarantees and limits, not a scheduling fix. Current Runtime processing removes due Event items before budget validation/checks and removes due Agent entries before their execution-budget checks. Over-budget items are recorded as skipped without automatic requeueing; an interrupted batch has no general retention guarantee for its already-dequeued, unstarted remainder. This behavior is not a universal discard authorization or proof that every skipped item must execute.
+The [approved responsibility clarification](architecture/EXECUTION.md#arch-source-80) records guarantees and limits, not a scheduling fix. Current Runtime processing removes due Event items before budget validation/checks and removes due Agent entries before their execution-budget checks. Over-budget items are recorded as skipped without automatic requeueing; an interrupted batch has no general retention guarantee for its already-dequeued, unstarted remainder. This behavior is not a universal discard authorization or proof that every skipped item must execute.
 
 Periodic Runner rounds generate new decision opportunities. Content wakeup deduplication records arrangement, not successful execution, and provides no general skipped-wakeup compensation guarantee. Committed-Event delivery retries retain their separate contracts. Pending Runtime schedules have no general checkpoint persistence guarantee. Producer-specific obligations, valid deferral/termination conditions, and responsibility for unstarted work after budget exhaustion or interruption remain unresolved where no applicable approved contract defines them. Required authoritative causal consequences remain protected.
 
@@ -647,7 +647,7 @@ The first new regression failed on the pre-change behavior (Goal remained active
 
 Completed parent checkpoints retain status and condition in child/sibling restores without re-signing ancestor Events or L1 proofs; child-only completion leaves the active parent and sibling unchanged. An uncertain post-write error freezes checkpoint capture and does not repeat the committed door action. This is checkpoint durability, not an uncheckpointed crash-recovery guarantee.
 
-Historical limitation at this increment: the B1 failure verifier rejected a qualified `object:ID` target against raw environment IDs before formal commitment, and the original regression recorded noncommit. Commit `c74f354` subsequently repaired that lookup and added committed qualified-result, private Observation, feedback and signed-proof/save coverage. The item is now closed; [current reverification](#qualified-address-b1-reverification) confirms both supported address forms without changing historical B1 interpretation. General planning and recovery of missing pre-completion consumption remain unsupported. See [scope](ARCHITECTURE.md#consumed-result-goal-completion-slice) and [remaining debt](DEVELOPMENT_ROADMAP.md#owner-specific-social-response-status).
+Historical limitation at this increment: the B1 failure verifier rejected a qualified `object:ID` target against raw environment IDs before formal commitment, and the original regression recorded noncommit. Commit `c74f354` subsequently repaired that lookup and added committed qualified-result, private Observation, feedback and signed-proof/save coverage. The item is now closed; [current reverification](#qualified-address-b1-reverification) confirms both supported address forms without changing historical B1 interpretation. General planning and recovery of missing pre-completion consumption remain unsupported. See [scope](architecture/COGNITION.md#arch-source-185) and [remaining debt](DEVELOPMENT_ROADMAP.md#owner-specific-social-response-status).
 
 
 ## JSON object and perceptual projection acceptance
@@ -662,7 +662,7 @@ Actual final verification: **345 passed, 0 failed, 0 skipped in 28.78s, exit 0**
 
 SaveManager and active child reconstruction preserve actual installed objects, owners/locations, their installation Event origins, the successful formal door effect, state-slot origins and exact inherited Event attestations. Repeated formal-result dispatch does not apply physics again. No new crash-recovery, automatic installation resume or historical re-signing guarantee is claimed.
 
-Scope remains coarse versus explicitly authorized **carried-object** detail, using actual known sight/light and permitted authored features. Mere room membership, a higher detail request, an Event without delivered Observation, unknown target/appearance, or absent evidence cannot reveal detail. There is no general close-range geometry, FOV, occlusion, sound model, 3D LOD, generic ECS, world-generation admission or shared coordinator. Product input/Gateway wiring for arbitrary object-inspection requests remains future work; the existing independent Presentation path is exercised. The qualified-address B1 issue was subsequently repaired in `c74f354` and is [reverified below](#qualified-address-b1-reverification); partial-install recovery debt remains open. See [architecture](ARCHITECTURE.md#json-objects-and-bounded-visual-projection-implemented-narrow-slice) and [next bounded work](DEVELOPMENT_ROADMAP.md#json-object-and-visual-detail-vertical-slices).
+Scope remains coarse versus explicitly authorized **carried-object** detail, using actual known sight/light and permitted authored features. Mere room membership, a higher detail request, an Event without delivered Observation, unknown target/appearance, or absent evidence cannot reveal detail. There is no general close-range geometry, FOV, occlusion, sound model, 3D LOD, generic ECS, world-generation admission or shared coordinator. Product input/Gateway wiring for arbitrary object-inspection requests remains future work; the existing independent Presentation path is exercised. The qualified-address B1 issue was subsequently repaired in `c74f354` and is [reverified below](#qualified-address-b1-reverification); partial-install recovery debt remains open. See [JSON objects and world state](architecture/WORLD_MODEL.md#arch-source-186), [authorized visual projection](architecture/PERCEPTION.md#arch-source-186-part-2) and [next bounded work](DEVELOPMENT_ROADMAP.md#json-object-and-visual-detail-vertical-slices).
 
 
 ## Position driven observation acceptance
@@ -675,7 +675,7 @@ Actual final related verification: **297 passed, 0 failed, 0 skipped in 18.19s, 
 
 The actual source-checkout command `py -3.14 -B -X utf8 run_json_objects.py examples/data/position_observation.json --scenario visit --approach` exited 0 and displayed coarse object information, exactly one authoritative arrival and subsequent notch detail. Tests verify unchanged target Entity/ownership/location/environment, independent observers, configurable thresholds, fail-closed unknown/malformed coordinates/policies, authorized coarse fallback, historical presentation retry without action replay and continued observation after a signed child restore without re-signing ancestor Events. This is a bounded one-axis observation-domain approximation, not FOV, occlusion, 3D perception or general physical distance simulation.
 
-Second-phase changes remain uncommitted for review. [Architecture](ARCHITECTURE.md#position-driven-observation-precision-bounded-implementation) and [next bounded work](DEVELOPMENT_ROADMAP.md#position-driven-observation-slice-status) describe remaining limitations. The existing historical draft and local resources are preserved.
+Second-phase changes remain uncommitted for review. [Architecture](architecture/PERCEPTION.md#arch-source-187) and [next bounded work](DEVELOPMENT_ROADMAP.md#position-driven-observation-slice-status) describe remaining limitations. The existing historical draft and local resources are preserved.
 
 ## State Goal and interaction reach partial integration
 
@@ -796,7 +796,7 @@ Final verification after the compatibility correction: **1862 passed, 9 skipped,
 
 ## Cognitive governance principle synchronization
 
-Documentation-only clarification: rule compatibility, cognitive credibility and world-fact qualification are independent. Eligible unverified hypotheses and mistaken beliefs may influence supported decisions; they cannot directly commit world changes or turn an imagined source into history. This formalizes [the architectural boundary](ARCHITECTURE.md#cognitive-governance-three-independent-judgments), not a new implementation.
+Documentation-only clarification: rule compatibility, cognitive credibility and world-fact qualification are independent. Eligible unverified hypotheses and mistaken beliefs may influence supported decisions; they cannot directly commit world changes or turn an imagined source into history. This formalizes [the architectural boundary](architecture/COGNITION.md#arch-source-31), not a new implementation.
 
 The existing contextual matcher, physical result validation/Observation, qualified L1 and governed existing-Belief review remain narrow capabilities with their documented evidence and applicability requirements. No universal natural-language compatibility checker, calibrated confidence model or comprehensive irrational-cognition mechanism is claimed. Existing test history and NO-GO decisions remain unchanged. No production code, tests, JSON/schema, signatures, persistence, README or runtime behavior changed in this synchronization; no tests were run for this documentation-only task.
 
@@ -872,3 +872,83 @@ POSIX hard-link publication precedes directory fsync: a post-publication error c
 The new dedicated macos-latest/Python 3.14 job asserts the actual native platform, uses canonical runner temporary directories, isolates HOME and save roots, runs portable trust/reconstruction/fence/social tests (including actual file-HMAC cold restore), then the standard-library social CLI. It retains read-only permissions, no artifacts/caches/secrets, explicit failure exit codes and no platform simulation. Linux and Windows jobs remain configured. REMOTE PLATFORM ACCEPTANCE PENDING for all new workflow jobs until a separately authorized commit/push and actual GitHub Actions execution. YAML and Bash syntax checks are local configuration checks, not target-platform acceptance. No Git remote operation was performed.
 
 Local Windows/Python 3.14 audit executions: reproduced malformed DPAPI versions 4 failed, 4 deselected (0.19s, exit 1); after integer guards and initial regressions, trust pair 33 passed, 11 POSIX skips (3.08s, exit 0). After adding write/flush fault cases, trust/cold-restore/fence/social selection 147 passed, 13 POSIX skips (41.95s, exit 0). Final complete suite ran once: 2056 passed, 22 skipped (141.64s, exit 0). Thirteen skips require actual POSIX (five permissions/link cases and eight initialization failure boundaries); nine require explicit local model/embedding/evaluation opt-ins. Runs used Python 3.14 -B, PYTHONDONTWRITEBYTECODE=1, disabled pytest cache and fresh external basetemp directories. No GitHub-hosted job or actual macOS/Linux test ran. Modified Python compilation/3.10 grammar, three-job YAML/Bash syntax, local document links and Git whitespace checks passed; these are not Python 3.10 or macOS runtime validation.
+
+## Historical architecture source records — approved Phase 3D
+
+These explicitly attributed source quotations preserve original stage decisions and limitations. They are not current verification results or new policy definitions.
+
+<a id="arch-history-h-134-1937-1937"></a>
+### Historical source record — Phase 12.5C status
+
+**Historical record — Historical implementation snapshots.** This is an original-stage quotation, not a current normative definition, current implementation inventory or newly executed test result.
+
+Source: [docs/ARCHITECTURE.md](ARCHITECTURE.md), original heading ID **134**, lines **1937–1937**; original heading: **Phase 12.5C status**.
+Source document SHA-256: `d111ce446dcdf8a16182dc465f42a851177a569547b3a0cfc6519d6e8653f751`. Captured from the working tree based on `838e6913e6e6d6deefcaa6bbf126cad2139550b7`; the quoted bytes are not asserted to be the committed version.
+
+Original context: Phase12.5C implementation/verification inventory including unrun Python tests and unsupported age/consent/UI areas.
+Chronology: Phase12.5C explicit; no calendar date stated. Calendar date: not stated in the source.
+
+Temporal words such as “now”, “currently”, “here”, “this document”, “below” and “at this stage” retain their original source context. Legacy paths are historical evidence, not current repository instructions. The full quoted limitations and original validation status remain attached; no broader supersession or present-day acceptance is inferred.
+
+Current normative definitions remain with their frozen owners, including [DATA_CONTRACTS.md](DATA_CONTRACTS.md) and [META_CONTRACTS.md](META_CONTRACTS.md); this quotation creates no additional authority.
+
+<!-- Phase 3D exact source quotation begins: H-134-1937-1937 -->
+> Code and tests added in this workspace; Python tests have **not** run in this Codex environment. Implemented scope: safety assessment contract and deterministic triage; existing OpenAI-compatible semantic-provider adapter; mandatory checks at existing action/step/EventFactory/output boundaries; structured versioned WorldNorms in WorldState; schema/safety generation path; controlled version-update Event; jurisdiction/tick query; and public-only disclosure projection. Not implemented/verified: comprehensive semantic classification, authoritative age/consent data, all-provider/runtime wiring in a production host, general crime-law applicability/effects, NPC legal knowledge dissemination, CWUI integration, durable norm changes across crash/restore, broad conflict Resolution, or complete story presentation. Process-local Python guards do not defend against malicious same-process code.
+<!-- Phase 3D exact source quotation ends: H-134-1937-1937 -->
+
+
+<a id="arch-history-h-145-2207-2213"></a>
+### Historical source record — Phase status
+
+**Historical record — Historical implementation snapshots.** This is an original-stage quotation, not a current normative definition, current implementation inventory or newly executed test result.
+
+Source: [docs/ARCHITECTURE.md](ARCHITECTURE.md), original heading ID **145**, lines **2207–2213**; original heading: **Phase status**.
+Source document SHA-256: `d111ce446dcdf8a16182dc465f42a851177a569547b3a0cfc6519d6e8653f751`. Captured from the working tree based on `838e6913e6e6d6deefcaa6bbf126cad2139550b7`; the quoted bytes are not asserted to be the committed version.
+
+Original context: End-of-Phase12.5D implementation-not-validated and missing capability inventory.
+Chronology: Explicit end of Phase12.5D and successor13 mention; no calendar date inferred. Calendar date: not stated in the source.
+
+Temporal words such as “now”, “currently”, “here”, “this document”, “below” and “at this stage” retain their original source context. Legacy paths are historical evidence, not current repository instructions. The full quoted limitations and original validation status remain attached; no broader supersession or present-day acceptance is inferred.
+
+Current normative definitions remain with their frozen owners, including [DATA_CONTRACTS.md](DATA_CONTRACTS.md) and [META_CONTRACTS.md](META_CONTRACTS.md); this quotation creates no additional authority.
+
+<!-- Phase 3D exact source quotation begins: H-145-2207-2213 -->
+> Phase 12.5D additions are **implemented but not validated** in this
+> environment. `SafetySubjectProfile` and runtime-shared governance have
+> deterministic and simulated-provider tests, but no Python run or live-model
+> evaluation is available here. Consent/relationship facts, authenticated
+> player/director ingress, universal semantic coverage, general combat/social
+> Resolution, the CWUI projection adapter, narrative planning, and
+> Dungeon/Scenario instances remained **not implemented/planned** at the end of Phase 12.5D; see the Phase 13 foundation below for the current limited implementation.
+<!-- Phase 3D exact source quotation ends: H-145-2207-2213 -->
+
+
+<a id="arch-history-h-178-2565-2576"></a>
+### Historical source record — SaveManager and Save Lifecycle — backend slice
+
+**Historical record — Historical implementation snapshots.** This is an original-stage quotation, not a current normative definition, current implementation inventory or newly executed test result.
+
+Source: [docs/ARCHITECTURE.md](ARCHITECTURE.md), original heading ID **178**, lines **2565–2576**; original heading: **SaveManager and Save Lifecycle — backend slice**.
+Source document SHA-256: `d111ce446dcdf8a16182dc465f42a851177a569547b3a0cfc6519d6e8653f751`. Captured from the working tree based on `838e6913e6e6d6deefcaa6bbf126cad2139550b7`; the quoted bytes are not asserted to be the committed version.
+
+Original context: Synthetic DPAPI save/fork/restore acceptance and its host/queue/power-loss bounds, ending in old no-Save-UI inventory.
+Chronology: Backend slice has no explicit date; do not date it from nearby unrelated milestones. Calendar date: not stated in the source.
+
+Temporal words such as “now”, “currently”, “here”, “this document”, “below” and “at this stage” retain their original source context. Legacy paths are historical evidence, not current repository instructions. The full quoted limitations and original validation status remain attached; no broader supersession or present-day acceptance is inferred.
+
+Current normative definitions remain with their frozen owners, including [DATA_CONTRACTS.md](DATA_CONTRACTS.md) and [META_CONTRACTS.md](META_CONTRACTS.md); this quotation creates no additional authority.
+
+<!-- Phase 3D exact source quotation begins: H-178-2565-2576 -->
+> The synthetic door-domain integration now exercises a real Windows DPAPI key
+> ring, independent Python subprocess reopening of parent and child saves,
+> manual deletion with retained shared ancestry, RestoreCoordinator activation,
+> a resumed AgentTurn, and a signed child Event with a matching WorldState slot
+> origin. A delayed candidate provider and an old ActionProposal are rejected
+> after activation. This exercises the supported in-process production chain;
+> the host still must reassemble policies, observations and schedules explicitly.
+> The backend does not persist scheduler queues, host policy or provider task
+> state, delete timelines, or restore a complete running application.
+> Deterministic journal/concurrency tests do not prove every power-loss or
+> filesystem durability condition. There is no Save UI or CWUI integration in
+> CognitiveWorld.
+<!-- Phase 3D exact source quotation ends: H-178-2565-2576 -->
