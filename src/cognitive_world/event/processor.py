@@ -56,6 +56,7 @@ class EventProcessor:
     write_fence: RuntimeWriteFence | None = None
 
     life_authority: object | None = field(default=None, repr=False, kw_only=True)
+    relationship_authority: object | None = field(default=None, repr=False, kw_only=True)
 
     def __post_init__(self) -> None:
         # Keep legacy construction usable while ensuring this processor always
@@ -203,7 +204,7 @@ class EventProcessor:
         try:
             if event.has_trusted_source("resolution"):
                 from cognitive_world.event.factory import validate_live_resolution_entry
-                validate_live_resolution_entry(event, self.life_authority)
+                validate_live_resolution_entry(event, self.life_authority, self.relationship_authority)
             try:
                 handler = self._handlers[event.type]
             except KeyError:
@@ -241,7 +242,8 @@ class EventProcessor:
         # in-memory writes do not offer rollback or durable atomicity.
         history.mark_applying_world_update(event.id)
         try:
-            with processor_write_scope(world_state, event, update_request):
+            with processor_write_scope(world_state, event, update_request,
+                                       relationship_authority=self.relationship_authority):
                 world_state.apply_event(event, update_request)
             # The context contract is AFTER_WORLD_UPDATE. Capture observer
             # positions immediately at this event boundary, never later from

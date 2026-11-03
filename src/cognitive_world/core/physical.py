@@ -106,7 +106,8 @@ class PhysicalRelation:
     kinds: tuple[str, ...]
 
     def __post_init__(self):
-        version(self.version)
+        if type(self.version) is not int or self.version not in (1, 2):
+            raise ValueError("unsupported physical relation version")
         identity(self.source)
         identity(self.target)
         if (
@@ -115,7 +116,8 @@ class PhysicalRelation:
             or not self.kinds
             or len(self.kinds) != len(set(self.kinds))
             or any(
-                k not in {"part_of", "attached_to", "controls", "owned_by", "held_by"}
+                k not in ({"part_of", "attached_to", "controls", "owned_by", "held_by"}
+                          | ({"contained_in"} if self.version == 2 else set()))
                 for k in self.kinds
             )
         ):
@@ -225,6 +227,7 @@ def validate_physical_world(entities, locations, relations):
     parents = {}
     owners = {}
     holders = {}
+    containers = {}
     for key, entity in entities.items():
         state = getattr(entity, "state", {}).get("physical")
         if state is not None:
@@ -254,6 +257,7 @@ def validate_physical_world(entities, locations, relations):
             ("part_of", parents),
             ("owned_by", owners),
             ("held_by", holders),
+            ("contained_in", containers),
         ):
             if kind in relation.kinds:
                 if relation.source in index:
@@ -269,6 +273,24 @@ def validate_physical_world(entities, locations, relations):
             and locations.get(relation.source) != relation.target
         ):
             raise ValueError("possession relation conflicts with canonical location")
+        if "contained_in" in relation.kinds:
+            if "container" not in (entities[relation.target].physical_capabilities or ()):
+                raise ValueError("containment parent lacks container capability")
+            if locations.get(relation.source) != relation.target:
+                raise ValueError("containment conflicts with direct location")
+            if set(relation.kinds) & {"held_by", "part_of", "attached_to"}:
+                raise ValueError("containment cannot alias custody or structure")
+    if set(containers) & set(holders):
+        raise ValueError("contained item cannot also have a holder")
+    spatial_parents = {**holders, **containers}
+    for start in containers:
+        seen = set()
+        node = start
+        while node in spatial_parents:
+            if node in seen:
+                raise ValueError("containment/custody cycle")
+            seen.add(node)
+            node = spatial_parents[node]
     for start in parents:
         seen = set()
         node = start

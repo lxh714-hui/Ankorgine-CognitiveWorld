@@ -1,5 +1,7 @@
 # CognitiveWorld Architecture
 
+The finite [GovernedObjectRelation/v1 contract](DATA_CONTRACTS.md) connects host-policy containment, release, attachment detachment and ownership transfer to the existing Resolution/Factory/Processor path. WorldState applies the validated joint state under its internal Processor capability and rejects ordinary ownership/containment patches at the actual write boundary. Death and Take retain their independent semantics; no new death disclosure, inheritance system or automatic lifecycle executor is introduced.
+
 ## B3 execution expectation boundary
 
 The [B3 contract](DATA_CONTRACTS.md#b3-immutable-expectation-and-authoritative-result-association)

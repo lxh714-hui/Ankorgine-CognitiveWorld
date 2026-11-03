@@ -22,6 +22,7 @@ class _ProcessorPermit:
     event_snapshot: tuple[object, ...]
     update: WorldUpdate
     update_snapshot: tuple[object, ...]
+    relationship_state: object = None
 
 
 _SEAL = object()
@@ -53,15 +54,33 @@ def _update_snapshot(update: WorldUpdate) -> tuple[object, ...]:
     )
 
 
+def relationship_state(world, event, update):
+    if not permit_matches(world, event, update):
+        raise PermissionError("matching Processor scope required")
+    state = _CURRENT.get().relationship_state
+    if state is None:
+        raise PermissionError("validated relationship write required")
+    return deepcopy(state)
+
+
 @contextmanager
 def processor_write_scope(
-    world: object, event: Event, update: WorldUpdate
+    world: object, event: Event, update: WorldUpdate, *, relationship_authority=None
 ) -> Iterator[None]:
     """Grant one synchronous, content-bound write to the processor boundary."""
     if not isinstance(event, Event) or not event.has_trusted_source():
         raise PermissionError("world writes require an intact trusted Event")
     if not isinstance(update, WorldUpdate):
         raise TypeError("update must be a WorldUpdate")
+    state = None
+    if update.target_id == "object_relationship":
+        from cognitive_world.items.relationship import RelationshipAuthority
+        if (type(relationship_authority) is not RelationshipAuthority
+                or relationship_authority.processor.world_state is not world
+                or update.operation != "apply" or update.metadata
+                or update.payload != event.changes[1]):
+            raise PermissionError("exact governed relationship update required")
+        state = relationship_authority.validate(event)
     permit = _ProcessorPermit(
         _SEAL,
         id(world),
@@ -69,6 +88,7 @@ def processor_write_scope(
         event._source_snapshot(),
         update,
         _update_snapshot(update),
+        state,
     )
     token = _CURRENT.set(permit)
     try:

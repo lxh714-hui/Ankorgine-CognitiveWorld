@@ -367,6 +367,9 @@ class ResolutionEffectsHandler(EventHandler):
     def handle_with_world_state(self, event: Event, world_state: WorldState) -> WorldUpdate:
         if not event.has_trusted_source("resolution"):
             raise PermissionError("Resolution effects require a controlled Event")
+        from cognitive_world.items.relationship import EFFECT, current_update
+        if any(type(c) is dict and c.get("effect_type") == EFFECT for c in event.changes[1:]):
+            return current_update(event, self.processor)
         if any(type(c) is dict and c.get("effect_type") in ("life_transition_v1", "life_transition_v2") for c in event.changes[1:]):
             from cognitive_world.resolution.life import current_update
             return current_update(event, world_state, self.processor.life_authority)

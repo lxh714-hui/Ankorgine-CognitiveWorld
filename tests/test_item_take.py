@@ -250,9 +250,24 @@ def test_relevant_changes_reject_pending_candidate_without_recovery(kind):
             )
             change(h, "entities", {h.panel: entity})
         elif kind == "owner":
-            change(
-                h, "entities", {h.panel: replace(w.get_entity(h.panel), owner_id=None)}
-            )
+            # Ownership is now centrally protected. Change the test dependency
+            # through the real authorized operation; retain every stale-take
+            # rejection/no-recovery assertion below.
+            from cognitive_world.items.relationship import RelationshipAuthority, RelationshipResolutionEngine
+            from cognitive_world.event.factory import EventFactory
+            from cognitive_world.decision.attempt import Attempt
+            class Policy:
+                policy_id, policy_version = "take-stale-owner-fixture", "1"
+                def evaluate(self, captured): return True
+            authority = RelationshipAuthority(rt.event_processor, Policy())
+            rt.event_processor.relationship_authority = authority
+            req = Attempt("owner-dependency-change", h.owner, "owner-change", "transfer",
+                          ["object:" + h.panel],
+                          {"old_owner": w.get_entity(h.panel).owner_id, "new_owner": h.owner})
+            grant = authority.authorize(req)
+            ownership = ActionResolutionFlow(RelationshipResolutionEngine(grant),
+                EventFactory(relationship_authority=authority)).execute(req)
+            rt.event_processor.dispatch_with_evidence(ownership)
         elif kind == "relation":
             change(
                 h,

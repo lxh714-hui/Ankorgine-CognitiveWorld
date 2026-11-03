@@ -151,6 +151,9 @@ def verify_and_restore_event_records(
         # The durable signature authenticates the historical processor result.
         # Only after that verification may the process-local source seal be rebuilt.
         event._issue_source_receipt(attestation["event_source"])
+        from cognitive_world.items.relationship import EFFECT, validate_history
+        if any(type(c) is dict and c.get("effect_type") == EFFECT for c in event.changes[1:]):
+            validate_history(event)
         from cognitive_world.core.physical import PossessionTransition
         if any(isinstance(change, dict) and (
                 change.get("effect_type") == "item_take_v1"

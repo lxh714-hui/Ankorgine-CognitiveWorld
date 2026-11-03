@@ -17,6 +17,7 @@ class EventFactory:
     safety_governance: UniversalSafetyGovernance = field(default_factory=UniversalSafetyGovernance)
 
     life_authority: object | None = field(default=None, repr=False, kw_only=True)
+    relationship_authority: object | None = field(default=None, repr=False, kw_only=True)
 
     def __post_init__(self) -> None:
         if not isinstance(self.safety_governance, UniversalSafetyGovernance):
@@ -142,14 +143,20 @@ class EventFactory:
                   operation if type(operation) is str else None,
                   attempt_fingerprint, simulation_tick)
         event._issue_source_receipt("resolution", live_resolution_origin=origin)
-        validate_live_resolution_entry(event, self.life_authority)
+        validate_live_resolution_entry(event, self.life_authority, self.relationship_authority)
         return event
 
 
-def validate_live_resolution_entry(event: Event, life_authority=None) -> None:
+def validate_live_resolution_entry(event: Event, life_authority=None, relationship_authority=None) -> None:
     """Live source authority, distinct from verification of committed history."""
     from cognitive_world.resolution.life import validate_entry
     validate_entry(event, life_authority)
+    from cognitive_world.items.relationship import EFFECT, RelationshipAuthority
+    relation_effect = any(type(c) is dict and c.get("effect_type") == EFFECT for c in event.changes[1:])
+    if relation_effect:
+        if type(relationship_authority) is not RelationshipAuthority:
+            raise PermissionError("installed relationship authority required")
+        relationship_authority.validate(event)
     origin = event._trusted_live_resolution_origin()
     if origin is None:
         raise PermissionError("historical Resolution evidence cannot authorize a new apply")

@@ -1,5 +1,170 @@
 # CognitiveWorld Data Contracts
 
+## PhysicalRelation v2 containment foundation
+
+PhysicalRelation/v1 retains its exact closed kinds and canonical encoding. Explicit
+version 2 additionally permits `contained_in`, directed item -> direct container.
+This adds no Entity field or codec type and never upgrades v1 records on decode.
+Older readers reject unsupported v2 relations. Host initialization may construct
+v2 records; no JSON content-schema or new runtime relation writer is supplied by
+this foundation.
+
+A contained entity has at most one direct container; that parent must exist and
+declare `container` in its canonical physical_capabilities. Its direct location
+must equal the container identity. Containment cannot alias held_by, attached_to
+or part_of in the same pair, and an item cannot simultaneously be contained and
+held. Container/holder spatial chains involving containment must be acyclic.
+Existing independent ownership and composition constraints remain applicable.
+
+`items.containment.effective_location` is a read-only bounded projection through
+direct location links to an actual location Entity. Missing endpoints, unknown
+locations, cycles and depth exhaustion fail closed. It grants no observation,
+acquisition or ownership authority. Moving an outer container preserves direct
+descendant links; it does not transfer ownership of contents. This helper does
+not replace existing operation-specific reach or disclosure rules.
+
+Containment schema support alone grants no relationship mutation authority.
+The separately governed operations below supply finite runtime transitions.
+
+## GovernedObjectRelation v1 — finite runtime relationship transitions
+
+This host-assembled slice uses existing Attempt, Resolution, EventFactory,
+EventProcessor, WorldUpdate, canonical WorldState and RuntimeWriteFence. It adds
+no Inventory, corpse identity, parallel Store, general relationship patch API,
+cross-Store transaction, inheritance law or automatic lifecycle scheduler.
+
+### Inputs, authority and dependencies
+
+`items.relationship.RelationshipAuthority` is explicitly installed on one
+canonical Processor and supplied to the corresponding EventFactory. It requires
+a host policy with nonempty `policy_id`, `policy_version` and `evaluate(input)`.
+Only exact boolean True accepts; missing policy, denial, invalid identity and
+exceptions issue no grant. This is an installed trusted-host policy boundary,
+not universal G1/G2/contract-admission implementation or protection against
+hostile same-process Python introspection.
+
+The canonical Attempt has exactly one `object:ID` target and one of the four
+finite action types below. Non-transfer parameters are exactly `{parent}`;
+transfer parameters are exactly `{old_owner, new_owner}`. The Actor must exist
+and possess manual_manipulation; neither capability nor physical custody
+authorizes the action without its independently installed policy.
+
+Capture includes exact Attempt content, related typed item relationships,
+canonical leaf-slot reads and an explicit state projection for the involved
+identities: owner, LifeState if present, capabilities and direct location. It
+includes spatial parent chains, old/new owner identities and canonical tombstone
+origins for the item's deleted relationship slots. Negative membership must not
+lose its history: add/remove ABA invalidates a pending grant even if the current
+relationship set and direct location return to their original values. Closure is bounded
+to 64 entities, 16 item-related relationships and 512 reads. Missing endpoints,
+unsupported relationship types, invalid source provenance and budget exhaustion
+fail closed. Relevant negative membership is checked by comparing the complete
+bounded item-related relationship set again. A relation scan is currently
+linear in world relationship count; no index or sample collection is implied.
+
+The policy receives a detached input, not a Store or world writer. Capture is
+repeated after policy execution. An ephemeral HMAC grant binds the entire input,
+contract identity/version, policy ID/version, Timeline, tick and random token.
+Private bookkeeping additionally binds the exact installed policy object and
+the original Runtime operation permit. Replacing the policy, revoking the token,
+advancing generation/tick, changing any captured value/origin or changing the
+item relation set invalidates pending execution. This uses a secret-key MAC,
+not repr hashing. A caller-created accepted flag is not an authorization.
+
+### Exact finite transitions
+
+| Operation | Required current state | Permitted writes | Preserved |
+|---|---|---|---|
+| contain | Item is co-located with the parent, has no outgoing custody/containment/structure, parent has container capability | Add item -> contained_in -> parent as PhysicalRelation/v2; set item's direct location to parent | Entity identities, owner, unrelated relations, other item locations |
+| release | Exact held_by or contained_in parent and matching direct location | Remove only that kind, retaining other kinds on the pair; set item location to parent's current effective location | Ownership; no new holder |
+| detach | Exact attached_to, item has detachable capability, no outgoing part_of/custody/containment | Remove attached_to only, retaining other kinds; set item location to parent's current effective location | Ownership; no new holder; no part_of deletion |
+| transfer | Exact current old_owner, distinct existing new_owner | Replace only item's owner_id, remove old owned_by kind and add matching new owned_by, preserving other kinds | All locations, custody, containment, attachment, contents and other entities |
+
+Non-transfer operations additionally require Actor and parent to share a current
+effective location. Transfer does not require physical delivery or owner consent
+inferred by the kernel: the installed explicit policy decides whether the exact
+transfer is allowed. Owner and holder may legitimately differ. No grant is
+inferred from death, possession, observation, Memory or Belief. No generic
+capacity, open/closed container access rule, body-part permission or part_of
+removal is supplied. Policy must explicitly govern any supported interaction;
+unsupported combinations remain rejected.
+
+### Formal application and central protection
+
+`RelationshipResolutionEngine` only proposes the closed effect
+`governed_object_relation_v1`; it does not write state. Factory, Processor and
+the relationship handler validate the exact live Attempt and grant. The effect
+binds its predicted Resolution Event identity. The resulting WorldUpdate is
+exactly `object_relationship/apply`, with the same effect and no extra metadata.
+
+The existing internal Processor write scope independently validates the installed
+authority and binds the staged replacement collections to that exact world,
+Event, WorldUpdate object and content. WorldState.apply_event requires that
+internal scope; a boolean, handler name or caller-supplied dictionary cannot
+stand in for it. All collections and provenance changes are staged and validated
+before joint publication under the Runtime fence. This is one WorldState
+operation, not a general cross-Store atomic transaction.
+
+At WorldState.apply_event ordinary `entities` set/update is checked by its
+effective before/after owner IDs, including removal and mixed payloads. Ordinary
+`relationships` set/update cannot add, remove or alter owned_by or contained_in;
+it also cannot remove held_by or attached_to. The existing Take-specific joint
+path retains its independent checks. New object creation through trusted
+initialization and admitted runtime-content installation retains its existing
+initial owner semantics; ordinary runtime patches cannot assign ownership.
+Initialization loaders remain sealed on event processing. Verified restore
+reconstructs authenticated state through its separate existing boundary.
+
+| Ownership writer category | Existing entry / enforcement |
+|---|---|
+| Initial construction | Entity construction, WorldState.load_entity/load_relationship before initialization is sealed; no runtime permission is created by constructing a value. |
+| Admitted runtime content | content.pipeline prepares initial owner fields; the existing runtime_content/install branch only admits new identities and validates the whole candidate graph. It cannot replace an existing item's owner. |
+| Authorized runtime transfer | RelationshipAuthority -> Resolution -> Factory -> Processor scope -> WorldState object_relationship/apply; exact owner and owned_by joint write only. |
+| Other runtime handlers | All ordinary entities/relationships set/update pass effective-write checks, independent of source Event or handler name. System source alone grants no ownership mutation. |
+| Verified restore | WorldState checkpoint verification and isolated reconstruction retain signed owner fields and relationship provenance; no authority/permit is deserialized. |
+| Legacy codec / migration | Existing codec paths retain original record versions and values; decoding a value does not authorize committing it to an active world. No ownership migration is introduced. |
+
+Owner fields on cognitive records describe cognitive ownership, not property
+title; their existing validators and Stores remain independent. The host must
+revoke pending grants or change policy identity/version when altering an installed
+policy's semantics in place; policy replacement by another object is rejected.
+
+### History, failure, restore and Timeline
+
+Pre-apply live rejection produces no new successful world effect. Policy failure
+propagates without issuing a grant. Unknown or ineligible new relationship
+requests are refused; they are not converted into invented unsuccessful Events.
+After entry into application, an exception uses existing recovery-required
+semantics and freezes further protected execution/capture. An ordinary patch
+rejected at the final WorldState barrier can therefore freeze the Runtime even
+when no collection changed; no automatic rollback or flag clearing is added.
+
+Repeated delivery of the same committed Event reuses canonical evidence without
+reapplication. A new request cannot reuse an old grant for a different Attempt,
+Event, operation or Timeline. Restored history is authenticated by the existing
+durable Event attestation, then checked for the closed new effect structure;
+its ephemeral MAC is not represented as a newly usable historical permit.
+No new codec type, signing purpose or Bundle version is introduced. Existing
+PhysicalRelation/v1 bytes remain unchanged; explicit v2 records retain their
+version and reject under readers without v2 support.
+
+Checkpoint capture retains owner_id, typed relations and their slot provenance.
+Cold restore and child reconstruction preserve them without re-adjudication or
+re-signing. RelationshipAuthority is not serialized or automatically installed;
+the host must independently assemble a new authority/policy for future requests.
+Ancestor records are historical evidence, not new execution authority; siblings
+share neither local mutations nor process-local grants. Multi-Event Death,
+Release, Take and Transfer sequences can partially complete and recover only
+from published checkpoints; no automatic continuation is supplied.
+
+Death remains its independent LifeState operation. A preconfigured container
+capability can remain on the same Entity after death; death does not add that
+capability, release possessions or transfer title. This slice creates no new
+Death/relationship Observation or L1 rule. Take's existing private result and
+actual consumption remain independent. NPC acquisition planning, content
+disclosure, inheritance, trade and general property institutions remain future
+contracts.
+
 ## B3 immutable expectation and authoritative result association
 
 B3 adds two exact system-only payloads in the existing MemoryStore:

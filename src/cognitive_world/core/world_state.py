@@ -765,6 +765,18 @@ class WorldState:
         if not permit_matches(self, event, update):
             raise PermissionError("WorldState events can only be applied by EventProcessor")
 
+        if update.target_id == "object_relationship":
+            from cognitive_world.core._world_write import relationship_state
+            entities, locations, relations = relationship_state(self, event, update)
+            origins = dict(self._slot_origins)
+            for name, before, after in (("entities", self._entities, entities),
+                                        ("locations", self._locations, locations),
+                                        ("relationships", self._relationships, relations)):
+                self._record_event_slot_changes(name, before, after, event.id, origins)
+            self._entities, self._locations, self._relationships, self._slot_origins = (
+                entities, locations, relations, origins)
+            return
+
         if update.target_id == "item_possession":
             if update.operation != "take" or update.metadata:
                 raise ValueError("unsupported possession operation")
@@ -877,6 +889,25 @@ class WorldState:
         if update.operation == "set":
             staged.clear()
         staged.update(copied_payload)
+        # Inspect effective writes, including set/deletion and mixed updates.
+        # Initialization, admitted content creation and verified restore have
+        # separate restricted paths; ordinary runtime patches carry no title.
+        if update.target_id == "entities":
+            if any(getattr(target.get(key), "owner_id", None) != getattr(staged.get(key), "owner_id", None)
+                   for key in target.keys() | staged.keys()):
+                raise PermissionError("ownership changes require governed Transfer")
+            if any(getattr(value, "id", None) != key for key, value in staged.items()):
+                raise PermissionError("canonical Entity identity cannot be rebound by a patch")
+        if update.target_id == "relationships":
+            from cognitive_world.core.physical import PhysicalRelation
+            for key in target.keys() | staged.keys():
+                old, new = target.get(key), staged.get(key)
+                for kind in ("owned_by", "contained_in", "held_by", "attached_to"):
+                    a = type(old) is PhysicalRelation and kind in old.kinds
+                    b = type(new) is PhysicalRelation and kind in new.kinds
+                    if ((kind in {"owned_by", "contained_in"} and (a != b or a and old != new))
+                            or kind in {"held_by", "attached_to"} and a and not b):
+                        raise PermissionError("protected relationship requires governed operation")
         from cognitive_world.core.physical import validate_physical_world
         validate_physical_world(staged if update.target_id=="entities" else self._entities,
             staged if update.target_id=="locations" else self._locations,
