@@ -327,19 +327,106 @@ def test_processor_rechecks_grant_when_factory_has_already_accepted():
         assert snap(w,p)==before and not p.write_fence.recovery_required
 
 
-def test_ordinary_handler_cannot_forge_joint_update_or_claim_authorized_flag():
+def rejection_snapshot(w, p, event_id):
+    """Public observations of this fixture's data, relevant origins and delivery."""
+    slots = []
+    for identity, entity in w.entities.items():
+        slots.extend(WorldStateSlot("entities", identity, (field,))
+                     for field in ("id", "type", "owner_id"))
+        if "life" in entity.state:
+            slots.extend(WorldStateSlot("entities", identity, ("state", "life", field))
+                         for field in ("version", "value"))
+    slots.extend(WorldStateSlot("locations", identity) for identity in w.locations)
+    for pair in w.relationships:
+        slots.extend(WorldStateSlot("relationships", pair, (field,))
+                     for field in ("version", "source", "target", "kinds"))
+    return deepcopy((snap(w, p), dict(w.facts), dict(w.environment),
+        tuple(w.read_state_slot(slot, event_history=p.event_history).to_record() for slot in slots),
+        p.event_history.get_processing_status(event_id),
+        p.event_history.get_processing_evidence(event_id),
+        p.event_history.get_persistence_record(event_id),
+        () if p.observation_store is None else p.observation_store.all(),
+        p.event_history.requires_recovery(), p.write_fence.recovery_required,
+        p.event_history.timeline_id, p.write_fence.restore_generation))
+
+
+def forbid_application_and_delivery(monkeypatch, w, p):
+    from cognitive_world.observation.store import ObservationStore
+    from cognitive_world.observation.generator import ObservationGenerator
+    import cognitive_world.event.processor as processing
+    if p.observation_store is None:
+        p.observation_store = ObservationStore()
+    def forbidden(*args, **kwargs):
+        pytest.fail("preflight rejection reached application/evidence/delivery")
+    for obj, name in ((w, "apply_event"), (p.event_history, "mark_applying_world_update"),
+                      (p.event_history, "append"), (p.event_history, "mark_observations_pending"),
+                      (p.observation_store, "add"), (ObservationGenerator, "generate_authorized"),
+                      (processing, "_issue_processing_evidence")):
+        monkeypatch.setattr(obj, name, forbidden)
+
+
+@pytest.mark.parametrize("claimed_flag", [False, True])
+def test_ordinary_handler_cannot_forge_joint_update_or_claim_authorized_flag(monkeypatch, claimed_flag):
     w,p,_,auth=setup()
     with p.write_fence.operation():
         e,grant=prepare(p,auth,request("transfer",old_owner="d",new_owner="a"))
         class Fake(EventHandler):
             def handle(self,event):
                 return WorldUpdate("object_relationship","apply",deepcopy(e.changes[1]),
-                                   {"ownership_authorized":True})
+                                   {"ownership_authorized":True} if claimed_flag else {})
         p.register_handler("fake",Fake())
         bad=SystemEventFactory().create(event_id="fake",event_type="fake",timestamp="",simulation_tick=0)
         before=snap(w,p)
+        forbid_application_and_delivery(monkeypatch, w, p)
+        failure_before = rejection_snapshot(w, p, bad.id)
         with pytest.raises(PermissionError): p.dispatch_with_evidence(bad)
         assert snap(w,p)==before
+        assert rejection_snapshot(w, p, bad.id) == failure_before
+        assert p.event_history.get_processing_status(bad.id) is None
+        assert not p.event_history.requires_recovery() and not p.write_fence.recovery_required
+
+
+@pytest.mark.parametrize("defect", ["target", "operation", "payload", "metadata", "extra_relation", "extra_entity"])
+def test_relationship_write_mismatch_aborts_before_application(monkeypatch, defect):
+    from cognitive_world.items.relationship import current_update
+    w,p,_,auth = setup()
+    with p.write_fence.operation():
+        event,_ = prepare(p,auth,request("release", parent="b"))
+        update = current_update(event, p)
+        if defect == "target": update.target_id = "facts"
+        elif defect == "operation": update.operation = "update"
+        elif defect == "payload": update.payload = {}
+        elif defect == "metadata": update.metadata["authorized"] = True
+        elif defect == "extra_relation":
+            update = WorldUpdate("relationships", "update", {("bag","a"):PhysicalRelation(1,"bag","a",("controls",))})
+        else:
+            update = WorldUpdate("entities", "update", {"bag":replace(w.get_entity("bag"),attributes={"extra":True})})
+        class Bad(EventHandler):
+            def handle(self, e): return update
+        p.register_handler("resolution", Bad())
+        forbid_application_and_delivery(monkeypatch, w, p)
+        before = rejection_snapshot(w, p, event.id)
+        with pytest.raises(PermissionError): p.dispatch_with_evidence(event)
+        assert rejection_snapshot(w, p, event.id) == before
+        assert p.event_history.get_processing_status(event.id) is None
+
+
+def test_relationship_final_scope_still_rejects_changed_submission(monkeypatch):
+    w,p,_,auth = setup()
+    original = w.apply_event
+    def changed(event, update):
+        update.metadata["authorized"] = True
+        return original(event, update)
+    monkeypatch.setattr(w, "apply_event", changed)
+    with p.write_fence.operation():
+        event,_ = prepare(p,auth,request("release", parent="b"))
+        before = rejection_snapshot(w, p, event.id)
+        with pytest.raises(PermissionError): p.dispatch_with_evidence(event)
+    assert snap(w,p) == before[0]
+    assert rejection_snapshot(w,p,event.id)[3] == before[3]
+    assert p.event_history.get_processing_evidence(event.id) is None
+    assert p.event_history.get_event(event.id) is None
+    assert p.event_history.requires_recovery() and p.write_fence.recovery_required
 
 
 def test_valid_transfer_event_cannot_be_used_for_a_mixed_generic_patch():

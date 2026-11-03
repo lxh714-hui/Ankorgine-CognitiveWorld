@@ -140,6 +140,9 @@ def test_uncertain_life_append_freezes(monkeypatch):
 
 
 def change_item(p, w, *, life=None):
+    if life is not None:
+        from _life_state_evolution import evolve
+        return evolve(p, w, life)
     from dataclasses import replace
     from cognitive_world.event.factory import SystemEventFactory
     from cognitive_world.event.handler import EventHandler

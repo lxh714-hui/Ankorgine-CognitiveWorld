@@ -250,6 +250,8 @@ class EventProcessor:
             result = self._reach_failure_draft(event, world_state) or self._door_open_failure_draft(event, world_state)
             if result is not None:
                 fact_drafts = (*fact_drafts, result)
+            from cognitive_world.core._world_write import validate_submission
+            validate_submission(world_state, event, update_request, self)
         except Exception:
             history.abandon_prepared_processing(event.id)
             raise
@@ -259,7 +261,7 @@ class EventProcessor:
         history.mark_applying_world_update(event.id)
         try:
             with processor_write_scope(world_state, event, update_request,
-                                       relationship_authority=self.relationship_authority):
+                                       relationship_authority=self.relationship_authority, processor=self):
                 world_state.apply_event(event, update_request)
             # The context contract is AFTER_WORLD_UPDATE. Capture observer
             # positions immediately at this event boundary, never later from

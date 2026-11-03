@@ -1,5 +1,84 @@
 # CognitiveWorld Data Contracts
 
+## Relationship pre-application rejection — Task 02E
+
+Relationship authorization preflight is triggered by either the existing
+GovernedObjectRelation/v1 effect or the actual WorldUpdate target
+object_relationship. Both routes require the same installed canonical
+RelationshipAuthority, live origin, current dependencies and exact complete
+target/operation/payload/metadata. A missing effect, unrelated target, clipped
+payload, extra writes or caller metadata cannot confer domain authority.
+
+Processor runs this validation before mark_applying_world_update. Known invalid
+submissions abandon their PREPARING reservation without entering APPLYING,
+issuing processing evidence, appending a successful Event or reaching
+Observation generation/delivery. Scope establishment repeats validation;
+WorldState retains its exact object/content permit and staged-state checks.
+Post-preflight mutation or an application-stage uncertain failure still invokes
+the existing recovery-required path. PermissionError is not broadly downgraded.
+
+The bounded failure tests compare all fixture world collections, relevant
+Entity identity/owner/Life leaves, Location and Relationship slot origins,
+request processing status/evidence/persistence receipt, Observation contents,
+Timeline/generation and both recovery flags. Guards fail the test on any
+application marker, world apply, evidence issuance, history append or delivery
+entry during preflight rejection. These assertions do not claim to enumerate
+all possible historical tombstone slots or external transport state.
+
+Real typed WorldContentBatch tests use the existing controlled installation
+handler and structurally valid proposed physical graphs. New-identity Life
+and held_by initialization succeeds with signed history; existing-source
+held_by/attached_to injection rejects before any batch publication. This is
+the WorldState installation boundary, not a new content-installer API or a
+claim of atomicity across cognition, registry and persistence Stores.
+
+## Protected runtime mutation default deny — Task 02C
+
+For existing canonical entities, runtime addition, removal or change of
+state.life requires the existing exact LifeTransition authorization. Entity
+replacement or entities/set omission cannot bypass this check. The supported
+operation remains alive -> dead; no resurrection or new life operation exists.
+A same-value replacement preserving all life leaves does not manufacture new
+life provenance: existing leaf-slot comparison retains unchanged origins.
+
+Ordinary relationship set/update cannot add, remove or replace a typed relation
+record carrying held_by or attached_to, including endpoint, version, kind or
+type substitution. Legacy Relationship attributes are not physical authority
+and are not upgraded. Existing Ownership/Containment guards remain separate.
+No additional trusted runtime exceptions are installed.
+
+EventProcessor preflights the actual complete WorldUpdate before marking entry
+into application. The existing private Processor scope repeats finite domain
+verification and binds exact Event/world/update objects and snapshots. For
+Life it compares with resolution.life.current_update; for Take it repeats
+current adjudication and the existing Take handler computation; for governed
+relationships it compares with the existing authority's current_update. A legal
+Event, registered Handler, caller boolean or generic scope is insufficient.
+Borrowing a legal operation for an unrelated, clipped or mixed update fails.
+
+WorldState.apply_event checks protected writes again before publication and
+requires the finite private Life/Take scope qualification for those paths.
+Release/Detach/Transfer/Contain retain their existing separately staged exact
+joint relation path. All affected collections and origins are validated before
+publication. Preflight rejection changes neither world nor origins/history/
+observations and does not require recovery. Failures after application begins
+retain existing recovery-required behavior; no cross-Store rollback is added.
+
+Initialization and validated snapshot reconstruction remain independent.
+Content installation may initialize new identities but cannot add held_by or
+attached_to whose source is an existing entity. Restore preserves authenticated
+history without issuing new execution permits. No Event/codec/save version
+changes are introduced.
+
+Tests-only synthetic evolution constructs same-world, same-Timeline,
+same-generation intervening Life/attachment histories at an isolated patched
+application boundary. A legitimate marker update still traverses the real
+Processor, whose signed changed-slot attestation records the synthetic delta.
+The fixture validates slot receipts and the signed lineage before stale/ABA
+assertions. It is not a production operation, resurrection policy, Handler
+allowlist or disabled production guard. Production default-deny is tested
+independently without fixture injection.
+
 ## AutonomousContainerInspection v1 — bounded cognition-to-inspection bridge
 
 Phase 4 adds an opt-in `AgentActionLoop.inspection_service`, assembled as

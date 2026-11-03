@@ -1,5 +1,54 @@
 # Repository Status
 
+## Task 02E — pre-application authorization and failure-state closure
+
+Relationship preflight now recognizes both the existing effect and actual
+object_relationship target. Missing effects and mismatched complete writes
+reject before APPLYING; scope and WorldState checks remain intact. No new
+authority, schema, trusted Handler exception or recovery bypass was added.
+
+The strengthened tests observe relevant provenance, processing/evidence/
+persistence status, observations, Timeline/generation and recovery flags, and
+forbid application/evidence/delivery entry during preflight rejection. A
+post-preflight tampering test retains recovery-required. Real typed installation
+batches verify new-identity admission and rejection of existing held_by or
+attached_to injection using the controlled installation handler. This does not
+claim complete installer/cognition/registry cross-Store atomicity.
+
+Final domain regression: 218 passed, 0 failed, 0 skipped. Early runs exposed
+test fixture installation ID/closed-change-shape errors (three failing cases),
+plus one external temporary-directory setup error in the restricted run.
+The fixture was corrected to the existing contract without relaxing validation.
+Final complete regression: 2270 passed, 0 failed, 22 skipped (180.52s).
+The skips remain 13 actual POSIX permission/fsync cases and 9 explicit local
+model opt-ins; they are not reported as passing. Python Core 3.14.7 was
+reverified; all runs disabled bytecode/cache and used external basetemp.
+Initial restricted run: 72 passed, 3 failed, 1 setup error; subsequent fixture
+runs: 73 passed/3 failed twice and 215 passed/3 failed before correction.
+Final git whitespace validation passed. Independent acceptance remains separate.
+
+## Task 02C — protected runtime mutation governance
+
+Implemented pre-publication LifeState and typed held_by/attached_to default deny,
+exact submitted-write binding using existing Life/Take/relationship validators,
+pre-apply rejection without recovery escalation, and existing-entity protection
+in content relationship installation. Ordinary unrelated updates and identical
+life leaves retain existing behavior. No Resurrection, Attach, generic permission
+framework, trusted Handler exception, schema migration or cross-Store rollback
+was introduced.
+
+Life ABA and four stale-Take attachment fixtures now use tests-only synthetic
+application-boundary evolution. They retain original rejection assertions and
+verify real signed changed-slot lineage in the same world/Timeline/generation.
+Initial domain regression exposed those four old ordinary-attachment setups
+(190 passed, 4 failed); after fixture isolation the selection passed 194 tests.
+Final focused regression: 207 passed, 0 failed. Final complete regression:
+2259 passed, 0 failed, 22 skipped. Skips: 13 actual POSIX permission/fsync
+requirements and 9 explicit local-model opt-ins. An earlier full run exposed
+one new mixed-write fixture key collision (2255 passed, 1 failed, 22 skipped);
+the fixture was corrected without weakening production guards or assertions.
+The final run includes strict protected-value/version validation.
+
 ## Autonomous Container Inspection — Phase 4 (2026-11-03)
 
 Implemented an opt-in AgentActionLoop inspection bridge. Actual owner-local L1 qualification supplies only observed target identities; existing SituationAssessment, AgentDecision scoring and review choose Inspect or defer. The deterministic baseline uses active Goals, all bounded target choices and an explicit defer option. Tied reviewed scores, missing knowledge, invalid candidates/model output, failed review and exhausted budgets defer. Independent host ContainerInspection policy still controls current access; selection never grants permission.

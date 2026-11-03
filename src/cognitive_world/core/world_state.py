@@ -764,6 +764,12 @@ class WorldState:
             raise TypeError("update must be a WorldUpdate")
         if not permit_matches(self, event, update):
             raise PermissionError("WorldState events can only be applied by EventProcessor")
+        from cognitive_world.core._world_write import protected_writes, require_domain_write
+        life_write = any(type(c) is dict and c.get("effect_type") in {"life_transition_v1", "life_transition_v2"}
+                         for c in event.changes[1:])
+        if life_write:
+            require_domain_write(self, event, update, "life")
+        protected_writes(self, update, life_write=life_write)
 
         if update.target_id == "object_relationship":
             from cognitive_world.core._world_write import relationship_state
@@ -778,6 +784,7 @@ class WorldState:
             return
 
         if update.target_id == "item_possession":
+            require_domain_write(self, event, update, "take")
             if update.operation != "take" or update.metadata:
                 raise ValueError("unsupported possession operation")
             locations, relations = self.prepare_possession_transition(update.payload)

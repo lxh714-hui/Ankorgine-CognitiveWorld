@@ -201,6 +201,11 @@ def test_provider_cannot_forge_an_effect():
 
 def change(h, target, payload):
     """Controlled system fault/setup event; never insert history or evidence directly."""
+    from cognitive_world.core.physical import PhysicalRelation
+    if target == "relationships" and any(type(r) is PhysicalRelation and "attached_to" in r.kinds
+                                         for r in payload.values()):
+        from _life_state_evolution import evolve_relationships
+        return evolve_relationships(h.runtime.event_processor, h.runtime.context.world_state, payload)
     from cognitive_world.event import SystemEventFactory
     from cognitive_world.event.handler import EventHandler
     from cognitive_world.core.update import WorldUpdate
