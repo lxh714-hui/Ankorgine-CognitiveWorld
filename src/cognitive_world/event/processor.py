@@ -57,6 +57,7 @@ class EventProcessor:
 
     life_authority: object | None = field(default=None, repr=False, kw_only=True)
     relationship_authority: object | None = field(default=None, repr=False, kw_only=True)
+    container_inspection_authority: object | None = field(default=None, repr=False, kw_only=True)
 
     def __post_init__(self) -> None:
         # Keep legacy construction usable while ensuring this processor always
@@ -202,21 +203,34 @@ class EventProcessor:
             seal_initialization()
 
         try:
+            inspection = None
+            if event.type == "container_inspected":
+                from cognitive_world.observation.container_inspection import ContainerInspectionAuthority
+                if (type(self.container_inspection_authority) is not ContainerInspectionAuthority
+                        or world_state is not self.world_state):
+                    raise PermissionError("installed container inspection authority required")
+                inspection = self.container_inspection_authority.validate(event)
             if event.has_trusted_source("resolution"):
                 from cognitive_world.event.factory import validate_live_resolution_entry
                 validate_live_resolution_entry(event, self.life_authority, self.relationship_authority)
-            try:
-                handler = self._handlers[event.type]
-            except KeyError:
-                raise LookupError(
-                    f"No handler registered for event type: {event.type}"
-                ) from None
+            if inspection is not None:
+                # Inspection is read-only and never delegates its write set to a handler.
+                from cognitive_world.observation.container_inspection import fact_drafts as inspection_drafts
+                update_request = WorldUpdate("environment", "update", {})
+                fact_drafts = inspection_drafts(inspection)
+            else:
+                try:
+                    handler = self._handlers[event.type]
+                except KeyError:
+                    raise LookupError(
+                        f"No handler registered for event type: {event.type}"
+                    ) from None
+                update_request = handler.handle_with_world_state(event, world_state)
+                fact_drafts = handler.observable_facts_with_world_state(event, update_request, world_state)
 
-            update_request = handler.handle_with_world_state(event, world_state)
             if not isinstance(update_request, WorldUpdate):
                 raise TypeError("EventHandler.handle must return a WorldUpdate")
 
-            fact_drafts = handler.observable_facts_with_world_state(event, update_request, world_state)
             if not isinstance(fact_drafts, tuple) or any(
                 not isinstance(draft, ObservableFactDraft) for draft in fact_drafts
             ):
@@ -224,6 +238,8 @@ class EventProcessor:
                     "EventHandler.observable_facts must return a tuple of "
                     "ObservableFactDraft records"
                 )
+            if inspection is None and any(draft.fact_type == "container_content" for draft in fact_drafts):
+                raise PermissionError("container facts are issued only by controlled inspection")
             if any(draft.fact_type == "action_result" and draft.predicate in {"door_open_attempt_failed", "interaction_out_of_reach"}
                    for draft in fact_drafts):
                 raise PermissionError("door failure result facts are issued only by EventProcessor")
@@ -250,6 +266,8 @@ class EventProcessor:
             # an unrelated runtime tick.
             observer_positions = self._capture_observers(world_state)
             conditions: list[tuple[str, FactValue]] = []
+            if inspection is not None:
+                conditions.append(("container-inspection:source", event.id))
             environment = getattr(world_state, "environment", None)
             environment_snapshot_complete = (
                 getattr(world_state, "environment_snapshot_complete", False) is True

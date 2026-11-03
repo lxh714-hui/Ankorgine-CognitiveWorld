@@ -32,6 +32,7 @@ class AgentTurnExecution:
     resolution: ResolutionResult | None
     event: Event | None
     communication_result: object | None = None
+    inspection_result: object | None = None
 
 
 @dataclass
@@ -45,6 +46,7 @@ class AgentActionLoop:
     )
     safety_governance: UniversalSafetyGovernance | None = None
     write_fence: RuntimeWriteFence | None = None
+    inspection_service: object | None = field(default=None, kw_only=True, repr=False)
 
     def __post_init__(self) -> None:
         selected = self.safety_governance
@@ -103,6 +105,16 @@ class AgentActionLoop:
         Autonomous runtimes use this boundary to record an unresolved Attempt
         without converting it into an Event or aborting unrelated Agents.
         """
+        if self.inspection_service is not None:
+            from cognitive_world.agent.inspection import AutonomousInspectionService
+            if type(self.inspection_service) is not AutonomousInspectionService or type(self.agent_turn) is not AgentTurn:
+                raise TypeError("inspection requires the canonical service and AgentTurn")
+            result = self.inspection_service.select(self.agent_turn, agent, cognition_context, decision, simulation_tick)
+            if result.status == "selected":
+                self.safety_governance.require_action_allowed(
+                    safety_input_from_proposal(result.proposal, source="autonomous_inspection"))
+                result = self.inspection_service.prepare_selected(agent, result.proposal)
+            return AgentTurnExecution(result.proposal, None, None, result.event, inspection_result=result)
         if type(self.agent_turn) is AgentTurn:
             turn = self.agent_turn
             if cognitive_review_provider is not None:

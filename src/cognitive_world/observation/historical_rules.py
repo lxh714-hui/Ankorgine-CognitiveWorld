@@ -246,11 +246,36 @@ class _InteractionOutOfReachOwnerResultV1:
 _REACH_FAILURE_V1 = _InteractionOutOfReachOwnerResultV1()
 
 
+@dataclass(frozen=True)
+class _ContainerInspectionV1:
+    rule_id: str = "container-inspection-direct-content"
+    version: int = 1
+    source_event_type: str = "container_inspected"
+
+    def supports_source(self, event, evidence):
+        from cognitive_world.observation.container_inspection import historical_body
+        try:
+            historical_body(event)
+        except (PermissionError, TypeError, ValueError):
+            return False
+        return evidence.has_trusted_source(event)
+
+    def issue(self, event, evidence, owner_id, fact_id):
+        from cognitive_world.observation.generator import ObservationGenerator
+        if not self.supports_source(event, evidence):
+            raise PermissionError("invalid historical inspection")
+        observations = ObservationGenerator().generate_authorized(event, evidence, observer_id=owner_id)
+        observation = next((o for o in observations if o.content.fact_id == fact_id), None)
+        if observation is None:
+            raise PermissionError("historical inspection was not disclosed to this owner")
+        return observation
+
+
 class HistoricalObservationRuleRegistry:
     """Explicit trusted configuration mapping versioned identities to verifiers."""
 
     def __init__(self, rules: Iterable[HistoricalObservationRule] | None = None) -> None:
-        configured = (_ROOM_LIGHT_ON_COLOCATED_SIGHT_V1, _DOOR_OPEN_FAILED_OWNER_RESULT_V1, _REACH_FAILURE_V1) if rules is None else tuple(rules)
+        configured = (_ROOM_LIGHT_ON_COLOCATED_SIGHT_V1, _DOOR_OPEN_FAILED_OWNER_RESULT_V1, _REACH_FAILURE_V1, _ContainerInspectionV1()) if rules is None else tuple(rules)
         by_identity: dict[tuple[str, int], HistoricalObservationRule] = {}
         by_event: dict[str, list[HistoricalObservationRule]] = {}
         for rule in configured:

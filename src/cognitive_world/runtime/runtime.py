@@ -841,7 +841,7 @@ class SimulationRuntime:
             raise
 
     def _apply_failure_feedback_if_eligible(self, owner_id, execution, observations, tick, event) -> None:
-        if execution is None or self.behavior_feedback is None:
+        if execution is None or execution.resolution is None or self.behavior_feedback is None:
             return
         from cognitive_world.event.attempt_source import verify_confirmed_failure_event
 

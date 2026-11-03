@@ -1,5 +1,9 @@
 # CognitiveWorld Architecture
 
+Phase 4 adds an opt-in [autonomous Inspect bridge](DATA_CONTRACTS.md#autonomouscontainerinspection-v1--bounded-cognition-to-inspection-bridge) from actual owner-local L1 Percepts through existing SituationAssessment, AgentDecision scoring/review and ActionProposal to the independent Phase 3 inspection authority. Selection, permission, Processor commit and next-turn consumption remain separate. No physical Attempt/Transition, parallel decision engine or observation store is introduced; default loops and restore assemblies retain their existing behavior.
+
+Container inspection now has a finite [ContainerInspection/v1 contract](DATA_CONTRACTS.md#containerinspection-v1--governed-direct-content-observation): an explicitly installed host policy selects direct identities from canonical containment, the existing Processor issues recipient-specific facts, and existing delivery/AgentTurn L1 produces transient Percepts. Historical inspection evidence is distinct from current operation authority; restore reinstates neither inspection grants nor delivery. Exterior distance precision grants no interior access. No parallel Observation Store or autonomous Inspect executor is introduced.
+
 The finite [GovernedObjectRelation/v1 contract](DATA_CONTRACTS.md) connects host-policy containment, release, attachment detachment and ownership transfer to the existing Resolution/Factory/Processor path. WorldState applies the validated joint state under its internal Processor capability and rejects ordinary ownership/containment patches at the actual write boundary. Death and Take retain their independent semantics; no new death disclosure, inheritance system or automatic lifecycle executor is introduced.
 
 ## B3 execution expectation boundary

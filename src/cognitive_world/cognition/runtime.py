@@ -282,6 +282,36 @@ class CognitiveRuntime:
             and receipt.percept_id in working_memory.percept_ids
         )
 
+    def consumed_observation_for_percept(self, owner_id, percept):
+        """Resolve an exact L1-consumed Percept through canonical history, not a Store row.
+
+        This qualifies historical cognition only; callers still need fresh domain
+        authority for any new operation. A matching ID alone is insufficient.
+        """
+        from cognitive_world.decision.snapshot import freeze_value
+        from cognitive_world.observation.generator import ObservationGenerator
+        context = self._history_context
+        if context is None or getattr(percept, "observer_id", None) != owner_id:
+            return None
+        index, unavailable = context.evidence_index()
+        if unavailable or index is None:
+            return None
+        source = getattr(getattr(percept, "content", None), "source_event_id", None)
+        pair = index.get(source)
+        if pair is None:
+            return None
+        event, evidence = pair
+        if evidence is None:
+            return None
+        for observation in ObservationGenerator().generate_authorized(
+                event, evidence, observer_id=owner_id, event_history=context.history):
+            if not self.has_consumed_observation(owner_id, observation, source_event_id=event.id):
+                continue
+            expected = self.perception_processor.process(observation, observer_id=owner_id)
+            if freeze_value(expected) == freeze_value(percept):
+                return observation
+        return None
+
     def get_self_model(self, agent_id: str) -> SelfModel | None:
         """Return an injected SelfModel snapshot for legacy callers, if any."""
         if self.self_model_store is None:

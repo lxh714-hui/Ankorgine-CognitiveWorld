@@ -1,5 +1,229 @@
 # CognitiveWorld Data Contracts
 
+## AutonomousContainerInspection v1 — bounded cognition-to-inspection bridge
+
+Phase 4 adds an opt-in `AgentActionLoop.inspection_service`, assembled as
+`agent.inspection.AutonomousInspectionService(processor, cognitive_runtime)`.
+It is a finite information-acquisition mode for that loop: each turn chooses
+Inspect or defer. The default None preserves existing physical/social action
+behavior. The service uses existing ActionCandidate, SituationAssessment,
+AgentDecision scoring/review, ActionProposal and ContainerInspection/v1.
+It creates no second decision engine, ObservationStore, physical Transition,
+new WorldUpdate kind, or general planner. Existing Phase 3 contracts below
+remain unchanged; this bridge adds autonomous selection before their authority.
+
+### Knowledge eligibility and candidate identity
+
+AgentTurn first prepares the ordinary frozen DecisionContext through actual L1.
+CognitiveRuntime.consumed_observation_for_percept checks an exact Percept against
+canonical verified EventHistory/evidence, reconstructs a comparison Observation
+using the existing issuance rule, and requires this runtime's intact owner-local
+consumption receipt and WorkingMemory membership. It compares the complete frozen
+Percept, not only its ID. It never authorizes a Store row, Memory hit, raw source
+string, caller-created Percept or another Actor's input. An unavailable history
+does not qualify. The service and CognitiveRuntime must share canonical history.
+
+Eligible target identity comes only from consumed object_shape/object_detail
+subject identity, or the parent value of a consumed directly_contained_in fact.
+Exterior appearance proves an observed object's existence, not container
+capability, interior contents or access. Inspect remains a hypothesis about that
+known object; current ContainerInspection independently checks container
+capability and access. A content item's appearance/capability is never inferred
+from a parent's relation fact, so this does not recursively discover containers.
+
+The finite candidate uses existing ActionCandidate fields: owner_id, unique
+turn-local candidate_id, intent=Inspect, target=object:ID, method=inspect ID,
+and exact source_refs=(source Percept ID, source Event ID). Tools, required
+capabilities, steps and domain_payload are absent/empty. The bridge independently
+matches both source refs and target to the actual consumed fact. The selected
+proposal is retained by exact object identity and canonical serialized content
+in private process-local bookkeeping, bound to the exact Percept/Observation,
+original Runtime permit, Timeline, tick and generation. Those bindings are not
+caller-supplied authorization flags. Changed selected fields, cloned accepted
+proposals, a foreign source, another operation or generation cannot execute.
+Candidate IDs are local to this bound selection scope, not durable permissions.
+
+### Generation, selection and bounded defer
+
+The pure decision.inspection.InspectionCandidatePolicy reads SituationAssessment
+only. Its deterministic baseline considers active unblocked Goals, uses bounded
+goal/target relevance and submits all known target choices to the existing
+deterministic evaluation and one-round review. Without an active Goal it defers.
+There are at most five Inspect choices plus defer (existing MAX_CANDIDATES=6);
+six or more distinct targets defer rather than truncating to an arbitrary first
+target. Source consideration retains the existing MAX_CONTEXT_ITEMS=24 bound.
+No scoring factor is an execution permission.
+
+An optional existing DecisionLanguageModelProvider gets one bounded call.
+The existing strict parse_untrusted_candidates handles its output and rejects
+unknown fields, protected authority/cognition fields and excess entries. Only
+Inspect of a qualified observed identity is normalized into this finite strategy;
+owner and exact source refs are assigned locally. No model content list creates
+a fact. Invalid model output, generation/evaluation/review failures or budget
+exhaustion defer without weakening the existing parser or review contracts.
+
+AgentDecision.propose_from_candidates performs normal owner/source checks,
+scoring and review. The bridge then refuses a top-score tie within 1e-12,
+including a tie with defer; it does not use candidate-ID ordering to resolve
+ambiguity. Multiple targets with distinguishable reviewed scores remain usable.
+There is at most one selection attempt per Actor per Runtime operation, even
+when the clock is manually advanced. No result recursively invokes another
+Inspect, Open, Take or Transfer. Old-operation bookkeeping is pruned on the next
+selection; it is ephemeral capability data, not a second history or sample count.
+
+### Selection, authorization, execution and consumption remain independent
+
+InspectionResult records these distinct stages: deferred (no selection),
+selected/awaiting_host_authorization, rejected (host policy unavailable/declined),
+or authorized/awaiting_processor_execution. Authorization failure is not defer
+or an unresolved physical Resolution. The existing AgentActionLoop safety
+boundary remains before inspection authorization. Missing, denying or failing
+host policy produces no successful inspection. A rejected selection is terminal
+within that turn rather than repeatedly invoking policy.
+
+prepare_selected only asks the installed ContainerInspectionAuthority for one
+Event after rechecking the selection and receipt. It does not process, deliver,
+consume or invent physical success. Duplicate preparation returns the same
+Event; duplicate committed dispatch uses Phase 3's existing idempotency.
+AgentTurnExecution carries inspection_result with attempt=None and
+resolution=None. SimulationRuntime dispatches the real container_inspected
+Event through EventProcessor; physical failure-feedback code explicitly skips
+executions without physical Resolution. Authorization alone is not Event commit.
+
+Current facts and provenance are captured by Phase 3 at authorization and
+revalidated by Processor before execution. An old consumed source remains
+historical knowledge; a changed location/capability may reject current access,
+and post-authorization state changes/ABA reject pending execution. Successful
+processing uses existing private delivery. Its new Observation has no receipt
+until the next ordinary AgentTurn consumes it. The service never inserts a
+content list or Percept directly. No custody, ownership, containment or other
+physical state is changed by Inspect. Belief and semantic Memory authorization
+remain independent; optional existing system L1 proofs remain system evidence.
+
+### Persistence, Timeline and scope limits
+
+Existing Phase 3 Event attestations and optional system consumption proofs are
+checkpointed and verified unchanged. This bridge adds no codec or save schema.
+ObservationStore, transient L1 receipts, selected-proposal registry, Runtime
+permits, policies and loop service are not automatically restored. Independent
+cold/child/sibling assembly defaults to no inspection service or authority.
+Verified historical source is not a restored execution grant; fresh selection
+requires actual L1 qualification in the newly assembled runtime and independent
+current authorization. Restore neither re-signs source Events nor automatically
+redelivers observations or repeats consumption.
+
+This supplies only opt-in autonomous inspection. It does not implement Open,
+recursive search, automatic Take/Transfer, inheritance, general action planning,
+capability knowledge inference, autonomous policy installation, B4 revision or
+generalized Evidence. Existing Phase 3 closure budgets and recovery-required,
+pending-delivery and checkpoint-only durability rules continue to apply.
+
+## ContainerInspection v1 — governed direct-content observation
+
+This finite read-only interaction is implemented by
+`observation.container_inspection.ContainerInspectionAuthority`, explicitly
+installed as `EventProcessor.container_inspection_authority`. It uses the
+existing SystemEventFactory ingress for a host-requested inspection, not a
+second action executor or a new WorldState writer. No NPC-autonomous Inspect
+Proposal/Attempt adapter is supplied. PhysicalRelation/v2 remains the sole
+containment truth. Nothing changes death, custody, ownership or Take authority.
+
+### Policy, qualification and current-state closure
+
+A registered Actor with known sight capability and a container-capable Entity
+must share a verified effective location. These are eligibility conditions,
+not disclosure permission. A host installs a policy with nonempty policy_id,
+policy_version and evaluate(detached_capture). The policy returns an exact tuple
+of unique direct content IDs to disclose; False, True, malformed values, unknown
+or indirect IDs, missing policy and exceptions fail closed. An empty tuple
+authorizes an inspection with no disclosed facts; it is not a claim of emptiness
+or an exhaustive inventory. Container/content ownership and custody grant no
+implicit disclosure. The policy receives canonical owners, capabilities, life
+and location of the bounded involved entities, related typed relationships,
+exact slot receipts, Timeline and tick. It does not receive a Store or writer.
+
+Capture checks direct item -> contained_in -> container identities, version,
+single direct parent and matching direct location. It captures spatial ancestor
+chains and relevant relation membership, including deleted-slot origins, so
+value-equal ABA does not revive pending qualification. Membership scans remain
+linear in world relation count. Limits are 32 direct contents, 64 closure
+entities, 128 related relations and 1024 state-slot reads; missing provenance,
+invalid endpoints, cycles or budget exhaustion fail without partial disclosure.
+The closure is deliberately conservative; it is not a full sensory model.
+
+The authority repeats capture after policy evaluation. A secret-key ephemeral
+HMAC binds ContainerInspection/v1, exact event ID, Actor, Container, selected IDs,
+full capture, policy identity, Timeline, tick and random token. Private
+bookkeeping binds the original Runtime operation permit and exact installed
+policy object. Processor validates all bindings and current capture before
+application. Revocation, policy replacement, changed dependencies, tick,
+Timeline, generation or operation invalidate pending execution. In-place
+policy-semantic changes require the host to revoke grants or version the policy.
+A caller's accepted flag or controlled SystemEvent alone cannot replace this
+authority. This protects normal in-process misuse, not hostile Python
+introspection or malicious trusted-host code.
+
+### Event, facts, delivery and actual consumption
+
+The authority's create_event constructs a controlled container_inspected Event.
+The Processor handles it as a closed read-only operation, independent of
+registered replacement handlers, with an empty environment update. Other
+handlers cannot issue container_content facts. Live rejection is pre-apply and
+produces neither committed inspection nor Observation. Once application starts,
+any uncertain failure retains existing recovery-required behavior; there is no
+cross-Store transaction or automatic rollback.
+
+Each selected direct item produces exactly one event-bound ObservableFact:
+fact_type=container_content, predicate=directly_contained_in, subject_ref=item,
+value=container, location_id=the inspection's effective location. The original
+Event carries bounded authoritative state/provenance and policy binding;
+EventProcessingEvidence carries event-time context and an inspection-source
+marker. Observation exposes only that minimal relation fact, not the authority
+body, owner fields, secret attributes, complete WorldState or nested contents.
+Stable Observation identity retains existing event/recipient/fact scoping.
+
+ObservationGenerator checks the exact Actor and selected fact against trusted
+processing evidence; ordinary L1 additionally requires canonical EventHistory
+membership and the original issuance-context fingerprint. The existing
+ObservationStore delivery and AgentTurn/CognitiveRuntime paths are reused.
+Event creation, processing, delivery, actual consumption and Percept production
+remain separate. Creation or delivery creates no L1 receipt. Owner/ID/fact
+substitution and cross-Actor consumption fail. Duplicate dispatch reuses
+committed evidence and stable delivery IDs without reapplying world effects;
+duplicate L1 does not add WorkingMemory references or repeat durable proofs.
+Delivery failure retains pending delivery for retry, without rerunning policy
+or inspection against a later world.
+
+No direct list is injected into a decision model. Belief and semantic Memory
+writes retain their independent authorization. The existing optional L1 issuer
+may store a system nonverbal consumption proof using the registered historical
+rule container-inspection-direct-content/v1; this is not semantic Memory,
+ownership permission, current-world evidence or cognitive revision.
+
+### Historical observation, restore and precision limits
+
+After release, movement, nesting change, owner change or ABA, an already
+committed Observation still describes the earlier inspected fact. It can pass
+ordinary historical L1 qualification but cannot validate a pending current-state
+inspection or authorize an action. Subsequent physical interactions must obtain
+their own authority and revalidate current state through existing Resolution.
+
+Existing signed Event attestations, checkpoints and lineage retain the source
+and original system consumption proof. The versioned historical rule
+reconstructs only a comparison Observation for proof verification; it neither
+delivers to ObservationStore nor signs a new Event, creates a live receipt or
+installs an inspection policy. The transient ObservationStore and runtime-local
+receipts are not restored as execution capabilities. Verified ancestor history
+remains admissible historical evidence; sibling-local Events and process-local
+grants are not inherited. Hosts must explicitly assemble fresh policies for
+future inspection. No codec record or checkpoint schema version is added.
+
+ObjectAppearance/select_precision continue to govern exterior appearance.
+Distance, a detail request and ownership never grant interior access. This
+inspection channel discloses only authorized direct relation identity, not
+appearance Detail/Shape, recursive search, open/closed state, general occlusion,
+physical contact, universal LOD, autonomous acquisition or inheritance.
+
 ## PhysicalRelation v2 containment foundation
 
 PhysicalRelation/v1 retains its exact closed kinds and canonical encoding. Explicit

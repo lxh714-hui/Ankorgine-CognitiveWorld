@@ -93,13 +93,16 @@ class VisibilityPolicy:
         if (
             not isinstance(event, Event)
             or not event.has_trusted_source()
-            or event.type not in {"room_light_changed", "resolution", "environment_state_observed", "dialogue_input", "dialogue_reply", "object_observed"}
+            or event.type not in {"room_light_changed", "resolution", "environment_state_observed", "dialogue_input", "dialogue_reply", "object_observed", "container_inspected"}
             or not isinstance(evidence, EventProcessingEvidence)
             or not evidence.has_trusted_source(event)
             or not isinstance(observer_id, str)
             or not observer_id
         ):
             return False
+        if event.type == "container_inspected":
+            from cognitive_world.observation.container_inspection import allows_fact
+            return any(allows_fact(event, evidence, observer_id, f, event_history) for f in evidence.observable_facts)
         if _allows_take_result(event, evidence, observer_id, event_history=event_history):
             return True
         if _allows_physical_result(event, evidence, observer_id, event_history=event_history):
@@ -253,7 +256,8 @@ class ObservationGenerator:
                 fact.has_trusted_source(event)
                 and fact.location_id == context.fact_location_id
                 and (
-                    (fact.fact_type == "object_appearance" and _allows_object(event, evidence, observer_id, fact))
+                    (fact.fact_type == "container_content" and _allows_container(event, evidence, observer_id, fact, event_history))
+                    or (fact.fact_type == "object_appearance" and _allows_object(event, evidence, observer_id, fact))
                     or _allows_door_open_failure(event, evidence, observer_id, fact, event_history)
                     or _allows_reach_failure(event, evidence, observer_id, fact, event_history)
                     or _allows_physical_result(event, evidence, observer_id, fact, event_history)
@@ -286,7 +290,9 @@ class ObservationGenerator:
                     source_timeline_id,
                     source_runtime_session_id,
                     source_runtime_generation,
-                    ("actor-owned committed take result/v1"
+                    ("host-policy authorized direct container content/v1"
+                     if fact.fact_type == "container_content" else
+                     "actor-owned committed take result/v1"
                      if fact.fact_type == "action_result" and fact.predicate == "item_taken" else
                      "actor-owned committed Boolean transition result/v1"
                      if fact.fact_type == "action_result" and fact.predicate == "boolean_transition_applied" else
@@ -317,6 +323,11 @@ class ObservationGenerator:
 def _allows_object(event, evidence, observer_id, fact):
     from cognitive_world.observation.object_projection import allows_object_fact
     return allows_object_fact(event, evidence, observer_id, fact)
+
+
+def _allows_container(event, evidence, observer_id, fact, history):
+    from cognitive_world.observation.container_inspection import allows_fact
+    return allows_fact(event, evidence, observer_id, fact, history)
 
 
 def _allows_physical_result(event, evidence, observer_id, fact=None, event_history=None):
